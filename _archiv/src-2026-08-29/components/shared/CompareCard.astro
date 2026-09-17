@@ -1,0 +1,44 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  ohneTitel: string;
+  ohnePunkte: string[];
+  mitTitel: string;
+  mitPunkte: string[];
+}
+
+const { ohneTitel, ohnePunkte, mitTitel, mitPunkte } = Astro.props;
+---
+
+<div class="reveal border-bg-dark/15 grid grid-cols-1 overflow-hidden rounded-none border md:grid-cols-2">
+  <div class="bg-bg p-6 md:p-8">
+    <h3 class="font-headline text-lg font-medium md:text-xl">{ohneTitel}</h3>
+    <ul class="border-bg-dark/15 mt-4 divide-y divide-dotted divide-bg-dark/15 border-t">
+      {
+        ohnePunkte.map((punkt) => (
+          <li class="flex items-start gap-3 py-3">
+            <span aria-hidden="true" class="mt-1.5 size-2 shrink-0 rounded-full bg-[#8b6f66]" />
+            <span aria-hidden="true" class="text-bg-dark/40 leading-none">–</span>
+            <span class="text-bg-dark/68 text-sm">{punkt}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="bg-accent-start/10 p-6 md:p-8">
+    <h3 class="font-headline text-lg font-medium md:text-xl">{mitTitel}</h3>
+    <ul class="mt-4 divide-y divide-dotted divide-accent-start/25 border-t border-accent-start/25">
+      {
+        mitPunkte.map((punkt) => (
+          <li class="flex items-start gap-3 py-3">
+            <span aria-hidden="true" class="mt-1.5 size-2 shrink-0 rounded-full bg-accent-start" />
+            <Icon name="check" class="text-accent-start mt-0.5 size-4 shrink-0" aria-hidden="true" />
+            <span class="text-bg-dark text-sm font-medium">{punkt}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,159 @@
+{
+  "titel": "Hardware-Beschaffung",
+  "kategorie": "it-infrastruktur",
+  "kategorieLabel": "IT & Infrastruktur",
+  "reihenfolge": 4,
+  "kurz": "Bedarfsgerechte Auswahl, Beschaffung und Einrichtung Ihrer Arbeitsplatz-Hardware, direkt in die laufende Betreuung übergeben.",
+  "seo": {
+    "titel": "Hardware-Beschaffung: Arbeitsplätze fertig eingerichtet",
+    "beschreibung": "Herstellerunabhängige Beratung, Beschaffung und Einrichtung von Laptops, PCs und Servern. Geräte kommen fertig eingerichtet, Altgeräte werden datenschutzkonform entsorgt."
+  },
+  "hero": {
+    "headline": "Neue Arbeitsplätze, komplett eingerichtet",
+    "subline": "Wir beschaffen, richten ein und binden jeden Arbeitsplatz direkt an Ihr Netzwerk an.",
+    "zitat": "Zwischen Auspacken und Arbeitsfähigkeit liegt mehr als ein Klick.",
+    "cta": "Anfragen",
+    "visualLabel": "Monitor und Server-Rack, umgeben von den Schritten Beratung und Beschaffung, Einrichtung sowie Anbindung"
+  },
+  "kontaktVorauswahl": {
+    "thema": "it-infrastruktur"
+  },
+  "wissenArtikel": [
+    "it-betreuung-kosten",
+    "managed-service-provider",
+    "microsoft-365-plaene-vergleich"
+  ],
+  "sektionen": [
+    {
+      "typ": "bildText",
+      "eyebrow": "Passende Ausstattung",
+      "titel": "Nicht jeder Arbeitsplatz braucht dieselbe Hardware",
+      "absaetze": [
+        "Ein Laptop für die Buchhaltung muss etwas anderes leisten als einer für den Außendienst oder die Grafikabteilung. Trotzdem wird in der Praxis oft dasselbe Gerät für alle bestellt: entweder überdimensioniert und zu teuer oder zu schwach für die eigentliche Aufgabe.",
+        "Wir stimmen die Ausstattung auf den tatsächlichen Einsatzzweck ab, statt eine Einheitslösung über den ganzen Betrieb zu legen."
+      ],
+      "bildLabel": "Bildplatzhalter"
+    },
+    {
+      "typ": "trustbar",
+      "label": "Zertifizierte Partner & Technologien",
+      "logos": [
+        "Microsoft",
+        "Hornetsecurity",
+        "Partner-Logo",
+        "Partner-Logo",
+        "Partner-Logo",
+        "Partner-Logo"
+      ]
+    },
+    {
+      "typ": "problemLoesung",
+      "eyebrow": "Reaktiv oder proaktiv",
+      "titel": "Bestellen kann jeder.",
+      "akzent": "Wir sorgen für den reibungslosen Start.",
+      "intro": "Die meisten Betriebe bestellen neue Geräte erst, wenn ein altes ausfällt oder jemand Neues anfängt. Proaktive Hardware-Beschaffung dreht das um: Bedarf, Ausstattung und Lebenszyklus werden vorausschauend geplant, statt im Notfall improvisiert.",
+      "labelOhne": "Reaktive Beschaffung",
+      "labelMit": "Mit",
+      "karten": [
+        {
+          "titel": "Bedarfsplanung & Vorlauf",
+          "icon": "<defs><linearGradient id=\"ic-hell-1\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"/><stop offset=\"1\" stop-color=\"#4FB8A6\"/></linearGradient></defs><rect x=\"3.5\" y=\"6\" width=\"17\" height=\"14\" rx=\"3\" stroke=\"url(#ic-hell-1)\" stroke-width=\"1.6\"/><path d=\"M3.5 10.5 H20.5\" stroke=\"url(#ic-hell-1)\" stroke-width=\"1.6\"/><path d=\"M8 3.5 V7\" stroke=\"url(#ic-hell-1)\" stroke-width=\"1.6\" stroke-linecap=\"round\"/><path d=\"M16 3.5 V7\" stroke=\"url(#ic-hell-1)\" stroke-width=\"1.6\" stroke-linecap=\"round\"/>",
+          "ohne": "Bestellt wird erst nach dem Ausfall oder am ersten Arbeitstag. Der neue Mitarbeiter sitzt so lange ohne Gerät da.",
+          "mitStark": "Bedarf vorausschauend geplant.",
+          "mitText": "Ersatz und Neueinstellungen sind rechtzeitig eingeplant, das Gerät steht bereit, bevor es gebraucht wird."
+        },
+        {
+          "titel": "Passende Ausstattung",
+          "icon": "<defs><linearGradient id=\"ic-hell-2\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"/><stop offset=\"1\" stop-color=\"#4FB8A6\"/></linearGradient></defs><rect x=\"3\" y=\"4.5\" width=\"18\" height=\"12\" rx=\"2\" stroke=\"url(#ic-hell-2)\" stroke-width=\"1.6\"/><path d=\"M8 20 H16 M12 16.5 V20\" stroke=\"url(#ic-hell-2)\" stroke-width=\"1.6\" stroke-linecap=\"round\"/>",
+          "ohne": "Gekauft wird, was gerade verfügbar oder günstig ist, unabhängig davon, wofür das Gerät eingesetzt wird.",
+          "mitStark": "Empfehlung nach Einsatzzweck.",
+          "mitText": "Wir wählen Geräte nach der tatsächlichen Aufgabe aus: nicht überdimensioniert, aber auch nicht zu schwach."
+        },
+        {
+          "titel": "Einrichtung & Rollout",
+          "icon": "<defs><linearGradient id=\"ic-hell-3\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"/><stop offset=\"1\" stop-color=\"#4FB8A6\"/></linearGradient></defs><path d=\"M14.5 5.5 A4 4 0 0 0 9.3 10.7 L4 16 L8 20 L13.3 14.7 A4 4 0 0 0 18.5 9.5 L16 12 L12 8 Z\" stroke=\"url(#ic-hell-3)\" stroke-width=\"1.6\" stroke-linejoin=\"round\"/>",
+          "ohne": "Nach der Lieferung richtet ein fachfremder Mitarbeiter das Gerät nebenbei ein. Sicherheitseinstellungen bleiben dabei oft auf der Strecke.",
+          "mitStark": "Fertig eingerichtet geliefert.",
+          "mitText": "Software, Zugänge und Sicherheitseinstellungen sind vorbereitet, der Arbeitsplatz ist am ersten Tag einsatzbereit."
+        },
+        {
+          "titel": "Lebenszyklus & Garantie",
+          "icon": "<defs><linearGradient id=\"ic-hell-4\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"/><stop offset=\"1\" stop-color=\"#4FB8A6\"/></linearGradient></defs><circle cx=\"12\" cy=\"12\" r=\"8.5\" stroke=\"url(#ic-hell-4)\" stroke-width=\"1.6\"/><path d=\"M12 7 V12 L15.2 14\" stroke=\"url(#ic-hell-4)\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>",
+          "ohne": "Wie alt ein Gerät ist und ob noch Garantie besteht, weiß niemand, bis es ausfällt.",
+          "mitStark": "Lebenszyklus im Blick.",
+          "mitText": "Gerätealter und Garantiestatus sind erfasst, Ersatz wird geplant, bevor ein Gerät zum Problem wird."
+        }
+      ],
+      "kicker": "Der beste Arbeitsplatz ist der, über den am ersten Tag niemand sprechen muss. <strong>Kein Warten, kein Improvisieren, kein Ausfall ohne Ersatz.</strong>"
+    },
+    {
+      "typ": "zeitstrahl",
+      "eyebrow": "Wie es läuft",
+      "titel": "Drei Schritte von der Anforderung bis zum fertigen Arbeitsplatz",
+      "intro": "Sie sagen uns, wofür die Geräte gebraucht werden. Um Auswahl, Bestellung und Einrichtung kümmern wir uns.",
+      "aktiv": 1,
+      "schritte": [
+        {
+          "nummer": "01",
+          "titel": "Bedarfsermittlung & Planung",
+          "text": "Bestehende Arbeitsplätze, Softwareanforderungen, Sicherheitsvorgaben und technisches Konzept."
+        },
+        {
+          "nummer": "02",
+          "titel": "Auswahl, Beschaffung & Bereitstellung",
+          "text": "Hersteller- und Modellvergleich, Bestellung im Kundenauftrag über Distributoren, kein eigenes Lager."
+        },
+        {
+          "nummer": "03",
+          "titel": "Einrichtung, Integration & Übergabe",
+          "text": "Vollständige Einrichtung, Sicherheits-Baseline, Anbindung an Netzwerk, Server und Cloud, Übergabe in die laufende Betreuung."
+        }
+      ]
+    },
+    {
+      "typ": "faq",
+      "titel": "Häufige Fragen",
+      "intro": "Was Sie vor der Zusammenarbeit wissen sollten: kurz und ohne Kleingedrucktes.",
+      "fragen": [
+        {
+          "frage": "Kaufen oder leasen: Was ist sinnvoller?",
+          "antwort": "Beides ist möglich. Welche Variante besser passt, hängt von Ihrer Liquidität ab und davon, wie oft Sie Geräte austauschen möchten. Wir beraten Sie dazu, bevor bestellt wird."
+        },
+        {
+          "frage": "Sind Sie an bestimmte Hersteller gebunden?",
+          "antwort": "Nein. Wir sind herstellerunabhängig und wählen Geräte nach Einsatzzweck und Budget aus, nicht nach einer Markenbindung."
+        },
+        {
+          "frage": "Wie lange dauert die Lieferung?",
+          "antwort": "Gängige Geräte sind in der Regel innerhalb weniger Werktage verfügbar. Bei individuell konfigurierter oder knapper Hardware kann es einige Wochen dauern. Den realistischen Termin nennen wir Ihnen vorab."
+        },
+        {
+          "frage": "In welchem Zustand kommen die Geräte bei uns an?",
+          "antwort": "Fertig eingerichtet: Betriebssystem, Software, Zugänge und Sicherheitseinstellungen sind vorbereitet, sodass Ihr Team direkt loslegen kann."
+        },
+        {
+          "frage": "Was passiert mit unseren Altgeräten?",
+          "antwort": "Wir löschen die Daten datenschutzkonform und kümmern uns um die fachgerechte Entsorgung oder Weiterverwertung."
+        },
+        {
+          "frage": "Wer kümmert sich um Garantiefälle?",
+          "antwort": "Wir erfassen die Garantiezeiten jedes Geräts und wickeln Reklamationen direkt mit dem Hersteller ab."
+        },
+        {
+          "frage": "Gibt es eine Mindestbestellmenge?",
+          "antwort": "Nein, auch einzelne Geräte sind möglich. Bei größeren Bestellungen lassen sich meist bessere Konditionen erzielen."
+        },
+        {
+          "frage": "Geht das nur als einmalige Bestellung?",
+          "antwort": "Nein. Neben einzelnen Bestellungen planen wir auf Wunsch auch Ihre Geräteflotte dauerhaft, im Rahmen der laufenden IT-Betreuung."
+        }
+      ]
+    },
+    {
+      "typ": "kontakt"
+    },
+    {
+      "typ": "wissenTeaser"
+    }
+  ]
+}

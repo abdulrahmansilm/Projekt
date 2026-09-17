@@ -1,0 +1,57 @@
+---
+import { getCollection } from "astro:content";
+import { Icon } from "astro-icon/components";
+import { formatiereDatum } from "../../lib/utils";
+
+interface Props {
+  ausschlussSlug?: string;
+  leistungSlug?: string;
+  anzahl?: number;
+  titel?: string;
+}
+
+const { ausschlussSlug, leistungSlug, anzahl = 3, titel = "Aus dem Wissen-Bereich" } = Astro.props;
+
+const alle = await getCollection("wissen");
+let artikel = alle.sort((a, b) => b.data.datum.valueOf() - a.data.datum.valueOf());
+
+if (leistungSlug) {
+  const passend = artikel.filter((a) => a.data.leistung_slugs.includes(leistungSlug));
+  artikel = passend.length > 0 ? passend : artikel;
+}
+if (ausschlussSlug) artikel = artikel.filter((a) => a.id !== ausschlussSlug);
+artikel = artikel.slice(0, anzahl);
+---
+
+{
+  artikel.length > 0 && (
+    <section aria-labelledby="wissen-teaser-heading" class="py-16 md:py-20">
+      <div class="mx-auto max-w-6xl px-4">
+        <div class="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <span class="bg-accent-start/10 text-bg-dark reveal mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1 text-xs font-medium uppercase tracking-wide">
+              <span aria-hidden="true" class="bg-accent-start size-1.5 rounded-full" />— WISSEN
+            </span>
+            <h2 id="wissen-teaser-heading" class="reveal font-headline text-3xl font-medium tracking-tight md:text-4xl">
+              {titel}
+            </h2>
+          </div>
+          <a href="/wissen" class="text-accent-start reveal inline-flex items-center gap-2 text-sm font-semibold">
+            Alle Artikel
+            <Icon name="arrow-right" class="size-4" aria-hidden="true" />
+          </a>
+        </div>
+
+        <div class="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
+          {artikel.map((a) => (
+            <a href={`/wissen/${a.id}`} class="reveal border-bg-dark/15 hover:border-accent-start/50 block border p-6 transition-colors">
+              <p class="text-bg-dark/68 text-xs uppercase tracking-wide">{formatiereDatum(a.data.datum)}</p>
+              <h3 class="font-headline mt-3 text-lg font-medium">{a.data.titel}</h3>
+              <p class="text-bg-dark/68 mt-2 text-sm leading-relaxed">{a.data.beschreibung}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}

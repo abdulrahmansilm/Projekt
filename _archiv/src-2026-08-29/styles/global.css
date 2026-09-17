@@ -1,0 +1,144 @@
+@import "tailwindcss";
+
+/* Self-hosted Fonts (DSGVO: kein Google-Fonts-/CDN-Request) */
+@font-face {
+  font-family: "Space Grotesk";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/space-grotesk-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Space Grotesk";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/space-grotesk-500.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Outfit";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/outfit-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Outfit";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/outfit-500.woff2") format("woff2");
+}
+
+:root {
+  --color-bg: #f1f3f0;
+  --color-bg-dark: #05231f;
+  --color-accent-start: #478177;
+  --color-accent-end: #c3d331;
+  --gradient-primary: linear-gradient(135deg, var(--color-accent-start) 0%, var(--color-accent-end) 100%);
+
+  --font-headline: "Space Grotesk", system-ui, sans-serif;
+  --font-body: "Outfit", system-ui, sans-serif;
+  --font-mono:
+    ui-monospace, "SF Mono", "Cascadia Mono", "Segoe UI Mono", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+@theme inline {
+  --color-bg: var(--color-bg);
+  --color-bg-dark: var(--color-bg-dark);
+  --color-accent-start: var(--color-accent-start);
+  --color-accent-end: var(--color-accent-end);
+
+  --font-headline: var(--font-headline);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+
+  --container-6xl: 72rem;
+}
+
+@layer base {
+  * {
+    scroll-margin-top: 6rem;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-bg-dark);
+    font-family: var(--font-body);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-headline);
+    font-weight: 500;
+  }
+
+  /* Sichtbarer Fokus, nie outline:none ohne Ersatz (WCAG 2.2 AA) */
+  :focus-visible {
+    outline: 2px solid var(--color-accent-start);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background-color: var(--color-accent-end);
+    color: var(--color-bg-dark);
+  }
+}
+
+@layer utilities {
+  .bg-gradient-brand {
+    background-image: var(--gradient-primary);
+  }
+
+  .text-gradient {
+    background-image: var(--gradient-primary);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+
+  /* Skip-Link: sichtbar nur bei Fokus */
+  .skip-link {
+    position: absolute;
+    top: -100%;
+    left: 1rem;
+    z-index: 100;
+    transition: top 0.15s ease;
+  }
+
+  .skip-link:focus-visible {
+    top: 1rem;
+  }
+
+  /* Reveal-on-Scroll: Standard = ausgeblendet, JS blendet ein.
+     prefers-reduced-motion: sofortiger Endzustand, keine Animation. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 0.5s ease,
+      transform 0.5s ease;
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+}

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Selim-IT — Proaktiver Fernzugriff statt IT-Feuerwehr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --dark:#0B2E3C;
+    --grad-start:#4FB8A6;
+    --grad-end:#1B6E7A;
+    --line:rgba(240,244,243,0.12);
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ background:#0B2E3C; }
+  body{
+    font-family:'Outfit',sans-serif;
+    background:
+      radial-gradient(110% 80% at 78% 4%,
+        rgba(79,184,166,0.13) 0%,
+        rgba(79,184,166,0.08) 22%,
+        rgba(79,184,166,0.035) 42%,
+        rgba(79,184,166,0) 62%),
+      #0B2E3C;
+    background-attachment:fixed;
+    color:#F0F4F3;
+  }
+
+  /* ================= Problem / Lösung ================= */
+  .pl-section{ padding:92px 32px 96px; }
+  .pl-inner{ max-width:1000px; margin:0 auto; }
+
+  .pl-head{ max-width:640px; margin-bottom:52px; }
+  .pl-head .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600; font-size:13px; letter-spacing:0.06em; text-transform:uppercase;
+    color:#7FD9C4; margin-bottom:16px;
+  }
+  .pl-head .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:linear-gradient(135deg,var(--grad-start),var(--grad-end)); }
+  .pl-head h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:500; font-size:36px; line-height:1.22; letter-spacing:-0.01em;
+    color:#FFFFFF; margin-bottom:18px;
+  }
+  .pl-head h2 .accent{
+    background:linear-gradient(135deg,#7FD9C4,var(--grad-start));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .pl-head p{ font-size:16px; line-height:1.65; color:rgba(240,244,243,0.72); }
+
+  /* --- Themen-Karten --- */
+  .cards{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:16px;
+  }
+
+  .card{
+    background:rgba(240,244,243,0.035);
+    border:1px solid rgba(240,244,243,0.1);
+    border-radius:20px;
+    padding:24px 26px 26px;
+    display:flex; flex-direction:column;
+    transition:background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+  }
+  .card:hover{
+    background:rgba(240,244,243,0.055);
+    border-color:rgba(79,184,166,0.3);
+    transform:translateY(-3px);
+  }
+
+  /* Icon reagiert mit */
+  .card > .title .ico{ transition:background 0.25s ease, border-color 0.25s ease; }
+  .card:hover > .title .ico{
+    background:rgba(79,184,166,0.2);
+    border-color:rgba(79,184,166,0.45);
+  }
+
+  /* Kartentitel — gehört der ganzen Karte, nicht einer Spalte */
+  .card > .title{
+    display:flex; align-items:center; gap:12px;
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600; font-size:18px; letter-spacing:-0.005em;
+    color:#FFFFFF;
+    padding-bottom:18px;
+    margin-bottom:18px;
+    border-bottom:1px solid rgba(240,244,243,0.1);
+  }
+  .card > .title .ico{
+    width:32px; height:32px; border-radius:9px;
+    background:rgba(79,184,166,0.12);
+    border:1px solid rgba(79,184,166,0.25);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .card > .title .ico svg{ width:16px; height:16px; }
+
+  .split{ display:flex; flex-direction:column; gap:16px; flex:1; }
+
+  .side{ display:flex; flex-direction:column; gap:8px; }
+  .side .label{
+    display:flex; align-items:center; gap:8px;
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600; font-size:11.5px;
+    letter-spacing:0.07em; text-transform:uppercase;
+  }
+  .side .label .badge{
+    width:17px; height:17px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .side .label svg{ width:9px; height:9px; }
+  .side p{ font-size:14.5px; line-height:1.6; }
+
+  .side.bad{ padding:0; min-height:96px; }
+  .side.bad .label{ color:rgba(240,244,243,0.45); }
+  .side.bad .label .badge{ border:1.5px solid rgba(240,244,243,0.28); }
+  .side.bad p{ color:rgba(240,244,243,0.6); }
+  .side.bad{ transition:opacity 0.25s ease; }
+  .card:hover .side.bad{ opacity:0.65; }
+
+  .side.good{
+    flex:1;
+    background:linear-gradient(150deg, rgba(79,184,166,0.13), rgba(79,184,166,0.045));
+    border:1px solid rgba(79,184,166,0.25);
+    border-radius:14px;
+    padding:16px 18px;
+    transition:background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .card:hover .side.good{
+    background:linear-gradient(150deg, rgba(79,184,166,0.2), rgba(79,184,166,0.075));
+    border-color:rgba(79,184,166,0.45);
+    box-shadow:0 8px 24px -12px rgba(79,184,166,0.4);
+  }
+  .side.good .label{
+    color:rgba(240,244,243,0.75);
+    text-transform:none;
+    font-size:13.5px;
+    letter-spacing:0;
+    font-weight:500;
+  }
+  .side.good .label .brand svg{ height:19px; width:56.7px; }
+  .side.good .label .badge{ background:linear-gradient(135deg,var(--grad-start),var(--grad-end)); }
+  .side.good p{ color:rgba(240,244,243,0.9); }
+
+  /* Inline-Logo statt Wortmarke */
+  .brand{ display:inline-flex; align-items:center; vertical-align:-0.16em; }
+  /* Höhe UND Breite explizit — width:auto kollabiert im Flex-Kontext */
+  .brand svg{ display:block; height:1.15em; width:3.435em; }
+  .side.good strong{ color:#FFFFFF; font-weight:600; }
+
+  /* Abschluss-Satz */
+  .kicker{
+    margin-top:40px; max-width:680px;
+    font-size:17px; line-height:1.6;
+    color:rgba(240,244,243,0.8);
+  }
+  .kicker strong{ color:#FFFFFF; font-weight:600; }
+
+  @media (max-width:760px){
+    .cards{ grid-template-columns:1fr; }
+    .card{ padding:22px 20px 24px; border-radius:16px; }
+    .card > .title{ font-size:17.5px; padding-bottom:16px; margin-bottom:16px; }
+    .side.bad{ min-height:0; }
+    .side.good{ flex:0 1 auto; }
+  }
+  @media (max-width:560px){
+    .pl-section{ padding:64px 20px 72px; }
+    .pl-head{ margin-bottom:38px; }
+    .pl-head h2{ font-size:27px; }
+    .pl-head p{ font-size:15.5px; }
+    .kicker{ font-size:16px; }
+  }
+
+  /* ================= Trustbar ================= */
+  .tb-section{ padding:28px 0 88px; }
+  .tb-label{
+    text-align:center;
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:500; font-size:14px; letter-spacing:0.06em; text-transform:uppercase;
+    color:rgba(240,244,243,0.5); margin-bottom:32px;
+  }
+  .marquee{
+    position:relative; overflow:hidden;
+    -webkit-mask-image:linear-gradient(90deg, transparent 0, #000 80px, #000 calc(100% - 80px), transparent 100%);
+            mask-image:linear-gradient(90deg, transparent 0, #000 80px, #000 calc(100% - 80px), transparent 100%);
+  }
+  .track{
+    display:flex; align-items:center; width:max-content; gap:64px;
+    animation:scroll 32s linear infinite;
+  }
+  .marquee:hover .track{ animation-play-state:paused; }
+  @keyframes scroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+  .logo{
+    flex-shrink:0; display:flex; align-items:center; gap:10px;
+    font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:20px;
+    color:rgba(240,244,243,0.85); white-space:nowrap; opacity:0.8;
+  }
+  .logo .dot{ width:8px; height:8px; border-radius:50%; background:linear-gradient(135deg,var(--grad-start),var(--grad-end)); flex-shrink:0; }
+
+  @media (prefers-reduced-motion: reduce){
+    .track{ animation:none; }
+    .card, .card:hover, .side.bad, .side.good{ transition:none; transform:none; }
+  }
+  @media (max-width:560px){
+    .tb-section{ padding:16px 0 64px; }
+    .track{ gap:44px; }
+    .logo{ font-size:17px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Logo-Sprite: einmal im Dokument, überall per <use href="#silm-logo"> referenzierbar -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="silmGrad" x1="504.17" y1="301.83" x2="117.55" y2="-84.79" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1a6f7b"/><stop offset="1" stop-color="#4cb7a7"/>
+    </linearGradient>
+    <path id="silm-logo" fill="url(#silmGrad)" d="M66.21,176.56c-12.94,0-24.37-2.3-34.32-6.91-9.94-4.61-17.75-11.28-23.4-20.01C2.83,140.91,0,130.24,0,117.63v-6.31h28.86v6.31c0,11.16,3.4,19.49,10.19,24.98,6.79,5.5,15.84,8.25,27.16,8.25s20.13-2.34,25.95-7.03c5.82-4.69,8.73-10.75,8.73-18.19,0-5.01-1.38-9.09-4.12-12.25-2.75-3.15-6.75-5.7-12.01-7.64-5.26-1.94-11.6-3.8-19.04-5.58l-7.28-1.46c-11.16-2.58-20.82-5.86-28.98-9.82-8.17-3.96-14.43-9.09-18.8-15.4-4.37-6.31-6.55-14.55-6.55-24.74s2.43-18.92,7.28-26.19c4.85-7.28,11.72-12.85,20.61-16.73C40.9,1.94,51.33,0,63.3,0s22.63,2.02,32.01,6.06c9.38,4.04,16.77,10.11,22.19,18.19,5.42,8.09,8.12,18.19,8.12,30.32v8h-28.86v-8c0-6.95-1.38-12.53-4.12-16.73-2.75-4.2-6.63-7.28-11.64-9.22-5.01-1.94-10.91-2.91-17.7-2.91-10.03,0-17.62,1.94-22.8,5.82-5.18,3.88-7.76,9.38-7.76,16.49,0,4.53,1.17,8.37,3.52,11.52,2.34,3.15,5.82,5.74,10.43,7.76,4.61,2.02,10.39,3.76,17.34,5.21l7.28,1.7c11.64,2.59,21.83,5.86,30.56,9.82,8.73,3.96,15.56,9.18,20.49,15.64,4.93,6.47,7.4,14.88,7.4,25.22s-2.63,19.16-7.88,26.92c-5.26,7.76-12.61,13.82-22.07,18.19-9.46,4.37-20.66,6.55-33.59,6.55ZM208.26,176.56c-11.97,0-22.52-2.55-31.65-7.64-9.14-5.09-16.25-12.29-21.34-21.58-5.09-9.3-7.64-20.17-7.64-32.62v-2.91c0-12.61,2.5-23.53,7.52-32.74,5.01-9.22,12.04-16.37,21.1-21.46,9.05-5.09,19.48-7.64,31.29-7.64s21.83,2.55,30.56,7.64c8.73,5.09,15.52,12.25,20.37,21.46,4.85,9.22,7.28,19.97,7.28,32.26v9.94h-89.98c.32,9.38,3.64,16.9,9.94,22.55,6.31,5.66,14.07,8.49,23.28,8.49s15.76-1.98,20.13-5.94c4.37-3.96,7.68-8.45,9.94-13.46l23.04,11.88c-2.27,4.37-5.54,9.02-9.82,13.95-4.29,4.93-9.99,9.14-17.1,12.61-7.12,3.47-16.09,5.21-26.92,5.21ZM176,100.16h61.36c-.65-7.92-3.68-14.23-9.09-18.92-5.42-4.69-12.41-7.03-20.98-7.03s-16.01,2.35-21.34,7.03c-5.34,4.69-8.65,11-9.94,18.92ZM522.63,70.33c-3.64-6.31-8.49-11.08-14.55-14.31-6.06-3.22-12.81-4.85-20.24-4.85-9.54,0-16.9,1.78-22.08,5.34-5.18,3.55-9.13,8.08-11.89,13.57h-3.87c-2.75-5.49-6.8-10.02-12.13-13.57-5.34-3.57-12.37-5.34-21.1-5.34-8.25,0-14.84,1.58-19.77,4.73-4.92,3.16-8.44,6.76-10.55,10.81h-4.12v-13.35h-27.4v119.81c0,9.78-7.92,17.71-17.7,17.71s-17.7-7.93-17.7-17.71V3.39h-27.9v169.77c0,25.16,20.48,45.55,45.64,45.55s45.55-20.39,45.55-45.55v-71.06c0-8.88,2.09-15.71,6.31-20.48,4.2-4.77,10.02-7.16,17.46-7.16,6.62,0,11.8,1.82,15.52,5.46s5.58,8.94,5.58,15.88v77.37h27.65v-71.06c0-8.88,2.14-15.71,6.43-20.48,4.29-4.77,10.07-7.16,17.34-7.16,6.64,0,11.81,1.82,15.53,5.46,3.72,3.64,5.58,8.94,5.58,15.88v77.37h27.89v-79.31c0-9.38-1.82-17.22-5.46-23.52ZM381.97,6.67c-3.48-3.31-7.88-4.97-13.22-4.97-5.01,0-9.34,1.66-12.98,4.97-3.64,3.32-5.46,7.72-5.46,13.22s1.82,9.91,5.46,13.22c3.64,3.32,7.96,4.97,12.98,4.97,5.34,0,9.74-1.66,13.22-4.97,3.48-3.31,5.21-7.72,5.21-13.22s-1.74-9.9-5.21-13.22ZM579.89,173.33v-67.91h11.74v67.91h-11.74ZM621.02,173.33v-57.33h-20.28v-10.57h52.19v10.57h-20.28v57.33h-11.64Z"/>
+  </defs>
+</svg>
+
+
+<!-- ================= Problem / Lösung ================= -->
+<section class="pl-section" aria-labelledby="pl-titel">
+  <div class="pl-inner">
+    <div class="pl-head">
+      <div class="eyebrow"><span class="dot"></span>Reaktiv oder proaktiv</div>
+      <h2 id="pl-titel">Ein VPN, das irgendwie läuft, ist kein VPN.<br><span class="accent">Es ist ein offenes Tor mit Passwort.</span></h2>
+      <p>Die meisten Fernzugriffs-Lösungen werden einmal eingerichtet und dann nie wieder angefasst — bis eine Schwachstelle auffällt oder jemand Zugriff hat, der längst keinen mehr haben sollte. Proaktiver Fernzugriff dreht das um: Verschlüsselung, Rechte und Verbindung werden laufend überwacht und gepflegt.</p>
+    </div>
+
+    <div class="cards">
+
+      <!-- 1 -->
+      <article class="card">
+        <h3 class="title">
+          <span class="ico">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <defs><linearGradient id="i1" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#7FD9C4"/><stop offset="1" stop-color="#4FB8A6"/></linearGradient></defs>
+              <rect x="5" y="10.5" width="14" height="9.5" rx="2.2" stroke="url(#i1)" stroke-width="1.6"/>
+              <path d="M8 10.5 V7.2 C8 4.9 9.8 3 12 3 C14.2 3 16 4.9 16 7.2 V10.5" stroke="url(#i1)" stroke-width="1.6" stroke-linecap="round"/>
+              <circle cx="12" cy="15" r="1.3" fill="#7FD9C4"/>
+            </svg>
+          </span>
+          Verschlüsselung &amp; Angriffsfläche
+        </h3>
+        <div class="split">
+          <div class="side bad">
+            <div class="label">
+              <span class="badge"><svg viewBox="0 0 10 10" fill="none"><path d="M1 1 L9 9 M9 1 L1 9" stroke="rgba(240,244,243,0.55)" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+              Reaktive IT-Hilfe
+            </div>
+            <p>Einmal eingerichtet, nie wieder geprüft — im öffentlichen WLAN oder Hotel-Netz laufen Verbindungen oft ungesichert mit.</p>
+          </div>
+          <div class="side good">
+            <div class="label">
+              <span class="badge"><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.2 L5.5 10.2 L11.5 3.8" stroke="#0B2E3C" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Mit <span class="brand" role="img" aria-label="Selim-IT"><svg viewBox="0 0 652.94 218.71" aria-hidden="true" focusable="false"><use href="#silm-logo"/></svg></span>
+            </div>
+            <p><strong>Jede Verbindung verschlüsselt.</strong> Ein VPN-Tunnel schützt den Zugriff unabhängig davon, aus welchem Netz er kommt — Hotel-WLAN eingeschlossen.</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2 -->
+      <article class="card">
+        <h3 class="title">
+          <span class="ico">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <defs><linearGradient id="i2" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#7FD9C4"/><stop offset="1" stop-color="#4FB8A6"/></linearGradient></defs>
+              <circle cx="9" cy="8" r="3.4" stroke="url(#i2)" stroke-width="1.6"/>
+              <path d="M3.5 20 C3.5 15.6 6.3 13.2 9 13.2 C11.7 13.2 14.5 15.6 14.5 20" stroke="url(#i2)" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M16 9 L18 11 L21.5 6.5" stroke="url(#i2)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          Zugriffsrechte &amp; Kontrolle
+        </h3>
+        <div class="split">
+          <div class="side bad">
+            <div class="label">
+              <span class="badge"><svg viewBox="0 0 10 10" fill="none"><path d="M1 1 L9 9 M9 1 L1 9" stroke="rgba(240,244,243,0.55)" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+              Reaktive IT-Hilfe
+            </div>
+            <p>Ein Zugang für alle, auf alles — und ausgeschiedene Mitarbeiter behalten ihn oft länger, als jemandem auffällt.</p>
+          </div>
+          <div class="side good">
+            <div class="label">
+              <span class="badge"><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.2 L5.5 10.2 L11.5 3.8" stroke="#0B2E3C" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Mit <span class="brand" role="img" aria-label="Selim-IT"><svg viewBox="0 0 652.94 218.71" aria-hidden="true" focusable="false"><use href="#silm-logo"/></svg></span>
+            </div>
+            <p><strong>Rechte nach Rolle, nicht pauschal.</strong> Jeder Zugang ist einer Person zugeordnet und sofort entziehbar — spätestens am letzten Arbeitstag.</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- 3 -->
+      <article class="card">
+        <h3 class="title">
+          <span class="ico">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <defs><linearGradient id="i3" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#7FD9C4"/><stop offset="1" stop-color="#4FB8A6"/></linearGradient></defs>
+              <path d="M12 20.5 C17 20.5 20.5 17 20.5 12 C20.5 7 17 3.5 12 3.5 C7 3.5 3.5 7 3.5 12" stroke="url(#i3)" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M3.5 12 L6.5 9.5 M3.5 12 L6 15" stroke="url(#i3)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 8 V12.5 L15 14.5" stroke="url(#i3)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          Verbindung &amp; Verfügbarkeit
+        </h3>
+        <div class="split">
+          <div class="side bad">
+            <div class="label">
+              <span class="badge"><svg viewBox="0 0 10 10" fill="none"><path d="M1 1 L9 9 M9 1 L1 9" stroke="rgba(240,244,243,0.55)" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+              Reaktive IT-Hilfe
+            </div>
+            <p>Das VPN bricht ab oder ist spürbar langsam — bemerkt wird das meist erst über eine Support-Anfrage der Mitarbeiter.</p>
+          </div>
+          <div class="side good">
+            <div class="label">
+              <span class="badge"><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.2 L5.5 10.2 L11.5 3.8" stroke="#0B2E3C" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Mit <span class="brand" role="img" aria-label="Selim-IT"><svg viewBox="0 0 652.94 218.71" aria-hidden="true" focusable="false"><use href="#silm-logo"/></svg></span>
+            </div>
+            <p><strong>Verbindung wird überwacht.</strong> Auffälligkeiten bei Stabilität oder Geschwindigkeit melden sich bei uns, bevor Ihr Team sie meldet.</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- 4 -->
+      <article class="card">
+        <h3 class="title">
+          <span class="ico">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <defs><linearGradient id="i4" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#7FD9C4"/><stop offset="1" stop-color="#4FB8A6"/></linearGradient></defs>
+              <rect x="3" y="4" width="18" height="12" rx="2" stroke="url(#i4)" stroke-width="1.6"/>
+              <path d="M9 20 H15" stroke="url(#i4)" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M12 16 V20" stroke="url(#i4)" stroke-width="1.6" stroke-linecap="round"/>
+              <rect x="7" y="7.5" width="6" height="4.5" rx="1" stroke="url(#i4)" stroke-width="1.4"/>
+            </svg>
+          </span>
+          Geräte &amp; Einheitlichkeit
+        </h3>
+        <div class="split">
+          <div class="side bad">
+            <div class="label">
+              <span class="badge"><svg viewBox="0 0 10 10" fill="none"><path d="M1 1 L9 9 M9 1 L1 9" stroke="rgba(240,244,243,0.55)" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+              Reaktive IT-Hilfe
+            </div>
+            <p>Jeder nutzt eine eigene Lösung auf privaten Geräten — eine Übersicht, wer wie zugreift, gibt es meist nicht.</p>
+          </div>
+          <div class="side good">
+            <div class="label">
+              <span class="badge"><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7.2 L5.5 10.2 L11.5 3.8" stroke="#0B2E3C" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Mit <span class="brand" role="img" aria-label="Selim-IT"><svg viewBox="0 0 652.94 218.71" aria-hidden="true" focusable="false"><use href="#silm-logo"/></svg></span>
+            </div>
+            <p><strong>Eine verwaltete Lösung für alle.</strong> Einheitlich eingerichtet auf jedem Gerät, zentral einsehbar — statt Wildwuchs einzelner Insellösungen.</p>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <p class="kicker">Der beste Tag mit unserem Fernzugriff ist der, an dem Sie gar nicht merken, dass er da ist. <strong>Kein offener Zugang, kein unbemerkter Ausfall, keine Überraschung.</strong></p>
+  </div>
+</section>
+
+<!-- ================= Trustbar ================= -->
+<section class="tb-section" aria-label="Unsere Partner">
+  <div class="tb-label">Zertifizierte Partner &amp; Technologien</div>
+  <div class="marquee">
+    <div class="track">
+      <span class="logo"><span class="dot"></span>Microsoft</span>
+      <span class="logo"><span class="dot"></span>Hornetsecurity</span>
+      <span class="logo"><span class="dot"></span>Partner-Logo</span>
+      <span class="logo"><span class="dot"></span>Partner-Logo</span>
+      <span class="logo"><span class="dot"></span>Partner-Logo</span>
+      <span class="logo"><span class="dot"></span>Partner-Logo</span>
+      <span class="logo" aria-hidden="true"><span class="dot"></span>Microsoft</span>
+      <span class="logo" aria-hidden="true"><span class="dot"></span>Hornetsecurity</span>
+      <span class="logo" aria-hidden="true"><span class="dot"></span>Partner-Logo</span>
+      <span class="logo" aria-hidden="true"><span class="dot"></span>Partner-Logo</span>
+      <span class="logo" aria-hidden="true"><span class="dot"></span>Partner-Logo</span>
+      <span class="logo" aria-hidden="true"><span class="dot"></span>Partner-Logo</span>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

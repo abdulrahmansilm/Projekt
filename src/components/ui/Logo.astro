@@ -1,0 +1,48 @@
+---
+/**
+ * Selim-IT Wortmarke (docs/DESIGNSYSTEM.md → Logo).
+ * variant "hell": weißer Schriftzug für dunkle Flächen, "dunkel": #0B2E3C für helle Flächen.
+ * Der i-Punkt trägt immer den Verlauf.
+ */
+import { WORTMARKE_PFADE as P, WORTMARKE_VIEWBOX } from "../../lib/brand";
+
+interface Props {
+  variant?: "hell" | "dunkel";
+  class?: string;
+  title?: string;
+}
+
+const { variant = "hell", class: className = "", title } = Astro.props;
+const gid = `logo-grad-${Math.random().toString(36).slice(2, 8)}`;
+const fill = variant === "hell" ? "#FFFFFF" : "#0B2E3C";
+---
+
+<svg
+  class={className}
+  viewBox={WORTMARKE_VIEWBOX}
+  xmlns="http://www.w3.org/2000/svg"
+  role={title ? "img" : undefined}
+  aria-label={title}
+  aria-hidden={title ? undefined : "true"}
+  focusable="false"
+>
+  <defs>
+    <linearGradient id={gid} x1="382.03" y1="33.05" x2="355.69" y2="6.72" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1b6e7a"></stop>
+      <stop offset="1" stop-color="#4fb8a6"></stop>
+    </linearGradient>
+  </defs>
+  <path fill={fill} d={P.s}></path>
+  <path fill={fill} d={P.e}></path>
+  <path fill={fill} d={P.lim}></path>
+  <path fill={`url(#${gid})`} d={P.punkt}></path>
+  <path fill={fill} d={P.i}></path>
+  <path fill={fill} d={P.t}></path>
+</svg>
+
+<style>
+  svg {
+    width: auto;
+    aspect-ratio: 652.94 / 218.71;
+  }
+</style>

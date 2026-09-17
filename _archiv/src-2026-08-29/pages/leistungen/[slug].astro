@@ -1,0 +1,457 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import HeroZitatBlock from "../../components/shared/HeroZitatBlock.astro";
+import AudioTranscript from "../../components/shared/AudioTranscript.astro";
+import WhatsappMockup from "../../components/shared/WhatsappMockup.astro";
+import Zeitstrahl from "../../components/shared/Zeitstrahl.astro";
+import StufenGrid from "../../components/shared/StufenGrid.astro";
+import KennzahlCallout from "../../components/shared/KennzahlCallout.astro";
+import CompareCard from "../../components/shared/CompareCard.astro";
+import PricingCard from "../../components/shared/PricingCard.astro";
+import AddonCard from "../../components/shared/AddonCard.astro";
+import ROIRechner from "../../components/shared/ROIRechner.astro";
+import CtaBanner from "../../components/sections/CtaBanner.astro";
+import FaqSection from "../../components/sections/FaqSection.astro";
+import WissenTeaser from "../../components/sections/WissenTeaser.astro";
+import { Icon } from "astro-icon/components";
+import { kategorien } from "../../lib/config";
+
+export async function getStaticPaths() {
+  const leistungen = await getCollection("leistungen");
+  return leistungen.map((l) => ({ params: { slug: l.id }, props: { leistung: l } }));
+}
+
+const { leistung } = Astro.props;
+const d = leistung.data;
+const kategorieLabel = kategorien[d.kategorie].label;
+
+const faqEintraege = (await getCollection("faq"))
+  .filter((f) => f.data.bereich === "leistung" && f.data.leistung_slug === leistung.id)
+  .sort((a, b) => a.data.reihenfolge - b.data.reihenfolge);
+
+const crossSellZiel = d.cross_sell ? await getEntry("leistungen", d.cross_sell.ziel_slug) : undefined;
+
+const siteUrl = "https://selim-it.de";
+const serviceJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: d.titel,
+  description: d.seo_description,
+  provider: { "@type": "LocalBusiness", name: "Selim-IT" },
+  areaServed: "DE",
+  url: `${siteUrl}/leistungen/${leistung.id}`,
+};
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Startseite", item: siteUrl },
+    { "@type": "ListItem", position: 2, name: kategorieLabel, item: `${siteUrl}/#leistungen` },
+    { "@type": "ListItem", position: 3, name: d.titel, item: `${siteUrl}/leistungen/${leistung.id}` },
+  ],
+};
+
+let faqJsonLd: Record<string, unknown> | null = null;
+if (faqEintraege.length > 0) {
+  faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqEintraege.map((f) => ({
+      "@type": "Question",
+      name: f.data.frage,
+      acceptedAnswer: { "@type": "Answer", text: f.body ?? "" },
+    })),
+  };
+}
+---
+
+<BaseLayout
+  title={d.seo_title}
+  description={d.seo_description}
+  keywords={d.seo_keywords}
+  path={`/leistungen/${leistung.id}`}
+>
+  <Fragment slot="head">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(serviceJsonLd)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+    {faqJsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />}
+  </Fragment>
+
+  <nav aria-label="Breadcrumb" class="mx-auto max-w-6xl px-4 pt-6">
+    <ol class="text-bg-dark/68 flex flex-wrap items-center gap-2 text-xs">
+      <li><a href="/" class="hover:text-accent-start">Startseite</a></li>
+      <li aria-hidden="true">/</li>
+      <li><a href="/#leistungen" class="hover:text-accent-start">{kategorieLabel}</a></li>
+      <li aria-hidden="true">/</li>
+      <li aria-current="page" class="text-bg-dark">{d.titel}</li>
+    </ol>
+  </nav>
+
+  <section class="px-4 pt-8 pb-16 md:pb-20" aria-labelledby={d.hero_zitat ? undefined : "hero-heading"}>
+    <div class="mx-auto max-w-6xl">
+      <div class="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-center">
+        <div>
+          {
+            d.hero_zitat ? (
+              <HeroZitatBlock
+                kategorieTag={`${kategorieLabel.toUpperCase()} · ${d.titel.toUpperCase()}`}
+                headline={d.hero_headline ?? d.titel}
+                text={d.kurz}
+                zitat={d.hero_zitat}
+              />
+            ) : (
+              <div>
+                <span class="bg-accent-start/10 text-bg-dark reveal mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1 text-xs font-medium uppercase tracking-wide">
+                  <span aria-hidden="true" class="bg-accent-start size-1.5 rounded-full" />
+                  {kategorieLabel}
+                </span>
+                <h1 id="hero-heading" class="reveal font-headline text-4xl font-medium leading-[1.1] tracking-tight md:text-5xl">
+                  {d.hero_headline ?? d.titel}
+                </h1>
+                <p class="text-bg-dark/80 reveal mt-4 max-w-xl text-base leading-relaxed md:text-lg">{d.kurz}</p>
+              </div>
+            )
+          }
+
+          <div class="reveal mt-8">
+            <a
+              href={`/kontakt?leistung=${leistung.id}`}
+              class="bg-gradient-brand inline-flex min-h-11 items-center justify-center rounded-full px-6 py-3 text-base font-semibold text-white"
+            >
+              Anfrage senden
+            </a>
+          </div>
+        </div>
+
+        <div>
+          {d.hero_audio && d.hero_audio_transkript && <AudioTranscript zeilen={d.hero_audio_transkript} />}
+          {d.hero_mockup_chat && <WhatsappMockup nachrichten={d.hero_mockup_chat} />}
+        </div>
+      </div>
+
+      {
+        d.vorteile.length > 0 && (
+          <ul class="text-bg-dark/68 reveal mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm">
+            {d.vorteile.map((v) => (
+              <li class="flex items-center gap-2">
+                <Icon name="check" class="text-accent-start size-4" aria-hidden="true" />
+                {v}
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+  </section>
+
+  {d.zeitstrahl && <Zeitstrahl typ={d.zeitstrahl.typ} tag={d.zeitstrahl.tag} titel={d.zeitstrahl.titel} untertitel={d.zeitstrahl.untertitel} schritte={d.zeitstrahl.schritte} />}
+
+  {
+    d.statistik_sektion && (
+      <section aria-labelledby="statistik-heading" class="bg-bg-dark py-16 text-white md:py-20">
+        <div class="mx-auto max-w-6xl px-4">
+          <h2 id="statistik-heading" class="reveal font-headline text-3xl font-medium tracking-tight md:text-4xl">
+            {d.statistik_sektion.titel}
+          </h2>
+          <div class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {d.statistik_sektion.kennzahlen.map((k) => (
+              <KennzahlCallout zahl={k.zahl} beschreibung={k.beschreibung} variante="dunkel" />
+            ))}
+          </div>
+          {d.statistik_sektion.methoden && (
+            <div class="mt-8 flex flex-wrap gap-3">
+              {d.statistik_sektion.methoden.map((m) => (
+                <span class="border-white/15 rounded-full border px-4 py-1.5 text-sm text-white/80">
+                  {m.label}: <span class="font-mono text-accent-end">{m.anteil}</span>
+                </span>
+              ))}
+            </div>
+          )}
+          <p class="mt-6 text-xs text-white/68">Quelle: {d.statistik_sektion.quelle}</p>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    d.ablauf_sektion && (
+      <StufenGrid tag="— SO LÄUFT ES AB" titel={d.ablauf_sektion.titel} stufen={d.ablauf_sektion.schritte} spalten={4} />
+    )
+  }
+
+  {d.anwendungsfaelle && <StufenGrid tag="— ANWENDUNGSFÄLLE" titel="Typische Anwendungsfälle" stufen={d.anwendungsfaelle} spalten={3} />}
+  {d.anwendungen && <StufenGrid tag="— ANWENDUNGEN" titel="Das steckt in Microsoft 365" stufen={d.anwendungen} spalten={3} />}
+  {d.was_wird_gesichert && <StufenGrid tag="— UMFANG" titel="Was gesichert wird" stufen={d.was_wird_gesichert} spalten={4} />}
+
+  {
+    d.vergleich && (
+      <section aria-labelledby="vergleich-heading" class="py-16 md:py-20">
+        <div class="mx-auto max-w-4xl px-4">
+          <h2 id="vergleich-heading" class="reveal font-headline text-3xl font-medium tracking-tight md:text-4xl">
+            Der Unterschied im Alltag
+          </h2>
+          <div class="mt-10">
+            <CompareCard
+              ohneTitel={d.vergleich.ohne_titel}
+              ohnePunkte={d.vergleich.ohne_punkte}
+              mitTitel={d.vergleich.mit_titel}
+              mitPunkte={d.vergleich.mit_punkte}
+            />
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    d.detail_tabelle && (
+      <section aria-labelledby="detail-tabelle-heading" class="py-16 md:py-20">
+        <div class="mx-auto max-w-6xl px-4">
+          <h2 id="detail-tabelle-heading" class="reveal font-headline text-3xl font-medium tracking-tight md:text-4xl">
+            Im Detail
+          </h2>
+          <div class="mt-10 overflow-x-auto">
+            <table class="w-full border-collapse text-left text-sm">
+              <thead>
+                <tr class="border-bg-dark/15 border-b">
+                  <th scope="col" class="py-3 pr-4 font-headline font-medium">Bereich</th>
+                  <th scope="col" class="py-3 pr-4 font-headline font-medium">Was wir übernehmen</th>
+                  <th scope="col" class="py-3 font-headline font-medium">Ergebnis für Sie</th>
+                </tr>
+              </thead>
+              <tbody>
+                {d.detail_tabelle.map((zeile) => (
+                  <tr class="border-bg-dark/10 reveal border-b">
+                    <td class="py-3 pr-4 font-medium">{zeile.bereich}</td>
+                    <td class="text-bg-dark/80 py-3 pr-4">{zeile.uebernehmen}</td>
+                    <td class="text-gradient py-3 font-medium">{zeile.ergebnis}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    d.kostenvergleich_tabelle && (
+      <section aria-labelledby="kostenvergleich-heading" class="bg-bg-dark py-16 text-white md:py-20">
+        <div class="mx-auto max-w-4xl px-4">
+          <h2 id="kostenvergleich-heading" class="reveal font-headline text-3xl font-medium tracking-tight md:text-4xl">
+            Kostenvergleich
+          </h2>
+          <div class="mt-10 overflow-x-auto">
+            <table class="w-full border-collapse text-left text-sm">
+              <thead>
+                <tr class="border-b border-white/15">
+                  <th scope="col" class="py-3 pr-4 font-headline font-medium text-white/68">&nbsp;</th>
+                  <th scope="col" class="py-3 pr-4 font-headline font-medium">{d.kostenvergleich_tabelle.spalte_links}</th>
+                  <th scope="col" class="py-3 font-headline font-medium">{d.kostenvergleich_tabelle.spalte_rechts}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {d.kostenvergleich_tabelle.zeilen.map((zeile) => (
+                  <tr class="border-b border-white/10">
+                    <td class="py-3 pr-4 text-white/68">{zeile.label}</td>
+                    <td class="py-3 pr-4">{zeile.links}</td>
+                    <td class="text-accent-end font-medium py-3">{zeile.rechts}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {d.kostenvergleich_tabelle.claim && <p class="mt-6 max-w-2xl text-white/80">{d.kostenvergleich_tabelle.claim}</p>}
+        </div>
+      </section>
+    )
+  }
+
+  {
+    d.roi_rechner && d.pricing && (
+      <section aria-labelledby="roi-heading" class="py-16 md:py-20">
+        <div class="mx-auto max-w-6xl px-4">
+          <span class="bg-accent-start/10 text-bg-dark reveal mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1 text-xs font-medium uppercase tracking-wide">
+            <span aria-hidden="true" class="bg-accent-start size-1.5 rounded-full" />— IHRE ERSPARNIS
+          </span>
+          <h2 id="roi-heading" class="reveal font-headline text-3xl font-medium tracking-tight md:text-4xl">Rechnen Sie selbst</h2>
+          <div class="mt-10">
+            <ROIRechner
+              id={leistung.id}
+              einheitLabel={d.roi_rechner.einheit_label}
+              einheitDefault={d.roi_rechner.einheit_default}
+              einheitMin={d.roi_rechner.einheit_min}
+              einheitMax={d.roi_rechner.einheit_max}
+              dauerLabel={d.roi_rechner.dauer_label}
+              dauerDefault={d.roi_rechner.dauer_default}
+              dauerMin={d.roi_rechner.dauer_min}
+              dauerMax={d.roi_rechner.dauer_max}
+              anteilLabel={d.roi_rechner.anteil_label}
+              anteilDefault={d.roi_rechner.anteil_default}
+              stundenlohnLabel={d.roi_rechner.stundenlohn_label}
+              stundenlohnDefault={d.roi_rechner.stundenlohn_default}
+              fusszeile={d.roi_rechner.fusszeile}
+              tiers={d.pricing.tiers.map((t) => ({ name: t.name, zielgruppe: t.zielgruppe, preisHaupt: t.preis_haupt }))}
+            />
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    d.pricing && (
+      <section aria-labelledby="pricing-heading" class="bg-bg py-16 md:py-20">
+        <div class="mx-auto max-w-6xl px-4">
+          <span class="bg-accent-start/10 text-bg-dark reveal mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1 text-xs font-medium uppercase tracking-wide">
+            <span aria-hidden="true" class="bg-accent-start size-1.5 rounded-full" />— PREISE
+          </span>
+          <h2 id="pricing-heading" class="reveal font-headline text-3xl font-medium tracking-tight md:text-4xl">Pakete & Preise</h2>
+
+          <div class="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
+            {d.pricing.tiers.map((tier) => (
+              <PricingCard
+                name={tier.name}
+                variante={tier.variante}
+                badge={tier.badge}
+                zielgruppe={tier.zielgruppe}
+                claim={tier.claim}
+                preisHaupt={tier.preis_haupt}
+                preisZusatz={tier.preis_zusatz}
+                preisJaehrlich={tier.preis_jaehrlich}
+                reaktionszeit={tier.reaktionszeit}
+                supportKanal={tier.support_kanal}
+                laufzeit={tier.laufzeit}
+                features={tier.features}
+                ctaText={tier.cta_text}
+                ctaHref={`/kontakt?leistung=${leistung.id}&paket=${encodeURIComponent(tier.name)}`}
+              />
+            ))}
+          </div>
+
+          {d.pricing.einrichtungsgebuehr && (
+            <p class="text-bg-dark/68 reveal mt-8 max-w-2xl text-sm">{d.pricing.einrichtungsgebuehr}</p>
+          )}
+        </div>
+      </section>
+    )
+  }
+
+  {d.pricing_hinweis && !d.pricing && (
+    <section class="py-10">
+      <div class="mx-auto max-w-6xl px-4">
+        <p class="text-bg-dark/68 reveal text-sm">{d.pricing_hinweis}</p>
+      </div>
+    </section>
+  )}
+
+  {
+    d.addons.length > 0 && (
+      <section aria-labelledby="addons-heading" class="py-16 md:py-20">
+        <div class="mx-auto max-w-6xl px-4">
+          <h2 id="addons-heading" class="reveal font-headline text-3xl font-medium tracking-tight md:text-4xl">
+            Zusatzleistungen
+          </h2>
+          <div class="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
+            {d.addons.map((addon) => (
+              <AddonCard
+                titel={addon.titel}
+                badge={addon.badge}
+                claim={addon.claim}
+                features={addon.features}
+                ctaText={addon.cta_text}
+                ctaHref={`/kontakt?leistung=${leistung.id}`}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    d.bundle && (
+      <section aria-labelledby="bundle-heading" class="bg-bg-dark py-16 text-white md:py-20">
+        <div class="mx-auto max-w-3xl px-4 text-center">
+          <h2 id="bundle-heading" class="reveal font-headline text-2xl font-medium md:text-3xl">{d.bundle.titel}</h2>
+          <p class="reveal mt-4 text-white/80">{d.bundle.beschreibung}</p>
+          <a
+            href={`/kontakt?leistung=${leistung.id}`}
+            class="bg-gradient-brand reveal mt-6 inline-flex min-h-11 items-center justify-center rounded-full px-6 py-3 text-base font-semibold text-white"
+          >
+            {d.bundle.cta_text}
+          </a>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    d.geo_sektion && (
+      <section aria-labelledby="geo-heading" class="py-16 md:py-20">
+        <div class="mx-auto max-w-3xl px-4">
+          <h2 id="geo-heading" class="reveal font-headline text-2xl font-medium md:text-3xl">{d.geo_sektion.titel}</h2>
+          <p class="text-bg-dark/80 reveal mt-4 text-base leading-relaxed">{d.geo_sektion.text}</p>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    (d.trust_bar || d.trust_bar_hinweis) && (
+      <section aria-label="Partner und Hersteller" class="bg-bg-dark py-10 md:py-12">
+        <div class="mx-auto max-w-6xl px-4">
+          {d.trust_bar && (
+            <ul class="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 md:justify-start">
+              {d.trust_bar.map((partner) => (
+                <li class="font-headline text-base font-medium text-white/80">{partner}</li>
+              ))}
+            </ul>
+          )}
+          {d.trust_bar_hinweis && <p class="text-sm text-white/68">{d.trust_bar_hinweis}</p>}
+        </div>
+      </section>
+    )
+  }
+
+  {
+    d.branchen_sektion.length > 0 && (
+      <section aria-labelledby="branchen-heading" class="py-16 md:py-20">
+        <div class="mx-auto max-w-6xl px-4">
+          <h2 id="branchen-heading" class="reveal font-headline text-3xl font-medium tracking-tight md:text-4xl">
+            Für diese Branchen geeignet
+          </h2>
+          <ul class="mt-8 flex flex-wrap gap-3">
+            {d.branchen_sektion.map((branche) => (
+              <li class="border-bg-dark/15 reveal rounded-full border px-4 py-2 text-sm">{branche}</li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    d.cross_sell && crossSellZiel && (
+      <section aria-labelledby="cross-sell-heading" class="py-16 md:py-20">
+        <div class="border-bg-dark/15 bg-bg reveal mx-auto max-w-4xl border p-8 md:p-10">
+          <h2 id="cross-sell-heading" class="sr-only">Weiterführender Hinweis</h2>
+          <p class="text-base leading-relaxed md:text-lg">{d.cross_sell.text}</p>
+          <a href={`/leistungen/${crossSellZiel.id}`} class="text-accent-start mt-4 inline-flex items-center gap-2 text-sm font-semibold">
+            {d.cross_sell.cta_text}
+            <Icon name="arrow-right" class="size-4" aria-hidden="true" />
+          </a>
+        </div>
+      </section>
+    )
+  }
+
+  <CtaBanner leistungSlug={leistung.id} titel={`Bereit für ${d.titel}?`} />
+
+  <FaqSection eintraege={faqEintraege} titel={`Häufige Fragen zu ${d.titel}`} id="leistung-faq" />
+
+  <WissenTeaser leistungSlug={leistung.id} ausschlussSlug={undefined} titel="Passende Wissens-Artikel" />
+</BaseLayout>

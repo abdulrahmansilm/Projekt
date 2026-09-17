@@ -1,0 +1,80 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Schritt {
+  nummer?: string;
+  titel: string;
+  beschreibung: string;
+  rhythmus?: string;
+}
+
+interface Props {
+  typ: "linear" | "zyklisch";
+  tag: string;
+  titel: string;
+  untertitel?: string;
+  schritte: Schritt[];
+}
+
+const { typ, tag, titel, untertitel, schritte } = Astro.props;
+const headingId = `zeitstrahl-${titel.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+---
+
+<section aria-labelledby={headingId} class="py-16 md:py-20">
+  <div class="mx-auto max-w-6xl px-4">
+    <span class="bg-accent-start/10 text-bg-dark reveal mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1 text-xs font-medium uppercase tracking-wide">
+      <span aria-hidden="true" class="bg-accent-start size-1.5 rounded-full"></span>
+      {tag}
+    </span>
+    <h2 id={headingId} class="reveal font-headline text-3xl font-medium tracking-tight md:text-4xl">{titel}</h2>
+    {untertitel && <p class="reveal text-bg-dark/68 mt-3 max-w-2xl text-base">{untertitel}</p>}
+
+    {
+      typ === "linear" ? (
+        <ol class="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {schritte.map((schritt, i) => (
+            <li class="reveal relative">
+              <div class="flex items-center gap-3">
+                <span class="bg-gradient-brand text-bg-dark flex size-10 shrink-0 items-center justify-center rounded-full font-headline text-sm font-medium">
+                  {schritt.nummer ?? String(i + 1)}
+                </span>
+                {i < schritte.length - 1 && (
+                  <Icon name="arrow-right" class="text-bg-dark/25 hidden size-5 lg:block" aria-hidden="true" />
+                )}
+              </div>
+              <h3 class="font-headline mt-4 text-lg font-medium">{schritt.titel}</h3>
+              <p class="text-bg-dark/68 mt-2 text-sm">{schritt.beschreibung}</p>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <ol class="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
+          {schritte.map((schritt, i) => (
+            <li class="reveal border-bg-dark/15 bg-bg relative rounded-none border p-6">
+              <div class="flex items-center justify-between gap-3">
+                <span class="bg-gradient-brand text-bg-dark flex size-10 shrink-0 items-center justify-center rounded-full font-headline text-sm font-medium">
+                  {schritt.nummer ?? String(i + 1)}
+                </span>
+                {schritt.rhythmus && (
+                  <span class="border-accent-start/25 text-accent-start rounded-full border px-3 py-1 font-mono text-xs uppercase tracking-wide">
+                    {schritt.rhythmus}
+                  </span>
+                )}
+              </div>
+              <h3 class="font-headline mt-4 text-lg font-medium">{schritt.titel}</h3>
+              <p class="text-bg-dark/68 mt-2 text-sm">{schritt.beschreibung}</p>
+            </li>
+          ))}
+        </ol>
+      )
+    }
+    {
+      typ === "zyklisch" && (
+        <p class="text-bg-dark/68 mt-6 flex items-center gap-2 text-sm">
+          <Icon name="repeat" class="text-accent-start size-4" aria-hidden="true" />
+          Nach dem letzten Schritt beginnt der Kreislauf erneut bei Schritt 1.
+        </p>
+      )
+    }
+  </div>
+</section>

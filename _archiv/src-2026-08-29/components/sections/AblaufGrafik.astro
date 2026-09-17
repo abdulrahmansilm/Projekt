@@ -1,0 +1,12 @@
+---
+import Zeitstrahl from "../shared/Zeitstrahl.astro";
+
+const schritte = [
+  { nummer: "01", titel: "Remote-Erstgespräch", beschreibung: "30 Minuten, unverbindlich: Wir klären Ihr Anliegen und die grobe Ausgangslage." },
+  { nummer: "02", titel: "IT-Analyse & Angebot", beschreibung: "Wir prüfen die relevanten Systeme und legen ein transparentes Angebot vor." },
+  { nummer: "03", titel: "Seamless Onboarding", beschreibung: "Aufnahme in die Betreuung ohne Unterbrechung des laufenden Betriebs." },
+  { nummer: "04", titel: "Laufende Betreuung", beschreibung: "Monitoring, Wartung und Weiterentwicklung, dauerhaft und planbar." },
+];
+---
+
+<Zeitstrahl typ="linear" tag="— WIE WIR ARBEITEN" titel="So nehmen wir Sie auf" schritte={schritte} />

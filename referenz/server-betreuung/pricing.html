@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Selim-IT – Server-Betreuung: Pakete &amp; Preise</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #F0F4F3;
+    --navy: #0B2E3C;
+    --grad-start: #1B6E7A;
+    --grad-end: #4FB8A6;
+    --text-body: #46595E;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    font-family:'Outfit',sans-serif;
+    padding:56px 24px;
+    color:var(--navy);
+  }
+  .wrap{max-width:980px;margin:0 auto;}
+  h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:38px;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    margin:0 0 8px;
+  }
+  .sub{
+    font-size:16px;
+    color:var(--text-body);
+    margin:0 0 32px;
+    max-width:520px;
+  }
+
+  /* Toggle */
+  .toggle-row{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:36px;}
+  .toggle{
+    position:relative;
+    display:inline-flex;
+    background:#fff;
+    border:1px solid #D7E0DE;
+    border-radius:999px;
+    padding:4px;
+  }
+  .toggle button{
+    position:relative;
+    z-index:2;
+    border:none;
+    background:transparent;
+    font-family:'Outfit',sans-serif;
+    font-size:14px;
+    font-weight:500;
+    padding:9px 22px;
+    border-radius:999px;
+    cursor:pointer;
+    color:var(--text-body);
+    transition:color .25s ease;
+  }
+  .toggle button.active{color:#fff;}
+  .toggle-thumb{
+    position:absolute;
+    top:4px;bottom:4px;left:4px;
+    width:calc(50% - 4px);
+    border-radius:999px;
+    background:linear-gradient(135deg,var(--grad-end),var(--grad-start));
+    transition:transform .25s ease;
+    z-index:1;
+  }
+  .toggle-thumb.right{transform:translateX(100%);}
+  .save-badge{
+    font-size:13px;
+    font-weight:500;
+    color:#0F6E56;
+    background:#E1F5EE;
+    padding:6px 12px;
+    border-radius:999px;
+  }
+
+  /* Shared features bar */
+  .shared{
+    position:relative;
+    background:#fff;
+    border:1px solid var(--grad-end);
+    border-radius:18px;
+    padding:26px 30px;
+    margin-bottom:28px;
+  }
+  .shared-head{display:flex;align-items:center;gap:14px;margin-bottom:20px;}
+  .shared-icon{
+    flex-shrink:0;
+    width:42px;height:42px;
+    border-radius:12px;
+    background:linear-gradient(135deg,var(--grad-end),var(--grad-start));
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 4px 12px rgba(27,110,122,.25);
+  }
+  .shared-title{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:17px;
+    font-weight:700;
+    color:var(--navy);
+    margin:0;
+  }
+  .shared-sub{font-size:13.5px;color:var(--text-body);margin:2px 0 0;}
+  .chip-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    row-gap:16px;
+    column-gap:20px;
+  }
+  .chip{
+    display:flex;align-items:center;gap:10px;
+    font-size:13.5px;
+    font-weight:500;
+    color:var(--navy);
+  }
+  .chip-icon{
+    flex-shrink:0;
+    width:26px;height:26px;
+    border-radius:50%;
+    background:#F0F4F3;
+    border:1px solid #D7E0DE;
+    display:flex;align-items:center;justify-content:center;
+  }
+  @media(max-width:820px){.chip-grid{grid-template-columns:repeat(2,1fr);}}
+
+  /* Cards */
+  .cards{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+    align-items:stretch;
+  }
+  .card{
+    border-radius:18px;
+    padding:22px 20px 20px;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    transition:box-shadow .2s ease, transform .2s ease;
+  }
+  .card:hover{box-shadow:0 10px 28px rgba(11,46,60,.09);transform:translateY(-2px);}
+  .card.light{background:#fff;border:1px solid #D7E0DE;}
+  .card.accent{background:#fff;border:2px solid var(--grad-end);}
+  .card.dark{background:var(--navy);color:#fff;}
+
+  .badge{
+    position:absolute;top:-13px;left:26px;
+    font-size:12px;font-weight:500;
+    padding:5px 14px;border-radius:999px;
+    color:#fff;
+  }
+  .badge.accent-badge{background:linear-gradient(135deg,var(--grad-end),var(--grad-start));}
+  .badge.dark-badge{background:#fff;color:var(--navy);}
+
+  .pkg-name{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:19px;font-weight:600;
+    margin:6px 0 6px;
+  }
+  .pkg-tagline{
+    font-size:13px;
+    line-height:1.45;
+    margin:0 0 16px;
+    min-height:37px;
+  }
+  .card.light .pkg-tagline, .card.accent .pkg-tagline{color:var(--text-body);}
+  .card.dark .pkg-tagline{color:#B9CBD0;}
+
+  .price-row{display:flex;align-items:baseline;gap:6px;margin-bottom:2px;}
+  .price{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;}
+  .price-period{font-size:12.5px;}
+  .card.dark .price-period{color:#B9CBD0;}
+  .card.light .price-period, .card.accent .price-period{color:var(--text-body);}
+  .device-price{font-size:12.5px;margin:0 0 6px;}
+  .card.dark .device-price{color:#B9CBD0;}
+  .card.light .device-price, .card.accent .device-price{color:var(--text-body);}
+  .annual-note{font-size:11.5px;color:#0F6E56;margin:0 0 14px;min-height:15px;}
+  .card.dark .annual-note{color:#8FE3C8;}
+
+  .divider{height:1px;margin:0 0 16px;}
+  .card.light .divider, .card.accent .divider{background:#E4EAE9;}
+  .card.dark .divider{background:rgba(255,255,255,.14);}
+
+  /* Reaktionszeit block — hero stat */
+  .reaction-box{
+    border-radius:12px;
+    padding:13px 15px;
+    margin:0 0 16px;
+    border-left:4px solid var(--grad-end);
+  }
+  .card.light .reaction-box, .card.accent .reaction-box{background:linear-gradient(135deg,#EAF6F3,#F0F4F3);}
+  .card.dark .reaction-box{background:rgba(255,255,255,.1);border-left-color:#8FE3C8;}
+  .reaction-top{display:flex;align-items:center;margin-bottom:10px;}
+  .reaction-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.04em;}
+  .card.light .reaction-label, .card.accent .reaction-label{color:#3E7A72;}
+  .card.dark .reaction-label{color:#8FE3C8;}
+  .reaction-value{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin:0 0 4px;line-height:1.2;}
+  .card.light .reaction-value, .card.accent .reaction-value{color:var(--navy);}
+  .card.dark .reaction-value{color:#fff;}
+  .reaction-sub{font-size:12.5px;font-weight:500;}
+  .card.light .reaction-sub, .card.accent .reaction-sub{color:#3E7A72;}
+  .card.dark .reaction-sub{color:#8FE3C8;}
+
+  .diff-title{
+    font-size:11.5px;font-weight:500;
+    text-transform:none;
+    margin:0 0 10px;
+  }
+  .card.light .diff-title, .card.accent .diff-title{color:#7C8B8A;}
+  .card.dark .diff-title{color:#8FA5AB;}
+
+  .diff-title-inherit{
+    font-size:12.5px;font-weight:700;
+    margin:0 0 10px;
+    display:flex;align-items:center;gap:6px;
+  }
+  .card.light .diff-title-inherit, .card.accent .diff-title-inherit{color:var(--grad-start);}
+  .card.dark .diff-title-inherit{color:#8FE3C8;}
+  .diff-title-inherit .plus{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:15px;height:15px;border-radius:50%;
+    font-size:11px;line-height:1;
+    flex-shrink:0;
+  }
+  .card.light .diff-title-inherit .plus, .card.accent .diff-title-inherit .plus{background:var(--grad-start);color:#fff;}
+  .card.dark .diff-title-inherit .plus{background:#8FE3C8;color:var(--navy);}
+
+  .diff-list{list-style:none;margin:0 0 18px;padding:0;display:flex;flex-direction:column;gap:8px;flex:1;}
+  .diff-list li{display:flex;align-items:flex-start;gap:8px;font-size:13px;line-height:1.4;}
+  .card.light .diff-list li, .card.accent .diff-list li{color:var(--navy);}
+  .card.dark .diff-list li{color:#fff;}
+  .diff-list svg{flex-shrink:0;margin-top:2px;}
+
+  .cta{
+    margin-top:auto;
+    border:none;
+    border-radius:999px;
+    padding:12px 0;
+    font-family:'Outfit',sans-serif;
+    font-size:14px;font-weight:500;
+    cursor:pointer;
+    color:#fff;
+    background:linear-gradient(135deg,var(--grad-end),var(--grad-start));
+  }
+  .card.dark .cta{background:#fff;color:var(--navy);}
+
+  .compare-link{
+    text-align:center;margin-top:26px;font-size:14px;
+  }
+  .compare-link summary{
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    color:var(--grad-start);
+    font-weight:600;
+    list-style:none;
+    padding:12px 22px;
+    border-radius:999px;
+    border:1.5px solid var(--grad-end);
+    background:#fff;
+    transition:background .2s ease, color .2s ease;
+  }
+  .compare-link summary:hover{background:#EAF6F3;}
+  .compare-link summary::-webkit-details-marker{display:none;}
+  .compare-link summary .chevron{transition:transform .25s ease;}
+  .compare-link[open] summary .chevron{transform:rotate(180deg);}
+  table{width:100%;border-collapse:collapse;margin-top:18px;background:#fff;border-radius:14px;overflow:hidden;border:1px solid #D7E0DE;}
+  th,td{padding:10px 14px;font-size:13px;text-align:center;border-bottom:1px solid #EAEFEE;}
+  th{font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--navy);}
+  td:first-child,th:first-child{text-align:left;color:var(--text-body);}
+  tr:last-child td{border-bottom:none;}
+
+  /* Add-ons */
+  .addons-section{margin-top:52px;}
+  .addons-title{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:22px;font-weight:600;
+    color:var(--navy);
+    margin:0 0 6px;
+    text-align:center;
+  }
+  .addons-sub{
+    font-size:14px;color:var(--text-body);
+    text-align:center;
+    margin:0 0 26px;
+  }
+  .addon-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+    align-items:stretch;
+  }
+  .addon-grid.single{
+    grid-template-columns:minmax(280px,380px);
+    justify-content:center;
+  }
+  @media(max-width:820px){.addon-grid{grid-template-columns:1fr;}}
+
+  .pkg-name-row{display:flex;align-items:center;gap:9px;margin:6px 0 6px;}
+  .pkg-name-row .pkg-name{margin:0;}
+  .name-icon{flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+
+  @media(max-width:820px){.cards{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="brandGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4FB8A6"/>
+      <stop offset="1" stop-color="#1B6E7A"/>
+    </linearGradient>
+    <linearGradient id="deFlagGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1A1A1A"/><stop offset="0.333" stop-color="#1A1A1A"/>
+      <stop offset="0.333" stop-color="#D00000"/><stop offset="0.666" stop-color="#D00000"/>
+      <stop offset="0.666" stop-color="#FFCE00"/><stop offset="1" stop-color="#FFCE00"/>
+    </linearGradient>
+  </defs>
+</svg>
+<div class="wrap">
+  <h1>Server-Betreuung — Pakete &amp; Preise</h1>
+  <p class="sub">Alle Pakete enthalten die gleiche Grundüberwachung Ihrer Server. Der Unterschied liegt in Reaktionszeit, Security-Tiefe und Support-Kanal.</p>
+
+  <div class="shared">
+    <div class="shared-head">
+      <div class="shared-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="6" rx="1.5"></rect><rect x="3" y="14" width="18" height="6" rx="1.5"></rect><circle cx="7" cy="7" r="0.8" fill="#fff" stroke="none"></circle><circle cx="7" cy="17" r="0.8" fill="#fff" stroke="none"></circle></svg>
+      </div>
+      <div>
+        <p class="shared-title">Ihre Server-Grundüberwachung — immer inklusive</p>
+        <p class="shared-sub">Egal für welches Paket Sie sich entscheiden: diese Basis ist ohne Aufpreis dabei.</p>
+      </div>
+    </div>
+    <div class="chip-grid" id="chip-row"></div>
+  </div>
+
+  <div class="toggle-row">
+    <div class="toggle">
+      <div class="toggle-thumb" id="thumb"></div>
+      <button class="active" id="btn-monthly" onclick="setBilling('monthly')">Monatlich</button>
+      <button id="btn-annual" onclick="setBilling('annual')">Jährlich</button>
+    </div>
+    <span class="save-badge">10% sparen bei jährlicher Zahlweise</span>
+  </div>
+
+  <div class="cards" id="cards"></div>
+
+  <details class="compare-link">
+    <summary>
+      Vollständigen Funktionsvergleich anzeigen
+      <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </summary>
+    <table id="compare-table"></table>
+  </details>
+
+  <div class="addons-section">
+    <p class="addons-title">Zusatzleistung</p>
+    <p class="addons-sub">Passend zu jedem Server-Paket buchbar — unabhängig davon, für welches Sie sich entscheiden.</p>
+    <div class="addon-grid single" id="addon-grid"></div>
+  </div>
+</div>
+
+<script>
+const check = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0F6E56" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+const checkWhite = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8FE3C8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+const shieldFlagIcon = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+  <path d="M12 2 4 5v6c0 5 3.4 8.7 8 11 4.6-2.3 8-6 8-11V5l-8-3z" fill="url(#deFlagGrad)" stroke="#0B2E3C" stroke-width="0.6" stroke-opacity="0.2"/>
+</svg>`;
+
+const addons = [
+  {
+    id:'server-backup', cls:'accent', badge:'Beliebt',
+    icon:shieldFlagIcon,
+    name:'Server-Backup',
+    tagline:'Ihre Serverdaten, zuverlässig gesichert.',
+    priceLabel:'Ab XX €', priceUnit:'/ Server / Monat',
+    features:[
+      'Einrichten der automatischen Sicherung',
+      'Prüfen des Backups in festen Abständen',
+      'Wiederherstellungstest im Ernstfall',
+      'Sicherung von Datenbanken'
+    ],
+    cta:'Jetzt anfragen'
+  }
+];
+
+function renderAddons(){
+  document.getElementById('addon-grid').innerHTML = addons.map(a => `
+    <div class="card ${a.cls}">
+      ${a.badge ? `<span class="badge accent-badge">${a.badge}</span>` : ''}
+      <div class="pkg-name-row">
+        <span class="name-icon">${a.icon}</span>
+        <p class="pkg-name">${a.name}</p>
+      </div>
+      <p class="pkg-tagline">${a.tagline}</p>
+      <div class="price-row"><span class="price">${a.priceLabel}</span><span class="price-period">${a.priceUnit}</span></div>
+      <div class="divider" style="margin-top:14px;"></div>
+      <p class="diff-title">Enthaltene Leistungen</p>
+      <ul class="diff-list">
+        ${a.features.map(f => `<li>${check}<span>${f}</span></li>`).join('')}
+      </ul>
+      <button class="cta">${a.cta}</button>
+    </div>
+  `).join('');
+}
+
+const sharedFeatures = ["24/7-Monitoring","Patch-/Update-Management","Backup-Prüfung","Remote-Störungsbeseitigung"];
+
+document.getElementById('chip-row').innerHTML = sharedFeatures.map(f => `<span class="chip"><span class="chip-icon">${check}</span>${f}</span>`).join('');
+
+const plans = [
+  {
+    id:'basis', cls:'light', badge:null,
+    name:'Basis', tagline:'Grundüberwachung für Server, die zuverlässig laufen sollen.',
+    monthly:50,
+    reaktionStd:'24 Std.',
+    reaktionValue:'Solide Reaktionszeit für den Alltag',
+    diffTitle:'Enthaltene Leistungen', inherited:false,
+    diffs:[
+      {icon:check,text:'Ticket-System-Support'}
+    ]
+  },
+  {
+    id:'standard', cls:'accent', badge:'Beliebt',
+    name:'Standard', tagline:'Server-Betreuung mit erweiterter Absicherung.',
+    monthly:90,
+    reaktionStd:'8 Std.',
+    reaktionValue:'Kein Warten, wenn\'s brennt.',
+    diffTitle:'Alles aus Basis, außerdem:', inherited:true,
+    diffs:[
+      {icon:check,text:'Erweiterte Security-Maßnahmen'},
+      {icon:check,text:'Regelmäßige Systemprüfung'},
+      {icon:check,text:'Hotline-Support'}
+    ]
+  },
+  {
+    id:'premium', cls:'dark', badge:'Alles inklusive',
+    name:'Premium', tagline:'Vollumfängliche Betreuung mit festem Ansprechpartner.',
+    monthly:110,
+    reaktionStd:'2 Std.',
+    reaktionValue:'Wenn Stillstand Geld kostet.',
+    diffTitle:'Alles aus Standard, außerdem:', inherited:true,
+    diffs:[
+      {icon:checkWhite,text:'Störungsbeseitigung vor Ort'},
+      {icon:checkWhite,text:'Umfangreiche Security-Maßnahmen'},
+      {icon:checkWhite,text:'Kapazitätsplanung'},
+      {icon:checkWhite,text:'Fester Ansprechpartner'}
+    ]
+  }
+];
+
+let billing = 'monthly';
+
+function fmt(n){ return n.toLocaleString('de-DE',{maximumFractionDigits:2}); }
+
+function render(){
+  document.getElementById('cards').innerHTML = plans.map(p => {
+    const factor = billing === 'annual' ? 0.9 : 1;
+    const base = fmt(Math.round(p.monthly * factor * 100)/100);
+    const badgeCls = p.cls === 'dark' ? 'dark-badge' : 'accent-badge';
+    const badgeHtml = p.badge ? `<span class="badge ${badgeCls}">${p.badge}</span>` : '';
+    const annualNote = billing === 'annual' ? 'jährliche Zahlweise, 10% Rabatt inklusive' : '';
+    return `
+    <div class="card ${p.cls}">
+      ${badgeHtml}
+      <p class="pkg-name">${p.name}</p>
+      <p class="pkg-tagline">${p.tagline}</p>
+      <div class="price-row"><span class="price">${base} €</span><span class="price-period">/ Server / Monat</span></div>
+      <p class="annual-note">${annualNote}</p>
+      <div class="reaction-box">
+        <div class="reaction-top">
+          <span class="reaction-label">Reaktionszeit</span>
+        </div>
+        <p class="reaction-value">${p.reaktionStd}</p>
+        <p class="reaction-sub">${p.reaktionValue}</p>
+      </div>
+      ${p.inherited ? `<p class="diff-title-inherit"><span class="plus">+</span>${p.diffTitle}</p>` : `<p class="diff-title">${p.diffTitle}</p>`}
+      <ul class="diff-list">
+        ${p.diffs.map(d => `<li>${d.icon}<span>${d.text}</span></li>`).join('')}
+      </ul>
+      <button class="cta">Jetzt anfragen</button>
+    </div>`;
+  }).join('');
+}
+
+function setBilling(mode){
+  billing = mode;
+  document.getElementById('btn-monthly').classList.toggle('active', mode==='monthly');
+  document.getElementById('btn-annual').classList.toggle('active', mode==='annual');
+  document.getElementById('thumb').classList.toggle('right', mode==='annual');
+  render();
+  renderCompareTable();
+}
+
+render();
+renderCompareTable();
+renderAddons();
+
+function buildCompareRows(){
+  const factor = billing === 'annual' ? 0.9 : 1;
+  const rows = [];
+  rows.push({label:'Grundpreis / Server / Monat', values: plans.map(p => fmt(Math.round(p.monthly*factor*100)/100)+' €'), strong:true});
+  sharedFeatures.forEach(f => rows.push({label:f, values:['✓','✓','✓']}));
+  rows.push({label:'Reaktionszeit', values: plans.map(p => p.reaktionStd)});
+  rows.push({label:'Support-Kanal', values:['Ticket-System','Ticket-System + Hotline','Ticket-System + Hotline + fester Ansprechpartner']});
+  rows.push({label:'Erweiterte Security-Maßnahmen', values:['–','✓','✓']});
+  rows.push({label:'Regelmäßige Systemprüfung', values:['–','✓','✓']});
+  rows.push({label:'Störungsbeseitigung vor Ort', values:['–','–','✓']});
+  rows.push({label:'Umfangreiche Security-Maßnahmen', values:['–','–','✓']});
+  rows.push({label:'Kapazitätsplanung', values:['–','–','✓']});
+  return rows;
+}
+
+function renderCompareTable(){
+  const rows = buildCompareRows();
+  document.getElementById('compare-table').innerHTML =
+    `<tr><th></th><th>Basis</th><th>Standard</th><th>Premium</th></tr>` +
+    rows.map(r => `<tr>${r.strong ? '<td style="font-weight:600;color:var(--navy);">'+r.label+'</td>' : '<td>'+r.label+'</td>'}${r.values.map(v => `<td${r.strong?' style="font-weight:600;color:var(--navy);"':''}>${v}</td>`).join('')}</tr>`).join('');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,599 @@
+---
+/**
+ * Ebenen-Stapel (docs/DESIGNSYSTEM.md → Komponente 22j, referenz/webseiten/besondere-sektion-ebenen.html).
+ *
+ * Behebung des dokumentierten Responsive-Bugs (Panel überlappt den Stapel unter 1080px):
+ * Ursache in der Referenz: (1) feste negative margin-bottom-Werte auf .stage-wrap, die nur zum leeren Panel passen,
+ * (2) `.layout.active { grid-template-columns: 400px 1fr }` hat höhere Spezifität als die einspaltige Media-Query,
+ * wodurch der 580px breite Stapel nach Auswahl in eine 400px-Spalte gezwängt wird und ins Panel ragt.
+ * Lösung: Der Rahmen um den Stapel erhält per ResizeObserver exakt die Höhe des skalierten Stapels
+ * (kein negativer Margin), das Panel steht unterhalb 1080px im normalen Fluss darunter und kann beliebig hoch werden.
+ * Oberhalb 1080px bleibt das zweispaltige Layout fest; der Stapel steht vor der ersten Auswahl per transform mittig
+ * und gleitet bei Auswahl an seine Spaltenposition (transform statt animierter Grid-Spalten, emil-design-eng).
+ */
+interface Props {
+  eyebrow?: string;
+  titel: string;
+  intro?: string;
+  hinweis: string;
+  ebenen: { tag: string; titel: string; sub: string; text: string; stats: string[] }[];
+}
+const { eyebrow, titel, intro, hinweis, ebenen } = Astro.props;
+// Die oberste Karte im Stapel ("Ihre Website") ist optisch die erste, die man sieht: sie ist beim Laden bereits geöffnet.
+const startIndex = ebenen.length - 1;
+---
+
+<section class="eb section-dark" aria-labelledby="eb-titel" data-ebenen>
+  <div class="eb__inner">
+    <div class="eb__kopf" data-reveal>
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h2 id="eb-titel" class="h2">{titel}</h2>
+      {intro && <p class="lead">{intro}</p>}
+    </div>
+
+    <div class="eb__layout is-aktiv" data-eb-layout>
+      <div class="panel" id="eb-panel" aria-live="polite" data-eb-panel>
+        {
+          ebenen.map((e, i) => (
+            <div class="panel__inhalt" data-eb-inhalt={i} hidden={i !== startIndex}>
+              <span class="panel__tag">{e.tag}</span>
+              <h3>{e.titel}</h3>
+              <p>{e.text}</p>
+              <ul class="panel__stats" role="list">
+                {e.stats.map((s) => (
+                  <li>{s}</li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="rahmen" data-eb-rahmen>
+        <div class="buehne-wrap" data-eb-wrap>
+          <ul class="buehne" role="list" aria-label="Ebenen einer betreuten Website">
+            {
+              ebenen.map((e, i) => (
+                <li class:list={[`karte k${i + 1}`, { "is-gewaehlt": i === startIndex }]} data-eb-karte={i}>
+                  <button type="button" class="karte__knopf" aria-pressed={i === startIndex ? "true" : "false"} aria-controls="eb-panel">
+                    <span class="schweben" style={`animation-delay:${i * 0.15}s`}>
+                      <span class="karte__tag">{e.tag}</span>
+                      <span class="karte__titel">{e.titel}</span>
+                      <span class="karte__sub">{e.sub}</span>
+                    </span>
+                  </button>
+                </li>
+              ))
+            }
+          </ul>
+          <p class="hinweis" aria-hidden="true">
+            <span class="hinweis__maus">{hinweis}</span>
+            <span class="hinweis__touch">{hinweis.replace("Klicken", "Tippen")}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const BREITE = 660; // 580px Bühne + 24px/56px Innenabstand
+  const HOEHE = 588 + 76; // Bühne + Innenabstand + Platz für Hinweis und angehobene Karte
+
+  document.querySelectorAll<HTMLElement>("[data-ebenen]").forEach((root) => {
+    const layout = root.querySelector<HTMLElement>("[data-eb-layout]")!;
+    const rahmen = root.querySelector<HTMLElement>("[data-eb-rahmen]")!;
+    const karten = Array.from(root.querySelectorAll<HTMLElement>("[data-eb-karte]"));
+    const inhalte = Array.from(root.querySelectorAll<HTMLElement>("[data-eb-inhalt]"));
+
+    // Skalierter Stapel, Höhe am tatsächlichen Maß statt an festen Negativwerten
+    const einpassen = () => {
+      const s = Math.min(1, rahmen.clientWidth / BREITE);
+      rahmen.style.setProperty("--s", s.toFixed(4));
+      rahmen.style.height = `${Math.round(HOEHE * s)}px`;
+    };
+    einpassen();
+    if ("ResizeObserver" in window) new ResizeObserver(einpassen).observe(rahmen);
+
+    karten.forEach((karte) => {
+      const knopf = karte.querySelector<HTMLButtonElement>("button")!;
+      knopf.addEventListener("click", () => {
+        const index = Number(karte.dataset.ebKarte);
+        layout.classList.add("is-aktiv");
+        karten.forEach((k) => {
+          const aktiv = k === karte;
+          k.classList.toggle("is-gewaehlt", aktiv);
+          k.querySelector("button")!.setAttribute("aria-pressed", String(aktiv));
+        });
+        inhalte.forEach((inhalt) => {
+          const zeigen = Number(inhalt.dataset.ebInhalt) === index;
+          inhalt.hidden = !zeigen;
+          if (zeigen) inhalt.classList.add("is-neu");
+        });
+        window.setTimeout(() => inhalte.forEach((i) => i.classList.remove("is-neu")), 300);
+      });
+    });
+  });
+</script>
+
+<style>
+  .eb {
+    --glow-pos: 22% 0%;
+    padding: 96px 32px 110px;
+  }
+
+  .eb__inner {
+    max-width: 1240px;
+    margin: 0 auto;
+  }
+
+  .eb__kopf {
+    max-width: 640px;
+    margin: 0 auto 60px;
+    text-align: center;
+  }
+
+  .eb__kopf .eyebrow {
+    margin-bottom: 14px;
+  }
+
+  .eb__kopf h2 {
+    margin-bottom: 14px;
+    color: #ffffff;
+  }
+
+  /* ============ Layout ============ */
+  .eb__layout {
+    display: grid;
+    grid-template-columns: 480px 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  /* ============ Erklärungs-Panel ============ */
+  .panel {
+    min-height: 460px;
+    padding: 40px 38px;
+    border: 1px solid rgba(240, 244, 243, 0.1);
+    border-radius: 22px;
+    background: rgba(240, 244, 243, 0.04);
+    opacity: 0;
+    transform: translateX(-24px) scale(0.97);
+    pointer-events: none;
+    transition:
+      opacity 450ms var(--ease-out) 250ms,
+      transform 450ms var(--ease-out) 250ms;
+  }
+
+  .eb__layout.is-aktiv .panel {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  .panel__inhalt {
+    display: flex;
+    flex-direction: column;
+    min-height: 330px;
+  }
+
+  .panel__inhalt[hidden] {
+    display: none;
+  }
+
+  /* Inhaltswechsel: kurzer Crossfade (häufige Interaktion → schnell) */
+  .panel__inhalt.is-neu {
+    animation: eb-inhalt 220ms var(--ease-out);
+  }
+
+  @keyframes eb-inhalt {
+    from {
+      opacity: 0;
+      filter: blur(2px);
+    }
+    to {
+      opacity: 1;
+      filter: blur(0);
+    }
+  }
+
+  .panel__tag {
+    align-self: flex-start;
+    margin-bottom: 18px;
+    padding: 5px 13px;
+    border-radius: 999px;
+    background: rgba(79, 184, 166, 0.14);
+    color: var(--helltuerkis);
+    font-family: var(--font-headline);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .panel h3 {
+    margin-bottom: 16px;
+    font-size: 25px;
+    font-weight: 600;
+    line-height: 1.25;
+    color: #ffffff;
+  }
+
+  .panel p {
+    margin-bottom: 26px;
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: rgba(240, 244, 243, 0.75);
+  }
+
+  .panel__stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: auto 0 0;
+    padding: 22px 0 0;
+    border-top: 1px solid rgba(240, 244, 243, 0.1);
+    list-style: none;
+  }
+
+  .panel__stats li {
+    padding: 6px 13px;
+    border: 1px solid rgba(240, 244, 243, 0.14);
+    border-radius: 999px;
+    background: rgba(240, 244, 243, 0.06);
+    color: #f0f4f3;
+    font-family: var(--font-headline);
+    font-size: 11.5px;
+    font-weight: 600;
+  }
+
+  /* ============ Rahmen + skalierter Stapel ============ */
+  .rahmen {
+    --s: 1;
+    position: relative;
+    width: 100%;
+    height: calc(664px * var(--s));
+    transform: translateX(calc(-228px));
+    transition: transform 700ms var(--ease-in-out);
+  }
+
+  .eb__layout.is-aktiv .rahmen {
+    transform: none;
+  }
+
+  .buehne-wrap {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 660px;
+    height: 664px;
+    margin-left: -330px;
+    padding: 24px 24px 24px 56px;
+    transform: scale(var(--s));
+    transform-origin: top center;
+  }
+
+  .buehne {
+    position: relative;
+    width: 580px;
+    height: 540px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .karte {
+    position: absolute;
+    left: 120px;
+    width: 380px;
+    height: 190px;
+  }
+
+  .karte__knopf {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 22px;
+    border: 0;
+    border-radius: 16px;
+    color: #ffffff;
+    font-family: var(--font-body);
+    text-align: left;
+    cursor: pointer;
+    box-shadow: 0 18px 30px -10px rgba(0, 0, 0, 0.5);
+    transform: rotate(-4deg) skewX(-4deg) scaleY(0.97);
+    transition:
+      transform 350ms var(--ease-out),
+      filter 200ms ease,
+      box-shadow 200ms ease;
+  }
+
+  .karte__knopf:focus-visible {
+    outline: 2px solid #7fd9c4;
+    outline-offset: 4px;
+  }
+
+  /* Schweben auf innerem Wrapper, getrennt von Hover/Auswahl → Transforms überschreiben sich nie */
+  .schweben {
+    display: block;
+    animation: eb-schweben 3.6s ease-in-out infinite;
+  }
+
+  @keyframes eb-schweben {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .karte__knopf:hover {
+      filter: brightness(1.12);
+      transform: rotate(-2deg) skewX(-2deg) scaleY(0.98) translate(-8px, -8px);
+    }
+
+    .karte__knopf:hover .schweben {
+      animation-play-state: paused;
+    }
+  }
+
+  .karte__knopf:active {
+    filter: brightness(1.05);
+  }
+
+  .karte.is-gewaehlt {
+    z-index: 50 !important;
+  }
+
+  .karte.is-gewaehlt .karte__knopf {
+    filter: brightness(1.18);
+    transform: rotate(0deg) skewX(0deg) scaleY(1) translate(-30px, -34px);
+    box-shadow:
+      0 0 0 2px #7fd9c4,
+      0 26px 44px -10px rgba(0, 0, 0, 0.55);
+  }
+
+  .karte.is-gewaehlt .schweben {
+    animation-play-state: paused;
+  }
+
+  .karte__tag {
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 4px 10px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.18);
+    font-family: var(--font-headline);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .karte__titel {
+    display: block;
+    margin: 0 0 3px;
+    font-family: var(--font-headline);
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  .karte__sub {
+    display: block;
+    font-size: 13px;
+    opacity: 0.8;
+  }
+
+  .k1 {
+    top: 330px;
+    z-index: 1;
+  }
+
+  .k1 .karte__knopf {
+    background: linear-gradient(135deg, #0b2e3c, #123847);
+  }
+
+  .k2 {
+    top: 266px;
+    z-index: 2;
+  }
+
+  .k2 .karte__knopf {
+    background: linear-gradient(135deg, #123847, #1b4f5c);
+  }
+
+  .k3 {
+    top: 202px;
+    z-index: 3;
+  }
+
+  .k3 .karte__knopf {
+    background: linear-gradient(135deg, #1b4f5c, #1b6e7a);
+  }
+
+  .k4 {
+    top: 138px;
+    z-index: 4;
+  }
+
+  .k4 .karte__knopf {
+    background: linear-gradient(135deg, #1b6e7a, #1f7c85);
+  }
+
+  .k5 {
+    top: 74px;
+    z-index: 5;
+  }
+
+  .k5 .karte__knopf {
+    background: linear-gradient(135deg, #1f7c85, #2a8f8c);
+  }
+
+  .k6 {
+    top: 10px;
+    z-index: 6;
+  }
+
+  .k6 .karte__knopf {
+    border: 2px solid #7fd9c4;
+    background: linear-gradient(135deg, #e8f4f1, #f0f4f3);
+    color: #0b2e3c;
+    box-shadow:
+      0 0 30px rgba(127, 217, 196, 0.4),
+      0 22px 40px -10px rgba(0, 0, 0, 0.5);
+  }
+
+  .k6 .karte__tag {
+    background: rgba(11, 46, 60, 0.1);
+    color: #1b6e7a;
+  }
+
+  .k6 .karte__sub {
+    opacity: 0.72;
+  }
+
+  .k6.is-gewaehlt .karte__knopf {
+    box-shadow:
+      0 0 0 2px #1b6e7a,
+      0 0 30px rgba(127, 217, 196, 0.4),
+      0 26px 44px -10px rgba(0, 0, 0, 0.55);
+  }
+
+  /* ============ Hinweis vor der ersten Auswahl ============ */
+  .hinweis {
+    position: absolute;
+    left: 50%;
+    bottom: 34px;
+    padding: 9px 18px;
+    border: 1px solid rgba(240, 244, 243, 0.12);
+    border-radius: 999px;
+    background: rgba(240, 244, 243, 0.05);
+    color: rgba(240, 244, 243, 0.62);
+    font-family: var(--font-headline);
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    transform: translateX(-50%);
+    animation: eb-hinweis 2.2s ease-in-out infinite;
+    transition: opacity 200ms ease;
+  }
+
+  @keyframes eb-hinweis {
+    0%,
+    100% {
+      transform: translateX(-50%) translateY(0);
+    }
+    50% {
+      transform: translateX(-50%) translateY(-5px);
+    }
+  }
+
+  .eb__layout.is-aktiv .hinweis {
+    opacity: 0;
+    animation: none;
+  }
+
+  .hinweis__touch {
+    display: none;
+  }
+
+  @media (hover: none) {
+    .hinweis__maus {
+      display: none;
+    }
+
+    .hinweis__touch {
+      display: inline;
+    }
+  }
+
+  /* ============ Unter 1080px: einspaltig, Panel im Fluss unter dem Stapel ============ */
+  @media (max-width: 1080px) {
+    .eb__layout,
+    .eb__layout.is-aktiv {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 24px;
+    }
+
+    .rahmen,
+    .eb__layout.is-aktiv .rahmen {
+      order: 1;
+      transform: none;
+      transition: none;
+    }
+
+    .panel {
+      order: 2;
+      display: none;
+      min-height: 0;
+      transition: none;
+    }
+
+    .eb__layout.is-aktiv .panel {
+      display: block;
+      animation: eb-panel-ein 300ms var(--ease-out);
+    }
+
+    @keyframes eb-panel-ein {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .panel__inhalt {
+      min-height: 0;
+    }
+
+    .panel__stats {
+      margin-top: 0;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .eb {
+      padding: 64px 20px 72px;
+    }
+
+    .eb__kopf {
+      margin-bottom: 36px;
+    }
+
+    .eb__kopf h2 {
+      font-size: 27px;
+    }
+
+    .panel {
+      padding: 26px 22px;
+    }
+
+    .panel h3 {
+      font-size: 22px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .schweben,
+    .hinweis,
+    .panel__inhalt.is-neu {
+      animation: none;
+    }
+
+    .rahmen,
+    .karte__knopf,
+    .panel {
+      transition: opacity 200ms ease;
+    }
+
+    .eb__layout.is-aktiv .panel {
+      animation: none;
+    }
+  }
+</style>

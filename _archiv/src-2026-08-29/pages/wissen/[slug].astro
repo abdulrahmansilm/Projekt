@@ -1,0 +1,40 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CtaBanner from "../../components/sections/CtaBanner.astro";
+import { formatiereDatum } from "../../lib/utils";
+
+export async function getStaticPaths() {
+  const artikel = await getCollection("wissen");
+  return artikel.map((a) => ({ params: { slug: a.id }, props: { artikel: a } }));
+}
+
+const { artikel } = Astro.props;
+const { Content } = await render(artikel);
+---
+
+<BaseLayout
+  title={artikel.data.seo_title}
+  description={artikel.data.seo_description}
+  path={`/wissen/${artikel.id}`}
+>
+  <article class="mx-auto max-w-3xl px-4 py-16 md:py-20">
+    <nav aria-label="Breadcrumb">
+      <ol class="text-bg-dark/68 flex flex-wrap items-center gap-2 text-xs">
+        <li><a href="/" class="hover:text-accent-start">Startseite</a></li>
+        <li aria-hidden="true">/</li>
+        <li><a href="/wissen" class="hover:text-accent-start">Wissen</a></li>
+      </ol>
+    </nav>
+
+    <p class="text-bg-dark/68 mt-6 text-xs uppercase tracking-wide">{formatiereDatum(artikel.data.datum)}</p>
+    <h1 class="font-headline mt-2 text-3xl font-medium tracking-tight md:text-4xl">{artikel.data.titel}</h1>
+    <p class="text-bg-dark/80 mt-4 text-lg">{artikel.data.beschreibung}</p>
+
+    <div class="prose-legal mt-10 max-w-none text-base leading-relaxed [&_h2]:font-headline [&_h2]:mt-8 [&_h2]:text-xl [&_h2]:font-medium [&_p]:mt-4 [&_ul]:mt-4 [&_ul]:list-disc [&_ul]:pl-6 [&_li]:mt-1">
+      <Content />
+    </div>
+  </article>
+
+  <CtaBanner />
+</BaseLayout>

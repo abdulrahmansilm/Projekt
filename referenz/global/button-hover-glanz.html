@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Selim-IT — CTA-Button Hover-Glanz (global)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --grad-start:#4FB8A6;
+    --grad-end:#1B6E7A;
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    font-family:'Outfit',sans-serif;
+    display:flex; flex-direction:column; gap:64px;
+    padding:80px 40px;
+  }
+
+  .stage{ display:flex; flex-wrap:wrap; align-items:center; gap:28px; padding:56px; border-radius:24px; }
+  .stage.light{ background:#F1F3F0; }
+  .stage.dark{ background:#0B2E3C; }
+  .stage-label{
+    width:100%;
+    font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:12px;
+    letter-spacing:0.08em; text-transform:uppercase; opacity:0.5; margin-bottom:8px;
+  }
+  .stage.light .stage-label{ color:#0B2E3C; }
+  .stage.dark .stage-label{ color:#F0F4F3; }
+
+  /* ============ Primärer CTA-Button (Verlauf-Hintergrund) ============ */
+  .btn{
+    position:relative;
+    display:inline-flex; align-items:center; justify-content:center;
+    font-family:'Outfit',sans-serif; font-weight:600; font-size:16px;
+    color:#FFFFFF;
+    background:linear-gradient(135deg,var(--grad-start),var(--grad-end));
+    border:none; border-radius:999px;
+    padding:15px 30px;
+    cursor:pointer;
+    overflow:hidden; /* der Glanz-Streifen wird hier geclippt */
+    isolation:isolate;
+    transition:transform 160ms var(--ease-out), box-shadow 250ms ease;
+  }
+
+  /* Glanz-Streifen: schmaler, schräger, halbtransparenter Balken, ruht links außerhalb der Karte */
+  .btn::after{
+    content:"";
+    position:absolute;
+    top:0; left:0;
+    width:55%; height:100%;
+    background:linear-gradient(
+      75deg,
+      transparent 0%,
+      rgba(255,255,255,0) 35%,
+      rgba(255,255,255,0.7) 50%,
+      rgba(255,255,255,0) 65%,
+      transparent 100%
+    );
+    transform:translateX(-220%);
+    pointer-events:none;
+  }
+
+  /* Hover nur auf Geräten mit echtem Maus-Hover — Touch löst sonst per Tap fälschlich aus */
+  @media (hover: hover) and (pointer: fine){
+    .btn:hover{
+      box-shadow:0 10px 26px -8px rgba(27,110,122,0.55);
+    }
+    .btn:hover::after{
+      transform:translateX(220%);
+      transition:transform 700ms var(--ease-out);
+    }
+    .btn::after{
+      transition:transform 0ms; /* beim Verlassen sofort zurücksetzen, kein Rückwärts-Wischen */
+    }
+  }
+
+  /* Press-Feedback — gilt auf allen Geräten, auch Touch */
+  .btn:active{ transform:scale(0.97); }
+
+  /* Sekundär-/Ghost-Button: kein Verlauf, kein Glanz — dezenter Underline-Stil */
+  .btn-ghost{
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:'Outfit',sans-serif; font-weight:600; font-size:15px;
+    color:#1B6E7A; text-decoration:none;
+    border-bottom:1.5px solid rgba(27,110,122,0.35);
+    padding-bottom:2px;
+    transition:border-color 200ms ease, color 200ms ease, transform 160ms var(--ease-out);
+  }
+  .stage.dark .btn-ghost{ color:#7FD9C4; border-bottom-color:rgba(127,217,196,0.4); }
+  @media (hover: hover) and (pointer: fine){
+    .btn-ghost:hover{ border-bottom-color:currentColor; }
+  }
+  .btn-ghost:active{ transform:scale(0.97); }
+
+  @media (prefers-reduced-motion: reduce){
+    .btn, .btn::after, .btn-ghost{ transition:none !important; }
+    .btn:hover::after{ transform:translateX(-220%) !important; } /* Glanz-Wisch komplett deaktiviert */
+    .btn:hover{ box-shadow:0 10px 26px -8px rgba(27,110,122,0.55); } /* Farbe/Schatten als Hinweis bleibt erlaubt */
+  }
+</style>
+</head>
+<body>
+
+  <div class="stage light">
+    <div class="stage-label">Bg-hell — Standard-CTA</div>
+    <button class="btn">Jetzt anfragen</button>
+    <button class="btn">Beratung anfragen</button>
+    <a href="#" class="btn-ghost">Mehr zur IT-Betreuung →</a>
+  </div>
+
+  <div class="stage dark">
+    <div class="stage-label">Bg-dark — Hero / dunkle Sektionen</div>
+    <button class="btn">Kostenloses Erstgespräch</button>
+    <button class="btn">Anfragen</button>
+    <a href="#" class="btn-ghost">Mehr erfahren →</a>
+  </div>
+
+</body>
+</html>

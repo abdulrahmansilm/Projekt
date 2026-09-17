@@ -1,0 +1,50 @@
+---
+import { Icon } from "astro-icon/components";
+
+const werte = [
+  {
+    icon: "banknote",
+    titel: "Planbare IT-Kosten",
+    text: "Feste monatliche Pakete statt überraschender Stundenrechnungen. Sie wissen vorher, was IT-Betreuung kostet.",
+  },
+  {
+    icon: "cpu",
+    titel: "Technische Kompetenz",
+    text: "Von Microsoft 365 über Server-Betreuung bis KI-Assistenten, aus einer Hand statt über mehrere Dienstleister verteilt.",
+  },
+  {
+    icon: "phone-call",
+    titel: "Ansprechbarkeit",
+    text: "Ein fester Ansprechpartner statt wechselndem Support-Personal. Kurze Wege, klare Reaktionszeiten.",
+  },
+];
+---
+
+<section aria-labelledby="warum-heading" class="bg-bg py-16 md:py-20">
+  <div class="mx-auto max-w-6xl px-4">
+    <span class="bg-accent-start/10 text-bg-dark reveal mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1 text-xs font-medium uppercase tracking-wide">
+      <span aria-hidden="true" class="bg-accent-start size-1.5 rounded-full"></span>
+      — WARUM SELIM-IT
+    </span>
+    <h2 id="warum-heading" class="reveal font-headline max-w-2xl text-3xl font-medium tracking-tight md:text-4xl">
+      Ein neues Unternehmen, ein klares Versprechen
+    </h2>
+    <p class="reveal text-bg-dark/68 mt-4 max-w-2xl text-base">
+      Als neu gegründetes Unternehmen setzen wir auf Substanz statt Kundenstimmen: klare Leistungen, nachvollziehbare Preise, echte Erreichbarkeit.
+    </p>
+
+    <div class="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
+      {
+        werte.map((wert) => (
+          <div class="reveal border-bg-dark/15 border p-6 md:p-8">
+            <div class="bg-accent-start/10 text-accent-start flex size-11 items-center justify-center rounded-md">
+              <Icon name={wert.icon} class="size-5" aria-hidden="true" />
+            </div>
+            <h3 class="font-headline mt-4 text-lg font-medium">{wert.titel}</h3>
+            <p class="text-bg-dark/68 mt-2 text-sm leading-relaxed">{wert.text}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

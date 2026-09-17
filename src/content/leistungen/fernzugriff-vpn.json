@@ -1,0 +1,199 @@
+{
+  "titel": "Fernzugriff / VPN",
+  "kategorie": "it-infrastruktur",
+  "kategorieLabel": "IT & Infrastruktur",
+  "reihenfolge": 3,
+  "kurz": "Sichere, verschlüsselte Verbindung all Ihrer Standorte zu einem gemeinsamen Netzwerk.",
+  "seo": {
+    "titel": "Fernzugriff und VPN für Unternehmen: sicher aus Homeoffice und Filiale",
+    "beschreibung": "Verschlüsselter VPN-Zugriff für Homeoffice, Außendienst, Standortvernetzung und externe Partner. Rollenbasierte Zugänge, laufend überwacht, für Windows, macOS, Linux, iOS und Android."
+  },
+  "hero": {
+    "headline": "Sicherer Fernzugriff auf Ihr Firmennetzwerk",
+    "subline": "Verschlüsselte VPN-Verbindung zwischen allen Standorten: ein gemeinsames Netzwerk statt getrennter Inseln.",
+    "zitat": "Ein Standort, der nicht sicher angebunden ist, ist ein Netzwerk mit einem offenen Fenster.",
+    "cta": "Anfragen",
+    "visualLabel": "Verschlüsselter VPN-Tunnel zwischen „Überall“ und dem Firmennetzwerk mit Datenpunkten in beide Richtungen"
+  },
+  "kontaktVorauswahl": {
+    "thema": "it-infrastruktur"
+  },
+  "wissenArtikel": [
+    "vpn-im-unternehmen",
+    "nis2-betroffene-unternehmen",
+    "phishing-erkennen"
+  ],
+  "sektionen": [
+    {
+      "typ": "problemLoesung",
+      "eyebrow": "Reaktiv oder proaktiv",
+      "titel": "Halb gesichert ist ungesichert.",
+      "akzent": "Wir schließen die Lücken dauerhaft.",
+      "intro": "Die meisten Fernzugriffs-Lösungen werden einmal eingerichtet und dann nie wieder angefasst, bis eine Schwachstelle auffällt oder jemand Zugriff hat, der längst keinen mehr haben sollte. Proaktiver Fernzugriff dreht das um: Verschlüsselung, Rechte und Verbindung werden laufend überwacht und gepflegt.",
+      "karten": [
+        {
+          "titel": "Verschlüsselung & Angriffsfläche",
+          "icon": "<defs><linearGradient id=\"pl-fernzugriff-vpn-0-i1-9\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <rect x=\"5\" y=\"10.5\" width=\"14\" height=\"9.5\" rx=\"2.2\" stroke=\"url(#pl-fernzugriff-vpn-0-i1-9)\" stroke-width=\"1.6\"></rect> <path d=\"M8 10.5 V7.2 C8 4.9 9.8 3 12 3 C14.2 3 16 4.9 16 7.2 V10.5\" stroke=\"url(#pl-fernzugriff-vpn-0-i1-9)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path> <circle cx=\"12\" cy=\"15\" r=\"1.3\" fill=\"#7FD9C4\"></circle>",
+          "ohne": "Einmal eingerichtet, nie wieder geprüft: Im öffentlichen WLAN oder Hotel-Netz laufen Verbindungen oft ungesichert mit.",
+          "mitStark": "Jede Verbindung verschlüsselt.",
+          "mitText": "Ein VPN-Tunnel schützt den Zugriff unabhängig davon, aus welchem Netz er kommt: Hotel-WLAN eingeschlossen."
+        },
+        {
+          "titel": "Zugriffsrechte & Kontrolle",
+          "icon": "<defs><linearGradient id=\"pl-fernzugriff-vpn-1-i2-10\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <circle cx=\"9\" cy=\"8\" r=\"3.4\" stroke=\"url(#pl-fernzugriff-vpn-1-i2-10)\" stroke-width=\"1.6\"></circle> <path d=\"M3.5 20 C3.5 15.6 6.3 13.2 9 13.2 C11.7 13.2 14.5 15.6 14.5 20\" stroke=\"url(#pl-fernzugriff-vpn-1-i2-10)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path> <path d=\"M16 9 L18 11 L21.5 6.5\" stroke=\"url(#pl-fernzugriff-vpn-1-i2-10)\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
+          "ohne": "Ein Zugang für alle, auf alles. Ausgeschiedene Mitarbeiter behalten ihn oft länger, als jemandem auffällt.",
+          "mitStark": "Rechte nach Rolle, nicht pauschal.",
+          "mitText": "Jeder Zugang ist einer Person zugeordnet und sofort entziehbar, spätestens am letzten Arbeitstag."
+        },
+        {
+          "titel": "Verbindung & Verfügbarkeit",
+          "icon": "<defs><linearGradient id=\"pl-fernzugriff-vpn-2-i3-11\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <path d=\"M12 20.5 C17 20.5 20.5 17 20.5 12 C20.5 7 17 3.5 12 3.5 C7 3.5 3.5 7 3.5 12\" stroke=\"url(#pl-fernzugriff-vpn-2-i3-11)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path> <path d=\"M3.5 12 L6.5 9.5 M3.5 12 L6 15\" stroke=\"url(#pl-fernzugriff-vpn-2-i3-11)\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path> <path d=\"M12 8 V12.5 L15 14.5\" stroke=\"url(#pl-fernzugriff-vpn-2-i3-11)\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
+          "ohne": "Das VPN bricht ab oder ist spürbar langsam. Bemerkt wird das meist erst über eine Support-Anfrage der Mitarbeiter.",
+          "mitStark": "Verbindung wird überwacht.",
+          "mitText": "Auffälligkeiten bei Stabilität oder Geschwindigkeit melden sich bei uns, bevor Ihr Team sie meldet."
+        },
+        {
+          "titel": "Geräte & Einheitlichkeit",
+          "icon": "<defs><linearGradient id=\"pl-fernzugriff-vpn-3-i4-12\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <rect x=\"3\" y=\"4\" width=\"18\" height=\"12\" rx=\"2\" stroke=\"url(#pl-fernzugriff-vpn-3-i4-12)\" stroke-width=\"1.6\"></rect> <path d=\"M9 20 H15\" stroke=\"url(#pl-fernzugriff-vpn-3-i4-12)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path> <path d=\"M12 16 V20\" stroke=\"url(#pl-fernzugriff-vpn-3-i4-12)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path> <rect x=\"7\" y=\"7.5\" width=\"6\" height=\"4.5\" rx=\"1\" stroke=\"url(#pl-fernzugriff-vpn-3-i4-12)\" stroke-width=\"1.4\"></rect>",
+          "ohne": "Jeder nutzt eine eigene Lösung auf privaten Geräten. Eine Übersicht, wer wie zugreift, gibt es meist nicht.",
+          "mitStark": "Eine verwaltete Lösung für alle.",
+          "mitText": "Einheitlich eingerichtet auf jedem Gerät, zentral einsehbar, statt Wildwuchs einzelner Insellösungen."
+        }
+      ],
+      "labelOhne": "Reaktive IT-Hilfe",
+      "labelMit": "Mit",
+      "kicker": "Der beste Tag mit unserem Fernzugriff ist der, an dem Sie gar nicht merken, dass er da ist. <strong>Kein offener Zugang, kein unbemerkter Ausfall, keine Überraschung.</strong>"
+    },
+    {
+      "typ": "trustbar",
+      "label": "Zertifizierte Partner & Technologien",
+      "logos": [
+        "Microsoft",
+        "Hornetsecurity",
+        "Partner-Logo",
+        "Partner-Logo",
+        "Partner-Logo",
+        "Partner-Logo"
+      ]
+    },
+    {
+      "typ": "einsatzszenarien",
+      "eyebrow": "Einsatzszenarien",
+      "titel": "Alle Wege führen sicher zu Ihrem Netzwerk",
+      "intro": "Ob einzelne Mitarbeiter von unterwegs oder ganze Standorte: jede Verbindung läuft verschlüsselt über denselben sicheren Tunnel.",
+      "hub": "Ihr Firmennetzwerk",
+      "knoten": [
+        {
+          "pos": "tl",
+          "tag": "Einzelne Mitarbeiter",
+          "titel": "Homeoffice",
+          "titelLang": "Homeoffice",
+          "kurz": "Zugriff auf Server, Dateien und Programme wie im Büro.",
+          "lang": "Mitarbeiter greifen von zuhause sicher auf Server, Dateien und Programme zu, wie im Büro.",
+          "icon": "<path d=\"M4 11.5 L12 4.5 L20 11.5\" stroke=\"#7FD9C4\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M6 10 V19.5 H18 V10\" stroke=\"#7FD9C4\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M10 19.5 V14.5 H14 V19.5\" stroke=\"#7FD9C4\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>"
+        },
+        {
+          "pos": "tr",
+          "tag": "Einzelne Mitarbeiter",
+          "titel": "Außendienst & unterwegs",
+          "titelLang": "Außendienst & unterwegs",
+          "kurz": "Sicher aus Hotel, Zug oder beim Kunden, auch im offenen WLAN.",
+          "lang": "Zugriff vom Laptop oder Handy aus Hotel, Zug oder beim Kunden, ohne dass offenes WLAN zum Risiko wird.",
+          "icon": "<path d=\"M12 21 C12 21 19 14.6 19 9.8 C19 5.9 15.87 3 12 3 C8.13 3 5 5.9 5 9.8 C5 14.6 12 21 12 21 Z\" stroke=\"#7FD9C4\" stroke-width=\"1.7\" stroke-linejoin=\"round\"></path><circle cx=\"12\" cy=\"9.8\" r=\"2.6\" stroke=\"#7FD9C4\" stroke-width=\"1.7\"></circle>"
+        },
+        {
+          "pos": "bl",
+          "tag": "Mehrere Standorte",
+          "titel": "Standortvernetzung",
+          "titelLang": "Standortvernetzung",
+          "kurz": "Filialen fest verbunden, als wäre es ein gemeinsames Netzwerk.",
+          "lang": "Mehrere Filialen oder Standorte fest miteinander verbunden, als wäre es ein gemeinsames Netzwerk.",
+          "icon": "<rect x=\"2.5\" y=\"4\" width=\"7\" height=\"6\" rx=\"1.6\" stroke=\"#7FD9C4\" stroke-width=\"1.7\"></rect><rect x=\"14.5\" y=\"14\" width=\"7\" height=\"6\" rx=\"1.6\" stroke=\"#7FD9C4\" stroke-width=\"1.7\"></rect><path d=\"M9.5 7 H14.5 C16 7 17 8 17 9.5 V14\" stroke=\"#7FD9C4\" stroke-width=\"1.7\" stroke-linecap=\"round\"></path>"
+        },
+        {
+          "pos": "br",
+          "tag": "Externe Partner",
+          "titel": "Externer Zugriff",
+          "titelLang": "Externer Zugriff für Dienstleister & Partner",
+          "kurz": "Befristet und kontrolliert für Steuerberater oder externe IT.",
+          "lang": "Zeitlich befristeter, kontrollierter Zugang für z. B. Steuerberater oder externe IT.",
+          "icon": "<circle cx=\"9\" cy=\"9\" r=\"5\" stroke=\"#7FD9C4\" stroke-width=\"1.7\"></circle><path d=\"M12.8 12.8 L20 20 M16 16 L19 13 M18.5 18.5 L21 16\" stroke=\"#7FD9C4\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>"
+        }
+      ]
+    },
+    {
+      "typ": "zeitstrahl",
+      "eyebrow": "Wie es läuft",
+      "titel": "So bringen wir Ihre Standorte sicher zusammen",
+      "intro": "Vom ersten Überblick bis zum laufenden Betrieb in vier Schritten. Sie wissen jederzeit, welche Verbindung wofür eingerichtet ist.",
+      "aktiv": 1,
+      "schritte": [
+        {
+          "nummer": "01",
+          "titel": "Standortanalyse",
+          "text": "Wir erfassen alle Standorte, bestehende Netzwerke und Anforderungen."
+        },
+        {
+          "nummer": "02",
+          "titel": "Sichere Kopplung",
+          "text": "Einrichtung von VPN-Tunnel, Routern und Firewalls zwischen Ihren Standorten."
+        },
+        {
+          "nummer": "03",
+          "titel": "Testphase",
+          "text": "Wir prüfen Verbindung, Performance und Zugriffsrechte im laufenden Betrieb."
+        },
+        {
+          "nummer": "04",
+          "titel": "Laufender Betrieb",
+          "text": "Überwachung der Verbindung, Wartung und Ansprechpartner bei Änderungen."
+        }
+      ]
+    },
+    {
+      "typ": "faq",
+      "titel": "Häufige Fragen zu Fernzugriff & VPN",
+      "intro": "Was Sie vor der Zusammenarbeit wissen sollten: kurz und ohne Kleingedrucktes.",
+      "fragen": [
+        {
+          "frage": "Was kostet ein VPN-Zugang?",
+          "antwort": "Der Preis richtet sich nach Anzahl der Nutzer und Standorte sowie danach, ob Einzelzugänge oder eine Standortvernetzung eingerichtet werden. Nach einem kurzen Blick auf Ihren Bedarf nennen wir Ihnen ein konkretes Angebot."
+        },
+        {
+          "frage": "Auf welchen Geräten funktioniert das?",
+          "antwort": "Windows, macOS, Linux, iOS und Android: Ihr Team greift vom Firmenlaptop genauso zu wie vom privaten Handy unterwegs, jeweils mit derselben verschlüsselten Verbindung."
+        },
+        {
+          "frage": "Wie schnell ist der Zugang eingerichtet?",
+          "antwort": "Ein Einzelzugang für einen Mitarbeiter steht in der Regel innerhalb weniger Tage. Bei einer Standortvernetzung mit mehreren Filialen hängt der Zeitrahmen von der bestehenden Netzwerktechnik vor Ort ab. Das klären wir vorab mit Ihnen."
+        },
+        {
+          "frage": "Was passiert, wenn ein Mitarbeiter das Unternehmen verlässt?",
+          "antwort": "Der Zugang wird gesperrt, sobald Sie uns Bescheid geben, im Regelfall zum letzten Arbeitstag. Da jeder Zugriff einer Person zugeordnet ist, bleibt dabei jederzeit nachvollziehbar, wer worauf Zugriff hatte."
+        },
+        {
+          "frage": "Eignet sich das auch für mehrere Standorte?",
+          "antwort": "Ja. Neben dem Einzelzugang für Mitarbeiter richten wir auch Site-to-Site-Verbindungen ein, die mehrere Filialen oder Büros dauerhaft und sicher zu einem gemeinsamen Netzwerk verbinden."
+        },
+        {
+          "frage": "Wie sicher ist die Verbindung wirklich?",
+          "antwort": "Jede Verbindung läuft über einen verschlüsselten Tunnel nach aktuellem Sicherheitsstandard, unabhängig davon, ob Ihr Team aus dem Büro, von zuhause oder aus einem öffentlichen WLAN zugreift. Anders als bei einer einmalig eingerichteten Lösung behalten wir die Konfiguration laufend im Blick."
+        },
+        {
+          "frage": "Brauche ich zusätzliche Hardware?",
+          "antwort": "Für einzelne Mitarbeiter meist nicht: Es reicht eine Client-Software auf dem vorhandenen Gerät. Für eine Standortvernetzung kann je nach bestehender Netzwerktechnik ein zusätzliches Gerät vor Ort nötig sein; das besprechen wir vorab mit Ihnen."
+        },
+        {
+          "frage": "Wie lange sind Sie vertraglich gebunden?",
+          "antwort": "Unsere Verträge sind monatlich kündbar: Sie binden sich also nicht langfristig, wenn Sie das nicht möchten. Wer sich für eine jährliche Laufzeit entscheidet, erhält dafür 10 bis 20 % Rabatt auf die monatlichen Kosten."
+        }
+      ]
+    },
+    {
+      "typ": "kontakt"
+    },
+    {
+      "typ": "wissenTeaser"
+    }
+  ]
+}

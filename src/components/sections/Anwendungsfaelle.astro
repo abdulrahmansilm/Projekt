@@ -1,0 +1,334 @@
+---
+/**
+ * Typische Anwendungsfälle als 3D-Flip-Karten (docs/DESIGNSYSTEM.md → Komponente 22i,
+ * referenz/prozessautomatisierung/typische-anwendungsfaelle-trustbar.html).
+ * Umklappen per Hover (echte Maus), Tap/Klick oder Tastatur (transparenter Button über der Karte, aria-pressed).
+ * Beide Seiten stehen im DOM und werden vorgelesen. Transition statt Keyframes (unterbrechbar), 0.7s → 500ms ease-in-out.
+ */
+interface Props {
+  eyebrow?: string;
+  titel: string;
+  intro?: string;
+  karten: { nummer: string; icon: string; titel: string; text: string }[];
+}
+const { eyebrow, titel, intro, karten } = Astro.props;
+const introText = intro?.replace("Tippen oder darüberfahren für Details.", "").trim();
+---
+
+<section class="af section-dark besondere-sektion" aria-labelledby="af-titel">
+  <div class="af__inner">
+    <div class="af__kopf" data-reveal>
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h2 id="af-titel" class="h2">{titel}</h2>
+      {
+        intro && (
+          <p class="lead">
+            {introText} <span class="af__hinweis">Tippen oder darüberfahren für Details.</span>
+          </p>
+        )
+      }
+    </div>
+
+    <ul class="af__grid" role="list" data-reveal-group>
+      {
+        karten.map((k) => (
+          <li class="flip" data-flip data-reveal>
+            <div class="flip__inner">
+              <div class="flip__seite flip__vorne">
+                <span class="flip__num" aria-hidden="true">
+                  {k.nummer}
+                </span>
+                <span class="flip__ring" aria-hidden="true">
+                  <span class="flip__ico">
+                    <svg viewBox="0 0 24 24" fill="none" set:html={k.icon} />
+                  </span>
+                </span>
+                <h3>
+                  <span class="sr-only">Anwendungsfall {k.nummer}: </span>
+                  {k.titel}
+                </h3>
+                <span class="flip__hinweis" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M4 12 A8 8 0 0 1 19.5 8.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+                    <path d="M16.3 5.2 L19.6 8.6 L22.6 5.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M20 12 A8 8 0 0 1 4.5 15.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+                    <path d="M7.7 18.8 L4.4 15.4 L1.4 18.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+              </div>
+              <div class="flip__seite flip__hinten">
+                <p class="flip__tag" aria-hidden="true">
+                  Anwendungsfall {k.nummer}
+                </p>
+                <p class="flip__text">{k.text}</p>
+              </div>
+            </div>
+            <button type="button" class="flip__knopf" aria-pressed="false">
+              <span class="sr-only">Details zu {k.titel} umklappen</span>
+            </button>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-flip]").forEach((karte) => {
+    const knopf = karte.querySelector<HTMLButtonElement>(".flip__knopf");
+    knopf?.addEventListener("click", () => {
+      const aktiv = karte.classList.toggle("is-aktiv");
+      knopf.setAttribute("aria-pressed", String(aktiv));
+    });
+  });
+</script>
+
+<style>
+  .af {
+    --glow-pos: 78% 4%;
+    padding: 96px 32px 72px;
+  }
+
+  .af__inner {
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+
+  .af__kopf {
+    max-width: 620px;
+    margin-bottom: 56px;
+  }
+
+  .af__kopf .eyebrow {
+    margin-bottom: 14px;
+  }
+
+  .af__kopf h2 {
+    margin-bottom: 14px;
+    color: #ffffff;
+  }
+
+  .af__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .flip {
+    position: relative;
+    height: 220px;
+    perspective: 1400px;
+  }
+
+  .flip__inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 500ms var(--ease-in-out);
+  }
+
+  .flip.is-aktiv .flip__inner {
+    transform: rotateY(180deg);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .flip:hover .flip__inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip:hover .flip__vorne {
+      border-color: rgba(79, 184, 166, 0.35);
+      box-shadow: 0 0 40px rgba(79, 184, 166, 0.12);
+    }
+
+    .flip:hover .flip__num {
+      border-color: rgba(79, 184, 166, 0.4);
+      color: var(--helltuerkis);
+    }
+
+    .flip:hover .flip__ring {
+      background: var(--verlauf);
+      transform: scale(1.08) rotate(-4deg);
+    }
+  }
+
+  .flip__knopf {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    border-radius: 18px;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .flip__knopf:focus-visible {
+    outline: 2px solid var(--helltuerkis);
+    outline-offset: 4px;
+  }
+
+  .flip__seite {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 26px 24px;
+    border-radius: 18px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .flip__vorne {
+    border: 1px solid rgba(240, 244, 243, 0.1);
+    background: rgba(240, 244, 243, 0.035);
+    transition:
+      border-color 300ms ease,
+      box-shadow 300ms ease;
+  }
+
+  .flip__num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(240, 244, 243, 0.18);
+    border-radius: 999px;
+    background: rgba(240, 244, 243, 0.06);
+    color: rgba(240, 244, 243, 0.72);
+    font-family: var(--font-headline);
+    font-size: 11px;
+    font-weight: 600;
+    transition:
+      border-color 300ms ease,
+      color 300ms ease;
+  }
+
+  .flip__ring {
+    width: 52px;
+    height: 52px;
+    padding: 1.5px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, rgba(79, 184, 166, 0.5), rgba(79, 184, 166, 0.08));
+    transition:
+      background 300ms ease,
+      transform 300ms var(--ease-out);
+  }
+
+  .flip__ico {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 13.5px;
+    background: #0f3542;
+  }
+
+  .flip__ico svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .flip__vorne h3 {
+    margin-top: auto;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.25;
+    color: #ffffff;
+  }
+
+  .flip__hinweis {
+    position: absolute;
+    right: 22px;
+    bottom: 26px;
+    color: rgba(240, 244, 243, 0.45);
+  }
+
+  .flip__hinweis svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .flip__hinten {
+    justify-content: center;
+    background: linear-gradient(150deg, #1b6e7a, #123844);
+    box-shadow: inset 0 0 60px rgba(79, 184, 166, 0.15);
+    transform: rotateY(180deg);
+  }
+
+  .flip__tag {
+    margin-bottom: 10px;
+    font-family: var(--font-headline);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--helltuerkis);
+  }
+
+  .flip__text {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #ffffff;
+  }
+
+  @media (max-width: 900px) {
+    .af__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .af__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .flip {
+      height: 190px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .af {
+      padding: 64px 20px 56px;
+    }
+
+    .af__kopf h2 {
+      font-size: 27px;
+    }
+  }
+
+  /* Reduzierte Bewegung: kein Drehen, Rückseite blendet per Opacity ein */
+  @media (prefers-reduced-motion: reduce) {
+    .flip__inner,
+    .flip.is-aktiv .flip__inner,
+    .flip:hover .flip__inner {
+      transform: none;
+      transition: none;
+    }
+
+    .flip__hinten {
+      transform: none;
+      opacity: 0;
+      transition: opacity 200ms ease;
+    }
+
+    .flip.is-aktiv .flip__hinten,
+    .flip:hover .flip__hinten {
+      opacity: 1;
+    }
+
+    .flip:hover .flip__ring {
+      transform: none;
+    }
+  }
+</style>

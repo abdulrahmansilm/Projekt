@@ -1,0 +1,80 @@
+---
+/**
+ * Impressum (§ 5 DDG).
+ *
+ * HINWEIS – KEINE GEWÄHR, KEINE RECHTSBERATUNG: Unverbindliche Platzhalter-Vorlage.
+ * Vor Veröffentlichung von einer fachkundigen Person (Rechtsanwalt) prüfen lassen und die offenen
+ * Angaben ergänzen (PLZ, Telefon, E-Mail, USt-IdNr. bzw. Hinweis Kleinunternehmerregelung § 19 UStG).
+ * Offene Angaben werden aus src/lib/config.ts gelesen und dort gepflegt (Quelle: docs/BRANCHE.md).
+ * Die EU-OS-Plattform wurde zum 20.07.2025 eingestellt, der frühere Link darauf entfällt daher.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/sections/Hero.astro";
+import Rechtstext from "../components/sections/Rechtstext.astro";
+import { firma } from "../lib/config";
+---
+
+<BaseLayout title="Impressum" description="Impressum von Selim-IT, IT-Dienstleister in Frankfurt am Main: Angaben gemäß § 5 DDG." pfad="/impressum">
+  <Hero kompakt headline="Impressum" subline="Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG)" />
+
+  <Rechtstext stand="16. September 2026">
+    <h2>Diensteanbieter</h2>
+    <address class="rt__karte">
+      {firma.name}<br />
+      Inhaber: {firma.inhaber}<br />
+      Rechtsform: {firma.rechtsform}<br />
+      {firma.adresse.strasse}<br />
+      <span class:list={{ platzhalter: firma.adresse.plz.platzhalter }}>{firma.adresse.plz.platzhalter ? "[PLZ folgt]" : firma.adresse.plz.wert}</span>
+      {" "}{firma.adresse.stadt}<br />
+      Deutschland
+    </address>
+
+    <h2>Kontakt</h2>
+    <p class="rt__karte">
+      Telefon:{" "}
+      {
+        firma.telefon.platzhalter ? (
+          <span class="platzhalter">[Telefonnummer folgt]</span>
+        ) : (
+          <a href={firma.telefon.href}>{firma.telefon.anzeige}</a>
+        )
+      }
+      <br />
+      E-Mail: <a href={`mailto:${firma.email.adresse}`}>{firma.email.adresse}</a>
+    </p>
+
+    <h2>Umsatzsteuer</h2>
+    <p>
+      Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz:{" "}
+      <span class:list={{ platzhalter: firma.ustIdNr.platzhalter }}>{firma.ustIdNr.platzhalter ? "[USt-IdNr. folgt]" : firma.ustIdNr.wert}</span>
+    </p>
+
+    <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+    <p>{firma.inhaber}, Anschrift wie oben.</p>
+
+    <h2>Verbraucherstreitbeilegung</h2>
+    <p>
+      Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle
+      teilzunehmen.
+    </p>
+
+    <h2>Haftung für Inhalte und Links</h2>
+    <p>
+      Die Inhalte dieser Website wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität
+      der Inhalte übernehmen wir jedoch keine Gewähr. Unsere Wissensbeiträge dienen der allgemeinen Information und
+      ersetzen keine Beratung im Einzelfall.
+    </p>
+    <p>
+      Diese Website enthält gegebenenfalls Links zu externen Websites, auf deren Inhalte wir keinen Einfluss haben. Für die
+      Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber verantwortlich. Bei Bekanntwerden von
+      Rechtsverletzungen entfernen wir derartige Links umgehend.
+    </p>
+
+    <h2>Urheberrecht</h2>
+    <p>
+      Die durch den Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht.
+      Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechts
+      bedürfen der schriftlichen Zustimmung des Erstellers.
+    </p>
+  </Rechtstext>
+</BaseLayout>

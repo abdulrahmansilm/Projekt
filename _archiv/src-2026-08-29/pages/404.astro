@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Seite nicht gefunden | Selim-IT" description="Diese Seite existiert nicht oder wurde verschoben." noindex={true}>
+  <section class="mx-auto max-w-xl px-4 py-24 text-center">
+    <p class="text-accent-start font-mono text-sm">404</p>
+    <h1 class="font-headline mt-2 text-3xl font-medium tracking-tight md:text-4xl">Seite nicht gefunden</h1>
+    <p class="text-bg-dark/68 mt-4">
+      Diese Seite existiert nicht oder wurde verschoben. Nutzen Sie die Navigation oder kehren Sie zur Startseite zurück.
+    </p>
+    <a
+      href="/"
+      class="bg-gradient-brand mt-8 inline-flex min-h-11 items-center justify-center rounded-full px-6 py-3 text-base font-semibold text-white"
+    >
+      Zur Startseite
+    </a>
+  </section>
+</BaseLayout>

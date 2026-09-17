@@ -1,0 +1,18 @@
+---
+const technologien = ["Microsoft 365", "Nextcloud Kalender & Talk", "Caddy", "Docker", "Forgejo CI/CD"];
+---
+
+<section class="bg-bg-dark py-10 md:py-12" aria-label="Eingesetzte Technologien">
+  <div class="mx-auto max-w-6xl px-4">
+    <p class="reveal mb-6 text-center text-xs font-medium uppercase tracking-wide text-white/68 md:text-left">
+      Gebaut auf bewährten, self-hosted Technologien
+    </p>
+    <ul class="reveal flex flex-wrap items-center justify-center gap-x-10 gap-y-4 md:justify-start">
+      {
+        technologien.map((tech) => (
+          <li class="font-headline text-base font-medium text-white/80 md:text-lg">{tech}</li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

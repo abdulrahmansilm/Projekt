@@ -1,0 +1,144 @@
+---
+/**
+ * Hero-Visual Server-Betreuung (referenz/server-betreuung/hero.html): „Server-Übersicht“ + zwei Mini-Karten.
+ * Positionen nach docs/DESIGNSYSTEM.md (Karte 280px): oben rechts top:-58/right:-235, unten links bottom:-88/left:-265.
+ */
+import HeroStage from "./HeroStage.astro";
+import HeroToast from "./HeroToast.astro";
+import LogoMarke from "../ui/LogoMarke.astro";
+
+const server = ["Dateiserver Frankfurt", "Anwendungsserver", "Terminalserver", "Datenbankserver"];
+---
+
+<HeroStage breite={1020}>
+  <div class="sv">
+    <div class="panel">
+      <div class="panel__kopf">
+        <span class="panel__logo"><LogoMarke /></span>
+        <span class="panel__titel">Server-Übersicht</span>
+      </div>
+      <ul class="liste">
+        {
+          server.map((s) => (
+            <li class="zeile">
+              <svg viewBox="0 0 24 24" fill="none" class="zeile__ico">
+                <rect x="4" y="3" width="16" height="7" rx="1.5" stroke="#1B6E7A" stroke-width="1.6" />
+                <rect x="4" y="14" width="16" height="7" rx="1.5" stroke="#1B6E7A" stroke-width="1.6" />
+                <circle cx="7.5" cy="6.5" r="0.9" fill="#1B6E7A" />
+                <circle cx="7.5" cy="17.5" r="0.9" fill="#1B6E7A" />
+              </svg>
+              <span class="zeile__name">{s}</span>
+              <span class="pill">
+                <span class="pill__dot" />
+                Live überwacht
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="mehr">+2 weitere Server</p>
+
+      <HeroToast titel="Alle Updates eingespielt" sub="Sicherheitspatches automatisch installiert" breite={280} style="top:-58px;right:-235px">
+        <svg slot="icon" viewBox="0 0 24 24" fill="none"><path d="M4 12.5L9 17.5L20 5.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </HeroToast>
+      <HeroToast titel="Backup läuft automatisch" sub="Täglich gesichert, jederzeit wiederherstellbar" breite={280} verzoegerung={-2.5} style="bottom:-88px;left:-265px">
+        <svg slot="icon" viewBox="0 0 24 24" fill="none"><path d="M12 3L19.5 6.2V11.5C19.5 16 16.3 19.3 12 21C7.7 19.3 4.5 16 4.5 11.5V6.2L12 3Z" stroke="white" stroke-width="1.6" stroke-linejoin="round"></path><path d="M9 12L11.3 14.3L15.5 9.7" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </HeroToast>
+    </div>
+  </div>
+</HeroStage>
+
+<style>
+  .sv {
+    padding: 58px 235px 88px 265px;
+  }
+
+  .panel {
+    position: relative;
+    width: 520px;
+    padding: 28px;
+    border-radius: 24px;
+    background: #f0f4f3;
+    box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.35);
+    font-family: var(--font-body);
+    color: #0b2e3c;
+  }
+
+  .panel__kopf {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .panel__logo :global(svg) {
+    height: 28px;
+    width: auto;
+  }
+
+  .panel__titel {
+    font-family: var(--font-headline);
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .liste {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .zeile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid rgba(11, 46, 60, 0.08);
+    border-radius: 12px;
+    background: #ffffff;
+  }
+
+  .zeile__ico {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+  }
+
+  .zeile__name {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: rgba(79, 184, 166, 0.14);
+    color: #1b6e7a;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .pill__dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--verlauf);
+  }
+
+  .mehr {
+    margin-top: 18px;
+    padding-left: 2px;
+    font-size: 14px;
+    color: var(--ink-68);
+  }
+</style>

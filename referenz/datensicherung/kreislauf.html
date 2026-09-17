@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Selim-IT — Der Sicherungs-Kreislauf (Datensicherung)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --dark:#0B2E3C;
+    --grad-start:#4FB8A6;
+    --grad-end:#1B6E7A;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ background:#0B2E3C; }
+  body{
+    font-family:'Outfit',sans-serif;
+    background:
+      radial-gradient(90% 70% at 50% 4%,
+        rgba(79,184,166,0.13) 0%,
+        rgba(79,184,166,0.07) 26%,
+        rgba(79,184,166,0) 58%),
+      #0B2E3C;
+    background-attachment:fixed;
+    color:#F0F4F3;
+  }
+
+  .section{ padding:96px 32px 104px; }
+  .inner{ max-width:1080px; margin:0 auto; }
+
+  .head{ max-width:620px; margin:0 auto; text-align:center; }
+  .head .eyebrow{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600; font-size:13px; letter-spacing:0.06em; text-transform:uppercase;
+    color:#7FD9C4; margin-bottom:14px;
+  }
+  .head h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:500; font-size:36px; letter-spacing:-0.01em;
+    color:#FFFFFF; margin-bottom:14px;
+  }
+  .head p{ font-size:15.5px; line-height:1.6; color:rgba(240,244,243,0.72); }
+
+  /* ================= Kreis ================= */
+  .cycle{
+    position:relative;
+    width:100%;
+    max-width:680px;
+    aspect-ratio:1/1;
+    margin:64px auto 0;
+  }
+
+  .ring{ position:absolute; inset:0; width:100%; height:100%; }
+  .seg{
+    stroke:rgba(79,184,166,0.28);
+    stroke-width:1.5;
+    stroke-linejoin:round;
+    transition:fill 0.3s ease, stroke 0.3s ease;
+  }
+  /* Farbeffekt wie in der Problem/Lösung-Section: zarte Gradient-Flächen,
+     Intensität steigt mit dem Fortschritt im Kreislauf */
+  .seg-1{ fill:url(#g1); }
+  .seg-2{ fill:url(#g2); }
+  .seg-3{ fill:url(#g3); }
+  .seg-4{ fill:url(#g4); }
+
+  .cycle:hover .seg{ stroke:rgba(79,184,166,0.14); }
+  .cycle .seg:hover{ stroke:rgba(79,184,166,0.55); }
+
+  /* Zentrum */
+  .hub{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:42.9%; height:42.9%; border-radius:50%;
+    background:#0B2E3C;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    padding:8%;
+    z-index:2;
+  }
+  .hub strong{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600; font-size:clamp(13px,2.7vw,19px); line-height:1.25;
+    letter-spacing:-0.01em; color:#FFFFFF; margin-bottom:9px;
+  }
+  .hub span{
+    font-size:clamp(9.5px,1.75vw,13px); line-height:1.5;
+    color:rgba(240,244,243,0.58);
+  }
+
+  /* Textblöcke in den Segmenten */
+  .node{
+    position:absolute;
+    width:22%;
+    transform:translate(-50%,-50%);
+    color:#FFFFFF;
+    text-align:center;
+    z-index:1;
+    pointer-events:none;
+  }
+  .node[data-pos="ne"]{ left:74.2%; top:25.8%; }
+  .node[data-pos="se"]{ left:74.2%; top:74.2%; }
+  .node[data-pos="sw"]{ left:25.8%; top:74.2%; }
+  .node[data-pos="nw"]{ left:25.8%; top:25.8%; }
+
+  .node .num{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:500; font-size:clamp(20px,4.4vw,34px); line-height:1;
+    color:#7FD9C4; opacity:0.55; margin-bottom:7px;
+  }
+  .node h3{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600; font-size:clamp(12px,2.3vw,17px); line-height:1.25;
+    margin-bottom:5px;
+  }
+  .node p{
+    font-size:clamp(9px,1.6vw,12.5px); line-height:1.45;
+    color:rgba(240,244,243,0.7);
+  }
+  .node .freq{
+    display:block;
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600; font-size:clamp(7.5px,1.25vw,9.5px);
+    letter-spacing:0.08em; text-transform:uppercase;
+    color:#7FD9C4; opacity:0.65; margin-top:7px;
+  }
+
+  .loop-note{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    margin-top:44px;
+    font-size:13.5px; color:rgba(240,244,243,0.5);
+    text-align:center;
+  }
+  .loop-note svg{ width:14px; height:14px; flex-shrink:0; }
+
+  /* ================= Mobile: Kreis bleibt, Beschreibungen darunter ================= */
+  .legend{ display:none; }
+
+  @media (max-width:760px){
+    .section{ padding:72px 20px 80px; }
+    .head h2{ font-size:27px; }
+    .cycle{ margin-top:44px; }
+    .node p{ display:none; }
+    .node{ width:25%; }
+    .hub span{ display:none; }
+    .hub{ padding:10%; }
+
+    .legend{
+      display:flex; flex-direction:column;
+      margin-top:36px;
+      border-top:1px solid rgba(240,244,243,0.12);
+    }
+    .lrow{
+      display:grid; grid-template-columns:28px 1fr; gap:14px;
+      padding:16px 0;
+      border-bottom:1px solid rgba(240,244,243,0.12);
+    }
+    .lrow .lnum{
+      font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:13px;
+      color:#7FD9C4; opacity:0.7; padding-top:1px;
+    }
+    .lrow h4{ font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15.5px; margin-bottom:4px; }
+    .lrow p{ font-size:13.5px; line-height:1.55; color:rgba(240,244,243,0.65); }
+  }
+  @media (max-width:420px){
+    .node .num{ font-size:19px; }
+    .node h3{ font-size:11.5px; }
+    .node .freq{ font-size:7px; }
+    .hub strong{ font-size:12.5px; }
+  }
+</style>
+</head>
+<body>
+
+<section class="section" aria-labelledby="kreislauf-titel">
+  <div class="inner">
+    <div class="head">
+      <div class="eyebrow">Wie wir sichern</div>
+      <h2 id="kreislauf-titel">Ein Kreislauf, der nie stillsteht</h2>
+      <p>Datensicherung ist kein einmaliger Schritt, sondern ein Kreislauf aus vier Phasen, der sich fortlaufend wiederholt.</p>
+    </div>
+
+    <!-- ============ Kreis ============ -->
+    <div class="cycle">
+      <svg class="ring" viewBox="0 0 700 700" aria-hidden="true">
+        <defs>
+          <linearGradient id="g1" x1="350" y1="120" x2="600" y2="350" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#4FB8A6" stop-opacity="0.09"/>
+            <stop offset="1" stop-color="#4FB8A6" stop-opacity="0.04"/>
+          </linearGradient>
+          <linearGradient id="g2" x1="600" y1="350" x2="350" y2="600" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#4FB8A6" stop-opacity="0.17"/>
+            <stop offset="1" stop-color="#4FB8A6" stop-opacity="0.08"/>
+          </linearGradient>
+          <linearGradient id="g3" x1="350" y1="600" x2="100" y2="350" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#4FB8A6" stop-opacity="0.26"/>
+            <stop offset="1" stop-color="#4FB8A6" stop-opacity="0.13"/>
+          </linearGradient>
+          <linearGradient id="g4" x1="100" y1="350" x2="350" y2="120" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#4FB8A6" stop-opacity="0.36"/>
+            <stop offset="1" stop-color="#4FB8A6" stop-opacity="0.19"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Segmente je exakt 90°, radiale Kanten knicken bei r=240 um 10° nach vorn -->
+        <path class="seg seg-1" d="M350,20 A330,330 0 0,1 680,350 L586.4,391.7 L500,350 A150,150 0 0,0 350,200 L391.7,113.6 Z"/>
+        <path class="seg seg-2" d="M680,350 A330,330 0 0,1 350,680 L308.3,586.4 L350,500 A150,150 0 0,0 500,350 L586.4,391.7 Z"/>
+        <path class="seg seg-3" d="M350,680 A330,330 0 0,1 20,350 L113.6,308.3 L200,350 A150,150 0 0,0 350,500 L308.3,586.4 Z"/>
+        <path class="seg seg-4" d="M20,350 A330,330 0 0,1 350,20 L391.7,113.6 L350,200 A150,150 0 0,0 200,350 L113.6,308.3 Z"/>
+      </svg>
+
+      <div class="hub">
+        <strong>Der Sicherungs&shy;kreislauf</strong>
+        <span>Vier Phasen, die dauerhaft ineinandergreifen.</span>
+      </div>
+
+      <div class="node" data-pos="ne">
+        <div class="num">01</div>
+        <h3>Sichern</h3>
+        <p>Automatisiert, verschlüsselt, in getrennter Umgebung.</p>
+        <span class="freq">Täglich</span>
+      </div>
+
+      <div class="node" data-pos="se">
+        <div class="num">02</div>
+        <h3>Aufbewahren</h3>
+        <p>Mehrere Versionsstände parallel verfügbar.</p>
+        <span class="freq">Laufend</span>
+      </div>
+
+      <div class="node" data-pos="sw">
+        <div class="num">03</div>
+        <h3>Prüfen</h3>
+        <p>Echte Testwiederherstellung von Datei und Postfach.</p>
+        <span class="freq">Quartalsweise</span>
+      </div>
+
+      <div class="node" data-pos="nw">
+        <div class="num">04</div>
+        <h3>Protokoll</h3>
+        <p>Schriftlicher Nachweis für Sie und Ihre Versicherung.</p>
+        <span class="freq">Je Test</span>
+      </div>
+    </div>
+
+    <!-- Beschreibungen (nur mobil sichtbar, Kreis zeigt dort nur Titel) -->
+    <div class="legend">
+      <div class="lrow">
+        <div class="lnum">01</div>
+        <div>
+          <h4>Sichern</h4>
+          <p>Automatisiert, verschlüsselt, in einer getrennten Umgebung.</p>
+        </div>
+      </div>
+      <div class="lrow">
+        <div class="lnum">02</div>
+        <div>
+          <h4>Aufbewahren</h4>
+          <p>Mehrere Versionsstände parallel verfügbar.</p>
+        </div>
+      </div>
+      <div class="lrow">
+        <div class="lnum">03</div>
+        <div>
+          <h4>Prüfen</h4>
+          <p>Echte Testwiederherstellung von Datei und Postfach.</p>
+        </div>
+      </div>
+      <div class="lrow">
+        <div class="lnum">04</div>
+        <div>
+          <h4>Protokoll</h4>
+          <p>Schriftlicher Nachweis für Sie und ggf. Ihre Versicherung.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="loop-note">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12 A8 8 0 0 1 19.5 8.5 M16.3 5.2 L19.6 8.6 L22.6 5.4 M20 12 A8 8 0 0 1 4.5 15.5 M7.7 18.8 L4.4 15.4 L1.4 18.6" stroke="rgba(240,244,243,0.45)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Nach dem letzten Schritt beginnt der Kreislauf erneut bei Schritt 1.
+    </div>
+
+  </div>
+</section>
+
+</body>
+</html>

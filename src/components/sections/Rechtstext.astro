@@ -1,0 +1,120 @@
+---
+/**
+ * Lesespalte für Rechts- und Textseiten (Impressum, Datenschutz, Barrierefreiheit).
+ * Typografie wie der Artikeltext (Komponente 23), etwas kompakter.
+ */
+interface Props {
+  /** Datum der letzten Aktualisierung, z. B. "16. September 2026" */
+  stand?: string;
+}
+const { stand } = Astro.props;
+---
+
+<section class="rt">
+  <div class="rt__inner">
+    <slot />
+    {stand && <p class="rt__stand">Stand: {stand}</p>}
+  </div>
+</section>
+
+<style>
+  .rt {
+    background: var(--nebel);
+  }
+
+  .rt__inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 64px 32px 96px;
+  }
+
+  .rt__inner :global(h2) {
+    margin: 44px 0 14px;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+
+  .rt__inner :global(h2:first-child) {
+    margin-top: 0;
+  }
+
+  .rt__inner :global(h3) {
+    margin: 28px 0 10px;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .rt__inner :global(p),
+  .rt__inner :global(address) {
+    margin-bottom: 16px;
+    font-size: 16.5px;
+    font-style: normal;
+    line-height: 1.7;
+  }
+
+  .rt__inner :global(ul) {
+    margin: 0 0 18px 22px;
+    padding: 0;
+    list-style: disc;
+  }
+
+  .rt__inner :global(li) {
+    margin-bottom: 8px;
+    font-size: 16.5px;
+    line-height: 1.65;
+  }
+
+  .rt__inner :global(li::marker) {
+    color: var(--petrol);
+  }
+
+  .rt__inner :global(a) {
+    color: var(--petrol);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    overflow-wrap: anywhere;
+  }
+
+  .rt__inner :global(.rt__karte) {
+    margin: 18px 0 22px;
+    padding: 22px 26px;
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 3px 12px rgba(11, 46, 60, 0.05);
+  }
+
+  .rt__inner :global(.rt__karte > :last-child) {
+    margin-bottom: 0;
+  }
+
+  .rt__stand {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-size: 14px !important;
+    color: var(--ink-68);
+  }
+
+  @media (max-width: 600px) {
+    .rt__inner {
+      padding: 44px 20px 72px;
+    }
+
+    .rt__inner :global(h2) {
+      font-size: 21px;
+    }
+
+    .rt__inner :global(p),
+    .rt__inner :global(li),
+    .rt__inner :global(address) {
+      font-size: 16px;
+    }
+
+    .rt__inner :global(.rt__karte) {
+      padding: 18px 20px;
+    }
+  }
+</style>

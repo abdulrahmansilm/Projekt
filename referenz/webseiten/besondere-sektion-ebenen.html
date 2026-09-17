@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Selim-IT — Webseiten: Ebenen-Stapel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --dark:#0B2E3C;
+    --grad-start:#4FB8A6;
+    --grad-end:#1B6E7A;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ background:#0B2E3C; }
+  body{
+    font-family:'Outfit',sans-serif;
+    background:
+      radial-gradient(90% 70% at 22% 0%,
+        rgba(79,184,166,0.13) 0%,
+        rgba(79,184,166,0.07) 26%,
+        rgba(79,184,166,0) 56%),
+      #0B2E3C;
+    background-attachment:fixed;
+    color:#F0F4F3;
+  }
+
+  .section{ padding:96px 32px 110px; }
+  .inner{ max-width:1240px; margin:0 auto; }
+
+  .head{ max-width:640px; margin:0 auto 60px; text-align:center; }
+  .head .eyebrow{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600; font-size:13px; letter-spacing:0.06em; text-transform:uppercase;
+    color:#7FD9C4; margin-bottom:14px;
+  }
+  .head h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:500; font-size:36px; letter-spacing:-0.01em;
+    color:#FFFFFF; margin-bottom:14px;
+  }
+  .head p{ font-size:15.5px; line-height:1.6; color:rgba(240,244,243,0.72); }
+
+  /* ============ Layout: zentriert -> Panel links + Stapel rechts ============ */
+  .layout{
+    display:grid;
+    grid-template-columns:0px 1fr;
+    gap:0px;
+    align-items:center;
+    transition:grid-template-columns 1.4s cubic-bezier(.22,1,.36,1), gap 1.4s cubic-bezier(.22,1,.36,1);
+  }
+  .layout.active{
+    grid-template-columns:400px 1fr;
+    gap:56px;
+  }
+
+  /* ============ Erklärungskarte ============ */
+  .panel{
+    background:rgba(240,244,243,0.04);
+    border:1px solid rgba(240,244,243,0.1);
+    border-radius:22px;
+    padding:34px 32px;
+    min-height:400px;
+    display:flex; flex-direction:column;
+    overflow:hidden;
+    opacity:0;
+    transform:translateX(-32px) scale(0.96);
+    transition:opacity 1.1s cubic-bezier(.22,1,.36,1) 0.55s, transform 1.1s cubic-bezier(.22,1,.36,1) 0.55s;
+    pointer-events:none;
+  }
+  .layout.active .panel{
+    opacity:1;
+    transform:translateX(0) scale(1);
+    pointer-events:auto;
+  }
+  .panel .empty{ display:none; }
+
+  .panel-content{ display:none; flex-direction:column; }
+  .panel-content.show{ display:flex; }
+
+  .panel .tag{
+    display:inline-flex; align-self:flex-start;
+    font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:11px;
+    letter-spacing:0.06em; text-transform:uppercase;
+    color:#7FD9C4;
+    background:rgba(79,184,166,0.14);
+    border-radius:999px;
+    padding:5px 13px;
+    margin-bottom:18px;
+  }
+  .panel h3{
+    font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:25px;
+    line-height:1.25; color:#FFFFFF;
+    margin-bottom:16px;
+  }
+  .panel p{
+    font-size:14.5px; line-height:1.7;
+    color:rgba(240,244,243,0.72);
+    margin-bottom:26px;
+  }
+
+  .stats{
+    display:flex; flex-wrap:wrap; gap:10px;
+    margin-top:auto;
+    padding-top:22px;
+    border-top:1px solid rgba(240,244,243,0.1);
+  }
+  .stat{
+    font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:11.5px;
+    color:#F0F4F3;
+    background:rgba(240,244,243,0.06);
+    border:1px solid rgba(240,244,243,0.14);
+    border-radius:999px;
+    padding:6px 13px;
+  }
+
+  /* ============ Isometrischer Stapel ============ */
+  .stage-wrap{ display:flex; justify-content:center; padding:24px 24px 24px 56px; overflow:visible; position:relative; }
+  .stage{ position:relative; width:580px; height:540px; }
+
+  .card{
+    position:absolute;
+    left:120px;
+    width:380px;
+    height:190px;
+    border-radius:16px;
+    box-shadow:0 18px 30px -10px rgba(0,0,0,0.5);
+    padding:22px;
+    box-sizing:border-box;
+    color:#FFFFFF;
+    cursor:pointer;
+    transform:rotate(-4deg) skewX(-4deg) scaleY(0.97) translate(0,0);
+    transition:transform 0.5s cubic-bezier(.25,.8,.25,1), filter 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  /* Bob-Animation liegt auf einem inneren Wrapper, getrennt von Hover/Selected —
+     dadurch überschreiben sich die beiden Transform-Quellen nie gegenseitig. */
+  .float{ animation:floatBob 3.6s ease-in-out infinite; }
+  @keyframes floatBob{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-8px); }
+  }
+
+  .card:hover{
+    transform:rotate(-2deg) skewX(-2deg) scaleY(0.98) translate(-8px, -8px);
+    filter:brightness(1.12);
+  }
+  .card:hover .float{ animation-play-state:paused; }
+
+  .card.selected{
+    transform:rotate(0deg) skewX(0deg) scaleY(1) translate(-30px, -34px);
+    filter:brightness(1.18);
+    z-index:50 !important;
+    box-shadow:0 0 0 2px #7FD9C4, 0 26px 44px -10px rgba(0,0,0,0.55);
+  }
+  .card.selected .float{ animation-play-state:paused; }
+
+  .card .floor-tag{
+    display:inline-block;
+    font-family:'Space Grotesk',sans-serif;
+    font-size:11px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase;
+    background:rgba(255,255,255,0.18);
+    padding:4px 10px; border-radius:10px;
+    margin-bottom:8px;
+  }
+  .card .title{ font-family:'Space Grotesk',sans-serif; font-size:22px; font-weight:700; margin:0 0 3px 0; }
+  .card .sub{ font-size:13px; opacity:0.75; margin:0; }
+
+  .c1{ top:330px; background:linear-gradient(135deg,#0B2E3C,#123847); z-index:1; }
+  .c2{ top:266px; background:linear-gradient(135deg,#123847,#1B4F5C); z-index:2; }
+  .c3{ top:202px; background:linear-gradient(135deg,#1B4F5C,#1B6E7A); z-index:3; }
+  .c4{ top:138px; background:linear-gradient(135deg,#1B6E7A,#2C8A8F); z-index:4; }
+  .c5{ top:74px; background:linear-gradient(135deg,#2C8A8F,#4FB8A6); z-index:5; }
+  .c6{
+    top:10px;
+    background:linear-gradient(135deg,#E8F4F1,#F0F4F3);
+    color:#0B2E3C;
+    z-index:6;
+    border:2px solid #7FD9C4;
+    box-shadow:0 0 30px rgba(127,217,196,0.4), 0 22px 40px -10px rgba(0,0,0,0.5);
+  }
+  .fd1{ animation-delay:0s; }
+  .fd2{ animation-delay:0.15s; }
+  .fd3{ animation-delay:0.3s; }
+  .fd4{ animation-delay:0.45s; }
+  .fd5{ animation-delay:0.6s; }
+  .fd6{ animation-delay:0.75s; }
+  .c6 .floor-tag{ background:rgba(11,46,60,0.1); color:#1B6E7A; }
+  .c6 .sub{ opacity:0.55; }
+  .c6.selected{ box-shadow:0 0 0 2px #1B6E7A, 0 0 30px rgba(127,217,196,0.4), 0 26px 44px -10px rgba(0,0,0,0.55) !important; }
+
+  @media (prefers-reduced-motion: reduce){
+    .float{ animation:none; }
+    .card{ transition:none; }
+  }
+
+  /* ============ CTA vor der ersten Auswahl ============ */
+  .cta{
+    position:absolute;
+    left:50%; bottom:-58px;
+    transform:translateX(-50%);
+    display:flex; align-items:center;
+    font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:13px;
+    color:rgba(240,244,243,0.4);
+    background:rgba(240,244,243,0.035);
+    border:1px solid rgba(240,244,243,0.1);
+    border-radius:999px;
+    padding:9px 18px;
+    white-space:nowrap;
+    opacity:1;
+    transition:opacity 0.5s ease, transform 0.5s ease;
+    animation:ctaPulse 2.2s ease-in-out infinite;
+  }
+  @keyframes ctaPulse{
+    0%,100%{ transform:translateX(-50%) translateY(0); }
+    50%{ transform:translateX(-50%) translateY(-5px); }
+  }
+  .layout.active .cta{
+    opacity:0;
+    transform:translateX(-50%) translateY(10px);
+    pointer-events:none;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .cta{ animation:none; }
+  }
+
+  @media (max-width:1080px){
+    .layout{ grid-template-columns:1fr; }
+    .panel{ order:2; min-height:0; }
+    .stage-wrap{ order:1; transform:scale(0.85); transform-origin:top center; margin-bottom:-90px; }
+  }
+  @media (max-width:560px){
+    .section{ padding:64px 20px 72px; }
+    .head h2{ font-size:27px; }
+    .stage-wrap{ transform:scale(0.62); margin-bottom:-230px; }
+    .panel{ padding:26px 22px; }
+  }
+</style>
+</head>
+<body>
+
+<section class="section" aria-labelledby="webseiten-titel">
+  <div class="inner">
+    <div class="head">
+      <div class="eyebrow">Wie eine Webseite entsteht</div>
+      <h2 id="webseiten-titel">Sechs Ebenen, ein Ergebnis</h2>
+      <p>Was Ihre Besucher sehen, ist nur die oberste Schicht. Klicken Sie auf eine Ebene, um zu sehen, was darunter steckt.</p>
+    </div>
+
+    <div class="layout">
+
+      <div class="panel" id="panel">
+        <div class="panel-content" data-panel="1">
+          <span class="tag">Fundament</span>
+          <h3>Hosting &amp; Server</h3>
+          <p>Alles beginnt mit zuverlässiger Infrastruktur im Hintergrund. Ihre Website läuft auf performanten Servern mit hoher Verfügbarkeit — unsichtbar für Besucher, aber die Grundlage für alles Weitere.</p>
+          <div class="stats">
+            <span class="stat">Hohe Verfügbarkeit</span>
+            <span class="stat">Server in Deutschland</span>
+            <span class="stat">SSD-Speicher</span>
+          </div>
+        </div>
+
+        <div class="panel-content" data-panel="2">
+          <span class="tag">Ebene 2</span>
+          <h3>Datenschutz &amp; Sicherheit</h3>
+          <p>Verschlüsselte Verbindungen, DSGVO-konforme Datenverarbeitung und regelmäßige Backups schützen Ihre Website und die Daten Ihrer Besucher — von Anfang an mitgedacht, nicht nachträglich aufgesetzt.</p>
+          <div class="stats">
+            <span class="stat">SSL-Verschlüsselung</span>
+            <span class="stat">DSGVO-konform</span>
+            <span class="stat">Regelmäßige Backups</span>
+          </div>
+        </div>
+
+        <div class="panel-content" data-panel="3">
+          <span class="tag">Ebene 3</span>
+          <h3>Content &amp; Struktur</h3>
+          <p>Eine klare Navigation und verständlich geschriebene Inhalte entscheiden, ob Besucher bleiben oder abspringen. Wir strukturieren Ihre Website so, dass sich Kunden ohne Umwege zurechtfinden.</p>
+          <div class="stats">
+            <span class="stat">Klare Navigation</span>
+            <span class="stat">Zielgruppengerechte Texte</span>
+            <span class="stat">Barrierefrei</span>
+          </div>
+        </div>
+
+        <div class="panel-content" data-panel="4">
+          <span class="tag">Ebene 4</span>
+          <h3>Suchmaschinenoptimierung</h3>
+          <p>Die beste Website nützt wenig, wenn sie niemand findet. Technische SEO, Ladezeit-Optimierung und lokale Sichtbarkeit sorgen dafür, dass Google Sie dort zeigt, wo Ihre Kunden suchen.</p>
+          <div class="stats">
+            <span class="stat">Technische SEO</span>
+            <span class="stat">Ladezeit-Optimierung</span>
+            <span class="stat">Local SEO</span>
+          </div>
+        </div>
+
+        <div class="panel-content" data-panel="5">
+          <span class="tag">Ebene 5</span>
+          <h3>KI-Auffindbarkeit</h3>
+          <p>Immer mehr Menschen suchen über ChatGPT, Perplexity und Co. statt über klassische Suchmaschinen. Strukturierte Daten und semantisches HTML sorgen dafür, dass auch KI-Systeme Ihre Inhalte richtig verstehen und zitieren.</p>
+          <div class="stats">
+            <span class="stat">Strukturierte Daten</span>
+            <span class="stat">llms.txt</span>
+            <span class="stat">Semantisches HTML</span>
+          </div>
+        </div>
+
+        <div class="panel-content" data-panel="6">
+          <span class="tag">Oberste Ebene</span>
+          <h3>Ihre Website</h3>
+          <p>Das ist es, was Ihre Kunden tatsächlich sehen — aber nur, weil die fünf Ebenen darunter zuverlässig funktionieren. Individuelles Design, responsiv auf jedem Gerät und auf Conversion ausgelegt.</p>
+          <div class="stats">
+            <span class="stat">Individuelles Design</span>
+            <span class="stat">Responsive</span>
+            <span class="stat">Conversion-optimiert</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-wrap">
+        <div class="stage" id="stage">
+
+          <div class="card c1" data-panel="1">
+            <div class="float fd1">
+              <div class="floor-tag">Fundament</div>
+            <div class="title">Hosting &amp; Server</div>
+            <div class="sub">Zuverlässige Infrastruktur im Hintergrund</div>
+            </div>
+          </div>
+
+          <div class="card c2" data-panel="2">
+            <div class="float fd2">
+              <div class="floor-tag">Ebene 2</div>
+            <div class="title">Datenschutz &amp; Sicherheit</div>
+            <div class="sub">DSGVO-konform und geschützt</div>
+            </div>
+          </div>
+
+          <div class="card c3" data-panel="3">
+            <div class="float fd3">
+              <div class="floor-tag">Ebene 3</div>
+            <div class="title">Content &amp; Struktur</div>
+            <div class="sub">Klar aufgebaut, verständlich geschrieben</div>
+            </div>
+          </div>
+
+          <div class="card c4" data-panel="4">
+            <div class="float fd4">
+              <div class="floor-tag">Ebene 4</div>
+            <div class="title">Suchmaschinenoptimierung</div>
+            <div class="sub">Gefunden werden bei Google</div>
+            </div>
+          </div>
+
+          <div class="card c5" data-panel="5">
+            <div class="float fd5">
+              <div class="floor-tag">Ebene 5</div>
+            <div class="title">KI-Auffindbarkeit</div>
+            <div class="sub">Sichtbar bei ChatGPT &amp; Co.</div>
+            </div>
+          </div>
+
+          <div class="card c6" data-panel="6">
+            <div class="float fd6">
+              <div class="floor-tag">Oberste Ebene</div>
+            <div class="title">Ihre Website</div>
+            <div class="sub">Das, was Ihre Kunden sehen</div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="cta" id="cta">
+          Klicken Sie auf eine Ebene
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  var cards = document.querySelectorAll('.card');
+  var layout = document.querySelector('.layout');
+  var panelContents = document.querySelectorAll('.panel-content');
+
+  cards.forEach(function (card) {
+    card.addEventListener('click', function () {
+      var id = card.getAttribute('data-panel');
+
+      layout.classList.add('active');
+
+      cards.forEach(function (c) { c.classList.remove('selected'); });
+      card.classList.add('selected');
+
+      panelContents.forEach(function (p) {
+        p.classList.toggle('show', p.getAttribute('data-panel') === id);
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

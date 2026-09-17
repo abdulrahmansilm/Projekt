@@ -1,0 +1,253 @@
+---
+/**
+ * „Starke Partner für starke Lösungen“ (docs/DESIGNSYSTEM.md → Komponente 14).
+ * Bühne 1000×500px, per scale() verkleinert und über left:50% + margin-left:-500px zentriert (dokumentierter Fix).
+ * Chips sind Platzhalter, bis echte Partner-Logos vorliegen. Float-Loop nur ohne reduzierte Bewegung.
+ */
+import { MARKE_BOGEN, MARKE_PUNKT } from "../../lib/brand";
+
+interface Props {
+  titel: string;
+  text: string;
+}
+const { titel, text } = Astro.props;
+
+// Positionen/Timing 1:1 aus referenz/startseite/starke-partner.html
+const chips = [
+  { x: -199, y: -125, s: 58, d: 7.2, dl: -1.1 },
+  { x: 80, y: -221, s: 58, d: 8.1, dl: -3.4 },
+  { x: 211, y: -103, s: 58, d: 6.9, dl: -4.7 },
+  { x: -338, y: -91, s: 60, d: 7.8, dl: -2.2 },
+  { x: -185, y: -297, s: 60, d: 8.6, dl: -0.6 },
+  { x: 164, y: -309, s: 60, d: 7.4, dl: -3.9 },
+  { x: 329, y: -120, s: 60, d: 9.1, dl: -1.7 },
+  { x: -356, y: -299, s: 54, d: 8.8, dl: -5.2 },
+  { x: 49, y: -462, s: 54, d: 7.6, dl: -2.8 },
+  { x: 381, y: -267, s: 54, d: 8.3, dl: -0.3 },
+];
+---
+
+<section class="partner" aria-labelledby="partner-titel">
+  <div class="partner__intro" data-reveal>
+    <h2 id="partner-titel">{titel}</h2>
+    <p>{text}</p>
+  </div>
+
+  <div class="partner__buehne-wrap">
+    <div class="partner__buehne" aria-hidden="true">
+      <div class="bogen b4"></div>
+      <div class="bogen b3"></div>
+      <div class="bogen b2"></div>
+      <div class="bogen b1"></div>
+      <div class="grundlinie"></div>
+      <div class="orbit">
+        {
+          chips.map((c) => (
+            <div class="knoten" style={`--x:${c.x}px;--y:${c.y}px;--s:${c.s}px;--d:${c.d}s;--dl:${c.dl}s`}>
+              <div class="chip" />
+            </div>
+          ))
+        }
+      </div>
+      <div class="hub">
+        <svg viewBox="0 0 246.64 560.12" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="partner-hub-grad" x1="0" y1="0" x2="246.64" y2="560.12" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#4FB8A6"></stop>
+              <stop offset="1" stop-color="#1B6E7A"></stop>
+            </linearGradient>
+          </defs>
+          <path fill="url(#partner-hub-grad)" d={MARKE_BOGEN}></path>
+          <path fill="url(#partner-hub-grad)" d={MARKE_PUNKT}></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .partner {
+    padding: 100px 24px 0;
+    overflow: hidden;
+    background: var(--nebel);
+  }
+
+  .partner__intro {
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .partner__intro h2 {
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  .partner__intro p {
+    margin-top: 16px;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink-72);
+  }
+
+  /* Wrapper reserviert die skalierte Höhe, damit kein negativer Margin nötig ist */
+  .partner__buehne-wrap {
+    --scale: 1;
+    position: relative;
+    height: calc(500px * var(--scale));
+    margin-top: 56px;
+  }
+
+  .partner__buehne {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 1000px;
+    height: 500px;
+    margin-left: -500px;
+    overflow: hidden;
+    transform: scale(var(--scale));
+    transform-origin: top center;
+  }
+
+  .bogen {
+    position: absolute;
+    left: 50%;
+    border: 1px solid rgba(27, 110, 122, 0.3);
+    border-radius: 50%;
+    background: rgba(79, 184, 166, 0.055);
+    transform: translateX(-50%);
+  }
+
+  .b4 {
+    width: 930px;
+    height: 930px;
+    bottom: -465px;
+  }
+
+  .b3 {
+    width: 700px;
+    height: 700px;
+    bottom: -350px;
+  }
+
+  .b2 {
+    width: 470px;
+    height: 470px;
+    bottom: -235px;
+  }
+
+  .b1 {
+    width: 240px;
+    height: 240px;
+    bottom: -120px;
+  }
+
+  .grundlinie {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: rgba(27, 110, 122, 0.3);
+  }
+
+  .orbit {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .knoten {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: var(--s);
+    height: var(--s);
+    margin-left: calc(var(--s) / -2);
+    margin-top: calc(var(--s) / -2);
+  }
+
+  .chip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 6px 20px rgba(11, 46, 60, 0.1);
+    animation: partner-float var(--d) ease-in-out infinite alternate;
+    animation-delay: var(--dl);
+  }
+
+  .chip::before {
+    content: "";
+    width: 44%;
+    height: 44%;
+    border-radius: 6px;
+    background: linear-gradient(135deg, rgba(79, 184, 166, 0.55), rgba(27, 110, 122, 0.55));
+  }
+
+  @keyframes partner-float {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-9px);
+    }
+  }
+
+  .hub {
+    position: absolute;
+    left: 50%;
+    bottom: 24px;
+    z-index: 3;
+    width: 34px;
+    transform: translateX(-50%);
+  }
+
+  .hub svg {
+    width: 100%;
+    height: auto;
+  }
+
+  @media (max-width: 1060px) {
+    .partner__buehne-wrap {
+      --scale: 0.78;
+    }
+  }
+
+  @media (max-width: 820px) {
+    .partner__buehne-wrap {
+      --scale: 0.58;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .partner {
+      padding: 72px 16px 0;
+    }
+
+    .partner__buehne-wrap {
+      --scale: 0.4;
+      margin-top: 32px;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .partner__buehne-wrap {
+      --scale: 0.34;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .chip {
+      animation: none;
+    }
+  }
+</style>

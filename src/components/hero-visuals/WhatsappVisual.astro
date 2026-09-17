@@ -1,0 +1,269 @@
+---
+/**
+ * Hero-Visual WhatsApp-Chatbot (referenz/whatsapp-chatbot/hero.html): Chat-Fenster spielt einmalig eine 8s-Sequenz
+ * aus 4 Nachrichten ab (Schreib-Punkte, dann seitliches Einschieben), danach schwebt das Fenster dauerhaft.
+ * Einmalige Einstiegsanimation = Delight erlaubt (emil-design-eng); alle Slots haben von Beginn an ihre Größe (kein CLS).
+ * prefers-reduced-motion: Sequenz entfällt, alle Nachrichten sofort sichtbar.
+ */
+import HeroStage from "./HeroStage.astro";
+import LogoMarke from "../ui/LogoMarke.astro";
+
+const nachrichten = [
+  { von: "kunde", text: "Hallo, ich möchte einen Termin vereinbaren." },
+  { von: "bot", text: "Gerne. Worum geht es und für welchen Bereich?" },
+  { von: "kunde", text: "Um eine allgemeine Beratung, wie besprochen." },
+  { von: "bot", text: "Welche Tage und Uhrzeiten passen Ihnen?" },
+];
+---
+
+<HeroStage breite={400} hoehe={520}>
+  <div class="wa">
+    <div class="fenster">
+      <div class="fenster__kopf">
+        <span class="fenster__logo"><LogoMarke /></span>
+        <span class="fenster__status">Online</span>
+      </div>
+      <ol class="verlauf">
+        {
+          nachrichten.map((n, i) => (
+            <li class:list={["slot", `slot--${n.von}`]}>
+              <span class={`blase blase--${n.von} nachricht nachricht-${i + 1}`}>{n.text}</span>
+              <span class={`blase blase--${n.von} tippen tippen-${i + 1}`} aria-hidden="true">
+                <i />
+                <i />
+                <i />
+              </span>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</HeroStage>
+
+<style>
+  .wa {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    height: 520px;
+    font-family: var(--font-body);
+  }
+
+  .fenster {
+    width: 300px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #f0f4f3;
+    box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.4);
+    animation: wa-schweben 4s ease-in-out infinite 8s;
+  }
+
+  @keyframes wa-schweben {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+
+  .fenster__kopf {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 16px;
+    background: #0b2e3c;
+  }
+
+  .fenster__logo :global(svg) {
+    height: 22px;
+    width: auto;
+  }
+
+  .fenster__status {
+    font-size: 13px;
+    color: rgba(240, 244, 243, 0.62);
+  }
+
+  .verlauf {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 16px;
+    list-style: none;
+  }
+
+  .slot {
+    position: relative;
+    display: flex;
+  }
+
+  .slot--kunde {
+    justify-content: flex-start;
+  }
+
+  .slot--bot {
+    justify-content: flex-end;
+  }
+
+  .blase {
+    max-width: 80%;
+    padding: 10px 14px;
+    font-size: 13.5px;
+    line-height: 1.4;
+  }
+
+  .blase--kunde {
+    border-radius: 14px 14px 14px 4px;
+    background: #ffffff;
+    box-shadow: 0 2px 6px rgba(11, 46, 60, 0.08);
+    color: #0b2e3c;
+  }
+
+  .blase--bot {
+    border-radius: 14px 14px 4px 14px;
+    background: #0b2e3c;
+    box-shadow: 0 2px 6px rgba(11, 46, 60, 0.12);
+    color: #ffffff;
+  }
+
+  .tippen {
+    position: absolute;
+    top: 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 12px 16px;
+    opacity: 0;
+  }
+
+  .slot--kunde .tippen {
+    left: 0;
+  }
+
+  .slot--bot .tippen {
+    right: 0;
+  }
+
+  .tippen i {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #1b6e7a;
+    animation: wa-punkt 1s ease-in-out infinite;
+  }
+
+  .blase--bot.tippen i {
+    background: #ffffff;
+  }
+
+  .tippen i:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+
+  .tippen i:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+
+  @keyframes wa-punkt {
+    0%,
+    60%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.5;
+    }
+    30% {
+      transform: translateY(-3px);
+      opacity: 1;
+    }
+  }
+
+  /* 4 Phasen à 2s: erst Schreib-Punkte, dann Nachricht (Kunde von links, Bot von rechts) */
+  .nachricht {
+    opacity: 0;
+  }
+
+  .tippen-1 {
+    animation: wa-tippen-1 8s linear 1 forwards;
+  }
+  .nachricht-1 {
+    animation: wa-msg-1 8s var(--ease-out) 1 forwards;
+  }
+  .tippen-2 {
+    animation: wa-tippen-2 8s linear 1 forwards;
+  }
+  .nachricht-2 {
+    animation: wa-msg-2 8s var(--ease-out) 1 forwards;
+  }
+  .tippen-3 {
+    animation: wa-tippen-3 8s linear 1 forwards;
+  }
+  .nachricht-3 {
+    animation: wa-msg-3 8s var(--ease-out) 1 forwards;
+  }
+  .tippen-4 {
+    animation: wa-tippen-4 8s linear 1 forwards;
+  }
+  .nachricht-4 {
+    animation: wa-msg-4 8s var(--ease-out) 1 forwards;
+  }
+
+  @keyframes wa-tippen-1 {
+    0% { opacity: 0; }
+    1%, 13% { opacity: 1; }
+    14%, 100% { opacity: 0; }
+  }
+  @keyframes wa-msg-1 {
+    0%, 13% { opacity: 0; transform: translateX(-36px); }
+    25%, 100% { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes wa-tippen-2 {
+    0%, 25% { opacity: 0; }
+    26%, 38% { opacity: 1; }
+    39%, 100% { opacity: 0; }
+  }
+  @keyframes wa-msg-2 {
+    0%, 38% { opacity: 0; transform: translateX(36px); }
+    50%, 100% { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes wa-tippen-3 {
+    0%, 50% { opacity: 0; }
+    51%, 63% { opacity: 1; }
+    64%, 100% { opacity: 0; }
+  }
+  @keyframes wa-msg-3 {
+    0%, 63% { opacity: 0; transform: translateX(-36px); }
+    75%, 100% { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes wa-tippen-4 {
+    0%, 75% { opacity: 0; }
+    76%, 88% { opacity: 1; }
+    89%, 100% { opacity: 0; }
+  }
+  @keyframes wa-msg-4 {
+    0%, 88% { opacity: 0; transform: translateX(36px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fenster,
+    .nachricht,
+    .tippen,
+    .tippen i {
+      animation: none !important;
+    }
+
+    .nachricht {
+      opacity: 1;
+      transform: none;
+    }
+
+    .tippen {
+      display: none;
+    }
+  }
+</style>

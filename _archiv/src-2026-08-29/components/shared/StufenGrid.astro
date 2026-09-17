@@ -1,0 +1,38 @@
+---
+interface Stufe {
+  titel: string;
+  beschreibung: string;
+}
+
+interface Props {
+  tag: string;
+  titel: string;
+  stufen: Stufe[];
+  spalten?: 2 | 3 | 4;
+}
+
+const { tag, titel, stufen, spalten = 3 } = Astro.props;
+const spaltenKlasse = { 2: "md:grid-cols-2", 3: "md:grid-cols-3", 4: "md:grid-cols-2 lg:grid-cols-4" }[spalten];
+const headingId = `stufen-${titel.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+---
+
+<section aria-labelledby={headingId} class="py-16 md:py-20">
+  <div class="mx-auto max-w-6xl px-4">
+    <span class="bg-accent-start/10 text-bg-dark reveal mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1 text-xs font-medium uppercase tracking-wide">
+      <span aria-hidden="true" class="bg-accent-start size-1.5 rounded-full"></span>
+      {tag}
+    </span>
+    <h2 id={headingId} class="reveal font-headline text-3xl font-medium tracking-tight md:text-4xl">{titel}</h2>
+
+    <div class={`mt-10 grid grid-cols-1 gap-6 ${spaltenKlasse}`}>
+      {
+        stufen.map((stufe) => (
+          <div class="reveal border-bg-dark/15 bg-bg border p-6">
+            <h3 class="font-headline text-lg font-medium">{stufe.titel}</h3>
+            <p class="text-bg-dark/68 mt-2 text-sm leading-relaxed">{stufe.beschreibung}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

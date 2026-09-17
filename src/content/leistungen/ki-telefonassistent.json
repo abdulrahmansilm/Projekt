@@ -1,0 +1,632 @@
+{
+  "titel": "KI-Telefonassistent",
+  "kategorie": "ki-kommunikation",
+  "kategorieLabel": "KI & Kommunikation",
+  "reihenfolge": 8,
+  "kurz": "Ein KI-Assistent, der Anrufe rund um die Uhr entgegennimmt, Anliegen erkennt und Aktionen auslöst.",
+  "seo": {
+    "titel": "KI-Telefonassistent: jeder Anruf wird angenommen, rund um die Uhr",
+    "beschreibung": "Der KI-Telefonassistent nimmt Anrufe 24/7 an, vereinbart Termine, beantwortet Standardfragen und leitet weiter. Ab 119 € im Monat, DSGVO-konform eingerichtet."
+  },
+  "hero": {
+    "headline": "KI-Telefonassistent für Ihr Unternehmen",
+    "subline": "Verwaltet Termine, nimmt Bestellungen auf, erfasst Daten, wickelt Prozesse ab, leitet weiter und vieles mehr, rund um die Uhr erreichbar.",
+    "zitat": "Der teuerste Moment in der Kundenkommunikation ist der Anruf, den niemand entgegennimmt.",
+    "cta": "Anfragen",
+    "visualLabel": "Audio-Player mit Beispielgespräch des KI-Telefonassistenten und Transkript"
+  },
+  "kontaktVorauswahl": {
+    "thema": "ki-kommunikation"
+  },
+  "wissenArtikel": [
+    "ki-telefonassistent",
+    "bueroablaeufe-automatisieren",
+    "managed-service-provider"
+  ],
+  "sektionen": [
+    {
+      "typ": "toolGrid",
+      "titel": "Lässt sich in Ihre Systeme einbinden",
+      "intro": "Der KI-Telefonassistent arbeitet nicht isoliert, sondern direkt mit den Werkzeugen, die Sie bereits einsetzen.",
+      "karten": [
+        {
+          "icon": "<rect x=\"3\" y=\"5\" width=\"18\" height=\"16\" rx=\"2.2\"></rect><path d=\"M3 10h18\"></path><path d=\"M8 3v4M16 3v4\"></path>",
+          "titel": "Kalender-Tools",
+          "text": "Verbindung zu Calendly und anderen Kalendern: Der Assistent bucht Termine automatisch direkt im Telefonat."
+        },
+        {
+          "icon": "<rect x=\"3\" y=\"4\" width=\"18\" height=\"12\" rx=\"2\"></rect><path d=\"M8 20h8M12 16v4\"></path>",
+          "titel": "CRM-Systeme",
+          "text": "Anbindung an Salesforce, HubSpot und weitere CRM-Systeme: Kundendaten und Leads landen automatisch dort, wo Ihr Team sie braucht."
+        },
+        {
+          "icon": "<path d=\"M4 5.5h16a1.5 1.5 0 0 1 1.5 1.5v8.5a1.5 1.5 0 0 1-1.5 1.5H10l-5 4v-4H4A1.5 1.5 0 0 1 2.5 15.5V7A1.5 1.5 0 0 1 4 5.5Z\"></path>",
+          "titel": "Produktivitäts-Tools",
+          "text": "Slack, Trello, Notion und ähnliche Tools: Anliegen werden dokumentiert und an die richtige Stelle weitergeleitet."
+        },
+        {
+          "icon": "<ellipse cx=\"12\" cy=\"6\" rx=\"8\" ry=\"3\"></ellipse><path d=\"M4 6v12c0 1.66 3.58 3 8 3s8-1.34 8-3V6\"></path><path d=\"M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3\"></path>",
+          "titel": "Eigene Datenbanken & Systeme",
+          "text": "Anbindung an interne Systeme und sogar an Ihre eigene Website, damit der Assistent seine Informationen direkt aus Ihren Quellen zieht."
+        }
+      ]
+    },
+    {
+      "typ": "problemLoesung",
+      "eyebrow": "Reaktiv oder proaktiv",
+      "titel": "Ein verpasster Anruf ist ein verlorener Kunde.",
+      "akzent": "Unsere KI nimmt jeden Anruf an.",
+      "intro": "Die meisten Anrufe, die nicht angenommen werden, gehen nicht wegen fehlenden Personals verloren, sondern weil ständig Standardfragen den eigentlichen Betrieb unterbrechen. Ein KI-Telefonassistent dreht das um: Anrufe werden sofort beantwortet, Termine direkt vereinbart. Ihr Team wird nur eingebunden, wenn es wirklich nötig ist.",
+      "karten": [
+        {
+          "titel": "Erreichbarkeit",
+          "icon": "<defs><linearGradient id=\"pl-ki-telefonassistent-0-i1-25\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <circle cx=\"12\" cy=\"12\" r=\"8.5\" stroke=\"url(#pl-ki-telefonassistent-0-i1-25)\" stroke-width=\"1.6\"></circle> <path d=\"M7.5 9 A5 5 0 0 1 16.5 9\" stroke=\"url(#pl-ki-telefonassistent-0-i1-25)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path> <path d=\"M7.5 9 V12.5 A1.7 1.7 0 0 1 5.8 14.2 H5.5\" stroke=\"url(#pl-ki-telefonassistent-0-i1-25)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path> <path d=\"M16.5 9 V12.5 A1.7 1.7 0 0 0 18.2 14.2 H18.5\" stroke=\"url(#pl-ki-telefonassistent-0-i1-25)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path> <circle cx=\"5.7\" cy=\"13.2\" r=\"1.3\" stroke=\"url(#pl-ki-telefonassistent-0-i1-25)\" stroke-width=\"1.4\"></circle> <circle cx=\"18.3\" cy=\"13.2\" r=\"1.3\" stroke=\"url(#pl-ki-telefonassistent-0-i1-25)\" stroke-width=\"1.4\"></circle>",
+          "ohne": "Außerhalb der Öffnungszeiten, in der Mittagspause oder wenn alle Leitungen belegt sind: Der Anruf geht einfach unter.",
+          "mitStark": "Jeder Anruf wird angenommen.",
+          "mitText": "Rund um die Uhr, auch nachts, am Wochenende und wenn im Büro niemand ans Telefon kann."
+        },
+        {
+          "titel": "Verpasste Anrufe",
+          "icon": "<defs><linearGradient id=\"pl-ki-telefonassistent-1-i2-26\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <path d=\"M5.5 4.5 C5.5 4.5 7.5 4 8.5 6.5 C9.2 8.3 8 9 7.5 9.5 C8.3 12.3 10.7 14.7 13.5 15.5 C14 15 14.7 13.8 16.5 14.5 C19 15.5 18.5 17.5 18.5 17.5 C18.5 19.5 16.5 20 15 19.5 C10 17.8 7.2 15 5.5 10 C5 8.5 5.5 4.5 5.5 4.5 Z\" stroke=\"url(#pl-ki-telefonassistent-1-i2-26)\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path> <path d=\"M15.5 4.5 L20.5 9.5 M20.5 4.5 L15.5 9.5\" stroke=\"url(#pl-ki-telefonassistent-1-i2-26)\" stroke-width=\"1.7\" stroke-linecap=\"round\"></path>",
+          "ohne": "Ein verpasster Anruf ist meist ein verpasster Auftrag: Die wenigsten Anrufer versuchen es ein zweites Mal.",
+          "mitStark": "Anfragen werden direkt bearbeitet.",
+          "mitText": "Termine, Rückrufwünsche und Standardfragen klärt die KI sofort im Gespräch. Kein Anrufer legt unbeantwortet auf."
+        },
+        {
+          "titel": "Mitarbeiterzeit",
+          "icon": "<defs><linearGradient id=\"pl-ki-telefonassistent-2-i3-27\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <circle cx=\"12\" cy=\"12\" r=\"8.5\" stroke=\"url(#pl-ki-telefonassistent-2-i3-27)\" stroke-width=\"1.6\"></circle> <path d=\"M12 7.5 V12 L15 14\" stroke=\"url(#pl-ki-telefonassistent-2-i3-27)\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path> <path d=\"M4.5 5 L7 7\" stroke=\"url(#pl-ki-telefonassistent-2-i3-27)\" stroke-width=\"1.4\" stroke-linecap=\"round\"></path> <path d=\"M19.5 5 L17 7\" stroke=\"url(#pl-ki-telefonassistent-2-i3-27)\" stroke-width=\"1.4\" stroke-linecap=\"round\"></path>",
+          "ohne": "Dieselben Fragen nach Öffnungszeiten, Preisen und Terminen unterbrechen den ganzen Tag die eigentliche Arbeit.",
+          "mitStark": "Routineanrufe laufen ohne Ihr Team.",
+          "mitText": "Standardfragen beantwortet die KI selbstständig: Ihre Mitarbeiter werden nur bei echtem Bedarf eingebunden."
+        },
+        {
+          "titel": "Qualität & Konsistenz",
+          "icon": "<defs><linearGradient id=\"pl-ki-telefonassistent-3-i4-28\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <path d=\"M4 20 V13 M9.5 20 V9 M15 20 V15 M20 20 V6\" stroke=\"url(#pl-ki-telefonassistent-3-i4-28)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path> <path d=\"M14.5 6.5 H20 V12\" stroke=\"url(#pl-ki-telefonassistent-3-i4-28)\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
+          "ohne": "Je nach Tagesform oder Mitarbeiter fällt die Auskunft unterschiedlich aus und niemand hält fest, was am Telefon gesagt wurde.",
+          "mitStark": "Immer dieselbe, geprüfte Auskunft.",
+          "mitText": "Die KI antwortet konsistent nach hinterlegten Informationen, jedes Gespräch wird protokolliert."
+        }
+      ],
+      "labelOhne": "Ohne KI-Assistent",
+      "labelMit": "Mit",
+      "kicker": "Der beste Anruf ist der, den niemand aus Ihrem Team beantworten musste, weil er längst erledigt ist. <strong>Kein verpasster Kunde, keine Unterbrechung, keine Warteschleife.</strong>"
+    },
+    {
+      "typ": "trustbar",
+      "label": "Zertifizierte Partner & Technologien",
+      "logos": [
+        "Microsoft",
+        "Hornetsecurity",
+        "Partner-Logo",
+        "Partner-Logo",
+        "Partner-Logo",
+        "Partner-Logo"
+      ]
+    },
+    {
+      "typ": "kostenvergleich",
+      "eyebrow": "Kostenvergleich",
+      "titel": "Was kostet Erreichbarkeit wirklich?",
+      "intro": "Ein Vergleich zwischen einer zusätzlichen Teilzeitkraft für die Telefonannahme und dem KI-Telefonassistenten.",
+      "spalten": [
+        "Mitarbeiter, 20 Std./Woche",
+        "KI-Telefonassistent"
+      ],
+      "kurzLabels": [
+        "Mitarbeiter",
+        "KI-Telefonassistent"
+      ],
+      "zeilen": [
+        {
+          "label": "Kosten im 1. Jahr",
+          "links": "18.000–27.000 €",
+          "rechts": "ca. 1.800 €"
+        },
+        {
+          "label": "Erreichbarkeit",
+          "links": "Mo–Fr vormittags",
+          "rechts": "24/7"
+        },
+        {
+          "label": "Urlaub, Krankheit, Kündigung",
+          "links": "wirkt sich aus",
+          "rechts": "entfällt"
+        },
+        {
+          "label": "Einarbeitung",
+          "links": "Wochen",
+          "rechts": "Tage"
+        },
+        {
+          "label": "Verfügbar ab",
+          "links": "Personalfindung",
+          "rechts": "ab nächster Woche"
+        },
+        {
+          "label": "Einsatzort",
+          "links": "vor Ort / Homeoffice",
+          "rechts": "deutschlandweit remote"
+        }
+      ],
+      "fazit": "Die Zeit, die Sie nicht mehr am Telefon verbringen, arbeitet weiter, nur eben an Ihrem Kerngeschäft."
+    },
+    {
+      "typ": "ersparnisRechner",
+      "eyebrow": "Ersparnis-Rechner",
+      "titel": "Rechnen Sie selbst",
+      "intro": "Ein grober Richtwert, basierend auf Ihrem tatsächlichen Anrufaufkommen.",
+      "hinweis": "Kombi-Rabatt bei gleichzeitiger Buchung mit dem WhatsApp-Chatbot."
+    },
+    {
+      "typ": "branchen",
+      "eyebrow": "Für wen sich das eignet",
+      "titel": "Branchen, in denen das Telefon nie stillsteht",
+      "intro": "Überall dort, wo Anrufe über Termine, Verfügbarkeit oder Anfragen entscheiden, übernimmt der KI-Telefonassistent die Routine.",
+      "reihen": [
+        [
+          {
+            "icon": "<path d=\"M14.5 3.5 L20.5 9.5 L18.3 11.7 L12.3 5.7 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M15.5 8.5 L4.5 19.5 L2.5 21.5 L4.5 19.5 L3 17 L5.5 14.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
+            "label": "Handwerk & Bau"
+          },
+          {
+            "icon": "<path d=\"M12 4 V20 M8 20 H16\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><path d=\"M3 8.5 H8.5 L5.75 14.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.5\" stroke-linejoin=\"round\"></path><path d=\"M15.5 8.5 H21 L18.25 14.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.5\" stroke-linejoin=\"round\"></path>",
+            "label": "Recht & Beratung"
+          },
+          {
+            "icon": "<path d=\"M4 16 V12 L6 7 H18 L20 12 V16\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M4 16 H20 V18.5 H17 V16 M7 18.5 V16\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><circle cx=\"7.5\" cy=\"13\" r=\"1.3\" fill=\"#1B6E7A\"></circle><circle cx=\"16.5\" cy=\"13\" r=\"1.3\" fill=\"#1B6E7A\"></circle>",
+            "label": "Automobil"
+          },
+          {
+            "icon": "<path d=\"M12 20.5 C12 20.5 4 15.5 4 9.7 C4 6.8 6.2 4.5 9 4.5 C10.5 4.5 11.6 5.2 12 6.3 C12.4 5.2 13.5 4.5 15 4.5 C17.8 4.5 20 6.8 20 9.7 C20 15.5 12 20.5 12 20.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path>",
+            "label": "Gesundheit"
+          },
+          {
+            "icon": "<path d=\"M4 20 V9.5 L12 4 L20 9.5 V20\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M9.5 20 V14 H14.5 V20\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path>",
+            "label": "Immobilien & Hausverwaltung"
+          },
+          {
+            "icon": "<path d=\"M6.5 9.5 V14.5 M17.5 9.5 V14.5\" stroke=\"#1B6E7A\" stroke-width=\"1.8\" stroke-linecap=\"round\"></path><path d=\"M4 11 V13 M20 11 V13\" stroke=\"#1B6E7A\" stroke-width=\"1.8\" stroke-linecap=\"round\"></path><path d=\"M6.5 12 H17.5\" stroke=\"#1B6E7A\" stroke-width=\"1.8\" stroke-linecap=\"round\"></path>",
+            "label": "Fitness & Sport"
+          },
+          {
+            "icon": "<path d=\"M12 3.5 L19.5 6.5 V11.5 C19.5 16.5 16.3 19.8 12 21 C7.7 19.8 4.5 16.5 4.5 11.5 V6.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M9 11.5 L11 13.5 L15.5 9\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
+            "label": "Versicherungen & Finanzen"
+          }
+        ],
+        [
+          {
+            "icon": "<path d=\"M6 3.5 V10.5 M4.5 3.5 V7.5 M7.5 3.5 V7.5 M6 10.5 V20.5\" stroke=\"#1B6E7A\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M17 3.5 C14.5 3.5 14.5 6.5 14.5 8.5 C14.5 10 15.5 11 17 11 V20.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
+            "label": "Gastronomie & Hotellerie"
+          },
+          {
+            "icon": "<path d=\"M6 8 H18 L19 20.5 H5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M9 8 V6.5 C9 4.6 10.3 3.5 12 3.5 C13.7 3.5 15 4.6 15 6.5 V8\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path>",
+            "label": "Handel"
+          },
+          {
+            "icon": "<rect x=\"2.5\" y=\"9\" width=\"12\" height=\"8\" rx=\"1.3\" stroke=\"#1B6E7A\" stroke-width=\"1.6\"></rect><path d=\"M14.5 11.5 H18 L21 14.5 V17 H14.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><circle cx=\"7\" cy=\"18.5\" r=\"1.6\" stroke=\"#1B6E7A\" stroke-width=\"1.5\"></circle><circle cx=\"18\" cy=\"18.5\" r=\"1.6\" stroke=\"#1B6E7A\" stroke-width=\"1.5\"></circle>",
+            "label": "Logistik & Transport"
+          },
+          {
+            "icon": "<path d=\"M12 5 L22 9.5 L12 14 L2 9.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M6 11.5 V16 C6 17.5 8.7 19 12 19 C15.3 19 18 17.5 18 16 V11.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path>",
+            "label": "Bildung"
+          },
+          {
+            "icon": "<circle cx=\"12\" cy=\"12\" r=\"8.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\"></circle><path d=\"M3.5 12 H20.5 M12 3.5 C14.5 6.5 14.5 17.5 12 20.5 C9.5 17.5 9.5 6.5 12 3.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.5\"></path>",
+            "label": "Tourismus"
+          },
+          {
+            "icon": "<rect x=\"7\" y=\"7\" width=\"10\" height=\"10\" rx=\"1.6\" stroke=\"#1B6E7A\" stroke-width=\"1.6\"></rect><path d=\"M12 3.5 V7 M12 17 V20.5 M3.5 12 H7 M17 12 H20.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path>",
+            "label": "IT & Technologie"
+          },
+          {
+            "icon": "<path d=\"M4.5 13 A7.5 7.5 0 0 1 19.5 13\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><rect x=\"3\" y=\"13\" width=\"3.4\" height=\"6\" rx=\"1.5\" stroke=\"#1B6E7A\" stroke-width=\"1.5\"></rect><rect x=\"17.6\" y=\"13\" width=\"3.4\" height=\"6\" rx=\"1.5\" stroke=\"#1B6E7A\" stroke-width=\"1.5\"></rect>",
+            "label": "Kundenservice & Callcenter"
+          }
+        ]
+      ]
+    },
+    {
+      "typ": "zeitstrahl",
+      "eyebrow": "Wie wir Kunden aufnehmen",
+      "titel": "Wie wir Kunden aufnehmen",
+      "intro": "Vom ersten Gespräch bis zum laufenden Betrieb begleiten wir jeden Schritt. Live geht der Assistent erst, wenn er mit echten Anrufen überzeugt.",
+      "aktiv": 1,
+      "schritte": [
+        {
+          "nummer": "01",
+          "titel": "Kennenlernen",
+          "text": "Wir klären Ihre Anforderungen und typischen Anrufsituationen."
+        },
+        {
+          "nummer": "02",
+          "titel": "Prozesse verstehen",
+          "text": "Wir erfassen, wie Anrufe heute behandelt werden."
+        },
+        {
+          "nummer": "03",
+          "titel": "Individuell einrichten",
+          "text": "Routing, Eskalation, Gesprächsführung und Stimmauswahl."
+        },
+        {
+          "nummer": "04",
+          "titel": "Testen & optimieren",
+          "text": "Proof of Concept mit echten Anrufsituationen."
+        },
+        {
+          "nummer": "05",
+          "titel": "Live gehen",
+          "text": "Go-Live-Begleitung durch unser Team."
+        },
+        {
+          "nummer": "06",
+          "titel": "Dauerhaft betreut",
+          "text": "Laufende Betreuung und Optimierung."
+        }
+      ]
+    },
+    {
+      "typ": "pricingSetup",
+      "eyebrow": "Pakete & Preise",
+      "titel": "Pakete & Preise",
+      "intro": "Eine einmalige Einrichtung, danach ein monatliches Paket passend zu Ihrem Anrufaufkommen.",
+      "setup": {
+        "name": "Einrichtung & Onboarding",
+        "tagline": "Für einen professionellen Start Ihres KI-Telefonassistenten, individuell auf Ihr Unternehmen zugeschnitten.",
+        "preis": "990 €",
+        "features": [
+          "Analyse Ihrer Geschäftsprozesse",
+          "Unternehmensspezifische Konfiguration",
+          "Routing-Logik & Eskalationsregeln",
+          "Rechtskonforme Gesprächsführung",
+          "Stimmauswahl & Feintuning",
+          "Systemanbindung & technisches Setup",
+          "Proof of Concept & Revisionen",
+          "Go-Live-Begleitung"
+        ]
+      },
+      "pakete": [
+        {
+          "name": "Solo",
+          "variante": "neutral",
+          "tagline": "Geeignet für 1 bis 20 Anrufe/Tag",
+          "monatlich": 119,
+          "jaehrlich": 99,
+          "spart": 20,
+          "cta": "Jetzt starten",
+          "inkludiert": [
+            {
+              "text": "1.000 Minuten",
+              "enthalten": true,
+              "notiz": "entspricht 0,12 €/Minute"
+            },
+            {
+              "text": "keine gleichzeitigen Anrufe",
+              "enthalten": false
+            },
+            {
+              "text": "1 Telefonnummer",
+              "enthalten": true,
+              "notiz": "jede weitere 7 €/Monat"
+            },
+            {
+              "text": "∞ Assistenten",
+              "enthalten": true
+            },
+            {
+              "text": "1 User",
+              "enthalten": true
+            }
+          ],
+          "features": [
+            {
+              "text": "120+ Stimmen",
+              "enthalten": true
+            },
+            {
+              "text": "60+ Sprachen",
+              "enthalten": true
+            },
+            {
+              "text": "Kalender + Buchungen",
+              "enthalten": true,
+              "tipp": "Verbinden Sie Ihren Kalender direkt mit dem KI-Telefonassistenten. Der Assistent prüft Verfügbarkeiten, nimmt Termine an und trägt sie automatisch ein."
+            }
+          ]
+        },
+        {
+          "name": "Team",
+          "variante": "beliebt",
+          "badge": "Beliebt",
+          "tagline": "Geeignet für 20 bis 100 Anrufe/Tag",
+          "monatlich": 359,
+          "jaehrlich": 299,
+          "spart": 60,
+          "cta": "Jetzt starten",
+          "inkludiert": [
+            {
+              "text": "3.600 Minuten",
+              "enthalten": true,
+              "notiz": "entspricht 0,10 €/Minute"
+            },
+            {
+              "text": "3 gleichzeitige Anrufe",
+              "enthalten": true
+            },
+            {
+              "text": "3 Telefonnummern",
+              "enthalten": true,
+              "notiz": "jede weitere 7 €/Monat"
+            },
+            {
+              "text": "∞ Assistenten",
+              "enthalten": true
+            },
+            {
+              "text": "∞ User",
+              "enthalten": true
+            }
+          ],
+          "features": [
+            {
+              "erbt": "Solo",
+              "enthalten": true
+            },
+            {
+              "text": "Dedizierter SIP-Trunk",
+              "enthalten": true,
+              "tipp": "Damit können eigene Nummern über die Telefonanlage verknüpft werden, ohne dabei Zusatzkosten zu erzeugen."
+            },
+            {
+              "text": "Outbound-Anrufe",
+              "enthalten": true,
+              "tipp": "Für jeden ausgehenden Anruf wird eine Minute vom enthaltenen Minutenkontingent abgezogen. Zusätzlich fallen Verbindungskosten für jede angefangene Minute an. Diese hängen von der Zielrufnummer und dem jeweiligen Land ab."
+            }
+          ]
+        },
+        {
+          "name": "Scale",
+          "variante": "neutral",
+          "tagline": "Geeignet ab 100 Anrufen/Tag",
+          "monatlich": 599,
+          "jaehrlich": 499,
+          "spart": 100,
+          "prefix": "ab",
+          "cta": "Plan erstellen",
+          "inkludiert": [
+            {
+              "text": "Ab 6.000 Minuten",
+              "enthalten": true,
+              "tipp": "Bis zu 0,10 € pro Minute."
+            },
+            {
+              "text": "Individuelle gleichzeitige Anrufe",
+              "enthalten": true
+            },
+            {
+              "text": "Individuelle Telefonnummern",
+              "enthalten": true
+            },
+            {
+              "text": "∞ Assistenten",
+              "enthalten": true
+            },
+            {
+              "text": "∞ User",
+              "enthalten": true
+            }
+          ],
+          "features": [
+            {
+              "erbt": "Team",
+              "enthalten": true
+            },
+            {
+              "text": "Eigene Stimme",
+              "enthalten": true
+            },
+            {
+              "text": "Keine Datenspeicherung",
+              "enthalten": true
+            },
+            {
+              "text": "Und mehr",
+              "enthalten": true
+            }
+          ]
+        }
+      ],
+      "disclaimer": "Alle Preise verstehen sich netto, zzgl. gesetzlicher MwSt.",
+      "vergleich": [
+        {
+          "titel": "Nutzung",
+          "icon": "<path d=\"M12 12 16 8\"></path><circle cx=\"12\" cy=\"12\" r=\"9\"></circle>",
+          "zeilen": [
+            {
+              "label": "Inkludierte Minuten",
+              "werte": [
+                "1.000",
+                "3.600",
+                "6.000+"
+              ]
+            },
+            {
+              "label": "Inkludierte Kontakte",
+              "werte": [
+                "1.000",
+                "3.000",
+                "individuell"
+              ]
+            },
+            {
+              "label": "Gleichzeitige Anrufe",
+              "werte": [
+                "1",
+                "3",
+                "individuell"
+              ]
+            },
+            {
+              "label": "Nutzer (Seats)",
+              "werte": [
+                "1",
+                "unlimitiert",
+                "unlimitiert"
+              ]
+            },
+            {
+              "label": "Inkludierte Telefonnummern",
+              "werte": [
+                "1",
+                "3",
+                "individuell"
+              ]
+            },
+            {
+              "label": "Kontoverbindungen",
+              "werte": [
+                "1",
+                "3",
+                "individuell"
+              ]
+            },
+            {
+              "label": "Outbound-Anrufe & Kampagnen",
+              "werte": [
+                "–",
+                "zu Verbindungskosten",
+                "je nach Verbindungskosten"
+              ]
+            },
+            {
+              "label": "SIP-Trunk-Integration",
+              "werte": [
+                "–",
+                "✓",
+                "✓"
+              ]
+            }
+          ]
+        },
+        {
+          "titel": "Assistenten",
+          "icon": "<rect x=\"5\" y=\"9\" width=\"14\" height=\"10\" rx=\"2\"></rect><path d=\"M12 9V5\"></path><circle cx=\"12\" cy=\"4\" r=\"1\"></circle><line x1=\"9\" y1=\"13\" x2=\"9\" y2=\"15\"></line><line x1=\"15\" y1=\"13\" x2=\"15\" y2=\"15\"></line>",
+          "zeilen": [
+            {
+              "label": "Stimmen",
+              "werte": [
+                "120+",
+                "120+",
+                "120+"
+              ]
+            },
+            {
+              "label": "Sprachen",
+              "werte": [
+                "60+",
+                "60+",
+                "60+"
+              ]
+            },
+            {
+              "label": "Individuelle Stimme",
+              "werte": [
+                "–",
+                "–",
+                "✓"
+              ]
+            },
+            {
+              "label": "Assistenten",
+              "werte": [
+                "unlimitiert",
+                "unlimitiert",
+                "unlimitiert"
+              ]
+            }
+          ]
+        },
+        {
+          "titel": "Add-ons",
+          "icon": "<circle cx=\"12\" cy=\"12\" r=\"9\"></circle><line x1=\"12\" y1=\"8\" x2=\"12\" y2=\"16\"></line><line x1=\"8\" y1=\"12\" x2=\"16\" y2=\"12\"></line>",
+          "zeilen": [
+            {
+              "label": "Zusatzminuten",
+              "tipp": "Nach Verbrauch der inkludierten Minuten werden automatisch 100-Minuten-Pakete ergänzt. Gültig für den aktuellen Abrechnungszeitraum.",
+              "werte": [
+                "15 € je 100 Minuten",
+                "12 € je 100 Minuten",
+                "individuell"
+              ]
+            },
+            {
+              "label": "Zusatzkontakte",
+              "tipp": "Sobald die inkludierte Zahl an Kontakten erreicht ist, können Pakete mit je 1.000 Kontakten für 20 €/Monat (199 €/Jahr) hinzugefügt werden.",
+              "werte": [
+                "20 €/Monat je 1.000 Kontakte",
+                "20 €/Monat je 1.000 Kontakte",
+                "individuell"
+              ]
+            },
+            {
+              "label": "Preis je zusätzlicher Nummer",
+              "werte": [
+                "7 €/Monat",
+                "7 €/Monat",
+                "bis zu 2 €/Monat"
+              ]
+            },
+            {
+              "label": "Preis je zusätzlicher Kontoverbindung",
+              "werte": [
+                "–",
+                "5 €/Monat",
+                "5 €/Monat"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "typ": "faq",
+      "titel": "Häufige Fragen zum KI-Telefonassistenten",
+      "intro": "Was Sie vor der Zusammenarbeit wissen sollten: kurz und ohne Kleingedrucktes.",
+      "fragen": [
+        {
+          "frage": "Was kostet der KI-Telefonassistent?",
+          "antwort": "Der Preis richtet sich nach Anrufvolumen und gewünschtem Funktionsumfang. Nach einem kurzen Blick auf Ihren Bedarf nennen wir Ihnen ein konkretes Angebot."
+        },
+        {
+          "frage": "Merkt der Anrufer, dass er mit einer KI spricht?",
+          "antwort": "Die Stimme klingt natürlich und reagiert im normalen Gesprächstempo. Rechtlich und aus Fairness gegenüber dem Anrufer weisen wir zu Beginn des Gesprächs transparent darauf hin, dass ein KI-Assistent antwortet."
+        },
+        {
+          "frage": "Kann die KI Termine direkt in unseren Kalender eintragen?",
+          "antwort": "Ja. Der Assistent ist an Ihren Kalender angebunden, prüft freie Zeiten und trägt Termine direkt ein, inklusive Bestätigung an den Anrufer, ohne dass jemand aus Ihrem Team eingreifen muss."
+        },
+        {
+          "frage": "Was passiert, wenn die KI eine Frage nicht beantworten kann?",
+          "antwort": "Dann nimmt sie die Anfrage auf und leitet sie an Ihr Team weiter, oder verbindet bei Bedarf direkt zu einer echten Person, statt dem Anrufer eine falsche Antwort zu geben."
+        },
+        {
+          "frage": "Ersetzt das unsere Telefonzentrale komplett?",
+          "antwort": "Das entscheiden Sie. Viele Betriebe lassen die KI zunächst Randzeiten und Standardanfragen übernehmen und behalten ihr Team für alles Weitere. Eine vollständige Übernahme ist ebenso möglich."
+        },
+        {
+          "frage": "Welche Sprachen beherrscht der Assistent?",
+          "antwort": "Standardmäßig Deutsch und Englisch, weitere Sprachen richten wir auf Wunsch ein. Praktisch, wenn Ihre Kundschaft international ist."
+        },
+        {
+          "frage": "Wie lange sind Sie vertraglich gebunden?",
+          "antwort": "Unsere Verträge sind monatlich kündbar: Sie binden sich also nicht langfristig, wenn Sie das nicht möchten. Wer sich für eine jährliche Laufzeit entscheidet, erhält dafür 10 bis 20 % Rabatt auf die monatlichen Kosten."
+        }
+      ]
+    },
+    {
+      "typ": "kontakt"
+    },
+    {
+      "typ": "wissenTeaser"
+    }
+  ]
+}

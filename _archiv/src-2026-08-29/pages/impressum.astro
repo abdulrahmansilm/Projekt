@@ -1,0 +1,72 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { firma } from "../lib/config";
+
+// Hinweis: Dieses Impressum ist eine unverbindliche Platzhalter-Vorlage, keine Rechtsberatung.
+// Vor Veröffentlichung ist es von einer fachkundigen Person (Rechtsanwalt) zu prüfen und
+// um die noch offenen Angaben (PLZ, Telefon, E-Mail, USt-IdNr.) zu ergänzen.
+---
+
+<BaseLayout title="Impressum | Selim-IT" description="Impressum von Selim-IT gemäß § 5 DDG." path="/impressum">
+  <!-- Hinweis: Unverbindliche Platzhalter-Vorlage, keine Rechtsberatung. Vor Go-Live anwaltlich prüfen. -->
+  <section class="mx-auto max-w-3xl px-4 py-16 md:py-20">
+    <h1 class="font-headline text-3xl font-medium tracking-tight md:text-4xl">Impressum</h1>
+    <p class="text-bg-dark/68 mt-2 text-sm">Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG)</p>
+
+    <div class="prose-legal mt-10 space-y-8 text-sm leading-relaxed">
+      <section>
+        <h2 class="font-headline text-lg font-medium">Diensteanbieter</h2>
+        <p class="mt-2">
+          {firma.name} ({firma.rechtsform})<br />
+          Inhaber: {firma.inhaber}<br />
+          {firma.adresse.strasse}<br />
+          {firma.adresse.plz} {firma.adresse.stadt}<br />
+          {firma.adresse.land}
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-headline text-lg font-medium">Kontakt</h2>
+        <p class="mt-2">
+          Telefon: {firma.kontakt.telefon}<br />
+          E-Mail: {firma.kontakt.email}
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-headline text-lg font-medium">Umsatzsteuer-Identifikationsnummer</h2>
+        <p class="mt-2">{firma.ustIdNr}</p>
+      </section>
+
+      <section>
+        <h2 class="font-headline text-lg font-medium">Redaktionell verantwortlich</h2>
+        <p class="mt-2">{firma.inhaber}, Anschrift wie oben.</p>
+      </section>
+
+      <section>
+        <h2 class="font-headline text-lg font-medium">EU-Streitschlichtung</h2>
+        <p class="mt-2">
+          Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:
+          <a href="https://ec.europa.eu/consumers/odr/" class="text-accent-start underline" target="_blank" rel="noopener noreferrer">
+            https://ec.europa.eu/consumers/odr/ (öffnet in neuem Tab)
+          </a>. Unsere E-Mail-Adresse finden Sie oben unter „Kontakt“.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-headline text-lg font-medium">Verbraucherstreitbeilegung</h2>
+        <p class="mt-2">
+          Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer
+          Verbraucherschlichtungsstelle teilzunehmen.
+        </p>
+      </section>
+
+      <section class="border-bg-dark/15 border-t pt-6">
+        <p class="text-bg-dark/68 text-xs">
+          Dieses Impressum ist eine Platzhalter-Vorlage ohne Gewähr und ersetzt keine Rechtsberatung. Vor
+          Veröffentlichung ist es von einer fachkundigen Person zu prüfen.
+        </p>
+      </section>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Selim-IT — FAQ Server-Betreuung</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F1F3F0;
+    --ink:#05231F;
+    --grad-start:#4FB8A6;
+    --grad-end:#1B6E7A;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ background:var(--bg); font-family:'Outfit',sans-serif; color:var(--ink); }
+
+  .section{ max-width:840px; margin:0 auto; padding:96px 32px 104px; }
+
+  .section-head{ max-width:560px; margin-bottom:40px; }
+  h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:500;
+    font-size:36px;
+    letter-spacing:-0.01em;
+    margin-bottom:14px;
+  }
+  .section-head p{ font-size:15.5px; line-height:1.6; opacity:0.75; }
+
+  .faq-list{ display:flex; flex-direction:column; gap:12px; }
+
+  .faq-item{
+    background:#FFFFFF;
+    border-radius:16px;
+    box-shadow:0 4px 16px rgba(11,46,60,0.06);
+    overflow:hidden;
+  }
+
+  .faq-question{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    background:none;
+    border:none;
+    text-align:left;
+    padding:22px 24px;
+    cursor:pointer;
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;
+    font-size:16px;
+    color:var(--ink);
+  }
+
+  .faq-chevron{
+    flex:none;
+    width:28px; height:28px;
+    border-radius:50%;
+    background:rgba(27,110,122,0.08);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:background 0.35s ease, transform 0.4s cubic-bezier(.25,0,.2,1);
+  }
+  .faq-chevron svg{ width:14px; height:14px; transition:stroke 0.3s ease; }
+
+  .faq-item.open .faq-chevron{
+    background:linear-gradient(135deg,var(--grad-start),var(--grad-end));
+    transform:rotate(180deg);
+  }
+  .faq-item.open .faq-chevron svg path{ stroke:#FFFFFF; }
+
+  .faq-answer{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.5s cubic-bezier(.25,0,.2,1);
+  }
+  .faq-answer-inner{
+    padding:0 24px 24px;
+    max-width:640px;
+    font-size:14.5px;
+    line-height:1.7;
+    color:var(--ink);
+    opacity:0.8;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .faq-answer, .faq-chevron{ transition:none; }
+  }
+
+  @media (max-width:600px){
+    .section{ padding:64px 20px 72px; }
+    h2{ font-size:28px; }
+    .faq-question{ font-size:15px; padding:18px 18px; }
+    .faq-answer-inner{ padding:0 18px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<section class="section" aria-labelledby="faq-titel">
+  <div class="section-head">
+    <h2 id="faq-titel">Häufige Fragen zur Server-Betreuung</h2>
+    <p>Was Sie vor der Zusammenarbeit wissen sollten — kurz und ohne Kleingedrucktes.</p>
+  </div>
+
+  <div class="faq-list">
+
+    <div class="faq-item open">
+      <button class="faq-question" aria-expanded="true">
+        <span>Was kostet die Betreuung eines Servers?</span>
+        <span class="faq-chevron" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#1B6E7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Ab 50 € pro Server und Monat. Enthalten sind 24/7-Monitoring, Patch-Management, Backup-Überwachung, Störungsbeseitigung und laufende Dokumentation. Der genaue Preis richtet sich nach Anzahl und Art Ihrer Server sowie dem gewählten Paket.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>Welche Server betreuen Sie?</span>
+        <span class="faq-chevron" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#1B6E7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Physische Server, virtuelle Maschinen und Cloud-Server — bei Ihnen im Haus oder gehostet, unter Windows Server oder Linux. Ob Fileserver, Domain-Controller, Datenbank- oder Anwendungsserver: Wir übernehmen die laufende Betreuung, unabhängig vom Aufbau.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>Wie laufen Backups bei Ihnen ab?</span>
+        <span class="faq-chevron" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#1B6E7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Automatisiert nach der 3-2-1-Regel: mindestens drei Kopien Ihrer Daten, auf zwei unterschiedlichen Medien, eine davon extern. Wir überwachen, ob die Sicherung tatsächlich läuft, und prüfen regelmäßig, ob sich daraus auch wieder erfolgreich zurückspielen lässt.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>Wann und wie werden Updates eingespielt?</span>
+        <span class="faq-chevron" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#1B6E7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          In festen, mit Ihnen abgestimmten Wartungsfenstern außerhalb Ihrer Kernbetriebszeiten. Sicherheitsupdates werden vorab geprüft und dokumentiert eingespielt, damit kein Patch ungetestet auf einem produktiven Server landet.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>Übernehmen Sie auch bestehende Server, oder nur Neuaufbau?</span>
+        <span class="faq-chevron" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#1B6E7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Beides. Bei bestehenden Servern verschaffen wir uns zunächst einen vollständigen Überblick über die Konfiguration, bevor wir die Betreuung übernehmen — so übersehen wir keine gewachsenen Altlasten. Bei einem Neuaufbau planen und dokumentieren wir die Umgebung von Anfang an mit.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>Wie schnell reagieren Sie bei einem Serverausfall?</span>
+        <span class="faq-chevron" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#1B6E7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Kritische Serverstörungen werden vorrangig behandelt: je nach Paket reagieren wir innerhalb von 1 bis 8 Stunden, für alles andere gilt eine Reaktionszeit von 4 bis 24 Stunden. Da wir die meisten Auffälligkeiten über das Monitoring schon vor dem eigentlichen Ausfall sehen, kommt es in der Praxis selten so weit.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>Was passiert bei einem Totalausfall?</span>
+        <span class="faq-chevron" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#1B6E7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Dank geprüfter Backups spielen wir Ihre Daten und Dienste auf Ersatz-Hardware oder in einer neuen virtuellen Umgebung zurück. Wie lange das dauert, hängt von Datenmenge und Infrastruktur ab — das besprechen wir vorab, damit Sie im Ernstfall wissen, womit Sie rechnen können.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>Wie lange sind Sie vertraglich gebunden?</span>
+        <span class="faq-chevron" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#1B6E7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Unsere Verträge sind monatlich kündbar — Sie binden sich also nicht langfristig, wenn Sie das nicht möchten. Wer sich für eine jährliche Laufzeit entscheidet, erhält dafür 10 bis 20 % Rabatt auf die monatlichen Kosten.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('.faq-item').forEach(function (item) {
+    var btn = item.querySelector('.faq-question');
+    var answer = item.querySelector('.faq-answer');
+    var inner = item.querySelector('.faq-answer-inner');
+
+    function setHeight() {
+      if (item.classList.contains('open')) {
+        answer.style.maxHeight = inner.offsetHeight + 'px';
+      }
+    }
+    setHeight();
+    window.addEventListener('resize', setHeight);
+
+    btn.addEventListener('click', function () {
+      var isOpen = item.classList.contains('open');
+
+      document.querySelectorAll('.faq-item.open').forEach(function (openItem) {
+        if (openItem !== item) {
+          openItem.classList.remove('open');
+          openItem.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+          openItem.querySelector('.faq-answer').style.maxHeight = null;
+        }
+      });
+
+      if (isOpen) {
+        item.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+        answer.style.maxHeight = null;
+      } else {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+        answer.style.maxHeight = inner.offsetHeight + 'px';
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Selim-IT — Kostenvergleich (KI-Telefonassistent)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --dark:#0B2E3C;
+    --grad-start:#4FB8A6;
+    --grad-end:#1B6E7A;
+    --line:rgba(240,244,243,0.12);
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ background:#0B2E3C; }
+  body{
+    font-family:'Outfit',sans-serif;
+    background:
+      radial-gradient(90% 70% at 22% 0%,
+        rgba(79,184,166,0.13) 0%,
+        rgba(79,184,166,0.07) 26%,
+        rgba(79,184,166,0) 56%),
+      #0B2E3C;
+    background-attachment:fixed;
+    color:#F0F4F3;
+  }
+
+  .section{ padding:96px 32px 100px; }
+  .inner{ max-width:900px; margin:0 auto; }
+
+  .head{ max-width:600px; margin-bottom:48px; }
+  .head .eyebrow{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600; font-size:13px; letter-spacing:0.06em; text-transform:uppercase;
+    color:#7FD9C4; margin-bottom:14px;
+  }
+  .head h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:500; font-size:36px; letter-spacing:-0.01em;
+    color:#FFFFFF; margin-bottom:14px;
+  }
+  .head p{ font-size:15.5px; line-height:1.6; color:rgba(240,244,243,0.72); }
+
+  /* ============ Tabelle ============ */
+  .table{ border-top:1px solid var(--line); }
+
+  .row{
+    display:grid;
+    grid-template-columns:1.1fr 1fr 1fr;
+    gap:20px;
+    padding:20px 0;
+    border-bottom:1px solid var(--line);
+    align-items:center;
+  }
+  .row.headrow{ padding-bottom:16px; }
+  .row.headrow .col{
+    font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:14.5px;
+    color:#FFFFFF;
+  }
+  .row.headrow .label{ visibility:hidden; }
+
+  .row .label{ font-size:14.5px; color:rgba(240,244,243,0.62); }
+  .row .col{ font-size:15px; color:rgba(240,244,243,0.9); }
+  .row .col.ai{
+    font-family:'Space Grotesk',sans-serif; font-weight:600;
+    color:#7FD9C4;
+  }
+
+  .foot{
+    margin-top:32px;
+    font-size:15px; line-height:1.65;
+    color:rgba(240,244,243,0.72);
+    max-width:620px;
+  }
+
+  @media (max-width:640px){
+    .row{ grid-template-columns:1fr; gap:4px; padding:18px 0; }
+    .row.headrow{ display:none; }
+    .row .label{
+      font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:12px;
+      letter-spacing:0.05em; text-transform:uppercase;
+      color:rgba(240,244,243,0.45);
+      margin-bottom:6px;
+    }
+    .row .col::before{ content:attr(data-k) ": "; color:rgba(240,244,243,0.5); font-weight:400; }
+    .row .col.ai::before{ color:rgba(127,217,196,0.7); }
+  }
+  @media (max-width:560px){
+    .section{ padding:64px 20px 72px; }
+    .head h2{ font-size:27px; }
+  }
+</style>
+</head>
+<body>
+
+<section class="section" aria-labelledby="vergleich-titel">
+  <div class="inner">
+    <div class="head">
+      <div class="eyebrow">Kostenvergleich</div>
+      <h2 id="vergleich-titel">Was kostet Erreichbarkeit wirklich?</h2>
+      <p>Ein Vergleich zwischen einer zusätzlichen Teilzeitkraft für die Telefonannahme und dem KI-Telefonassistenten.</p>
+    </div>
+
+    <div class="table">
+      <div class="row headrow">
+        <div class="label">&nbsp;</div>
+        <div class="col">Mitarbeiter, 20 Std./Woche</div>
+        <div class="col">KI-Telefonassistent</div>
+      </div>
+
+      <div class="row">
+        <div class="label">Kosten im 1. Jahr</div>
+        <div class="col" data-k="Mitarbeiter">18.000–27.000 €</div>
+        <div class="col ai" data-k="KI-Telefonassistent">ca. 1.800 €</div>
+      </div>
+
+      <div class="row">
+        <div class="label">Erreichbarkeit</div>
+        <div class="col" data-k="Mitarbeiter">Mo–Fr vormittags</div>
+        <div class="col ai" data-k="KI-Telefonassistent">24/7</div>
+      </div>
+
+      <div class="row">
+        <div class="label">Urlaub, Krankheit, Kündigung</div>
+        <div class="col" data-k="Mitarbeiter">wirkt sich aus</div>
+        <div class="col ai" data-k="KI-Telefonassistent">entfällt</div>
+      </div>
+
+      <div class="row">
+        <div class="label">Einarbeitung</div>
+        <div class="col" data-k="Mitarbeiter">Wochen</div>
+        <div class="col ai" data-k="KI-Telefonassistent">Tage</div>
+      </div>
+
+      <div class="row">
+        <div class="label">Verfügbar ab</div>
+        <div class="col" data-k="Mitarbeiter">Personalfindung</div>
+        <div class="col ai" data-k="KI-Telefonassistent">ab nächster Woche</div>
+      </div>
+
+      <div class="row">
+        <div class="label">Einsatzort</div>
+        <div class="col" data-k="Mitarbeiter">vor Ort / Homeoffice</div>
+        <div class="col ai" data-k="KI-Telefonassistent">deutschlandweit remote</div>
+      </div>
+    </div>
+
+    <p class="foot">Die Zeit, die Sie nicht mehr am Telefon verbringen, arbeitet weiter — nur eben an Ihrem Kerngeschäft.</p>
+  </div>
+</section>
+
+</body>
+</html>

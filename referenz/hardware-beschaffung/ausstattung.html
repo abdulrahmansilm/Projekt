@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Selim-IT — Nicht jeder Arbeitsplatz braucht dieselbe Hardware</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F1F3F0;
+    --ink:#05231F;
+    --grad-start:#4FB8A6;
+    --grad-end:#1B6E7A;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ background:var(--bg); font-family:'Outfit',sans-serif; color:var(--ink); }
+
+  .section{ padding:96px 32px 100px; }
+  .inner{
+    max-width:1080px; margin:0 auto;
+    display:grid; grid-template-columns:1fr 1fr;
+    gap:64px; align-items:center;
+  }
+
+  .text .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600; font-size:13px; letter-spacing:0.06em; text-transform:uppercase;
+    color:#1B6E7A; margin-bottom:16px;
+  }
+  .text .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:linear-gradient(135deg,var(--grad-start),var(--grad-end)); }
+
+  .text h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:500; font-size:32px; line-height:1.28; letter-spacing:-0.01em;
+    margin-bottom:18px;
+  }
+
+  .text p{ font-size:15.5px; line-height:1.7; opacity:0.75; }
+  .text p + p{ margin-top:14px; }
+
+  /* Bild-Platzhalter */
+  .image-placeholder{
+    aspect-ratio:4/5;
+    border-radius:20px;
+    border:1.5px dashed rgba(11,46,60,0.22);
+    background:rgba(11,46,60,0.03);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:14px;
+    text-align:center;
+    padding:32px;
+  }
+  .image-placeholder .ico{
+    width:52px; height:52px; border-radius:14px;
+    background:rgba(79,184,166,0.1);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .image-placeholder .ico svg{ width:26px; height:26px; }
+  .image-placeholder span{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600; font-size:13px;
+    color:rgba(11,46,60,0.45);
+  }
+
+  @media (max-width:820px){
+    .inner{ grid-template-columns:1fr; gap:36px; }
+    .image-placeholder{ order:-1; aspect-ratio:16/10; }
+  }
+  @media (max-width:560px){
+    .section{ padding:64px 20px 72px; }
+    .text h2{ font-size:25px; }
+  }
+</style>
+</head>
+<body>
+
+<section class="section" aria-labelledby="ausstattung-titel">
+  <div class="inner">
+    <div class="text">
+      <div class="eyebrow"><span class="dot"></span>Passende Ausstattung</div>
+      <h2 id="ausstattung-titel">Nicht jeder Arbeitsplatz braucht dieselbe Hardware</h2>
+      <p>Ein Laptop für die Buchhaltung muss etwas anderes leisten als einer für den Außendienst oder die Grafikabteilung. Trotzdem wird in der Praxis oft dasselbe Gerät für alle bestellt — entweder überdimensioniert und zu teuer, oder zu schwach für die eigentliche Aufgabe.</p>
+      <p>Wir stimmen die Ausstattung auf den tatsächlichen Einsatzzweck ab, statt eine Einheitslösung über den ganzen Betrieb zu legen.</p>
+    </div>
+
+    <div class="image-placeholder">
+      <div class="ico">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="14" rx="2" stroke="#1B6E7A" stroke-width="1.6"/>
+          <circle cx="9" cy="9.5" r="2" stroke="#1B6E7A" stroke-width="1.6"/>
+          <path d="M4.5 16 L9 11.8 L12 14.5 L15.5 10.5 L19.5 16" stroke="#1B6E7A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span>Bildplatzhalter</span>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

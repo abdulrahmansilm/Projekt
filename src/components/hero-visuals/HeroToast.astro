@@ -1,0 +1,98 @@
+---
+/**
+ * Schwebende Toast-/Info-Karte der Hero-Visuals (docs/DESIGNSYSTEM.md → Komponente 9, Toast-Notification).
+ * Float-Loop ~5s ease-in-out (Dauerschleife), zweite Karte mit versetzter Phase. Bei reduzierter Bewegung statisch.
+ */
+interface Props {
+  titel: string;
+  sub?: string;
+  breite?: number;
+  radius?: string;
+  dauer?: number;
+  verzoegerung?: number;
+  hub?: number;
+  style?: string;
+  class?: string;
+}
+const { titel, sub, breite = 250, radius = "20px 20px 10px 10px", dauer = 5, verzoegerung = 0, hub = 8, style = "", class: className = "" } = Astro.props;
+---
+
+<div
+  class:list={["toast", className]}
+  style={`width:${breite}px;border-radius:${radius};--dauer:${dauer}s;--verz:${verzoegerung}s;--hub:-${hub}px;${style}`}
+>
+  <span class="toast__ico" aria-hidden="true"><slot name="icon" /></span>
+  <span class="toast__text">
+    <span class="toast__titel">{titel}</span>
+    {sub && <span class="toast__sub">{sub}</span>}
+  </span>
+</div>
+
+<style>
+  .toast {
+    position: absolute;
+    z-index: 5;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+    background: #ffffff;
+    box-shadow: 0 16px 36px -8px rgba(11, 46, 60, 0.28);
+    font-family: var(--font-body);
+    animation: toast-schweben var(--dauer) ease-in-out infinite;
+    animation-delay: var(--verz);
+  }
+
+  @keyframes toast-schweben {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(var(--hub));
+    }
+  }
+
+  .toast__ico {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: var(--verlauf);
+  }
+
+  .toast__ico :global(svg) {
+    width: 17px;
+    height: 17px;
+  }
+
+  .toast__text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-top: 1px;
+  }
+
+  .toast__titel {
+    font-family: var(--font-headline);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #0b2e3c;
+  }
+
+  .toast__sub {
+    font-size: 12px;
+    line-height: 1.4;
+    color: rgba(11, 46, 60, 0.7);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .toast {
+      animation: none;
+    }
+  }
+</style>

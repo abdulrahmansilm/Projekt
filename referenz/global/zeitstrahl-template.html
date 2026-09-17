@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zeitstrahl — Ablauf einer Buchung</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Outfit:wght@400;500;600&family=SUSE+Mono:wght@400;500&display=swap">
+<style>
+/* ---------- Design-Tokens (Selim IT) ---------- */
+:root{
+  --zt-bg:#F0F4F3;
+  --zt-petrol:#0B2E3C;
+  --zt-accent-strong:#1B6E7A;
+  --zt-accent:#4FB8A6;
+  --zt-gradient:linear-gradient(135deg,#1B6E7A 0%,#4FB8A6 100%);
+  --zt-muted:color-mix(in oklch,#0B2E3C 62%,#F0F4F3);
+  --zt-hairline:rgba(11,46,60,.16);
+  --zt-inactive:rgba(11,46,60,.19);
+  --zt-done:rgba(27,110,122,.32);
+  --zt-font-display:'Space Grotesk',ui-sans-serif,system-ui,sans-serif;
+  --zt-font-body:'Outfit',ui-sans-serif,system-ui,sans-serif;
+  --zt-font-mono:'SUSE Mono',ui-monospace,monospace;
+}
+body{margin:0;background:#fff}
+
+/* ---------- Sektion ---------- */
+.zt{background:var(--zt-bg);display:flex;justify-content:center}
+.zt-inner{display:flex;align-items:center;gap:0;width:100%;max-width:1320px}
+.zt-copy{flex:none;width:420px;padding:0 40px 0 72px;box-sizing:content-box;display:flex;flex-direction:column;gap:18px}
+.zt-eyebrow{font-family:var(--zt-font-mono);font-weight:500;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--zt-accent-strong)}
+.zt-h2{margin:0;font-family:var(--zt-font-display);font-weight:700;font-size:44px;line-height:1.06;letter-spacing:-.03em;color:var(--zt-petrol);text-wrap:pretty}
+.zt-lead{margin:0;font-family:var(--zt-font-body);font-weight:400;font-size:17px;line-height:1.55;color:var(--zt-muted);max-width:340px;text-wrap:pretty}
+.zt-count{display:flex;align-items:center;gap:10px;margin-top:6px;font-family:var(--zt-font-body);font-weight:500;font-size:13px;color:rgba(11,46,60,.5)}
+.zt-count::before{content:"";width:26px;height:2px;background:var(--zt-gradient)}
+
+/* ---------- Bogen-Bühne (feste Geometrie, wird bei Bedarf skaliert) ---------- */
+.zt-stagewrap{flex:1 1 790px;min-width:0;overflow:hidden}
+.zt-stage{position:relative;width:790px;height:700px;transform-origin:left top}
+.zt-stage svg{position:absolute;inset:0}
+.zt-num{position:absolute;font-family:var(--zt-font-display);font-weight:700;font-size:52px;letter-spacing:-.02em;color:var(--zt-inactive);
+  background:none;border:0;padding:0;cursor:pointer;user-select:none;
+  transition:left .6s cubic-bezier(.4,0,.2,1),top .6s cubic-bezier(.4,0,.2,1),transform .6s cubic-bezier(.4,0,.2,1),color .25s ease}
+.zt-num[data-done="1"]{color:var(--zt-done)}
+.zt-num:hover{color:rgba(11,46,60,.45)}
+.zt-num:focus-visible{outline:2px solid var(--zt-accent);outline-offset:6px;border-radius:4px}
+.zt-dot{cursor:pointer;transition:cx .6s cubic-bezier(.4,0,.2,1),cy .6s cubic-bezier(.4,0,.2,1),r .3s ease}
+
+.zt-panel{position:absolute;left:372px;top:350px;transform:translateY(-50%);display:flex;align-items:flex-start;gap:28px;width:400px}
+.zt-bignum{flex:none;font-family:var(--zt-font-display);font-weight:700;font-size:104px;line-height:.82;letter-spacing:-.045em;
+  background:var(--zt-gradient);-webkit-background-clip:text;background-clip:text;color:transparent}
+.zt-text{display:flex;flex-direction:column;gap:7px;padding-top:9px}
+.zt-title{font-family:var(--zt-font-display);font-weight:700;font-size:21px;letter-spacing:-.01em;color:var(--zt-petrol)}
+.zt-desc{margin:0;font-family:var(--zt-font-body);font-weight:400;font-size:16px;line-height:1.5;color:var(--zt-muted);text-wrap:pretty}
+
+/* ---------- Mobil / schmale Spalten: Textspalte über den Bogen ---------- */
+@media (max-width:1120px){
+  .zt-inner{flex-direction:column;align-items:flex-start;gap:8px;padding:56px 0}
+  .zt-copy{width:auto;max-width:640px;padding:0 32px}
+  .zt-stagewrap{flex:none;width:100%}
+}
+@media (prefers-reduced-motion:reduce){
+  .zt-num,.zt-dot{transition:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     ZEITSTRAHL — alle Texte stehen direkt hier im HTML.
+     * data-active="3"  -> welcher Schritt ist aktiv (1–4)
+     * Schritt-Texte:   in der Liste <ol class="zt-steps"> unten
+     * Nummer (01, 02…) = data-num, Titel = data-title,
+       der Satz in Alltagssprache = Inhalt des <li>
+     ============================================================ -->
+<section class="zt" id="ablauf" data-active="3" style="padding:0">
+  <div class="zt-inner">
+
+    <div class="zt-copy">
+      <div class="zt-eyebrow">[Kleine Überzeile]</div>
+      <h2 class="zt-h2">[Überschrift der Sektion — 4 bis 8 Wörter]</h2>
+      <p class="zt-lead">[Zwei kurze Sätze, die den Ablauf einordnen. Alltagssprache, kein Projektjargon.]</p>
+    </div>
+
+    <div class="zt-stagewrap">
+      <div class="zt-stage" data-zt-stage>
+        <svg width="790" height="700" viewBox="0 0 790 700" aria-hidden="true">
+          <defs>
+            <linearGradient id="ztGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#1B6E7A"/><stop offset="1" stop-color="#4FB8A6"/>
+            </linearGradient>
+          </defs>
+          <path data-zt-arc fill="none" stroke="var(--zt-hairline)" stroke-width="1"></path>
+          <path data-zt-trace fill="none" stroke="url(#ztGrad)" stroke-width="2.5" stroke-linecap="round"></path>
+          <g data-zt-dots></g>
+        </svg>
+        <div data-zt-labels></div>
+
+        <div class="zt-panel">
+          <div class="zt-bignum" data-zt-num>03</div>
+          <div class="zt-text">
+            <div class="zt-title" data-zt-title></div>
+            <p class="zt-desc" data-zt-desc></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inhalte: hier ausfüllen. Reihenfolge = Reihenfolge auf dem Bogen. -->
+    <ol class="zt-steps" hidden>
+      <li data-num="01" data-title="[Titel Schritt 1]">[Ein Satz in Alltagssprache — was passiert hier?]</li>
+      <li data-num="02" data-title="[Titel Schritt 2]">[Ein Satz in Alltagssprache — was passiert hier?]</li>
+      <li data-num="03" data-title="[Titel Schritt 3]">[Ein Satz in Alltagssprache — was passiert hier?]</li>
+      <li data-num="04" data-title="[Titel Schritt 4]">[Ein Satz in Alltagssprache — was passiert hier?]</li>
+    </ol>
+
+  </div>
+</section>
+
+<script>
+(function(){
+  /* Geometrie — nur anpassen, wenn der Bogen anders sitzen soll */
+  var G = { cx:-80, cy:350, R:340, labelR:386, gap:18, dotSm:3.5, dotBig:11, endPad:13 };
+  var SVGNS = 'http://www.w3.org/2000/svg';
+
+  document.querySelectorAll('.zt').forEach(function(root){
+    var steps = [].map.call(root.querySelectorAll('.zt-steps > li'), function(li){
+      return { num: li.dataset.num || '', title: li.dataset.title || '', desc: li.textContent.trim() };
+    });
+    if (!steps.length) return;
+
+    var stage  = root.querySelector('[data-zt-stage]');
+    var wrap   = root.querySelector('.zt-stagewrap');
+    var arc    = root.querySelector('[data-zt-arc]');
+    var trace  = root.querySelector('[data-zt-trace]');
+    var dotsG  = root.querySelector('[data-zt-dots]');
+    var labels = root.querySelector('[data-zt-labels]');
+    var elNum  = root.querySelector('[data-zt-num]');
+    var elTtl  = root.querySelector('[data-zt-title]');
+    var elDesc = root.querySelector('[data-zt-desc]');
+    var elCnt  = root.querySelector('[data-zt-count]');
+    var active = Math.min(steps.length, Math.max(1, parseInt(root.dataset.active || '1', 10))) - 1;
+
+    function P(r, deg){ var t = deg * Math.PI / 180; return [G.cx + r * Math.cos(t), G.cy + r * Math.sin(t)]; }
+    function arcPath(a0, a1){
+      var s = P(G.R, a0), e = P(G.R, a1);
+      return 'M' + s[0].toFixed(1) + ' ' + s[1].toFixed(1) + ' A' + G.R + ' ' + G.R + ' 0 0 1 ' + e[0].toFixed(1) + ' ' + e[1].toFixed(1);
+    }
+
+    /* Punkte + Nummern einmal anlegen */
+    var dots = steps.map(function(s, i){
+      var c = document.createElementNS(SVGNS, 'circle');
+      c.setAttribute('class', 'zt-dot');
+      c.setAttribute('stroke', 'transparent');
+      c.setAttribute('stroke-width', '24');
+      c.addEventListener('click', function(){ setActive(i); });
+      dotsG.appendChild(c);
+
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'zt-num';
+      b.textContent = s.num;
+      b.setAttribute('aria-label', 'Schritt ' + s.num + ': ' + s.title);
+      b.addEventListener('click', function(){ setActive(i); });
+      labels.appendChild(b);
+      return { dot: c, label: b };
+    });
+
+    function setActive(i){
+      active = i;
+      var last = steps.length - 1;
+      steps.forEach(function(s, k){
+        var ang = (k - active) * G.gap, p = P(G.R, ang), q = P(G.labelR, ang), d = dots[k];
+        d.dot.setAttribute('cx', p[0].toFixed(1));
+        d.dot.setAttribute('cy', p[1].toFixed(1));
+        d.dot.setAttribute('r', k === active ? G.dotBig : G.dotSm);
+        d.dot.setAttribute('fill', k === active ? 'url(#ztGrad)' : 'rgba(11,46,60,.22)');
+        d.label.style.left = q[0].toFixed(1) + 'px';
+        d.label.style.top  = q[1].toFixed(1) + 'px';
+        d.label.style.transform = 'translate(-50%,-50%) rotate(' + ang.toFixed(1) + 'deg)';
+        d.label.style.visibility = k === active ? 'hidden' : 'visible';
+        d.label.dataset.done = k < active ? '1' : '0';
+        d.label.setAttribute('aria-current', k === active ? 'step' : 'false');
+      });
+      arc.setAttribute('d', arcPath(-active * G.gap - G.endPad, (last - active) * G.gap + G.endPad));
+      trace.setAttribute('d', active > 0 ? arcPath(-active * G.gap, 0) : '');
+      elNum.textContent  = steps[active].num;
+      elTtl.textContent  = steps[active].title;
+      elDesc.textContent = steps[active].desc;
+      if (elCnt) elCnt.textContent = 'Schritt ' + steps[active].num + ' von ' + steps[last].num;
+    }
+
+    /* Bühne in schmalen Spalten proportional verkleinern */
+    function fit(){
+      var w = wrap.clientWidth, s = Math.min(1, w / 790);
+      stage.style.transform = s < 1 ? 'scale(' + s + ')' : 'none';
+      wrap.style.height = (700 * s) + 'px';
+    }
+    if (window.ResizeObserver) new ResizeObserver(fit).observe(wrap);
+    window.addEventListener('resize', fit);
+
+    setActive(active);
+    fit();
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,424 @@
+---
+/**
+ * Wissen-Artikel (docs/DESIGNSYSTEM.md → Komponente 23, referenz/wissen/blog-*.html).
+ * Artikel-Hero mit Breadcrumb, Badge, H1, Standfirst, Meta. Body 760px mit Keypoint-Callouts und Tabellen,
+ * FAQ-Block (alle Antworten sichtbar, deckungsgleich mit FAQPage), Abschluss-CTA.
+ * JSON-LD: BlogPosting + FAQPage + BreadcrumbList.
+ */
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import WissenTeaser from "../../components/sections/WissenTeaser.astro";
+import { breadcrumbJsonLd, faqJsonLd, ORGANISATION_ID } from "../../lib/seo";
+import { SITE_URL } from "../../lib/config";
+
+export async function getStaticPaths() {
+  const artikel = await getCollection("wissen");
+  return artikel.map((a) => ({ params: { slug: a.id }, props: { artikel: a } }));
+}
+
+interface Props {
+  artikel: CollectionEntry<"wissen">;
+}
+
+const { artikel } = Astro.props;
+const d = artikel.data;
+const { Content } = await render(artikel);
+const pfad = `/wissen/${artikel.id}`;
+const datumIso = d.datum.toISOString().slice(0, 10);
+const datumLesbar = d.datum.toLocaleDateString("de-DE", { day: "numeric", month: "long", year: "numeric" });
+
+const alle = await getCollection("wissen");
+const verwandt = alle
+  .filter((a) => a.id !== artikel.id)
+  .map((a) => ({
+    id: a.id,
+    punkte: (a.data.kategorie === d.kategorie ? 2 : 0) + a.data.leistungen.filter((l) => d.leistungen.includes(l)).length,
+    reihenfolge: a.data.reihenfolge,
+  }))
+  .sort((a, b) => b.punkte - a.punkte || a.reihenfolge - b.reihenfolge)
+  .slice(0, 3)
+  .map((a) => a.id);
+
+const jsonLd = [
+  {
+    "@type": "BlogPosting",
+    "@id": `${SITE_URL}${pfad}#artikel`,
+    headline: d.titel,
+    description: d.beschreibung,
+    datePublished: datumIso,
+    dateModified: datumIso,
+    inLanguage: "de-DE",
+    mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE_URL}${pfad}` },
+    author: { "@id": ORGANISATION_ID },
+    publisher: { "@id": ORGANISATION_ID },
+  },
+  faqJsonLd(d.faq.map((f) => ({ frage: f.frage, antwortText: f.antwort }))),
+  breadcrumbJsonLd([
+    { name: "Startseite", pfad: "/" },
+    { name: "Wissen", pfad: "/wissen" },
+    { name: d.titel, pfad },
+  ]),
+];
+---
+
+<BaseLayout title={d.seoTitel} description={d.beschreibung} pfad={pfad} ogTyp="article" jsonLd={jsonLd}>
+  <article>
+    <header class="ah on-dark" data-hero>
+      <div class="ah__inner">
+        <div class="ah__text">
+          <nav class="ah__brotkrumen" aria-label="Brotkrumen">
+            <ol role="list">
+              <li><a href="/">Startseite</a></li>
+              <li><a href="/wissen">Wissen</a></li>
+              <li aria-current="page">{d.kategorie}</li>
+            </ol>
+          </nav>
+          <span class="ah__tag">{d.kategorie}</span>
+          <h1>{d.titel}</h1>
+          <p class="ah__standfirst">{d.standfirst}</p>
+          <p class="ah__meta">
+            {d.lesezeit} Min. Lesezeit · Zuletzt aktualisiert: <time datetime={datumIso}>{datumLesbar}</time>
+          </p>
+        </div>
+        <div class="ah__bild" aria-hidden="true">
+          <img src={`/wissen/${artikel.id}.svg`} alt="" width="500" height="500" loading="eager" />
+        </div>
+      </div>
+    </header>
+
+    <div class="artikel">
+      <Content />
+
+      <section class="faq-block" aria-labelledby="artikel-faq">
+        <h2 id="artikel-faq">Häufige Fragen</h2>
+        {
+          d.faq.map((f) => (
+            <div class="faq-q">
+              <h3>{f.frage}</h3>
+              <p>{f.antwort}</p>
+            </div>
+          ))
+        }
+      </section>
+
+      <aside class="cta" aria-labelledby="artikel-cta">
+        <h2 id="artikel-cta">{d.cta.titel}</h2>
+        <p>{d.cta.text}</p>
+        <a class="btn btn--hell" href="/kontakt"><span>{d.cta.link}</span></a>
+      </aside>
+    </div>
+  </article>
+
+  <WissenTeaser titel="Weiterlesen" intro="Passende Beiträge zum Thema." artikel={verwandt} />
+</BaseLayout>
+
+<style>
+  .ah {
+    margin: 12px;
+    padding: 136px 32px 72px;
+    border-radius: 18px;
+    background: linear-gradient(150deg, #1b6e7a 0%, #0b2e3c 100%);
+    color: var(--on-dark);
+  }
+
+  .ah__inner {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+
+  .ah__text {
+    flex: 1 1 460px;
+    min-width: 0;
+    max-width: 760px;
+  }
+
+  .ah__bild {
+    flex: 1 1 220px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .ah__bild img {
+    width: 100%;
+    max-width: 260px;
+    height: auto;
+  }
+
+  @media (max-width: 760px) {
+    .ah__inner {
+      flex-direction: column-reverse;
+      gap: 24px;
+    }
+
+    .ah__bild img {
+      max-width: 160px;
+    }
+  }
+
+  .ah__brotkrumen ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 0;
+    margin: 0 0 22px;
+    padding: 0;
+    list-style: none;
+    font-size: 13.5px;
+    color: rgba(240, 244, 243, 0.72);
+  }
+
+  .ah__brotkrumen li + li::before {
+    content: "›";
+    margin: 0 8px;
+    color: rgba(240, 244, 243, 0.55);
+  }
+
+  .ah__brotkrumen a {
+    color: rgba(240, 244, 243, 0.82);
+    text-decoration: none;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .ah__brotkrumen a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+  }
+
+  .ah__tag {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 5px 13px;
+    border-radius: 999px;
+    background: rgba(79, 184, 166, 0.16);
+    color: var(--helltuerkis);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  .ah h1 {
+    margin-bottom: 20px;
+    font-size: clamp(28px, 4.2vw, 42px);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    color: #ffffff;
+  }
+
+  .ah__standfirst {
+    font-size: 18px;
+    line-height: 1.6;
+    color: rgba(240, 244, 243, 0.88);
+  }
+
+  .ah__meta {
+    margin-top: 28px;
+    font-size: 13.5px;
+    color: rgba(240, 244, 243, 0.72);
+  }
+
+  /* ---------- Artikeltext (Markdown mit HTML-Blöcken) ---------- */
+  .artikel {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 64px 32px 88px;
+  }
+
+  .artikel :global(p) {
+    margin-bottom: 22px;
+    font-size: 17px;
+    line-height: 1.75;
+  }
+
+  .artikel :global(h2) {
+    margin: 48px 0 18px;
+    font-size: 27px;
+    font-weight: 600;
+    line-height: 1.28;
+    letter-spacing: -0.01em;
+  }
+
+  .artikel :global(h3) {
+    margin: 34px 0 14px;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.32;
+  }
+
+  .artikel :global(ul),
+  .artikel :global(ol) {
+    margin: 0 0 24px 22px;
+    padding: 0;
+  }
+
+  .artikel :global(ul) {
+    list-style: disc;
+  }
+
+  .artikel :global(ol) {
+    list-style: decimal;
+  }
+
+  .artikel :global(li) {
+    margin-bottom: 10px;
+    font-size: 17px;
+    line-height: 1.7;
+  }
+
+  .artikel :global(li::marker) {
+    color: var(--petrol);
+  }
+
+  .artikel :global(strong) {
+    font-weight: 600;
+  }
+
+  .artikel :global(a:not(.btn)) {
+    color: var(--petrol);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .artikel :global(.keypoint) {
+    margin: 32px 0;
+    padding: 22px 26px;
+    border-left: 3px solid var(--tuerkis);
+    border-radius: 0 12px 12px 0;
+    background: #ffffff;
+  }
+
+  .artikel :global(.keypoint p) {
+    margin: 0;
+    font-size: 16.5px;
+  }
+
+  .artikel :global(.keypoint p + p) {
+    margin-top: 14px;
+  }
+
+  .artikel :global(.tabelle-scroll) {
+    margin: 28px 0;
+    overflow-x: auto;
+    border-radius: 12px;
+    background: #ffffff;
+  }
+
+  .artikel :global(table) {
+    width: 100%;
+    min-width: 480px;
+    border-collapse: collapse;
+    font-size: 15.5px;
+  }
+
+  .artikel :global(th) {
+    padding: 14px 18px;
+    background: rgba(27, 110, 122, 0.08);
+    font-family: var(--font-headline);
+    font-size: 14.5px;
+    font-weight: 600;
+    text-align: left;
+  }
+
+  .artikel :global(td) {
+    padding: 14px 18px;
+    border-top: 1px solid rgba(11, 46, 60, 0.08);
+    line-height: 1.55;
+  }
+
+  .faq-block {
+    margin-top: 52px;
+  }
+
+  .faq-block h2 {
+    margin-bottom: 16px !important;
+  }
+
+  .faq-q {
+    margin-bottom: 12px;
+    padding: 22px 24px;
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 3px 12px rgba(11, 46, 60, 0.05);
+  }
+
+  .faq-q h3 {
+    margin: 0 0 10px !important;
+    font-size: 17px !important;
+  }
+
+  .faq-q p {
+    margin: 0 !important;
+    font-size: 15.5px !important;
+    line-height: 1.65;
+    color: rgba(11, 46, 60, 0.85);
+  }
+
+  .cta {
+    margin-top: 56px;
+    padding: 34px 34px 36px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #4fb8a6 0%, #1b6e7a 70%);
+    color: #ffffff;
+  }
+
+  .cta h2 {
+    margin: 0 0 12px !important;
+    font-size: 22px !important;
+    color: #ffffff;
+  }
+
+  .cta p {
+    margin: 0 0 22px !important;
+    font-size: 16px !important;
+    line-height: 1.65;
+    color: #ffffff;
+  }
+
+  .cta .btn {
+    color: var(--petrol);
+  }
+
+  @media (max-width: 760px) {
+    .ah {
+      margin: 8px;
+      padding: 104px 20px 48px;
+      border-radius: 16px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .artikel {
+      padding: 44px 20px 64px;
+    }
+
+    .artikel :global(p),
+    .artikel :global(li) {
+      font-size: 16px;
+    }
+
+    .artikel :global(h2) {
+      margin: 38px 0 14px;
+      font-size: 23px;
+    }
+
+    .ah__standfirst {
+      font-size: 16.5px;
+    }
+
+    .artikel :global(table) {
+      font-size: 14px;
+    }
+
+    .artikel :global(th),
+    .artikel :global(td) {
+      padding: 11px 13px;
+    }
+
+    .cta {
+      padding: 28px 22px;
+    }
+  }
+</style>

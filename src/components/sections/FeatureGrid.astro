@@ -1,0 +1,179 @@
+---
+/**
+ * Feature-Grid 2×2 auf dunklem Grund mit optional hervorgehobener Karte
+ * (docs/DESIGNSYSTEM.md → Komponente 22c, referenz/m365/teams.html).
+ */
+interface Props {
+  eyebrow?: string;
+  titel: string;
+  intro?: string;
+  karten: { icon: string; titel: string; text: string; highlight?: boolean; tag?: string }[];
+}
+const { eyebrow, titel, intro, karten } = Astro.props;
+const id = `fg-${Math.random().toString(36).slice(2, 7)}`;
+---
+
+<section class="fg section-dark" aria-labelledby={`${id}-titel`}>
+  <div class="fg__inner">
+    <div class="fg__kopf" data-reveal>
+      {
+        eyebrow && (
+          <p class="eyebrow">
+            <span class="eyebrow__dot" aria-hidden="true" />
+            {eyebrow}
+          </p>
+        )
+      }
+      <h2 id={`${id}-titel`} class="h2">{titel}</h2>
+      {intro && <p class="lead">{intro}</p>}
+    </div>
+    <ul class="fg__grid" role="list" data-reveal-group>
+      {
+        karten.map((k) => (
+          <li class:list={["fk", { "fk--highlight": k.highlight }]} data-reveal>
+            {k.tag && <span class="fk__tag">{k.tag}</span>}
+            <span class="fk__ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" set:html={k.icon} />
+            </span>
+            <h3>{k.titel}</h3>
+            <p>{k.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .fg {
+    --glow-pos: 22% 0%;
+    padding: 96px 32px 100px;
+  }
+
+  .fg__inner {
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+
+  .fg__kopf {
+    max-width: 660px;
+    margin-bottom: 52px;
+  }
+
+  .fg__kopf .eyebrow {
+    margin-bottom: 14px;
+  }
+
+  .fg__kopf h2 {
+    margin-bottom: 16px;
+    color: #ffffff;
+  }
+
+  .fg__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .fk {
+    padding: 26px 26px 28px;
+    border: 1px solid rgba(240, 244, 243, 0.1);
+    border-radius: 18px;
+    background: rgba(240, 244, 243, 0.035);
+    transition:
+      background-color 200ms ease,
+      border-color 200ms ease,
+      transform 200ms var(--ease-out);
+  }
+
+  .fk--highlight {
+    border-color: rgba(79, 184, 166, 0.3);
+    background: linear-gradient(150deg, rgba(79, 184, 166, 0.14), rgba(79, 184, 166, 0.03));
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .fk:hover {
+      transform: translateY(-3px);
+      border-color: rgba(79, 184, 166, 0.3);
+      background-color: rgba(240, 244, 243, 0.055);
+    }
+  }
+
+  .fk__ico {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    margin-bottom: 18px;
+    border: 1px solid rgba(79, 184, 166, 0.3);
+    border-radius: 13px;
+    background: rgba(79, 184, 166, 0.14);
+  }
+
+  .fk__ico svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .fk h3 {
+    margin-bottom: 8px;
+    font-size: 17.5px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #ffffff;
+  }
+
+  .fk p {
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: rgba(240, 244, 243, 0.75);
+  }
+
+  .fk__tag {
+    display: inline-block;
+    margin-bottom: 14px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(79, 184, 166, 0.14);
+    color: var(--helltuerkis);
+    font-family: var(--font-headline);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 760px) {
+    .fg__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .fg {
+      padding: 64px 20px 72px;
+    }
+
+    .fg__kopf {
+      margin-bottom: 40px;
+    }
+
+    .fg__kopf h2 {
+      font-size: 27px;
+    }
+
+    .fk {
+      padding: 22px 20px 24px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fk:hover {
+      transform: none;
+    }
+  }
+</style>

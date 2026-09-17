@@ -1,0 +1,156 @@
+---
+/**
+ * Trustbar: Partner-Logo-Marquee (docs/DESIGNSYSTEM.md → Komponente 20).
+ * Konstante Bewegung → linear (emil-design-eng), läuft dauerhaft ohne Steuerung (Nutzer-Entscheidung, 17.09.2026).
+ * Pausiert weiterhin bei Maus-Hover, damit Logos bei Bedarf lesbar bleiben; kein Button mehr, daher ohne
+ * tastaturerreichbare Pause-Möglichkeit (bewusste Abweichung von WCAG 2.2.2, siehe Zusammenfassung).
+ * prefers-reduced-motion: keine Bewegung. Immer auf Off-White, zusammen mit Problem & Lösung.
+ * Platzhalter-Logos, bis reale, abgestimmte Partner vorliegen (docs/BRANCHE.md).
+ */
+interface Props {
+  label: string;
+  logos: string[];
+  /** steht vor einer dunklen Sektion (Abstände oben/unten tauschen) */
+  vorDunkel?: boolean;
+}
+const { label, logos, vorDunkel = false } = Astro.props;
+---
+
+<section class:list={["tb", "section-light", { "tb--vor-dunkel": vorDunkel }]} aria-label={label}>
+  <div class="tb__kopf">
+    <p class="tb__label">{label}</p>
+  </div>
+  <div class="tb__marquee">
+    <ul class="tb__spur" role="list">
+      {
+        logos.map((l) => (
+          <li class="tb__logo">
+            <span class="tb__dot" aria-hidden="true" />
+            {l}
+          </li>
+        ))
+      }
+      {
+        logos.map((l) => (
+          <li class="tb__logo" aria-hidden="true">
+            <span class="tb__dot" />
+            {l}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .tb {
+    padding: 28px 0 88px;
+  }
+
+  .tb--vor-dunkel {
+    padding: 88px 0 12px;
+  }
+
+  .tb__kopf {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 32px;
+    padding: 0 20px;
+  }
+
+  .tb__label {
+    font-family: var(--font-headline);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--ink-68);
+  }
+
+  .tb__marquee {
+    position: relative;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 80px, #000 calc(100% - 80px), transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 80px, #000 calc(100% - 80px), transparent 100%);
+  }
+
+  .tb__spur {
+    display: flex;
+    align-items: center;
+    gap: 64px;
+    width: max-content;
+    margin: 0;
+    padding: 0 32px 0 0;
+    list-style: none;
+    animation: tb-lauf 32s linear infinite;
+  }
+
+  .tb__marquee:hover .tb__spur {
+    animation-play-state: paused;
+  }
+
+  @keyframes tb-lauf {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .tb__logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: none;
+    font-family: var(--font-headline);
+    font-size: 20px;
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--ink-72);
+  }
+
+  .tb__dot {
+    width: 8px;
+    height: 8px;
+    flex: none;
+    border-radius: 50%;
+    background: var(--verlauf);
+  }
+
+  @media (max-width: 560px) {
+    .tb {
+      padding: 16px 0 64px;
+    }
+
+    .tb__spur {
+      gap: 44px;
+    }
+
+    .tb__logo {
+      font-size: 17px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tb__spur {
+      animation: none;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: auto;
+      gap: 20px 40px;
+      padding: 0 20px;
+    }
+
+    .tb__marquee {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+
+    .tb__logo[aria-hidden="true"] {
+      display: none;
+    }
+  }
+</style>

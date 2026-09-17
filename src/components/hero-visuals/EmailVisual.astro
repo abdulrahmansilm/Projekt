@@ -1,0 +1,80 @@
+---
+/**
+ * Hero-Visual E-Mail-Sicherheit (referenz/email-sicherheit/hero.html): Umschlag aus drei SVG-Ebenen,
+ * Schild-Karte schwebt leicht, zwei Mini-Karten (oben rechts / unten links).
+ */
+import HeroStage from "./HeroStage.astro";
+import HeroToast from "./HeroToast.astro";
+---
+
+<HeroStage breite={700} hoehe={470}>
+  <div class="em">
+    <div class="buehne">
+      <svg class="ebene" style="z-index:1" viewBox="0 0 600 460" aria-hidden="true">
+        <path d="M180,270 L300,170 L420,270 Z" fill="#F0F4F3" stroke="rgba(11,46,60,0.18)" stroke-width="2" stroke-linejoin="round"></path>
+      </svg>
+      <svg class="ebene ebene--brief" style="z-index:2" viewBox="0 0 600 460" aria-hidden="true">
+        <defs>
+          <linearGradient id="em-schild" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#4FB8A6"></stop>
+            <stop offset="1" stop-color="#1B6E7A"></stop>
+          </linearGradient>
+        </defs>
+        <rect x="220" y="130" width="160" height="185" rx="16" fill="#F0F4F3" stroke="rgba(11,46,60,0.12)" stroke-width="1.5" style="filter: drop-shadow(0 14px 26px rgba(0,0,0,0.32));"></rect>
+        <g transform="translate(300,222) scale(1.5)">
+          <path d="M0,-26 L20,-16 L20,4 C20,18 10,27 0,32 C-10,27 -20,18 -20,4 L-20,-16 Z" fill="url(#em-schild)"></path>
+          <path d="M-9,0 L-2,8 L11,-8" fill="none" stroke="#F0F4F3" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </g>
+      </svg>
+      <svg class="ebene" style="z-index:3" viewBox="0 0 600 460" aria-hidden="true">
+        <path d="M180,270 L300,335 L420,270 L420,370 A14,14 0 0,1 406,384 L194,384 A14,14 0 0,1 180,370 Z" fill="#F0F4F3" stroke="rgba(11,46,60,0.18)" stroke-width="2" stroke-linejoin="round"></path>
+      </svg>
+
+      <HeroToast titel="Spam- & Phishing-Schutz" sub="Bedrohungen erkannt, bevor sie ankommen" breite={220} dauer={3.4} hub={10} style="bottom:10px;left:-70px;z-index:4">
+        <svg slot="icon" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 L20 6 V12 C20 17 16.5 20.5 12 22 C7.5 20.5 4 17 4 12 V6 Z"></path><path d="M9 12 l2 2 4-4"></path></svg>
+      </HeroToast>
+      <HeroToast titel="Rechtssichere Archivierung" sub="Alle E-Mails automatisch und gesetzeskonform gesichert" breite={220} dauer={3.4} hub={10} verzoegerung={0.6} style="top:40px;right:-30px;z-index:4">
+        <svg slot="icon" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"></rect><path d="M3 7 L12 13 L21 7"></path></svg>
+      </HeroToast>
+    </div>
+  </div>
+</HeroStage>
+
+<style>
+  .em {
+    padding: 5px 30px 5px 70px;
+  }
+
+  .buehne {
+    position: relative;
+    width: 600px;
+    height: 460px;
+  }
+
+  .ebene {
+    position: absolute;
+    inset: 0;
+    width: 600px;
+    height: 460px;
+  }
+
+  .ebene--brief {
+    animation: em-brief 4.5s ease-in-out infinite;
+  }
+
+  @keyframes em-brief {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-3px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ebene--brief {
+      animation: none;
+    }
+  }
+</style>

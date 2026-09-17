@@ -1,0 +1,427 @@
+{
+  "titel": "IT-Betreuung",
+  "kategorie": "it-infrastruktur",
+  "kategorieLabel": "IT & Infrastruktur",
+  "reihenfolge": 1,
+  "kurz": "Laufende Betreuung Ihrer gesamten Unternehmens-IT: Monitoring, Wartung, Störungsbeseitigung, ein fester Ansprechpartner.",
+  "seo": {
+    "titel": "IT-Betreuung für Unternehmen in Frankfurt und Rhein-Main",
+    "beschreibung": "Proaktive IT-Betreuung ab 30 € pro Gerät und Monat: 24/7-Monitoring, Patch-Management, Ticket-Support und feste Reaktionszeiten. Bundesweit remote, im Rhein-Main-Gebiet auch vor Ort."
+  },
+  "hero": {
+    "headline": "Zuverlässige IT-Betreuung für Ihr Unternehmen",
+    "subline": "Laufende Überwachung und Support bundesweit, im Rhein-Main-Gebiet auch vor Ort.",
+    "zitat": "Der teuerste IT-Ausfall ist der, der lange vorher sichtbar war, nur hat niemand hingesehen.",
+    "cta": "Anfragen",
+    "visualLabel": "Dashboard „Ihre Geräte im Blick“ mit vier geschützten Arbeitsplätzen, gelöstem Ticket und erreichbarer Support-Hotline"
+  },
+  "kontaktVorauswahl": {
+    "thema": "it-infrastruktur"
+  },
+  "wissenArtikel": [
+    "it-betreuung-kosten",
+    "managed-service-provider",
+    "nis2-betroffene-unternehmen"
+  ],
+  "sektionen": [
+    {
+      "typ": "problemLoesung",
+      "eyebrow": "Reaktiv oder proaktiv",
+      "titel": "Keine IT-Feuerwehr.",
+      "akzent": "Wir sorgen vor, statt zu löschen.",
+      "intro": "Die meisten Betriebe rufen ihren IT-Dienstleister erst, wenn schon etwas ausgefallen ist. Proaktive IT-Betreuung dreht das um: Wartung, Updates und Überwachung laufen dauerhaft im Hintergrund, damit Störungen erst gar nicht entstehen.",
+      "karten": [
+        {
+          "titel": "Störungen & Ausfälle",
+          "icon": "<defs><linearGradient id=\"pl-it-betreuung-0-i1-1\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <path d=\"M12 3 L21 19 H3 Z\" stroke=\"url(#pl-it-betreuung-0-i1-1)\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path> <path d=\"M12 9.5 V13.5\" stroke=\"url(#pl-it-betreuung-0-i1-1)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path> <circle cx=\"12\" cy=\"16\" r=\"1\" fill=\"#7FD9C4\"></circle>",
+          "ohne": "Der Ausfall ist der Auslöser: Erst wenn ein Rechner nicht startet, wird jemand gerufen.",
+          "mitStark": "Wir merken es zuerst.",
+          "mitText": "Geräte und Server werden laufend überwacht; auffällige Werte melden sich bei uns, nicht bei Ihnen."
+        },
+        {
+          "titel": "IT-Sicherheit",
+          "icon": "<defs><linearGradient id=\"pl-it-betreuung-1-i2-2\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <path d=\"M12 3 L19 5.6 V11 C19 16 15.8 19.6 12 21 C8.2 19.6 5 16 5 11 V5.6 L12 3 Z\" stroke=\"url(#pl-it-betreuung-1-i2-2)\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path> <path d=\"M8.8 11.6 L11 13.8 L15.4 9\" stroke=\"url(#pl-it-betreuung-1-i2-2)\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
+          "ohne": "Updates bleiben liegen, Schwachstellen bleiben offen. Auffallen tut es erst nach einem Vorfall.",
+          "mitStark": "Alles bleibt aktuell.",
+          "mitText": "Updates und Sicherheitspatches laufen automatisiert auf jedem Gerät, dokumentiert und jederzeit nachweisbar."
+        },
+        {
+          "titel": "Support & Reaktionszeit",
+          "icon": "<defs><linearGradient id=\"pl-it-betreuung-2-i3-3\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <circle cx=\"12\" cy=\"12\" r=\"8.5\" stroke=\"url(#pl-it-betreuung-2-i3-3)\" stroke-width=\"1.6\"></circle> <path d=\"M12 7 V12 L15.2 14\" stroke=\"url(#pl-it-betreuung-2-i3-3)\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
+          "ohne": "Keine zugesagte Reaktionszeit: Man meldet sich und wartet, bis jemand Zeit hat. Und wer kommt, kennt Ihre Systeme nicht.",
+          "mitStark": "Vertraglich zugesagte Reaktionszeit.",
+          "mitText": "Jede Meldung läuft nachverfolgbar über unser Ticketsystem und Ihre Umgebung ist dokumentiert, sodass niemand bei null anfängt."
+        },
+        {
+          "titel": "IT-Kosten",
+          "icon": "<defs><linearGradient id=\"pl-it-betreuung-3-i4-4\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <rect x=\"3.5\" y=\"6\" width=\"17\" height=\"14\" rx=\"3\" stroke=\"url(#pl-it-betreuung-3-i4-4)\" stroke-width=\"1.6\"></rect> <path d=\"M3.5 10.5 H20.5\" stroke=\"url(#pl-it-betreuung-3-i4-4)\" stroke-width=\"1.6\"></path> <path d=\"M8 3.5 V7\" stroke=\"url(#pl-it-betreuung-3-i4-4)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path> <path d=\"M16 3.5 V7\" stroke=\"url(#pl-it-betreuung-3-i4-4)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path> <path d=\"M7.5 15 H12.5\" stroke=\"url(#pl-it-betreuung-3-i4-4)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path>",
+          "ohne": "Jeder Einsatz wird einzeln abgerechnet und Notfälle kommen dann, wenn es am teuersten ist.",
+          "mitStark": "Ein fester Monatsbetrag.",
+          "mitText": "Wartung, Überwachung und Support sind abgedeckt, ohne Überraschungsrechnung."
+        }
+      ],
+      "labelOhne": "Reaktive IT-Hilfe",
+      "labelMit": "Mit",
+      "kicker": "Der beste Tag mit unserer IT-Betreuung ist der, an dem Sie gar nicht an Ihre IT denken müssen. <strong>Kein Ausfall, kein Anruf, kein Stillstand.</strong>"
+    },
+    {
+      "typ": "trustbar",
+      "label": "Zertifizierte Partner & Technologien",
+      "logos": [
+        "Microsoft",
+        "Hornetsecurity",
+        "Partner-Logo",
+        "Partner-Logo",
+        "Partner-Logo",
+        "Partner-Logo"
+      ]
+    },
+    {
+      "typ": "zeitstrahl",
+      "eyebrow": "Wie es läuft",
+      "titel": "IT-Bestandsaufnahme",
+      "intro": "Bevor wir Ihre IT übernehmen, schauen wir genau hin. Sie erhalten einen klaren Bericht und entscheiden danach, wie es weitergeht.",
+      "aktiv": 1,
+      "schritte": [
+        {
+          "nummer": "01",
+          "titel": "Erstgespräch",
+          "text": "Wir klären Umfang, Systeme und Ansprechpartner in einem kurzen Gespräch."
+        },
+        {
+          "nummer": "02",
+          "titel": "Infrastrukturanalyse",
+          "text": "Wir prüfen Ihre IT und erstellen einen Ampel-Bericht (rot/gelb/grün). Der Bericht gehört Ihnen, ganz ohne Vertragsbindung."
+        },
+        {
+          "nummer": "03",
+          "titel": "Umsetzung",
+          "text": "Wir beseitigen die roten und gelben Punkte aus dem Bericht."
+        },
+        {
+          "nummer": "04",
+          "titel": "Übergabe",
+          "text": "Übergabe an die laufende Betreuung mit Monitoring und festen Reaktionszeiten."
+        }
+      ]
+    },
+    {
+      "typ": "pricingPakete",
+      "eyebrow": "Pakete & Preise",
+      "titel": "Pakete & Preise",
+      "intro": "Alle Pakete enthalten die gleiche Basisabsicherung. Der Unterschied liegt in Reaktionszeit, Support und Rundum-Betreuung.",
+      "chips": {
+        "titel": "Immer inklusive: Ihre IT-Grundsicherung",
+        "sub": "Egal für welches Paket Sie sich entscheiden: Diese Basis ist ohne Aufpreis dabei.",
+        "icon": "<path d=\"M12 2 4 5v6c0 5 3.4 8.7 8 11 4.6-2.3 8-6 8-11V5l-8-3z\"></path><polyline points=\"9 12 11 14 15 10\"></polyline>",
+        "items": [
+          "Monitoring 24/7",
+          "Störungsbeseitigung Remote",
+          "Wartungsarbeiten",
+          "Ticketsystem",
+          "Patch-Management",
+          "Virenschutz",
+          "Laufende Dokumentation",
+          "Monatlicher Report"
+        ]
+      },
+      "jahresRabatt": 0.1,
+      "rabattHinweis": "10 % sparen bei jährlicher Zahlweise",
+      "einheit": "/ Monat",
+      "geraetEinheit": "€/Gerät/Monat",
+      "pakete": [
+        {
+          "name": "Starter",
+          "variante": "neutral",
+          "claim": "Für den Einstieg: solide Grundabsicherung für Ihre IT.",
+          "preis": 50,
+          "geraetPreis": 30,
+          "reaktion": {
+            "wert": "24 Std. Standard / 8 Std. Notfall",
+            "sub": "Solide Reaktionszeit für den Alltag"
+          },
+          "diffTitel": "Zusätzlich in diesem Paket",
+          "geerbt": false,
+          "diffs": [
+            "IT-Strategie-Check einmalig"
+          ],
+          "cta": "Jetzt anfragen"
+        },
+        {
+          "name": "Business",
+          "variante": "beliebt",
+          "badge": "Beliebt",
+          "claim": "Für wachsende Teams: schnelle Reaktion, wenn es darauf ankommt.",
+          "preis": 80,
+          "geraetPreis": 40,
+          "reaktion": {
+            "wert": "8 Std. Standard / 2 Std. Notfall",
+            "sub": "Kein Warten, wenn es brennt."
+          },
+          "diffTitel": "Zusätzlich in diesem Paket",
+          "geerbt": false,
+          "diffs": [
+            "Backup-Prüfung inklusive",
+            "Hotline-Support",
+            "IT-Strategie-Check jährlich"
+          ],
+          "cta": "Jetzt anfragen"
+        },
+        {
+          "name": "Premium",
+          "variante": "premium",
+          "badge": "Alles inklusive",
+          "claim": "Für maximale Ruhe: Ein fester Ansprechpartner übernimmt alles.",
+          "preis": 120,
+          "geraetPreis": 60,
+          "reaktion": {
+            "wert": "4 Std. Standard / 1 Std. Notfall",
+            "sub": "Wenn Stillstand Geld kostet."
+          },
+          "diffTitel": "Zusätzlich in diesem Paket",
+          "geerbt": false,
+          "diffs": [
+            "Backup-Prüfung inklusive",
+            "Hotline-Support",
+            "Störungsbeseitigung vor Ort",
+            "Fester Ansprechpartner",
+            "Endpoint Security",
+            "IT-Strategie-Check halbjährlich"
+          ],
+          "cta": "Jetzt anfragen"
+        }
+      ],
+      "vergleich": [
+        {
+          "label": "Grundpreis / Monat",
+          "preisFeld": "preis",
+          "betont": true
+        },
+        {
+          "label": "Preis pro Gerät / Monat",
+          "preisFeld": "geraetPreis",
+          "betont": true
+        },
+        {
+          "label": "Monitoring 24/7",
+          "werte": [
+            "✓",
+            "✓",
+            "✓"
+          ]
+        },
+        {
+          "label": "Störungsbeseitigung Remote",
+          "werte": [
+            "✓",
+            "✓",
+            "✓"
+          ]
+        },
+        {
+          "label": "Wartungsarbeiten",
+          "werte": [
+            "✓",
+            "✓",
+            "✓"
+          ]
+        },
+        {
+          "label": "Ticketsystem",
+          "werte": [
+            "✓",
+            "✓",
+            "✓"
+          ]
+        },
+        {
+          "label": "Patch-Management",
+          "werte": [
+            "✓",
+            "✓",
+            "✓"
+          ]
+        },
+        {
+          "label": "Virenschutz",
+          "werte": [
+            "✓",
+            "✓",
+            "✓"
+          ]
+        },
+        {
+          "label": "Laufende Dokumentation",
+          "werte": [
+            "✓",
+            "✓",
+            "✓"
+          ]
+        },
+        {
+          "label": "Monatlicher Report",
+          "werte": [
+            "✓",
+            "✓",
+            "✓"
+          ]
+        },
+        {
+          "label": "Reaktionszeit Standard",
+          "werte": [
+            "24 Std.",
+            "8 Std.",
+            "4 Std."
+          ]
+        },
+        {
+          "label": "Reaktionszeit Notfall",
+          "werte": [
+            "8 Std.",
+            "2 Std.",
+            "1 Std."
+          ]
+        },
+        {
+          "label": "IT-Strategie-Check",
+          "werte": [
+            "einmalig",
+            "jährlich",
+            "halbjährlich"
+          ]
+        },
+        {
+          "label": "Backup-Prüfung",
+          "werte": [
+            "–",
+            "✓",
+            "✓"
+          ]
+        },
+        {
+          "label": "Hotline-Support",
+          "werte": [
+            "–",
+            "✓",
+            "✓"
+          ]
+        },
+        {
+          "label": "Störungsbeseitigung vor Ort",
+          "werte": [
+            "–",
+            "–",
+            "✓"
+          ]
+        },
+        {
+          "label": "Fester Ansprechpartner",
+          "werte": [
+            "–",
+            "–",
+            "✓"
+          ]
+        },
+        {
+          "label": "Endpoint Security",
+          "werte": [
+            "–",
+            "–",
+            "✓"
+          ]
+        }
+      ],
+      "zusatz": {
+        "titel": "Zusatzleistungen",
+        "sub": "Passend zu jedem IT-Betreuung-Paket buchbar, unabhängig davon, für welches Sie sich entscheiden.",
+        "karten": [
+          {
+            "icon": "<rect x=\"3\" y=\"4\" width=\"18\" height=\"7\" rx=\"1.6\"></rect><rect x=\"3\" y=\"13\" width=\"18\" height=\"7\" rx=\"1.6\"></rect><line x1=\"6.5\" y1=\"7.5\" x2=\"6.5\" y2=\"7.5\"></line><line x1=\"6.5\" y1=\"16.5\" x2=\"6.5\" y2=\"16.5\"></line>",
+            "name": "Server-Betreuung",
+            "claim": "Überwachung und Wartung Ihrer Server, kompakt mitgebucht.",
+            "preisLabel": "Ab 49 €",
+            "preisEinheit": "/ Server / Monat",
+            "features": [
+              "24/7-Monitoring",
+              "Patch- und Update-Management",
+              "Backup-Prüfung",
+              "Remote-Störungsbeseitigung"
+            ],
+            "cta": "Jetzt anfragen"
+          },
+          {
+            "icon": "<path d=\"M12 3l8 3.5V12c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6.5L12 3z\"></path><path d=\"M9 12l2 2 4-4\"></path>",
+            "name": "Datensicherung",
+            "claim": "In Deutschland eingerichtet, geprüft und im Ernstfall wiederhergestellt.",
+            "preisLabel": "Preis auf Anfrage",
+            "features": [
+              "Automatisierte Sicherung einrichten",
+              "Regelmäßige Prüfung",
+              "Wiederherstellungstest im Ernstfall"
+            ],
+            "cta": "Jetzt anfragen"
+          },
+          {
+            "icon": "<rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\"></rect><path d=\"M3 7l9 6 9-6\"></path>",
+            "badge": "Hornetsecurity",
+            "name": "E-Mail-Sicherheit",
+            "claim": "Mehrstufiger Schutz vor Phishing und Schadsoftware, bevor sie im Postfach ankommt.",
+            "preisLabel": "Preis auf Anfrage",
+            "features": [
+              "Spam- und Phishing-Schutz (99,9 %)",
+              "Advanced Threat Protection",
+              "GoBD-konforme E-Mail-Archivierung",
+              "E-Mail-Continuity bei Serverausfall"
+            ],
+            "cta": "Jetzt anfragen"
+          }
+        ]
+      }
+    },
+    {
+      "typ": "faq",
+      "titel": "Häufige Fragen",
+      "intro": "Was Sie vor der Zusammenarbeit mit uns wissen sollten: kurz und ohne Kleingedrucktes.",
+      "fragen": [
+        {
+          "frage": "Was kostet IT-Betreuung für ein kleines Unternehmen?",
+          "antwort": "Ab 30 € pro Gerät und Monat. Enthalten ist die Grundsicherung mit 24/7-Monitoring, Störungsbeseitigung, Remote-Wartungsarbeiten, Ticket-Support, Patch-Management, Virenschutz, laufender Dokumentation und monatlichem Report."
+        },
+        {
+          "frage": "Für welche Unternehmensgröße eignet sich Selim-IT?",
+          "antwort": "Wir betreuen Betriebe mit 2 bis 100 Mitarbeitenden (von Kanzleien und Praxen über Handwerksbetriebe bis zu Einzelhandel und Autohäusern), die keine eigene IT-Abteilung aufbauen wollen oder können, aber trotzdem verlässlich betreut sein möchten: persönlich und flexibel statt anonymer Callcenter-Support."
+        },
+        {
+          "frage": "Wie funktioniert die Abrechnung?",
+          "antwort": "Es gibt zwei Modelle: Für laufende Betreuung zahlen Sie ein monatliches Paket zum Festpreis. Für einzelne Projekte zahlen Sie einmalig nach Aufwand."
+        },
+        {
+          "frage": "Wie schnell kann ich meine IT zu Selim-IT umziehen?",
+          "antwort": "Unkompliziert und in der Regel innerhalb von 2 bis 3 Wochen abgeschlossen, abhängig von der Größe Ihres Teams und dem Umfang Ihrer bestehenden IT. Wir verschaffen uns zunächst einen Überblick über Ihre bestehende Umgebung, übernehmen dann Schritt für Schritt die Betreuung und stimmen jeden Übergang eng mit Ihnen ab, damit der laufende Betrieb währenddessen nicht ins Stocken gerät."
+        },
+        {
+          "frage": "Wie schnell reagieren Sie bei einer Störung?",
+          "antwort": "Unsere regulären Support-Zeiten sind von 8 bis 18 Uhr. Bei Störungen reagieren wir im Standardfall innerhalb von 4 bis 24 Stunden, bei Notfällen innerhalb von 1 bis 8 Stunden, abhängig vom gewählten Betreuungspaket."
+        },
+        {
+          "frage": "Habe ich einen festen Ansprechpartner?",
+          "antwort": "Ja, ein fester Ansprechpartner ist möglich: jemand, der Ihr Unternehmen und Ihre Systeme kennt, statt dass Sie bei jedem Anliegen neu erklären müssen, worum es geht."
+        },
+        {
+          "frage": "Sind Sie auch vor Ort verfügbar?",
+          "antwort": "Im Rhein-Main-Gebiet sind wir selbstverständlich auch vor Ort für Sie da. Viele Anliegen lösen wir zusätzlich remote, schnell und ohne Wartezeit auf einen Termin."
+        },
+        {
+          "frage": "Wie lange sind Sie vertraglich gebunden?",
+          "antwort": "Unsere Verträge sind monatlich kündbar: Sie binden sich also nicht langfristig, wenn Sie das nicht möchten. Wer sich für eine jährliche Laufzeit entscheidet, erhält dafür 10 bis 20 % Rabatt auf die monatlichen Kosten."
+        }
+      ]
+    },
+    {
+      "typ": "kontakt"
+    },
+    {
+      "typ": "wissenTeaser"
+    }
+  ]
+}

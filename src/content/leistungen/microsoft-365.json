@@ -1,0 +1,216 @@
+{
+  "titel": "Microsoft 365",
+  "kategorie": "it-infrastruktur",
+  "kategorieLabel": "IT & Infrastruktur",
+  "reihenfolge": 5,
+  "kurz": "Einrichtung, Absicherung und laufende Betreuung Ihrer Microsoft-365-Umgebung.",
+  "seo": {
+    "titel": "Microsoft 365 einrichten und betreuen lassen",
+    "beschreibung": "Microsoft 365 richtig eingerichtet: Lizenzen, Postfächer, Teams, SharePoint und Multi-Faktor-Authentifizierung. Migration ohne Datenverlust und zusätzliches, unabhängiges Backup."
+  },
+  "hero": {
+    "headline": "Microsoft 365, richtig eingerichtet und betreut",
+    "subline": "Von der Einrichtung bis zum laufenden Support: Outlook, Teams und SharePoint aus einer Hand.",
+    "zitat": "Eine Lizenz ist ein Zugang. Kein Betrieb.",
+    "cta": "Anfragen",
+    "visualLabel": "Schwebende App-Kacheln für Mail, Chat, Dateien, Kalender, Sicherheit und Team"
+  },
+  "kontaktVorauswahl": {
+    "thema": "it-infrastruktur"
+  },
+  "wissenArtikel": [
+    "microsoft-365-plaene-vergleich",
+    "datensicherung-3-2-1-regel",
+    "phishing-erkennen"
+  ],
+  "sektionen": [
+    {
+      "typ": "bildText",
+      "titel": "Microsoft 365 für moderne Arbeitsumgebungen",
+      "absaetze": [
+        "Hybrides Arbeiten, Zusammenarbeit über Standorte hinweg, Zugriff von jedem Gerät: Microsoft 365 ist für die meisten Betriebe längst das Fundament des Arbeitsalltags.",
+        "Ein Fundament ist nur so stark wie seine Wartung. Wir richten Ihre Umgebung sicher ein und halten sie laufend auf dem aktuellen Stand."
+      ],
+      "bildLabel": "Zusammenarbeit im Team"
+    },
+    {
+      "typ": "problemLoesung",
+      "eyebrow": "Reaktiv oder proaktiv",
+      "titel": "„Microsoft macht das schon“?",
+      "akzent": "Wir prüfen lieber nach.",
+      "intro": "Die meisten Microsoft-365-Umgebungen werden einmal eingerichtet und dann sich selbst überlassen, bis eine Lizenz zu viel bezahlt, ein Konto kompromittiert oder eine gelöschte Datei unwiederbringlich weg ist. Proaktive Betreuung dreht das um: Lizenzen, Sicherheit und Datensicherung werden laufend geprüft, statt einmal eingerichtet und vergessen.",
+      "karten": [
+        {
+          "titel": "Lizenzverwaltung & Kosten",
+          "icon": "<defs><linearGradient id=\"pl-microsoft-365-0-i1-13\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <rect x=\"4\" y=\"6\" width=\"16\" height=\"12\" rx=\"2\" stroke=\"url(#pl-microsoft-365-0-i1-13)\" stroke-width=\"1.6\"></rect> <circle cx=\"9\" cy=\"12\" r=\"2\" stroke=\"url(#pl-microsoft-365-0-i1-13)\" stroke-width=\"1.6\"></circle> <path d=\"M13.5 10.5 H17 M13.5 13.5 H17\" stroke=\"url(#pl-microsoft-365-0-i1-13)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path>",
+          "ohne": "Lizenzen werden einmal gebucht und danach nie wieder geprüft, auch nicht für Mitarbeiter, die längst nicht mehr im Unternehmen sind.",
+          "mitStark": "Nur Lizenzen, die auch genutzt werden.",
+          "mitText": "Bestand und Bedarf werden regelmäßig abgeglichen, ungenutzte Lizenzen fallen auf, statt monatlich weiterzulaufen."
+        },
+        {
+          "titel": "Zugriffsschutz & Anmeldesicherheit",
+          "icon": "<defs><linearGradient id=\"pl-microsoft-365-1-i2-14\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <rect x=\"5\" y=\"10.5\" width=\"14\" height=\"9.5\" rx=\"2.2\" stroke=\"url(#pl-microsoft-365-1-i2-14)\" stroke-width=\"1.6\"></rect> <path d=\"M8 10.5 V7.2 C8 4.9 9.8 3 12 3 C14.2 3 16 4.9 16 7.2 V10.5\" stroke=\"url(#pl-microsoft-365-1-i2-14)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path> <circle cx=\"12\" cy=\"15\" r=\"1.3\" fill=\"#7FD9C4\"></circle>",
+          "ohne": "Ein Passwort reicht zum Anmelden, auffällige Anmeldeversuche aus fremden Ländern fallen niemandem auf.",
+          "mitStark": "Mehrstufig abgesichert.",
+          "mitText": "Multi-Faktor-Authentifizierung und Anmelderegeln schützen jedes Konto, verdächtige Anmeldungen fallen sofort auf."
+        },
+        {
+          "titel": "Onboarding & Offboarding",
+          "icon": "<defs><linearGradient id=\"pl-microsoft-365-2-i3-15\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <circle cx=\"9\" cy=\"8\" r=\"3.4\" stroke=\"url(#pl-microsoft-365-2-i3-15)\" stroke-width=\"1.6\"></circle> <path d=\"M3.5 20 C3.5 15.6 6.3 13.2 9 13.2 C11.7 13.2 14.5 15.6 14.5 20\" stroke=\"url(#pl-microsoft-365-2-i3-15)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path> <path d=\"M17 8 V14 M14 11 H20\" stroke=\"url(#pl-microsoft-365-2-i3-15)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path>",
+          "ohne": "Der neue Mitarbeiter wartet am ersten Tag auf Postfach und Teams-Zugang und ausgeschiedene Konten bleiben oft einfach aktiv.",
+          "mitStark": "Zugänge am ersten Tag bereit.",
+          "mitText": "Postfach, Teams und Rechte stehen zum Start und werden beim Austritt ebenso zuverlässig wieder entzogen."
+        },
+        {
+          "titel": "Datensicherung in der Cloud",
+          "icon": "<defs><linearGradient id=\"pl-microsoft-365-3-i4-16\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <ellipse cx=\"12\" cy=\"7\" rx=\"7.5\" ry=\"3\" stroke=\"url(#pl-microsoft-365-3-i4-16)\" stroke-width=\"1.6\"></ellipse> <path d=\"M4.5 7 V13 C4.5 14.66 7.91 16 12 16 C16.09 16 19.5 14.66 19.5 13 V7\" stroke=\"url(#pl-microsoft-365-3-i4-16)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path> <path d=\"M4.5 13 V17 C4.5 18.5 7 19.7 10.3 19.95\" stroke=\"url(#pl-microsoft-365-3-i4-16)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path> <path d=\"M15.5 15 L19.5 15 L19.5 19\" stroke=\"url(#pl-microsoft-365-3-i4-16)\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path> <path d=\"M19.2 15.3 C18.3 13.9 16.5 13.2 14.8 13.8\" stroke=\"url(#pl-microsoft-365-3-i4-16)\" stroke-width=\"1.4\" stroke-linecap=\"round\"></path>",
+          "ohne": "„Microsoft sichert das schon\", bis eine Datei versehentlich gelöscht wird und nach Ablauf der Aufbewahrungsfrist wirklich weg ist.",
+          "mitStark": "Ein echtes Backup, unabhängig von Microsoft.",
+          "mitText": "Ihre Daten werden zusätzlich gesichert, auch über Microsofts eigene Aufbewahrungsfristen hinaus wiederherstellbar."
+        }
+      ],
+      "labelOhne": "Reaktive IT-Hilfe",
+      "labelMit": "Mit",
+      "kicker": "Der beste Tag mit unserer Microsoft-365-Betreuung ist der, an dem Sie sich nicht fragen müssen, ob wirklich alles gesichert ist. <strong>Keine unnötigen Lizenzen, keine offenen Konten, keine böse Überraschung.</strong>"
+    },
+    {
+      "typ": "trustbar",
+      "label": "Zertifizierte Partner & Technologien",
+      "logos": [
+        "Microsoft",
+        "Hornetsecurity",
+        "Partner-Logo",
+        "Partner-Logo",
+        "Partner-Logo",
+        "Partner-Logo"
+      ]
+    },
+    {
+      "typ": "featureGrid",
+      "eyebrow": "Ihr Kommunikations-Hub",
+      "titel": "Microsoft Teams: mehr als Chat und Videocalls",
+      "intro": "Für die meisten Betriebe ist Teams die App, in der sich der Arbeitstag abspielt: Chat, Meetings, Dateien und zunehmend auch Telefonie. Richtig eingerichtet, statt nur aktiviert, macht das den Unterschied.",
+      "karten": [
+        {
+          "icon": "<defs><linearGradient id=\"m365-teams-0-tm1-37\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <rect x=\"3\" y=\"4.5\" width=\"18\" height=\"14\" rx=\"2.5\" stroke=\"url(#m365-teams-0-tm1-37)\" stroke-width=\"1.6\"></rect> <path d=\"M7 9 H17 M7 13 H13\" stroke=\"url(#m365-teams-0-tm1-37)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path>",
+          "titel": "Kanäle & Struktur",
+          "text": "Ein Team pro Projekt oder Abteilung, klar benannt und mit passenden Kanälen, statt einer einzigen unübersichtlichen Gruppe für alles."
+        },
+        {
+          "icon": "<defs><linearGradient id=\"m365-teams-1-tm2-38\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <rect x=\"2.5\" y=\"6\" width=\"14\" height=\"12\" rx=\"2\" stroke=\"url(#m365-teams-1-tm2-38)\" stroke-width=\"1.6\"></rect> <path d=\"M16.5 10 L21.5 7.5 V16.5 L16.5 14\" stroke=\"url(#m365-teams-1-tm2-38)\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path>",
+          "titel": "Meetings & Gastzugriff",
+          "text": "Externe Teilnehmer sicher zu einzelnen Meetings einladen, ohne Zugriff auf interne Kanäle oder Dateien zu bekommen."
+        },
+        {
+          "icon": "<defs><linearGradient id=\"m365-teams-2-tm3-39\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <path d=\"M4.5 4.5 C4.5 4.5 6.5 4 7.5 6.5 C8.2 8.3 7 9 6.5 9.5 C7.3 12.3 9.7 14.7 12.5 15.5 C13 15 13.7 13.8 15.5 14.5 C18 15.5 17.5 17.5 17.5 17.5 C17.5 19.5 15.5 20 14 19.5 C9 17.8 6.2 15 4.5 10 C4 8.5 4.5 4.5 4.5 4.5 Z\" stroke=\"url(#m365-teams-2-tm3-39)\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path>",
+          "titel": "Teams Phone",
+          "text": "Festnetz-Anrufe direkt über Teams, auf dem PC, dem Handy oder klassisch am Tischtelefon, mit einer einzigen Rufnummer für alle Geräte.",
+          "highlight": true,
+          "tag": "Ersetzt die klassische Telefonanlage"
+        },
+        {
+          "icon": "<defs><linearGradient id=\"m365-teams-3-tm4-40\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <rect x=\"5\" y=\"10.5\" width=\"14\" height=\"9.5\" rx=\"2.2\" stroke=\"url(#m365-teams-3-tm4-40)\" stroke-width=\"1.6\"></rect> <path d=\"M8 10.5 V7.2 C8 4.9 9.8 3 12 3 C14.2 3 16 4.9 16 7.2 V10.5\" stroke=\"url(#m365-teams-3-tm4-40)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path>",
+          "titel": "Berechtigungen & Governance",
+          "text": "Klare Regeln, wer neue Teams erstellen, Gäste einladen oder Kanäle löschen darf, bevor daraus ein unübersichtliches Wachstum wird."
+        }
+      ]
+    },
+    {
+      "typ": "toolGrid",
+      "eyebrow": "Was in Microsoft 365 steckt",
+      "titel": "Mehr als Teams: die weiteren Bausteine im Überblick",
+      "intro": "Microsoft 365 ist mehr als Chat und Videocalls. Wir richten das gesamte Paket sauber ein und betreuen es laufend, hier die übrigen zentralen Bausteine.",
+      "karten": [
+        {
+          "icon": "<defs><linearGradient id=\"m365-tools-0-t2-41\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#4FB8A6\"></stop><stop offset=\"1\" stop-color=\"#1B6E7A\"></stop></linearGradient></defs> <rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2.2\" stroke=\"url(#m365-tools-0-t2-41)\" stroke-width=\"1.6\"></rect> <path d=\"M4 6.5 L12 13 L20 6.5\" stroke=\"url(#m365-tools-0-t2-41)\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
+          "titel": "Outlook & Exchange",
+          "text": "E-Mail und Kalender zentral verwaltet. Wir sorgen für zuverlässigen Spam- und Phishing-Schutz und saubere Freigaben bei gemeinsamen Postfächern."
+        },
+        {
+          "icon": "<defs><linearGradient id=\"m365-tools-1-t3-42\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#4FB8A6\"></stop><stop offset=\"1\" stop-color=\"#1B6E7A\"></stop></linearGradient></defs> <path d=\"M12 3 L20 7.5 V16.5 L12 21 L4 16.5 V7.5 Z\" stroke=\"url(#m365-tools-1-t3-42)\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path> <path d=\"M12 3 V21 M4 7.5 L12 12 L20 7.5 M4 16.5 L12 12\" stroke=\"url(#m365-tools-1-t3-42)\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
+          "titel": "SharePoint",
+          "text": "Zentrale, strukturierte Dateiablage für Teams und Abteilungen. Wir setzen Berechtigungen so, dass jeder sieht, was er braucht, und nicht mehr."
+        },
+        {
+          "icon": "<defs><linearGradient id=\"m365-tools-2-t4-43\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#4FB8A6\"></stop><stop offset=\"1\" stop-color=\"#1B6E7A\"></stop></linearGradient></defs> <path d=\"M7.5 17 C4.8 17 3 15.1 3 12.7 C3 10.5 4.6 8.8 6.7 8.5 C7.3 5.9 9.6 4 12.4 4 C15.4 4 17.9 6.2 18.3 9.1 C20.2 9.5 21.5 11.1 21.5 13 C21.5 15.2 19.7 17 17.5 17 Z\" stroke=\"url(#m365-tools-2-t4-43)\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path> <path d=\"M12 11 V18 M9 15 L12 18 L15 15\" stroke=\"url(#m365-tools-2-t4-43)\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
+          "titel": "OneDrive",
+          "text": "Persönlicher Cloud-Speicher für jeden Mitarbeiter. Dateien sind automatisch gesichert und von jedem eingerichteten Gerät aus erreichbar."
+        },
+        {
+          "icon": "<defs><linearGradient id=\"m365-tools-3-t5-44\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#4FB8A6\"></stop><stop offset=\"1\" stop-color=\"#1B6E7A\"></stop></linearGradient></defs> <rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2.2\" stroke=\"url(#m365-tools-3-t5-44)\" stroke-width=\"1.6\"></rect> <path d=\"M3 9.5 H21\" stroke=\"url(#m365-tools-3-t5-44)\" stroke-width=\"1.6\"></path> <path d=\"M8 4 V9.5\" stroke=\"url(#m365-tools-3-t5-44)\" stroke-width=\"1.6\"></path>",
+          "titel": "Word, Excel & PowerPoint",
+          "text": "Die klassischen Office-Anwendungen, immer aktuell und geräteübergreifend synchron: Desktop, Web und Handy zeigen denselben Stand."
+        }
+      ]
+    },
+    {
+      "typ": "zeitstrahl",
+      "eyebrow": "Wie wir vorgehen",
+      "titel": "Wie wir vorgehen",
+      "intro": "Einmal sauber eingerichtet, danach laufend betreut. So bleibt Ihre Umgebung sicher und die Lizenzen passen zum tatsächlichen Bedarf.",
+      "aktiv": 1,
+      "schritte": [
+        {
+          "nummer": "01",
+          "titel": "Bedarfsanalyse",
+          "text": "Einmalig: Wir klären Lizenzbedarf, Anwendungen und Sicherheitsanforderungen."
+        },
+        {
+          "nummer": "02",
+          "titel": "Einrichtung",
+          "text": "Einmalig: Tenant, Domain, Postfächer, MFA und Sicherheitsrichtlinien."
+        },
+        {
+          "nummer": "03",
+          "titel": "Betreuung",
+          "text": "Laufend: Ticketsupport und Störungsbeseitigung."
+        }
+      ]
+    },
+    {
+      "typ": "faq",
+      "titel": "Häufige Fragen zu Microsoft 365",
+      "intro": "Was Sie vor der Zusammenarbeit wissen sollten: kurz und ohne Kleingedrucktes.",
+      "fragen": [
+        {
+          "frage": "Was kostet die Verwaltung unseres Microsoft-365-Tenants?",
+          "antwort": "Der Preis richtet sich nach Anzahl der Nutzer und dem Umfang der Betreuung, von reiner Lizenz- und Sicherheitsverwaltung bis zur vollständigen Übernahme inklusive Backup. Nach einem kurzen Blick auf Ihre Umgebung nennen wir Ihnen ein konkretes Angebot."
+        },
+        {
+          "frage": "Welchen Microsoft-365-Plan brauchen wir?",
+          "antwort": "Das hängt davon ab, wie Ihr Team arbeitet und welche Sicherheitsfunktionen Sie brauchen. Wir empfehlen nicht pauschal den teuersten Plan, sondern den, der zu Ihrem tatsächlichen Bedarf passt und zeigen Ihnen die Unterschiede in einfachen Worten."
+        },
+        {
+          "frage": "Übernehmen Sie die Migration bestehender Postfächer?",
+          "antwort": "Ja. E-Mails, Kalender, Kontakte und Dateien werden ohne Datenverlust in Ihren neuen Tenant übernommen. Ihre bestehende Domain bleibt dabei erhalten, sodass sich für Ihre Kunden und Mitarbeiter nichts an den E-Mail-Adressen ändert."
+        },
+        {
+          "frage": "Wie läuft das Onboarding neuer Mitarbeiter ab?",
+          "antwort": "Sie melden uns den Starttermin, wir richten Postfach, Lizenz und Teams-Zugang rechtzeitig vorher ein. Beim Austritt läuft es umgekehrt: Der Zugang wird zum vereinbarten Zeitpunkt zuverlässig gesperrt."
+        },
+        {
+          "frage": "Ist Microsoft 365 nicht schon automatisch gesichert?",
+          "antwort": "Nur eingeschränkt. Microsoft hält gelöschte Daten lediglich für einen begrenzten Zeitraum vor: kein vollwertiges Backup gegen versehentliches Löschen, Ransomware oder länger zurückliegende Fehler. Wir richten dafür eine zusätzliche, unabhängige Datensicherung ein."
+        },
+        {
+          "frage": "Setzen Sie Multi-Faktor-Authentifizierung um?",
+          "antwort": "Ja, standardmäßig. Jedes Konto wird zusätzlich zum Passwort mit einem zweiten Faktor abgesichert, und wir richten Anmelderegeln ein, die auffällige Zugriffsversuche automatisch blockieren oder melden."
+        },
+        {
+          "frage": "Können wir unsere bestehende Domain weiter nutzen?",
+          "antwort": "Ja. Ihre bisherige Domain wird in Microsoft 365 eingebunden, sodass alle E-Mail-Adressen unverändert bleiben: Kunden und Partner bemerken vom Wechsel im Hintergrund nichts."
+        },
+        {
+          "frage": "Wie lange sind Sie vertraglich gebunden?",
+          "antwort": "Unsere Betreuungsverträge sind monatlich kündbar: Sie binden sich also nicht langfristig, wenn Sie das nicht möchten. Wer sich für eine jährliche Laufzeit entscheidet, erhält dafür 10 bis 20 % Rabatt auf die monatlichen Kosten."
+        }
+      ]
+    },
+    {
+      "typ": "kontakt"
+    },
+    {
+      "typ": "wissenTeaser"
+    }
+  ]
+}

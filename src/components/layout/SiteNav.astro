@@ -1,0 +1,438 @@
+---
+/**
+ * Kopfzeile mit Logo, 4-Kategorien-Navigation, Telefon und CTA „Beratung vereinbaren“.
+ * variant "hero": liegt auf dem dunklen Hero-Verlauf (Logo hell).
+ * variant "sticky": kompakter Header auf hellem Grund (Logo dunkel), erscheint nach Verlassen des Heros.
+ * Verhalten (Dropdowns, Sticky, Mobile-Menü) in src/lib/navigation.ts.
+ */
+import Logo from "../ui/Logo.astro";
+import { firma, navigation, leistungHref } from "../../lib/config";
+
+interface Props {
+  variant: "hero" | "sticky";
+  aktuellerPfad?: string;
+  /** "#kontakt" auf Seiten mit Anfrage-Wizard, sonst "/kontakt" */
+  kontaktHref: string;
+}
+
+const { variant, aktuellerPfad = "", kontaktHref } = Astro.props;
+const suffix = variant;
+const istAktiv = (href: string) => aktuellerPfad.replace(/\/$/, "") === href.replace(/\/$/, "");
+---
+
+<div class:list={["kopf", `kopf--${variant}`, { "on-dark": variant === "hero" }]}>
+  <a href="/" class="kopf__logo" aria-label="Selim-IT, zur Startseite">
+    <Logo variant={variant === "hero" ? "hell" : "dunkel"} class="kopf__logo-svg" />
+  </a>
+
+  <nav class="kopf__nav" aria-label={variant === "hero" ? "Hauptnavigation" : "Hauptnavigation (fixiert)"}>
+    <ul class="nav-liste" role="list">
+      {
+        navigation.map((kat) =>
+          kat.href ? (
+            <li class="nav-eintrag">
+              <a
+                class="nav-link"
+                href={kat.href}
+                aria-current={istAktiv(kat.href) ? "page" : undefined}
+              >
+                {kat.label}
+              </a>
+            </li>
+          ) : (
+            <li class="nav-eintrag" data-dropdown>
+              <button
+                type="button"
+                class="nav-link nav-trigger"
+                aria-expanded="false"
+                aria-controls={`dd-${kat.id}-${suffix}`}
+                data-dropdown-trigger
+              >
+                {kat.label}
+                <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+              <div class:list={["nav-panel", { "nav-panel--breit": kat.eintraege.length > 4 }]} id={`dd-${kat.id}-${suffix}`} data-dropdown-panel>
+                <ul class="nav-panel__liste" role="list">
+                  {kat.eintraege
+                    .filter((e) => !e.bald)
+                    .map((e) => (
+                      <li>
+                        <a
+                          class="nav-panel__link"
+                          href={leistungHref(e.slug)}
+                          aria-current={istAktiv(leistungHref(e.slug)) ? "page" : undefined}
+                        >
+                          <span class="nav-panel__titel">{e.label}</span>
+                          {e.kurz && <span class="nav-panel__kurz">{e.kurz}</span>}
+                        </a>
+                      </li>
+                    ))}
+                </ul>
+                {kat.eintraege.some((e) => e.bald) && (
+                  <div class="nav-panel__bald">
+                    <span class="nav-panel__bald-tag">Bald verfügbar</span>
+                    <ul role="list">
+                      {kat.eintraege
+                        .filter((e) => e.bald)
+                        .map((e) => (
+                          <li>{e.label}</li>
+                        ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </li>
+          )
+        )
+      }
+    </ul>
+  </nav>
+
+  <div class="kopf__aktionen">
+    <a class="kopf__telefon" href={firma.telefon.href}>
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path
+          d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.5 2.5.8 3.8.9.6 0 1 .5 1 1.1v3.6c0 .6-.5 1.1-1.1 1.1C10.9 21.7 2.3 13.1 2.3 3.9c0-.6.5-1.1 1.1-1.1H7c.6 0 1.1.4 1.1 1 .1 1.3.4 2.6.9 3.8.1.4.1.8-.2 1.1L6.6 10.8Z"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linejoin="round"></path>
+      </svg>
+      <span class:list={{ platzhalter: firma.telefon.platzhalter }}>{firma.telefon.anzeige}</span>
+    </a>
+    <a class="btn btn--sm kopf__cta" href={kontaktHref}><span>Beratung vereinbaren</span></a>
+    <button
+      type="button"
+      class="kopf__burger"
+      aria-label="Menü öffnen"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      data-menu-open
+    >
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<style>
+  .kopf {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    color: var(--ink);
+  }
+
+  .kopf--hero {
+    color: rgba(240, 244, 243, 0.82);
+  }
+
+  .kopf__logo {
+    display: inline-flex;
+    flex: none;
+    border-radius: 6px;
+  }
+
+  .kopf__logo :global(.kopf__logo-svg) {
+    height: 38px;
+    width: auto;
+  }
+
+  .kopf--sticky .kopf__logo :global(.kopf__logo-svg) {
+    height: 32px;
+  }
+
+  .kopf__nav {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  .nav-liste {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nav-eintrag {
+    position: relative;
+  }
+
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 999px;
+    background: none;
+    color: inherit;
+    font-family: var(--font-body);
+    font-size: 14.5px;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      color 200ms ease,
+      background-color 200ms ease;
+  }
+
+  .kopf--hero .nav-link[aria-current="page"],
+  .kopf--hero .nav-trigger[aria-expanded="true"] {
+    color: #ffffff;
+  }
+
+  .kopf--sticky .nav-link[aria-current="page"],
+  .kopf--sticky .nav-trigger[aria-expanded="true"] {
+    color: var(--petrol);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .kopf--hero .nav-link:hover {
+      color: #ffffff;
+      background: rgba(240, 244, 243, 0.08);
+    }
+
+    .kopf--sticky .nav-link:hover {
+      color: var(--petrol);
+      background: rgba(27, 110, 122, 0.07);
+    }
+  }
+
+  .nav-chevron {
+    width: 14px;
+    height: 14px;
+    transition: transform 200ms var(--ease-out);
+  }
+
+  .nav-trigger[aria-expanded="true"] .nav-chevron {
+    transform: rotate(180deg);
+  }
+
+  /* Dropdown: ursprungsbewusst (skaliert vom Trigger aus), 200ms ein / 140ms aus */
+  .nav-panel {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    z-index: 60;
+    min-width: 300px;
+    padding: 10px;
+    border-radius: 16px;
+    background: #ffffff;
+    color: var(--ink);
+    box-shadow:
+      0 24px 48px -16px rgba(11, 46, 60, 0.28),
+      0 0 0 1px rgba(11, 46, 60, 0.06);
+    transform-origin: top center;
+    transform: translateX(-50%) translateY(-4px) scale(0.97);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 140ms ease,
+      transform 140ms var(--ease-out),
+      visibility 0s linear 140ms;
+  }
+
+  .nav-panel--breit {
+    min-width: 540px;
+  }
+
+  [data-dropdown].is-open > .nav-panel {
+    transform: translateX(-50%) translateY(0) scale(1);
+    opacity: 1;
+    visibility: visible;
+    transition:
+      opacity 200ms var(--ease-out),
+      transform 200ms var(--ease-out),
+      visibility 0s;
+  }
+
+  /* Unsichtbare Brücke, damit der Hover beim Weg vom Trigger zum Panel nicht abreißt */
+  .nav-panel::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -12px;
+    height: 12px;
+  }
+
+  .nav-panel__liste {
+    display: grid;
+    gap: 2px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nav-panel--breit .nav-panel__liste {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .nav-panel__link {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 11px 14px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background-color 150ms ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .nav-panel__link:hover {
+      background: rgba(79, 184, 166, 0.1);
+    }
+  }
+
+  .nav-panel__link[aria-current="page"] {
+    background: rgba(79, 184, 166, 0.12);
+  }
+
+  .nav-panel__titel {
+    font-family: var(--font-headline);
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .nav-panel__kurz {
+    font-size: 12.5px;
+    line-height: 1.4;
+    color: var(--ink-68);
+  }
+
+  .nav-panel__bald {
+    margin: 6px 4px 2px;
+    padding: 12px 10px 4px;
+    border-top: 1px solid var(--line);
+  }
+
+  .nav-panel__bald-tag {
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: rgba(11, 46, 60, 0.06);
+    color: var(--ink-68);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .nav-panel__bald ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    margin: 0 0 6px;
+    padding: 0;
+    list-style: none;
+    font-size: 13.5px;
+    color: var(--ink-68);
+  }
+
+  .kopf__aktionen {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex: none;
+  }
+
+  .kopf__telefon {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    color: inherit;
+    font-size: 14.5px;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .kopf__telefon svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .kopf--hero .kopf__telefon:hover {
+      color: #ffffff;
+    }
+
+    .kopf--sticky .kopf__telefon:hover {
+      color: var(--petrol);
+    }
+  }
+
+  .kopf__burger {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 12px;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    transition: transform 160ms var(--ease-out);
+  }
+
+  .kopf--hero .kopf__burger {
+    color: #ffffff;
+    background: rgba(240, 244, 243, 0.08);
+  }
+
+  .kopf--sticky .kopf__burger {
+    background: rgba(11, 46, 60, 0.06);
+  }
+
+  .kopf__burger:active {
+    transform: scale(0.95);
+  }
+
+  .kopf__burger svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  @media (max-width: 1240px) {
+    .kopf__telefon {
+      display: none;
+    }
+  }
+
+  @media (max-width: 1040px) {
+    .kopf__nav {
+      display: none;
+    }
+
+    .kopf__aktionen {
+      margin-left: auto;
+    }
+
+    .kopf__burger {
+      display: inline-flex;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .kopf__cta {
+      display: none;
+    }
+
+    .kopf__logo :global(.kopf__logo-svg) {
+      height: 30px;
+    }
+  }
+</style>

@@ -1,0 +1,181 @@
+---
+/**
+ * Wissen-Teaser (docs/DESIGNSYSTEM.md → Komponente 17, referenz/startseite/wissen-teaser.html).
+ * Identische Komponente auf Startseite und allen Leistungsseiten, nur die Artikelauswahl unterscheidet sich.
+ * Die Auswahl je Leistungsseite steht in src/content/leistungen/<slug>.json → wissenArtikel.
+ */
+import { getCollection } from "astro:content";
+import WissenKarte from "../ui/WissenKarte.astro";
+
+interface Props {
+  titel?: string;
+  intro?: string;
+  artikel: string[];
+}
+
+const {
+  titel = "Wissen",
+  intro = "Antworten auf die Fragen, die uns im Alltag am häufigsten gestellt werden: verständlich erklärt, ohne Fachjargon.",
+  artikel,
+} = Astro.props;
+
+const alle = await getCollection("wissen");
+const auswahl = artikel.map((slug) => alle.find((a) => a.id === slug)).filter((a) => a !== undefined);
+---
+
+<section class="wt" aria-labelledby="wissen-teaser-titel">
+  <div class="container-site">
+    <div class="wt__kopf" data-reveal>
+      <div class="wt__kopftext">
+        <h2 id="wissen-teaser-titel" class="h2">{titel}</h2>
+        <p class="lead">{intro}</p>
+      </div>
+      <a class="wt__link" href="/wissen">
+        <span>Alle Beiträge</span>
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </a>
+    </div>
+
+    <ul class="wt__grid" role="list" data-reveal-group>
+      {
+        auswahl.map((a) => (
+          <li data-reveal>
+            <WissenKarte artikel={a} ueberschrift="h3" />
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="wt__fuss">
+      <a class="btn" href="/wissen">
+        <span>Alle Beiträge ansehen</span>
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .wt {
+    padding: 92px 0 100px;
+    background: var(--nebel);
+  }
+
+  .wt__kopf {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 32px;
+    margin-bottom: 44px;
+  }
+
+  .wt__kopftext {
+    max-width: 560px;
+  }
+
+  .wt__kopftext h2 {
+    margin-bottom: 14px;
+  }
+
+  .wt__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex: none;
+    min-height: 44px;
+    color: var(--petrol);
+    font-size: 14.5px;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .wt__link span {
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgba(27, 110, 122, 0.35);
+    transition: border-color 200ms ease;
+  }
+
+  .wt__link svg {
+    width: 15px;
+    height: 15px;
+    transition: transform 200ms var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .wt__link:hover span {
+      border-color: var(--petrol);
+    }
+
+    .wt__link:hover svg {
+      transform: translateX(4px);
+    }
+  }
+
+  .wt__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .wt__grid > li {
+    display: flex;
+  }
+
+  .wt__fuss {
+    display: none;
+    margin-top: 32px;
+  }
+
+  @media (max-width: 940px) {
+    .wt__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .wt__grid > li:nth-child(3) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .wt {
+      padding: 64px 0 72px;
+    }
+
+    .wt__kopf {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+      margin-bottom: 32px;
+    }
+
+    .wt__link {
+      display: none;
+    }
+
+    .wt__fuss {
+      display: block;
+    }
+
+    .wt__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .wt__grid > li:nth-child(3) {
+      display: flex;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wt__link svg {
+      transition: none;
+    }
+  }
+</style>

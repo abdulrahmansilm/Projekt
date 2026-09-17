@@ -1,0 +1,51 @@
+---
+import { Icon } from "astro-icon/components";
+---
+
+<section class="px-4 pt-14 pb-16 md:pt-20 md:pb-20" aria-labelledby="hero-heading">
+  <div class="mx-auto max-w-6xl">
+    <div class="max-w-3xl">
+      <span class="bg-accent-start/10 text-bg-dark reveal mb-5 inline-flex items-center gap-2 rounded-full px-4 py-1 text-xs font-medium uppercase tracking-wide">
+        <span aria-hidden="true" class="bg-accent-start size-1.5 rounded-full"></span>
+        IT-Dienstleister aus Frankfurt am Main
+      </span>
+
+      <h1 id="hero-heading" class="reveal font-headline text-4xl font-medium leading-[1.1] tracking-tight md:text-5xl lg:text-6xl">
+        IT-Betreuung, Cloud und KI-Assistenten,<span class="text-gradient"> die einfach funktionieren.</span>
+      </h1>
+
+      <p class="reveal text-bg-dark/80 mt-6 max-w-xl text-base leading-relaxed md:text-lg">
+        Von laufender IT-Betreuung über Cloud- und Sicherheitslösungen bis zu KI-Telefonassistent und WhatsApp-Chatbot:
+        planbare Kosten, ein fester Ansprechpartner, keine Blackbox.
+      </p>
+
+      <div class="reveal mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
+        <a
+          href="/kontakt"
+          class="bg-gradient-brand inline-flex min-h-11 items-center justify-center rounded-full px-6 py-3 text-base font-semibold text-white"
+        >
+          Kostenloses Erstgespräch buchen
+        </a>
+        <a href="#leistungen" class="border-accent-start text-accent-start inline-flex min-h-11 items-center justify-center gap-2 px-2 text-base font-semibold">
+          Leistungen ansehen
+          <Icon name="arrow-right" class="size-4" aria-hidden="true" />
+        </a>
+      </div>
+
+      <ul class="reveal text-bg-dark/68 mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm">
+        <li class="flex items-center gap-2">
+          <Icon name="shield-check" class="text-accent-start size-4" aria-hidden="true" />
+          Self-hosted in Deutschland
+        </li>
+        <li class="flex items-center gap-2">
+          <Icon name="check" class="text-accent-start size-4" aria-hidden="true" />
+          Monatlich kündbar
+        </li>
+        <li class="flex items-center gap-2">
+          <Icon name="users" class="text-accent-start size-4" aria-hidden="true" />
+          Fester Ansprechpartner
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>

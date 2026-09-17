@@ -1,0 +1,373 @@
+---
+/**
+ * Problem & Lösung „Reaktiv vs. proaktiv“ (docs/DESIGNSYSTEM.md → Komponente 19,
+ * referenz/<seite>/problem-loesung-trustbar.html). Logo als SVG-Sprite (einmal definiert, per <use> referenziert).
+ * Hover: Karte hebt sich 3px (200ms ease-out), nur mit echter Maus.
+ */
+import { WORTMARKE_KOMBINIERT } from "../../lib/brand";
+
+interface Props {
+  eyebrow?: string;
+  titel: string;
+  akzent: string;
+  intro?: string;
+  labelOhne: string;
+  labelMit: string;
+  karten: { titel: string; icon: string; ohne: string; mitStark: string; mitText: string }[];
+  kicker?: string;
+}
+const { eyebrow, titel, akzent, intro, labelOhne, labelMit, karten, kicker } = Astro.props;
+---
+
+<section class="pl section-light" aria-labelledby="pl-titel">
+  <svg width="0" height="0" class="pl__sprite" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="silm-grad" x1="504.17" y1="301.83" x2="117.55" y2="-84.79" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#1b6e7a"></stop>
+        <stop offset="1" stop-color="#4fb8a6"></stop>
+      </linearGradient>
+      <path id="silm-logo" fill="url(#silm-grad)" d={WORTMARKE_KOMBINIERT}></path>
+    </defs>
+  </svg>
+
+  <div class="pl__inner">
+    <div class="pl__kopf" data-reveal>
+      {
+        eyebrow && (
+          <p class="eyebrow">
+            <span class="eyebrow__dot" aria-hidden="true" />
+            {eyebrow}
+          </p>
+        )
+      }
+      <h2 id="pl-titel">
+        {titel}<br /><span class="text-verlauf">{akzent}</span>
+      </h2>
+      {intro && <p class="pl__intro">{intro}</p>}
+    </div>
+
+    <div class="pl__karten" data-reveal-group>
+      {
+        karten.map((k) => (
+          <article class="pl-karte" data-reveal>
+            <h3 class="pl-karte__titel">
+              <span class="pl-karte__ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" set:html={k.icon} />
+              </span>
+              {k.titel}
+            </h3>
+            <div class="pl-karte__split">
+              <div class="seite seite--ohne">
+                <p class="seite__label">
+                  <span class="seite__badge" aria-hidden="true">
+                    <svg viewBox="0 0 10 10" fill="none">
+                      <path d="M1 1 L9 9 M9 1 L1 9" stroke="rgba(11,46,60,0.45)" stroke-width="1.4" stroke-linecap="round" />
+                    </svg>
+                  </span>
+                  {labelOhne}
+                </p>
+                <p class="seite__text">{k.ohne}</p>
+              </div>
+              <div class="seite seite--mit">
+                <p class="seite__label">
+                  <span class="seite__badge" aria-hidden="true">
+                    <svg viewBox="0 0 14 14" fill="none">
+                      <path d="M2.5 7.2 L5.5 10.2 L11.5 3.8" stroke="#0B2E3C" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </span>
+                  {labelMit}
+                  <span class="marke" role="img" aria-label="Selim-IT">
+                    <svg viewBox="0 0 652.94 218.71" aria-hidden="true" focusable="false">
+                      <use href="#silm-logo" />
+                    </svg>
+                  </span>
+                </p>
+                <p class="seite__text">
+                  <strong>{k.mitStark}</strong> {k.mitText}
+                </p>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    {kicker && <p class="pl__kicker" set:html={kicker} data-reveal />}
+  </div>
+</section>
+
+<style>
+  .pl {
+    padding: 92px 32px 64px;
+  }
+
+  .pl__sprite {
+    position: absolute;
+    width: 0;
+    height: 0;
+  }
+
+  .pl__inner {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .pl__kopf {
+    max-width: 640px;
+    margin-bottom: 52px;
+  }
+
+  .pl__kopf .eyebrow {
+    margin-bottom: 16px;
+  }
+
+  .pl__kopf h2 {
+    margin-bottom: 18px;
+    font-size: 36px;
+    font-weight: 500;
+    line-height: 1.22;
+    letter-spacing: -0.01em;
+  }
+
+  .pl__intro {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink-72);
+  }
+
+  .pl__karten {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .pl-karte {
+    display: flex;
+    flex-direction: column;
+    padding: 24px 26px 26px;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 3px 14px rgba(11, 46, 60, 0.05);
+    transition:
+      box-shadow 200ms ease,
+      transform 200ms var(--ease-out);
+  }
+
+  .pl-karte__titel {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--line);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+  }
+
+  .pl-karte__ico {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex: none;
+    border: 1px solid rgba(79, 184, 166, 0.25);
+    border-radius: 9px;
+    background: rgba(79, 184, 166, 0.12);
+    transition:
+      background-color 200ms ease,
+      border-color 200ms ease;
+  }
+
+  .pl-karte__ico svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .pl-karte__split {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .seite {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .seite__label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-headline);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  .seite__badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 17px;
+    height: 17px;
+    flex: none;
+    border-radius: 50%;
+  }
+
+  .seite__badge svg {
+    width: 9px;
+    height: 9px;
+  }
+
+  .seite__text {
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+
+  .seite--ohne {
+    min-height: 96px;
+    transition: opacity 200ms ease;
+  }
+
+  .seite--ohne .seite__label {
+    color: var(--ink-55);
+  }
+
+  .seite--ohne .seite__badge {
+    border: 1.5px solid rgba(11, 46, 60, 0.28);
+  }
+
+  .seite--ohne .seite__text {
+    color: var(--ink-55);
+  }
+
+  .seite--mit {
+    flex: 1;
+    padding: 16px 18px;
+    border-radius: 14px;
+    background: rgba(79, 184, 166, 0.09);
+    transition: box-shadow 200ms ease;
+  }
+
+  .seite--mit .seite__label {
+    font-size: 13.5px;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--ink-72);
+  }
+
+  .seite--mit .seite__badge {
+    background: var(--verlauf);
+  }
+
+  .seite--mit .seite__text {
+    color: var(--ink);
+  }
+
+  .seite--mit strong {
+    font-weight: 600;
+  }
+
+  .marke {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .marke svg {
+    width: 56.7px;
+    height: 19px;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .pl-karte:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 32px -14px rgba(11, 46, 60, 0.18);
+    }
+
+    .pl-karte:hover .pl-karte__ico {
+      border-color: rgba(79, 184, 166, 0.45);
+      background: rgba(79, 184, 166, 0.2);
+    }
+
+    .pl-karte:hover .seite--ohne {
+      opacity: 0.7;
+    }
+
+    .pl-karte:hover .seite--mit {
+      background: rgba(79, 184, 166, 0.15);
+    }
+  }
+
+  .pl__kicker {
+    max-width: 680px;
+    margin-top: 40px;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink-72);
+  }
+
+  .pl__kicker :global(strong) {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  @media (max-width: 760px) {
+    .pl__karten {
+      grid-template-columns: 1fr;
+    }
+
+    .pl-karte {
+      padding: 22px 20px 24px;
+      border-radius: 16px;
+    }
+
+    .pl-karte__titel {
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      font-size: 17.5px;
+    }
+
+    .seite--ohne {
+      min-height: 0;
+    }
+
+    .seite--mit {
+      flex: 0 1 auto;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .pl {
+      padding: 64px 20px 48px;
+    }
+
+    .pl__kopf {
+      margin-bottom: 38px;
+    }
+
+    .pl__kopf h2 {
+      font-size: 27px;
+    }
+
+    .pl__intro {
+      font-size: 15.5px;
+    }
+
+    .pl__kicker {
+      font-size: 16px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pl-karte,
+    .pl-karte:hover {
+      transform: none;
+    }
+  }
+</style>

@@ -1,0 +1,21 @@
+---
+import { cx } from "../../lib/utils";
+
+interface Props {
+  zahl: string;
+  beschreibung: string;
+  variante?: "hell" | "dunkel";
+}
+
+const { zahl, beschreibung, variante = "hell" } = Astro.props;
+---
+
+<div
+  class={cx(
+    "reveal flex flex-col gap-2 rounded-none border p-6",
+    variante === "dunkel" ? "border-transparent bg-bg-dark" : "border-bg-dark/15 bg-bg"
+  )}
+>
+  <span class="text-gradient font-headline text-5xl font-medium">{zahl}</span>
+  <p class={cx("text-sm", variante === "dunkel" ? "text-white/68" : "text-bg-dark/68")}>{beschreibung}</p>
+</div>

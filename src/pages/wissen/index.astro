@@ -1,0 +1,220 @@
+---
+/**
+ * Wissen-Übersicht (docs/DESIGNSYSTEM.md → Komponente 22, referenz/wissen/uebersicht.html):
+ * Featured-Artikel + 3-spaltiges Artikel-Grid. Der Seitenkopf nutzt die kompakte Hero-Variante,
+ * damit Kopfzeile und Navigation wie auf allen Seiten auf dem dunklen Verlauf liegen.
+ */
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Hero from "../../components/sections/Hero.astro";
+import WissenKarte from "../../components/ui/WissenKarte.astro";
+import { breadcrumbJsonLd } from "../../lib/seo";
+import { SITE_URL } from "../../lib/config";
+
+const artikel = (await getCollection("wissen")).sort((a, b) => a.data.reihenfolge - b.data.reihenfolge);
+const featured = artikel.find((a) => a.data.featured) ?? artikel[0];
+const weitere = artikel.filter((a) => a.id !== featured.id);
+
+const jsonLd = [
+  breadcrumbJsonLd([
+    { name: "Startseite", pfad: "/" },
+    { name: "Wissen", pfad: "/wissen" },
+  ]),
+  {
+    "@type": "CollectionPage",
+    name: "Wissen",
+    url: `${SITE_URL}/wissen`,
+    hasPart: artikel.map((a) => ({ "@type": "BlogPosting", headline: a.data.titel, url: `${SITE_URL}/wissen/${a.id}` })),
+  },
+];
+---
+
+<BaseLayout
+  title="Wissen: IT, Sicherheit, KI und Webseiten verständlich erklärt"
+  description="Fachartikel von Selim-IT zu IT-Betreuung, Datensicherung, NIS-2, Phishing, Microsoft 365, KI-Assistenten und Webseiten. Verständlich erklärt, ohne Fachjargon."
+  pfad="/wissen"
+  jsonLd={jsonLd}
+>
+  <Hero
+    kompakt
+    headline="Wissen"
+    subline="Antworten auf die Fragen, die uns im Alltag am häufigsten gestellt werden: verständlich erklärt, ohne Fachjargon."
+  />
+
+  <section class="wu" aria-labelledby="wu-titel">
+    <div class="wu__inner">
+      <h2 id="wu-titel" class="sr-only">Alle Beiträge</h2>
+
+      <a class="featured" href={`/wissen/${featured.id}`} data-reveal>
+        <span class="featured__media" aria-hidden="true">
+          <img src={`/wissen/${featured.id}.svg`} alt="" loading="eager" width="500" height="500" />
+        </span>
+        <span class="featured__body">
+          <span class="tag">{featured.data.kategorie}</span>
+          <h3 class="featured__titel">{featured.data.titel}</h3>
+          <span class="featured__teaser">{featured.data.teaser}</span>
+          <span class="meta">{featured.data.lesezeit} Min. Lesezeit</span>
+        </span>
+      </a>
+
+      <ul class="grid" role="list" data-reveal-group>
+        {
+          weitere.map((a) => (
+            <li data-reveal>
+              <WissenKarte artikel={a} ueberschrift="h3" medienHoehe={132} />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .wu {
+    background: var(--nebel);
+  }
+
+  .wu__inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 72px 32px 104px;
+  }
+
+  .featured {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    margin-bottom: 16px;
+    overflow: hidden;
+    border-radius: 16px;
+    background: #ffffff;
+    color: inherit;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(11, 46, 60, 0.07);
+    transition:
+      transform 250ms var(--ease-out),
+      box-shadow 250ms ease;
+  }
+
+  .featured:focus-visible {
+    outline: 2px solid var(--petrol);
+    outline-offset: 3px;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .featured:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(11, 46, 60, 0.12);
+    }
+  }
+
+  .featured:active {
+    transform: translateY(-2px) scale(0.995);
+  }
+
+  .featured__media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 280px;
+    overflow: hidden;
+    background: linear-gradient(150deg, #1b6e7a 0%, #0b2e3c 100%);
+  }
+
+  .featured__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .featured__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 36px 36px 32px;
+  }
+
+  .tag {
+    align-self: flex-start;
+    margin-bottom: 16px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: rgba(79, 184, 166, 0.12);
+    color: var(--petrol);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  .featured__titel {
+    margin-bottom: 12px;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.28;
+  }
+
+  .featured__teaser {
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: var(--ink-72);
+  }
+
+  .meta {
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--ink-68);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .grid > li {
+    display: flex;
+  }
+
+  @media (max-width: 940px) {
+    .featured {
+      grid-template-columns: 1fr;
+    }
+
+    .featured__media {
+      min-height: 200px;
+    }
+
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .wu__inner {
+      padding: 48px 20px 72px;
+    }
+
+    .grid {
+      grid-template-columns: 1fr;
+    }
+
+    .featured__body {
+      padding: 28px 24px;
+    }
+
+    .featured__titel {
+      font-size: 20px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .featured,
+    .featured:hover,
+    .featured:active {
+      transform: none;
+    }
+  }
+</style>

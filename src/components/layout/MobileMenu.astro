@@ -1,0 +1,310 @@
+---
+/**
+ * Mobiles Menü als Sheet (docs/ANFORDERUNGEN.md → Mobil-spezifisch, docs/BARRIEREFREIHEIT.md → Header).
+ * Fokus wandert ins Menü, Escape schließt, Fokus kehrt zum Auslöser zurück.
+ * Bewegung: Drawer-Kurve (emil-design-eng), öffnen 360ms, schließen 240ms.
+ */
+import Logo from "../ui/Logo.astro";
+import { firma, navigation, leistungHref } from "../../lib/config";
+
+interface Props {
+  kontaktHref: string;
+}
+
+const { kontaktHref } = Astro.props;
+---
+
+<div class="mm on-dark" id="mobile-menu" data-mobile-menu hidden>
+  <div class="mm__backdrop" data-menu-close></div>
+  <div class="mm__sheet" role="dialog" aria-modal="true" aria-label="Menü">
+    <div class="mm__kopf">
+      <a href="/" class="mm__logo" aria-label="Selim-IT, zur Startseite">
+        <Logo variant="hell" class="mm__logo-svg" />
+      </a>
+      <button type="button" class="mm__schliessen" aria-label="Menü schließen" data-menu-close>
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="mm__nav" aria-label="Mobile Navigation">
+      <ul class="mm__liste" role="list">
+        {
+          navigation.map((kat) =>
+            kat.href ? (
+              <li class="mm__gruppe">
+                <a class="mm__gruppe-link" href={kat.href}>
+                  {kat.label}
+                </a>
+              </li>
+            ) : (
+              <li class="mm__gruppe" data-mm-gruppe>
+                <button
+                  type="button"
+                  class="mm__gruppe-link"
+                  aria-expanded="false"
+                  aria-controls={`mm-${kat.id}`}
+                  data-mm-trigger
+                >
+                  {kat.label}
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </button>
+                <div class="mm__unter" id={`mm-${kat.id}`}>
+                  <div class="mm__unter-inner">
+                    <ul role="list">
+                      {kat.eintraege.map((e) =>
+                        e.bald ? (
+                          <li class="mm__bald">
+                            {e.label} <span>bald</span>
+                          </li>
+                        ) : (
+                          <li>
+                            <a href={leistungHref(e.slug)}>{e.label}</a>
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  </div>
+                </div>
+              </li>
+            )
+          )
+        }
+      </ul>
+    </nav>
+
+    <div class="mm__fuss">
+      <a class="btn btn--block" href={kontaktHref} data-menu-close-link><span>Beratung vereinbaren</span></a>
+      <a class="mm__telefon" href={firma.telefon.href}>
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.5 2.5.8 3.8.9.6 0 1 .5 1 1.1v3.6c0 .6-.5 1.1-1.1 1.1C10.9 21.7 2.3 13.1 2.3 3.9c0-.6.5-1.1 1.1-1.1H7c.6 0 1.1.4 1.1 1 .1 1.3.4 2.6.9 3.8.1.4.1.8-.2 1.1L6.6 10.8Z"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linejoin="round"></path>
+        </svg>
+        Anrufen: <span class:list={{ platzhalter: firma.telefon.platzhalter }}>{firma.telefon.anzeige}</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .mm {
+    position: fixed;
+    inset: 0;
+    z-index: 1500;
+  }
+
+  .mm__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(5, 20, 26, 0.55);
+    opacity: 0;
+    transition: opacity 240ms ease;
+  }
+
+  .mm__sheet {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(420px, 100%);
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(160deg, #123847 0%, #0b2e3c 60%);
+    color: var(--on-dark);
+    box-shadow: -24px 0 60px -20px rgba(0, 0, 0, 0.45);
+    transform: translateX(100%);
+    transition: transform 240ms var(--ease-drawer);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .mm.is-open .mm__backdrop {
+    opacity: 1;
+  }
+
+  .mm.is-open .mm__sheet {
+    transform: translateX(0);
+    transition-duration: 360ms;
+  }
+
+  .mm__kopf {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px;
+  }
+
+  .mm__logo :global(.mm__logo-svg) {
+    height: 30px;
+    width: auto;
+  }
+
+  .mm__schliessen {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 12px;
+    background: rgba(240, 244, 243, 0.08);
+    color: #ffffff;
+    cursor: pointer;
+    transition: transform 160ms var(--ease-out);
+  }
+
+  .mm__schliessen:active {
+    transform: scale(0.95);
+  }
+
+  .mm__schliessen svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .mm__nav {
+    padding: 8px 20px;
+  }
+
+  .mm__liste {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .mm__gruppe {
+    border-bottom: 1px solid var(--line-dark);
+  }
+
+  .mm__gruppe-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 58px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: #ffffff;
+    font-family: var(--font-headline);
+    font-size: 19px;
+    font-weight: 500;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .mm__gruppe-link svg {
+    width: 20px;
+    height: 20px;
+    color: var(--helltuerkis);
+    transition: transform 220ms var(--ease-out);
+  }
+
+  .mm__gruppe-link[aria-expanded="true"] svg {
+    transform: rotate(180deg);
+  }
+
+  /* Akkordeon über grid-template-rows (kein fester Höhenwert, unterbrechbare Transition) */
+  .mm__unter {
+    display: grid;
+    grid-template-rows: 0fr;
+    visibility: hidden;
+    transition:
+      grid-template-rows 220ms var(--ease-out),
+      visibility 0s linear 220ms;
+  }
+
+  .mm__gruppe.is-open .mm__unter {
+    grid-template-rows: 1fr;
+    visibility: visible;
+    transition:
+      grid-template-rows 280ms var(--ease-out),
+      visibility 0s;
+  }
+
+  .mm__unter-inner {
+    overflow: hidden;
+  }
+
+  .mm__unter ul {
+    margin: 0;
+    padding: 0 0 14px;
+    list-style: none;
+  }
+
+  .mm__unter a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    color: rgba(240, 244, 243, 0.82);
+    font-size: 16px;
+    text-decoration: none;
+  }
+
+  .mm__unter a:active {
+    color: #ffffff;
+  }
+
+  .mm__bald {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    color: rgba(240, 244, 243, 0.5);
+    font-size: 15px;
+  }
+
+  .mm__bald span {
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(240, 244, 243, 0.1);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .mm__fuss {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: auto;
+    padding: 24px 20px 32px;
+  }
+
+  .mm__telefon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 48px;
+    border-radius: 999px;
+    box-shadow: inset 0 0 0 1.5px rgba(240, 244, 243, 0.25);
+    color: #ffffff;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .mm__telefon svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mm__sheet,
+    .mm.is-open .mm__sheet {
+      transition: none;
+    }
+
+    .mm__unter,
+    .mm__gruppe.is-open .mm__unter {
+      transition: none;
+    }
+  }
+</style>

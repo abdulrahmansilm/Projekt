@@ -1,0 +1,38 @@
+---
+import { firma } from "../../lib/config";
+
+interface Nachricht {
+  von: "kunde" | "bot";
+  text: string;
+}
+
+interface Props {
+  nachrichten: Nachricht[];
+}
+
+const { nachrichten } = Astro.props;
+---
+
+<div class="border-bg-dark/15 mt-8 max-w-sm overflow-hidden rounded-none border" role="img" aria-label={`Beispiel-Chatverlauf mit dem WhatsApp-Chatbot von ${firma.name}`}>
+  <div class="bg-bg-dark flex items-center gap-2 px-4 py-3 text-white">
+    <span class="font-headline text-sm font-medium">{firma.name}</span>
+    <span class="text-xs text-white/68">· WhatsApp</span>
+  </div>
+  <div class="bg-bg flex flex-col gap-2 p-4">
+    {
+      nachrichten.map((n) => (
+        <div class={n.von === "bot" ? "flex justify-end" : "flex justify-start"}>
+          <p
+            class={
+              n.von === "bot"
+                ? "bg-gradient-brand max-w-[80%] rounded-lg px-3 py-2 text-sm text-white"
+                : "border-bg-dark/15 max-w-[80%] rounded-lg border bg-white px-3 py-2 text-sm text-bg-dark"
+            }
+          >
+            {n.text}
+          </p>
+        </div>
+      ))
+    }
+  </div>
+</div>

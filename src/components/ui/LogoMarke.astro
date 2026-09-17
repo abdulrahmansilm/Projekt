@@ -1,0 +1,34 @@
+---
+/** Isolierte „li“-Ligatur mit Verlauf (Hub-Icon, Abschluss-Marke, Chat-Header). */
+import { MARKE_BOGEN, MARKE_PUNKT, MARKE_VIEWBOX } from "../../lib/brand";
+
+interface Props {
+  class?: string;
+  /** "verlauf": Bogen + Punkt im Standard-Verlauf, "hell": Bogen hell, Punkt im Verlauf */
+  variant?: "verlauf" | "hell";
+}
+
+const { class: className = "", variant = "verlauf" } = Astro.props;
+const id = Math.random().toString(36).slice(2, 8);
+---
+
+<svg class={className} viewBox={MARKE_VIEWBOX} xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id={`mb-${id}`} x1="265.73" y1="460.9" x2="-95.39" y2="99.79" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1b6e7a"></stop>
+      <stop offset="1" stop-color="#4fb8a6"></stop>
+    </linearGradient>
+    <linearGradient id={`mp-${id}`} x1="233.34" y1="80.93" x2="165.38" y2="12.97" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1b6e7a"></stop>
+      <stop offset="1" stop-color="#4fb8a6"></stop>
+    </linearGradient>
+  </defs>
+  <path fill={variant === "hell" ? "#F5F8F7" : `url(#mb-${id})`} d={MARKE_BOGEN}></path>
+  <path fill={`url(#mp-${id})`} d={MARKE_PUNKT}></path>
+</svg>
+
+<style>
+  svg {
+    aspect-ratio: 246.64 / 560.12;
+  }
+</style>

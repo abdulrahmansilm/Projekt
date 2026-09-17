@@ -1,0 +1,77 @@
+---
+/**
+ * Bühne für Hero-Visuals: Das Visual wird in seiner Referenzgröße (px) gebaut und proportional auf die
+ * verfügbare Breite skaliert (transform: scale, keine Layout-Animation). Die Skalierung wird synchron vor dem
+ * ersten Paint gesetzt (kein Layout-Shift) und per ResizeObserver nachgeführt. Ohne `hoehe` wird die
+ * natürliche Höhe des Inhalts gemessen.
+ */
+interface Props {
+  breite: number;
+  hoehe?: number;
+  /** maximale Skalierung (1 = Referenzgröße) */
+  max?: number;
+  class?: string;
+}
+
+const { breite, hoehe, max = 1, class: className = "" } = Astro.props;
+const id = `stage-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<div
+  class:list={["hero-stage", className]}
+  id={id}
+  data-stage-breite={breite}
+  data-stage-hoehe={hoehe}
+  data-stage-max={max}
+  style={`--w:${breite}px;${hoehe ? `--h:${hoehe}px;` : ""}--s:${Math.min(max, 0.55)}`}
+>
+  <div class:list={["hero-stage__inner", { "hero-stage__inner--auto": !hoehe }]}>
+    <slot />
+  </div>
+</div>
+<script is:inline define:vars={{ id }}>
+  (function () {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var inner = el.firstElementChild;
+    var w = Number(el.dataset.stageBreite);
+    var hFest = Number(el.dataset.stageHoehe) || 0;
+    var max = Number(el.dataset.stageMax) || 1;
+    function fit() {
+      var verfuegbar = el.parentElement ? el.parentElement.clientWidth : el.clientWidth;
+      var s = Math.min(max, verfuegbar / w);
+      var h = hFest || inner.offsetHeight;
+      el.style.setProperty("--s", s.toFixed(4));
+      el.style.height = Math.round(h * s) + "px";
+    }
+    fit();
+    if ("ResizeObserver" in window) {
+      var ro = new ResizeObserver(fit);
+      if (el.parentElement) ro.observe(el.parentElement);
+      ro.observe(inner);
+    }
+  })();
+</script>
+
+<style>
+  .hero-stage {
+    position: relative;
+    width: calc(var(--w) * var(--s));
+    height: calc(var(--h, 400px) * var(--s));
+    flex: none;
+  }
+
+  .hero-stage__inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--w);
+    height: var(--h);
+    transform: scale(var(--s));
+    transform-origin: top left;
+  }
+
+  .hero-stage__inner--auto {
+    height: auto;
+  }
+</style>

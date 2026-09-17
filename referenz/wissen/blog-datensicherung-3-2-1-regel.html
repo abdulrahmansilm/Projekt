@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3-2-1-Regel Backup: Datensicherung richtig aufbauen | Selim-IT</title>
+<meta name="description" content="Die 3-2-1-Regel verlangt drei Kopien Ihrer Daten auf zwei verschiedenen Medien, davon eine an einem anderen Ort. Warum eine externe Festplatte nicht reicht und wie oft Sie die Wiederherstellung testen sollten.">
+<link rel="canonical" href="https://selim-it.de/wissen/datensicherung-3-2-1-regel">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Die 3-2-1-Regel: Wie Sie Firmendaten wirklich sicher sichern">
+<meta property="og:description" content="Die 3-2-1-Regel verlangt drei Kopien Ihrer Daten auf zwei verschiedenen Medien, davon eine an einem anderen Ort. Warum eine externe Festplatte nicht reicht und wie oft Sie die Wiederherstellung testen sollten.">
+<meta property="og:url" content="https://selim-it.de/wissen/datensicherung-3-2-1-regel">
+<meta property="og:site_name" content="Selim-IT">
+<meta property="og:locale" content="de_DE">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": "https://selim-it.de/wissen/datensicherung-3-2-1-regel#article",
+      "headline": "Die 3-2-1-Regel: Wie Sie Firmendaten wirklich sicher sichern",
+      "description": "Die 3-2-1-Regel verlangt drei Kopien Ihrer Daten auf zwei verschiedenen Medien, davon eine an einem anderen Ort. Warum eine externe Festplatte nicht reicht und wie oft Sie die Wiederherstellung testen sollten.",
+      "datePublished": "2026-09-08",
+      "dateModified": "2026-09-08",
+      "inLanguage": "de-DE",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://selim-it.de/wissen/datensicherung-3-2-1-regel"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "Selim-IT",
+        "url": "https://selim-it.de"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Selim-IT",
+        "url": "https://selim-it.de"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://selim-it.de/wissen/datensicherung-3-2-1-regel#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Was ist die 3-2-1-Regel bei der Datensicherung?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Die 3-2-1-Regel verlangt drei Kopien der Daten, gespeichert auf zwei unterschiedlichen Medientypen, wovon eine Kopie an einem anderen physischen Ort liegt. Sie ist der etablierte Mindeststandard für Datensicherung in Unternehmen."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Reicht eine externe Festplatte als Backup?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nein. Eine dauerhaft am Server angeschlossene externe Festplatte wird bei einem Ransomware-Angriff mitverschlüsselt und schützt auch nicht vor Feuer oder Diebstahl. Nötig ist zusätzlich eine Kopie außer Haus, idealerweise unveränderlich gespeichert."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Wie oft sollte man ein Backup testen?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Empfohlen ist eine stichprobenhafte Wiederherstellung einmal pro Quartal und ein vollständiger Test mit Zeitmessung einmal im Jahr. Ergebnisse sollten dokumentiert werden, da die DSGVO eine regelmäßige Überprüfung der Wirksamkeit verlangt."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Sichert Microsoft 365 meine Daten automatisch?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nicht im Sinne einer Datensicherung. Microsoft sorgt für die Verfügbarkeit der Plattform, übernimmt aber keine langfristige Wiederherstellung gelöschter Inhalte. Für Exchange, SharePoint und OneDrive ist eine eigene Sicherung erforderlich."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Was bedeutet 3-2-1-1-0?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Eine Erweiterung der 3-2-1-Regel. Die zusätzliche Eins steht für eine unveränderliche Kopie, die auch von Administratoren nicht gelöscht werden kann. Die Null steht für null Fehler bei der Wiederherstellung, nachgewiesen durch regelmäßige Tests."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  :root{
+    --bg:#F1F3F0;
+    --ink:#05231F;
+    --dark:#0B2E3C;
+    --grad-start:#4FB8A6;
+    --grad-end:#1B6E7A;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ background:var(--bg); font-family:'Outfit',sans-serif; color:var(--ink); -webkit-font-smoothing:antialiased; }
+
+  .article-hero{
+    background:linear-gradient(150deg, #1B6E7A 0%, #0B2E3C 100%);
+    padding:88px 32px 72px;
+  }
+  .hero-inner{ max-width:760px; margin:0 auto; }
+  .breadcrumb{ font-size:13.5px; color:rgba(240,244,243,0.6); margin-bottom:22px; }
+  .breadcrumb a{ color:rgba(240,244,243,0.75); text-decoration:none; }
+  .breadcrumb a:hover{ color:#FFFFFF; }
+  .tag{
+    display:inline-block;
+    font-size:12px;
+    font-weight:500;
+    letter-spacing:0.02em;
+    color:#7FD9C4;
+    background:rgba(79,184,166,0.16);
+    border-radius:999px;
+    padding:5px 13px;
+    margin-bottom:20px;
+  }
+  h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;
+    font-size:clamp(28px,4.2vw,42px);
+    line-height:1.2;
+    letter-spacing:-0.015em;
+    color:#FFFFFF;
+    margin-bottom:20px;
+  }
+  .standfirst{ font-size:18px; line-height:1.6; color:rgba(240,244,243,0.88); }
+  .hero-meta{ margin-top:28px; font-size:13.5px; color:rgba(240,244,243,0.55); }
+
+  .article{ max-width:760px; margin:0 auto; padding:64px 32px 88px; }
+  .article p{ font-size:17px; line-height:1.75; margin-bottom:22px; }
+  .article h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;
+    font-size:27px;
+    line-height:1.28;
+    letter-spacing:-0.01em;
+    margin:48px 0 18px;
+  }
+  .article h3{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;
+    font-size:20px;
+    line-height:1.32;
+    margin:34px 0 14px;
+  }
+  .article ul, .article ol{ margin:0 0 24px 22px; }
+  .article li{ font-size:17px; line-height:1.7; margin-bottom:10px; }
+  .article strong{ font-weight:600; }
+  .article a{ color:var(--grad-end); text-decoration:underline; text-underline-offset:3px; }
+
+  .keypoint{
+    background:#FFFFFF;
+    border-left:3px solid var(--grad-start);
+    border-radius:0 12px 12px 0;
+    padding:22px 26px;
+    margin:32px 0;
+  }
+  .keypoint p{ margin:0; font-size:16.5px; }
+  .keypoint p + p{ margin-top:14px; }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:28px 0;
+    font-size:15.5px;
+    background:#FFFFFF;
+    border-radius:12px;
+    overflow:hidden;
+  }
+  th{
+    text-align:left;
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;
+    font-size:14.5px;
+    background:rgba(27,110,122,0.08);
+    padding:14px 18px;
+  }
+  td{ padding:14px 18px; border-top:1px solid rgba(11,46,60,0.08); line-height:1.55; }
+
+  .faq-block{ margin-top:52px; }
+  .faq-block h2{ margin-bottom:8px; }
+  .faq-q{
+    background:#FFFFFF;
+    border-radius:14px;
+    padding:22px 24px;
+    margin-bottom:12px;
+    box-shadow:0 3px 12px rgba(11,46,60,0.05);
+  }
+  .faq-q h3{ margin:0 0 10px; font-size:17px; }
+  .faq-q p{ margin:0; font-size:15.5px; line-height:1.65; opacity:0.85; }
+
+  .cta{
+    background:linear-gradient(135deg, var(--grad-start), var(--grad-end));
+    border-radius:16px;
+    padding:34px 34px 36px;
+    margin-top:56px;
+    color:#FFFFFF;
+  }
+  .cta h2{ margin:0 0 12px; font-size:22px; color:#FFFFFF; }
+  .cta p{ margin:0 0 22px; font-size:16px; line-height:1.65; color:rgba(255,255,255,0.92); }
+  .cta a{
+    display:inline-block;
+    background:#FFFFFF;
+    color:var(--grad-end);
+    font-family:'Outfit',sans-serif;
+    font-weight:600;
+    font-size:15.5px;
+    text-decoration:none;
+    padding:13px 28px;
+    border-radius:999px;
+  }
+
+  @media (max-width:600px){
+    .article-hero{ padding:56px 20px 48px; }
+    .article{ padding:44px 20px 64px; }
+    .article p, .article li{ font-size:16px; }
+    .article h2{ font-size:23px; margin:38px 0 14px; }
+    .standfirst{ font-size:16.5px; }
+    table{ font-size:14px; }
+    th, td{ padding:11px 13px; }
+  }
+</style>
+</head>
+<body>
+
+<article>
+  <header class="article-hero">
+    <div class="hero-inner">
+      <nav class="breadcrumb"><a href="/">Startseite</a> &rsaquo; <a href="/wissen">Wissen</a> &rsaquo; Datensicherung</nav>
+      <span class="tag">Datensicherung</span>
+      <h1>Die 3-2-1-Regel: Wie Sie Firmendaten wirklich sicher sichern</h1>
+      <p class="standfirst">Fast jeder Betrieb sichert irgendwie. Die entscheidende Frage ist nicht, ob gesichert wird, sondern ob sich die Daten im Ernstfall auch zurückholen lassen.</p>
+      <p class="hero-meta">7 Min. Lesezeit &middot; Zuletzt aktualisiert: 8. September 2026</p>
+    </div>
+  </header>
+
+  <div class="article">
+    <p>Die 3-2-1-Regel ist der etablierte Mindeststandard für Datensicherung: <strong>drei</strong> Kopien Ihrer Daten, gespeichert auf <strong>zwei</strong> unterschiedlichen Medientypen, davon <strong>eine</strong> Kopie an einem anderen physischen Ort. Wer diese Regel einhält, übersteht die drei häufigsten Verlustszenarien — Hardwaredefekt, versehentliches Löschen und Verschlüsselung durch Schadsoftware.</p>
+
+    <p>Die Regel ist alt und wird trotzdem regelmäßig gebrochen, meist an derselben Stelle: bei der Kopie an einem anderen Ort.</p>
+
+    <h2>Was die drei Zahlen bedeuten</h2>
+
+    <h3>Drei Kopien</h3>
+
+    <p>Gemeint sind die Originaldaten plus zwei Sicherungen. Nicht zwei Sicherungen desselben Datenstands, die morgens und abends auf dieselbe Platte laufen — sondern zwei voneinander unabhängige Kopien. Der Grund ist schlichte Wahrscheinlichkeit: Dass ein Speichermedium ausfällt, ist normal. Dass zwei gleichzeitig ausfallen, ist selten.</p>
+
+    <h3>Zwei verschiedene Medientypen</h3>
+
+    <p>Etwa eine Sicherung auf einem NAS im Haus und eine in der Cloud. Oder Festplatte und Bandlaufwerk. Der Sinn: Unterschiedliche Technologien fallen aus unterschiedlichen Gründen aus. Zwei baugleiche Festplatten aus derselben Charge haben eine unangenehme Neigung, ungefähr gleichzeitig ihren Dienst einzustellen.</p>
+
+    <h3>Eine Kopie außer Haus</h3>
+
+    <p>Der Punkt, an dem es in der Praxis scheitert. Eine Sicherung im selben Serverraum wie das Original schützt nicht gegen Feuer, Wasserschaden, Einbruch — und auch nicht gegen Ransomware, wenn das Sicherungsmedium dauerhaft verbunden ist.</p>
+
+    <div class="keypoint">
+      <p><strong>Der häufigste Fehler in kleinen Betrieben:</strong> eine externe Festplatte, die permanent am Server hängt. Verschlüsselt Ransomware den Server, verschlüsselt sie die Platte gleich mit. Eine dauerhaft verbundene Sicherung ist im Ransomware-Fall keine Sicherung.</p>
+    </div>
+
+    <h2>Warum die Regel um eine Null erweitert wurde</h2>
+
+    <p>In den letzten Jahren hat sich eine Erweiterung durchgesetzt: <strong>3-2-1-1-0</strong>. Die zusätzliche Eins steht für eine Kopie, die unveränderlich ist — also nachträglich nicht überschrieben oder gelöscht werden kann, auch nicht von jemandem mit Administratorrechten. Fachbegriff: Immutable Backup oder Air-Gap.</p>
+
+    <p>Der Hintergrund ist unangenehm konkret: Moderne Ransomware sucht gezielt nach Sicherungen und löscht sie, bevor sie die eigentlichen Daten verschlüsselt. Wer den Angreifer aussperren will, braucht eine Kopie, die technisch nicht löschbar ist.</p>
+
+    <p>Die Null steht für <strong>null Fehler bei der Wiederherstellung</strong> — geprüft durch regelmäßige Tests. Und das ist der Punkt, an dem die meisten Sicherungskonzepte in der Praxis auffliegen.</p>
+
+    <h2>Der Test, den fast niemand macht</h2>
+
+    <p>Eine Sicherung, die noch nie zurückgespielt wurde, ist eine Vermutung. Typische Fehler, die erst beim Test auffallen:</p>
+
+    <ul>
+      <li>Der Sicherungsjob läuft seit Monaten mit Fehler durch, gemeldet wird das an eine E-Mail-Adresse, die niemand liest.</li>
+      <li>Gesichert werden nur die Dateiablagen, nicht aber die Datenbank der Warenwirtschaft — die liegt woanders.</li>
+      <li>Die Sicherung ist vollständig, aber die Wiederherstellung würde vier Tage dauern. Für den Betrieb ist das ein Totalausfall.</li>
+      <li>Das Wiederherstellungspasswort kennt nur der Mitarbeiter, der seit einem Jahr nicht mehr im Haus ist.</li>
+    </ul>
+
+    <p>Sinnvoller Rhythmus: einmal im Quartal eine echte Wiederherstellung, mindestens stichprobenhaft. Einmal im Jahr ein vollständiger Test mit Zeitmessung. Beides schriftlich festhalten — im Schadensfall ist das gegenüber Versicherung und Aufsichtsbehörden Gold wert.</p>
+
+    <h2>Zwei Kennzahlen, die Sie festlegen sollten</h2>
+
+    <table>
+      <tr><th>Kennzahl</th><th>Was sie bedeutet</th><th>Beispiel</th></tr>
+      <tr><td>RPO (Recovery Point Objective)</td><td>Wie viel Datenverlust ist maximal verkraftbar?</td><td>4 Stunden = Sicherung mindestens alle 4 Stunden</td></tr>
+      <tr><td>RTO (Recovery Time Objective)</td><td>Wie lange darf die Wiederherstellung dauern?</td><td>8 Stunden = Betrieb muss am selben Tag weiterlaufen</td></tr>
+    </table>
+
+    <p>Diese beiden Zahlen bestimmen fast alles Weitere: wie oft gesichert wird, welche Technik nötig ist und was das Ganze kostet. Sie sollten von der Geschäftsführung kommen, nicht von der IT — es ist eine betriebswirtschaftliche Entscheidung, keine technische.</p>
+
+    <h2>Was in der Praxis funktioniert</h2>
+
+    <p>Ein bewährter Aufbau für einen mittelständischen Betrieb:</p>
+
+    <ol>
+      <li><strong>Original</strong> auf dem Server oder in Microsoft 365.</li>
+      <li><strong>Lokale Sicherung</strong> auf ein NAS im Haus, mehrmals täglich. Schnell wiederherstellbar bei versehentlichem Löschen — dem mit Abstand häufigsten Fall.</li>
+      <li><strong>Cloud-Sicherung</strong> in ein deutsches Rechenzentrum, täglich, mit Unveränderlichkeit für einen definierten Zeitraum. Deckt Feuer, Diebstahl und Ransomware ab.</li>
+    </ol>
+
+    <p>Wichtig für Microsoft-365-Nutzer: Microsoft sichert Ihre Daten nicht in dem Sinne, wie viele es annehmen. Der Konzern sorgt für die Verfügbarkeit der Plattform, nicht für die Wiederherstellung eines Postfachs, das vor acht Monaten gelöscht wurde. Eine eigene Sicherung von Exchange, SharePoint und OneDrive ist deshalb kein Luxus, sondern gehört dazu.</p>
+
+    <h2>Was der Gesetzgeber verlangt</h2>
+
+    <p>Die DSGVO fordert in Artikel 32 ausdrücklich die Fähigkeit, „die Verfügbarkeit der personenbezogenen Daten und den Zugang zu ihnen bei einem physischen oder technischen Zwischenfall rasch wiederherzustellen“. Ebenso verlangt sie ein Verfahren zur regelmäßigen Überprüfung der Wirksamkeit — also genau die Wiederherstellungstests.</p>
+
+    <p>Für Betriebe im Anwendungsbereich von NIS-2 kommt Backup-Management als eine der zehn Pflichtmaßnahmen hinzu. Und die handelsrechtlichen Aufbewahrungsfristen von sechs beziehungsweise zehn Jahren gelten für digitale Unterlagen genauso wie für Papier.</p>
+
+    <h2>Fünf Fragen für die eigene Standortbestimmung</h2>
+
+    <ol>
+      <li>Wissen Sie ohne nachzusehen, ob die Sicherung letzte Nacht durchgelaufen ist?</li>
+      <li>Liegt eine Kopie außer Haus, die nicht dauerhaft mit dem Netzwerk verbunden ist?</li>
+      <li>Wann wurde zuletzt eine Wiederherstellung getestet — und von wem?</li>
+      <li>Sind Microsoft 365 und Fachanwendungen mit im Sicherungsumfang?</li>
+      <li>Weiß mehr als eine Person, wie die Wiederherstellung abläuft?</li>
+    </ol>
+
+    <p>Fünf mal Ja: Sie sind gut aufgestellt. Zwei oder mehr Nein: Es gibt Handlungsbedarf, und zwar bevor etwas passiert, nicht danach.</p>
+
+    <section class="faq-block">
+      <h2>Häufige Fragen</h2>
+      <div class="faq-q">
+        <h3>Was ist die 3-2-1-Regel bei der Datensicherung?</h3>
+        <p>Die 3-2-1-Regel verlangt drei Kopien der Daten, gespeichert auf zwei unterschiedlichen Medientypen, wovon eine Kopie an einem anderen physischen Ort liegt. Sie ist der etablierte Mindeststandard für Datensicherung in Unternehmen.</p>
+      </div>
+      <div class="faq-q">
+        <h3>Reicht eine externe Festplatte als Backup?</h3>
+        <p>Nein. Eine dauerhaft am Server angeschlossene externe Festplatte wird bei einem Ransomware-Angriff mitverschlüsselt und schützt auch nicht vor Feuer oder Diebstahl. Nötig ist zusätzlich eine Kopie außer Haus, idealerweise unveränderlich gespeichert.</p>
+      </div>
+      <div class="faq-q">
+        <h3>Wie oft sollte man ein Backup testen?</h3>
+        <p>Empfohlen ist eine stichprobenhafte Wiederherstellung einmal pro Quartal und ein vollständiger Test mit Zeitmessung einmal im Jahr. Ergebnisse sollten dokumentiert werden, da die DSGVO eine regelmäßige Überprüfung der Wirksamkeit verlangt.</p>
+      </div>
+      <div class="faq-q">
+        <h3>Sichert Microsoft 365 meine Daten automatisch?</h3>
+        <p>Nicht im Sinne einer Datensicherung. Microsoft sorgt für die Verfügbarkeit der Plattform, übernimmt aber keine langfristige Wiederherstellung gelöschter Inhalte. Für Exchange, SharePoint und OneDrive ist eine eigene Sicherung erforderlich.</p>
+      </div>
+      <div class="faq-q">
+        <h3>Was bedeutet 3-2-1-1-0?</h3>
+        <p>Eine Erweiterung der 3-2-1-Regel. Die zusätzliche Eins steht für eine unveränderliche Kopie, die auch von Administratoren nicht gelöscht werden kann. Die Null steht für null Fehler bei der Wiederherstellung, nachgewiesen durch regelmäßige Tests.</p>
+      </div>
+    </section>
+
+
+    <div class="cta">
+      <h2>Datensicherung prüfen lassen</h2>
+      <p>Wir sehen uns Ihr bestehendes Sicherungskonzept an, testen die Wiederherstellung und sagen Ihnen, wo die Lücken sind.</p>
+      <a href="/kontakt">Kostenlos beraten lassen</a>
+    </div>
+  </div>
+</article>
+
+</body>
+</html>

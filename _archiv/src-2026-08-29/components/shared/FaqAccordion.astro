@@ -1,0 +1,61 @@
+---
+import { Icon } from "astro-icon/components";
+import { render } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  eintraege: CollectionEntry<"faq">[];
+  id?: string;
+}
+
+const { eintraege, id = "faq" } = Astro.props;
+const gerendert = await Promise.all(
+  eintraege.map(async (eintrag) => ({ eintrag, content: (await render(eintrag)).Content }))
+);
+---
+
+<div class="divide-bg-dark/10 divide-y border-t border-b border-bg-dark/10">
+  {
+    gerendert.map(({ eintrag, content: Content }, i) => {
+      const panelId = `${id}-panel-${i}`;
+      const buttonId = `${id}-button-${i}`;
+      const Content2 = Content;
+      return (
+        <div class="reveal">
+          <h3>
+            <button
+              type="button"
+              id={buttonId}
+              class="faq-trigger flex w-full items-center justify-between gap-4 py-5 text-left"
+              aria-expanded="false"
+              aria-controls={panelId}
+            >
+              <span class="font-headline text-base font-medium md:text-lg">{eintrag.data.frage}</span>
+              <Icon name="chevron-down" class="faq-icon text-accent-start size-5 shrink-0 transition-transform duration-200" aria-hidden="true" />
+            </button>
+          </h3>
+          <div id={panelId} role="region" aria-labelledby={buttonId} class="faq-panel grid grid-rows-[0fr] overflow-hidden transition-[grid-template-rows] duration-200">
+            <div class="text-bg-dark/80 min-h-0 pb-5 text-sm leading-relaxed md:text-base">
+              <Content2 />
+            </div>
+          </div>
+        </div>
+      );
+    })
+  }
+</div>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>(".faq-trigger").forEach((button) => {
+    button.addEventListener("click", () => {
+      const panel = document.getElementById(button.getAttribute("aria-controls") ?? "");
+      const icon = button.querySelector(".faq-icon");
+      const isOpen = button.getAttribute("aria-expanded") === "true";
+
+      button.setAttribute("aria-expanded", String(!isOpen));
+      panel?.classList.toggle("grid-rows-[0fr]", isOpen);
+      panel?.classList.toggle("grid-rows-[1fr]", !isOpen);
+      icon?.classList.toggle("rotate-180", !isOpen);
+    });
+  });
+</script>

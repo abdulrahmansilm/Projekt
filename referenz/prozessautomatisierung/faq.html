@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Selim-IT — FAQ Prozessautomatisierung</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F1F3F0;
+    --ink:#05231F;
+    --grad-start:#4FB8A6;
+    --grad-end:#1B6E7A;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ background:var(--bg); font-family:'Outfit',sans-serif; color:var(--ink); }
+
+  .section{ max-width:840px; margin:0 auto; padding:96px 32px 104px; }
+
+  .section-head{ max-width:560px; margin-bottom:40px; }
+  h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:500;
+    font-size:36px;
+    letter-spacing:-0.01em;
+    margin-bottom:14px;
+  }
+  .section-head p{ font-size:15.5px; line-height:1.6; opacity:0.75; }
+
+  .faq-list{ display:flex; flex-direction:column; gap:12px; }
+
+  .faq-item{
+    background:#FFFFFF;
+    border-radius:16px;
+    box-shadow:0 4px 16px rgba(11,46,60,0.06);
+    overflow:hidden;
+  }
+
+  .faq-question{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    background:none;
+    border:none;
+    text-align:left;
+    padding:22px 24px;
+    cursor:pointer;
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;
+    font-size:16px;
+    color:var(--ink);
+  }
+
+  .faq-chevron{
+    flex:none;
+    width:28px; height:28px;
+    border-radius:50%;
+    background:rgba(27,110,122,0.08);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:background 0.35s ease, transform 0.4s cubic-bezier(.25,0,.2,1);
+  }
+  .faq-chevron svg{ width:14px; height:14px; transition:stroke 0.3s ease; }
+
+  .faq-item.open .faq-chevron{
+    background:linear-gradient(135deg,var(--grad-start),var(--grad-end));
+    transform:rotate(180deg);
+  }
+  .faq-item.open .faq-chevron svg path{ stroke:#FFFFFF; }
+
+  .faq-answer{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.5s cubic-bezier(.25,0,.2,1);
+  }
+  .faq-answer-inner{
+    padding:0 24px 24px;
+    max-width:640px;
+    font-size:14.5px;
+    line-height:1.7;
+    color:var(--ink);
+    opacity:0.8;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .faq-answer, .faq-chevron{ transition:none; }
+  }
+
+  @media (max-width:600px){
+    .section{ padding:64px 20px 72px; }
+    h2{ font-size:28px; }
+    .faq-question{ font-size:15px; padding:18px 18px; }
+    .faq-answer-inner{ padding:0 18px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<section class="section" aria-labelledby="faq-titel">
+  <div class="section-head">
+    <h2 id="faq-titel">Häufige Fragen zur Prozessautomatisierung</h2>
+    <p>Was Sie vor der Zusammenarbeit wissen sollten — kurz und ohne Kleingedrucktes.</p>
+  </div>
+
+  <div class="faq-list">
+
+    <div class="faq-item open">
+      <button class="faq-question" aria-expanded="true">
+        <span>Was kostet Prozessautomatisierung?</span>
+        <span class="faq-chevron" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#1B6E7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Der Preis richtet sich nach Umfang und Komplexität des Prozesses. Nach einem kurzen Blick auf Ihren Ablauf nennen wir Ihnen ein konkretes Angebot.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>Welche Prozesse lassen sich automatisieren?</span>
+        <span class="faq-chevron" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#1B6E7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Wiederkehrende, regelbasierte Abläufe eignen sich am besten — etwa Rechnungsverarbeitung, Datenabgleich zwischen Systemen, Berichte oder Benachrichtigungen. Im Erstgespräch schauen wir gemeinsam, welche Ihrer Prozesse den größten Aufwand sparen.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>Brauchen wir dafür Programmierkenntnisse?</span>
+        <span class="faq-chevron" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#1B6E7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Nein. Wir setzen die Automatisierung um und übergeben Ihnen eine fertig laufende Lösung — Ihr Team bedient sie wie gewohnt, ohne selbst etwas programmieren zu müssen.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>Wie lange dauert die Umsetzung?</span>
+        <span class="faq-chevron" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#1B6E7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Bei einem klar abgegrenzten Prozess meist wenige Tage bis zwei Wochen. Umfangreichere Automatisierungen mit mehreren Systemen dauern entsprechend länger — den Zeitrahmen klären wir vorab mit Ihnen.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>Was passiert, wenn sich ein Prozess später ändert?</span>
+        <span class="faq-chevron" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#1B6E7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Wir passen die Automatisierung entsprechend an. Abläufe ändern sich mit der Zeit — deshalb dokumentieren wir jede Lösung so, dass spätere Anpassungen unkompliziert möglich sind.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span>Ersetzt das unsere bestehende Software, oder arbeitet es damit zusammen?</span>
+        <span class="faq-chevron" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#1B6E7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          In der Regel Letzteres. Die Automatisierung bindet sich an Ihre vorhandenen Systeme an und verbindet sie miteinander, statt sie zu ersetzen — Ihr Team arbeitet weiter in der gewohnten Software.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('.faq-item').forEach(function (item) {
+    var btn = item.querySelector('.faq-question');
+    var answer = item.querySelector('.faq-answer');
+    var inner = item.querySelector('.faq-answer-inner');
+
+    function setHeight() {
+      if (item.classList.contains('open')) {
+        answer.style.maxHeight = inner.offsetHeight + 'px';
+      }
+    }
+    setHeight();
+    window.addEventListener('resize', setHeight);
+
+    btn.addEventListener('click', function () {
+      var isOpen = item.classList.contains('open');
+
+      document.querySelectorAll('.faq-item.open').forEach(function (openItem) {
+        if (openItem !== item) {
+          openItem.classList.remove('open');
+          openItem.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+          openItem.querySelector('.faq-answer').style.maxHeight = null;
+        }
+      });
+
+      if (isOpen) {
+        item.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+        answer.style.maxHeight = null;
+      } else {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+        answer.style.maxHeight = inner.offsetHeight + 'px';
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

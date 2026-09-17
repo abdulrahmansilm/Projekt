@@ -1,0 +1,35 @@
+---
+const schritte = ["Anliegen", "Details", "Beschreibung", "Kontakt", "Termin"];
+---
+
+<nav aria-label="Fortschritt im Kontaktformular" class="mx-auto max-w-3xl px-4">
+  <ol class="flex items-center justify-between gap-2">
+    {
+      schritte.map((titel, i) => (
+        <li class="flex flex-1 flex-col items-center gap-2" data-fortschritt-schritt={i + 1}>
+          <span
+            class="fortschritt-kreis border-bg-dark/25 text-bg-dark/68 flex size-8 shrink-0 items-center justify-center rounded-full border font-mono text-sm"
+            data-status="offen"
+          >
+            {i + 1}
+          </span>
+          <span class="text-bg-dark/68 hidden text-center text-xs sm:block">{titel}</span>
+        </li>
+      ))
+    }
+  </ol>
+  <p class="sr-only" role="status" aria-live="polite" id="fortschritt-status" />
+</nav>
+
+<style>
+  .fortschritt-kreis[data-status="aktiv"] {
+    border-color: var(--color-accent-start);
+    background-image: var(--gradient-primary);
+    color: var(--color-bg-dark);
+    border-color: transparent;
+  }
+  .fortschritt-kreis[data-status="erledigt"] {
+    border-color: var(--color-accent-start);
+    color: var(--color-accent-start);
+  }
+</style>

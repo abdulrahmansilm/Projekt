@@ -1,0 +1,41 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Zeile {
+  sprecher: "anrufer" | "assistent";
+  text: string;
+}
+
+interface Props {
+  zeilen: Zeile[];
+  audioSrc?: string;
+}
+
+// Hinweis für die Redaktion: Es liegt noch keine echte Aufnahme vor. Sobald `audioSrc` gesetzt ist,
+// wird der Player aktiv; bis dahin zeigt die Seite ausschließlich das barrierefreie Text-Transkript.
+const { zeilen, audioSrc } = Astro.props;
+---
+
+<div class="border-accent-start bg-bg mt-8 max-w-xl rounded-none border-l-4 p-5">
+  {
+    audioSrc && (
+      <audio controls class="mb-4 w-full">
+        <source src={audioSrc} type="audio/mpeg" />
+      </audio>
+    )
+  }
+  <div class="mb-3 flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-bg-dark/68">
+    <Icon name="file-text" class="size-4" aria-hidden="true" />
+    Text-Transkript des Beispielgesprächs
+  </div>
+  <ol class="space-y-3 text-sm leading-relaxed">
+    {
+      zeilen.map((zeile) => (
+        <li>
+          <span class="font-headline font-medium">{zeile.sprecher === "assistent" ? "KI-Assistent: " : "Anrufer: "}</span>
+          <span class="text-bg-dark/80">{zeile.text}</span>
+        </li>
+      ))
+    }
+  </ol>
+</div>

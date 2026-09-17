@@ -1,0 +1,55 @@
+---
+/**
+ * Startseite (Neuordnung 17.09.2026):
+ * Hero → IT & KI aus einer Hand (neu) → Ihre Vorteile → Starke Partner → Unsere Leistungen (besondere Sektion)
+ * → So arbeiten wir (Karussell) → Ein Projekt aus der Praxis → FAQ → CTA + Kontaktformular → Wissen → Footer
+ */
+import { getEntry } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/sections/Hero.astro";
+import HeroBildVisual from "../components/hero-visuals/HeroBildVisual.astro";
+import BildText from "../components/sections/BildText.astro";
+import Vorteile from "../components/sections/Vorteile.astro";
+import LeistungenGrid from "../components/sections/LeistungenGrid.astro";
+import HowWeWork from "../components/sections/HowWeWork.astro";
+import Praxisbeispiel from "../components/sections/Praxisbeispiel.astro";
+import StarkePartner from "../components/sections/StarkePartner.astro";
+import FaqSection from "../components/sections/FaqSection.astro";
+import KontaktWizard from "../components/kontakt/KontaktWizard.astro";
+import WissenTeaser from "../components/sections/WissenTeaser.astro";
+import { faqJsonLd, nurText } from "../lib/seo";
+
+const eintrag = await getEntry("seiten", "startseite");
+if (!eintrag) throw new Error("src/content/seiten/startseite.json fehlt");
+const s = eintrag.data as Record<string, any>;
+---
+
+<BaseLayout
+  title={s.seo.titel}
+  description={s.seo.beschreibung}
+  pfad="/"
+  mitKontaktformular
+  jsonLd={[faqJsonLd(s.faq.fragen.slice(0, 6).map((f: { frage: string; antwort: string }) => ({ frage: f.frage, antwortText: nurText(f.antwort) })))]}
+>
+  <Hero headline={s.hero.headline} subline={s.hero.subline} cta={{ text: s.hero.cta }} visualLabel={s.hero.visualLabel}>
+    <HeroBildVisual slug="startseite" slot="visual" />
+  </Hero>
+
+  <BildText
+    titel="IT und KI aus einer Hand"
+    absaetze={[
+      "Betreuung, Sicherheit und Digitalisierung liefen bislang oft bei verschiedenen Anbietern zusammen. Wir bringen beides in ein Team: klassische IT-Betreuung und moderne KI-Assistenten.",
+      "Ein Ansprechpartner kennt Ihre gesamte Umgebung und sorgt dafür, dass neue Technik nahtlos in die bestehende Infrastruktur passt.",
+    ]}
+    bildLabel="Team bei der Arbeit"
+  />
+
+  <Vorteile {...s.vorteile} />
+  <StarkePartner {...s.partner} />
+  <LeistungenGrid {...s.leistungen} />
+  <HowWeWork />
+  <Praxisbeispiel />
+  <FaqSection titel={s.faq.titel} intro={s.faq.intro} fragen={s.faq.fragen} />
+  <KontaktWizard />
+  <WissenTeaser titel={s.wissen.titel} intro={s.wissen.intro} artikel={s.wissen.artikel} />
+</BaseLayout>

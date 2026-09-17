@@ -1,0 +1,339 @@
+{
+  "titel": "Webseiten",
+  "kategorie": "webseiten",
+  "kategorieLabel": "Webseiten",
+  "reihenfolge": 11,
+  "kurz": "Individuelle, SEO- und GEO-optimierte Websites statt austauschbarer Vorlagen.",
+  "seo": {
+    "titel": "Webseiten für Unternehmen: individuell, schnell, auffindbar",
+    "beschreibung": "Individuell gestaltete Firmenwebseiten ab 990 € Festpreis, optimiert für Google (SEO) und KI-Auffindbarkeit (GEO). Mit kostenloser Vorschau, DSGVO-konform und auf Wunsch mit Hosting."
+  },
+  "hero": {
+    "headline": "Ihre neue Website für Ihr Unternehmen",
+    "subline": "Individuell gestaltet statt Vorlage von der Stange, optimiert für Google (SEO) und KI-Auffindbarkeit bei ChatGPT & Co.",
+    "zitat": "Eine Vorlage sieht aus wie hundert andere. Eine individuelle Website sieht aus wie Ihr Betrieb.",
+    "cta": "Anfragen",
+    "visualLabel": "Browser-Fenster mit Vorher-Nachher-Vergleich zwischen Standard-Vorlage und individuell gestalteter Website"
+  },
+  "kontaktVorauswahl": {
+    "thema": "webseiten"
+  },
+  "wissenArtikel": [
+    "firmenwebseite-kosten",
+    "seo-fuer-unternehmen-heute",
+    "ki-auffindbarkeit-geo"
+  ],
+  "sektionen": [
+    {
+      "typ": "bildText",
+      "titel": "Ihre Website ist die erste Schnittstelle zum Kunden",
+      "absaetze": [
+        "Bevor jemand anruft oder eine Anfrage schreibt, schaut er sich Ihre Website an. Was er dort sieht, entscheidet mit, ob eine Anfrage überhaupt zustande kommt.",
+        "Eine gute Website bringt deshalb nicht nur Sichtbarkeit, sondern mehr Aufträge: schneller, klarer und auf jedem Gerät überzeugend."
+      ],
+      "bildLabel": "Website auf verschiedenen Geräten"
+    },
+    {
+      "typ": "problemLoesung",
+      "eyebrow": "Reaktiv oder proaktiv",
+      "titel": "Eine vernachlässigte Website verliert leise.",
+      "akzent": "Wir halten sie sichtbar, schnell und sicher.",
+      "intro": "Die meisten Websites werden einmal gebaut und dann sich selbst überlassen, bis die Ladezeit steigt, Sicherheitslücken offen bleiben oder Google sie längst überholt hat. Proaktive Betreuung dreht das um: Technik, Sichtbarkeit und Sicherheit werden laufend gepflegt, statt beim Launch für erledigt erklärt.",
+      "karten": [
+        {
+          "titel": "Performance & Ladezeit",
+          "icon": "<defs><linearGradient id=\"pl-webseiten-0-i1-33\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <path d=\"M12 20.5 C17 20.5 20.5 17 20.5 12 C20.5 7 17 3.5 12 3.5 C7 3.5 3.5 7 3.5 12\" stroke=\"url(#pl-webseiten-0-i1-33)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path> <path d=\"M3.5 12 L6.5 9.5 M3.5 12 L6 15\" stroke=\"url(#pl-webseiten-0-i1-33)\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path> <path d=\"M12 8 V12.5 L15 14.5\" stroke=\"url(#pl-webseiten-0-i1-33)\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
+          "ohne": "Bilder werden nie komprimiert, Plugins häufen sich an, die Website wird über die Jahre spürbar langsamer.",
+          "mitStark": "Ladezeit wird laufend geprüft.",
+          "mitText": "Wir überwachen Performance und beheben Bremsen, bevor Besucher sie überhaupt bemerken."
+        },
+        {
+          "titel": "Sichtbarkeit bei Google",
+          "icon": "<defs><linearGradient id=\"pl-webseiten-1-i2-34\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <circle cx=\"11\" cy=\"11\" r=\"6.5\" stroke=\"url(#pl-webseiten-1-i2-34)\" stroke-width=\"1.6\"></circle> <path d=\"M15.7 15.7 L20.5 20.5\" stroke=\"url(#pl-webseiten-1-i2-34)\" stroke-width=\"1.7\" stroke-linecap=\"round\"></path>",
+          "ohne": "Die Website ist online, aber taucht bei der Suche nach den eigenen Leistungen nirgends auf. Technische SEO wurde nie gepflegt.",
+          "mitStark": "Sichtbarkeit wird laufend gepflegt.",
+          "mitText": "Technische SEO, Meta-Daten und lokale Auffindbarkeit bleiben aktuell, statt einmal beim Launch erledigt zu sein."
+        },
+        {
+          "titel": "Wartung & Sicherheit",
+          "icon": "<defs><linearGradient id=\"pl-webseiten-2-i3-35\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <rect x=\"5\" y=\"10.5\" width=\"14\" height=\"9.5\" rx=\"2.2\" stroke=\"url(#pl-webseiten-2-i3-35)\" stroke-width=\"1.6\"></rect> <path d=\"M8 10.5 V7.2 C8 4.9 9.8 3 12 3 C14.2 3 16 4.9 16 7.2 V10.5\" stroke=\"url(#pl-webseiten-2-i3-35)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path> <path d=\"M9.5 15 L11 16.5 L14.5 13\" stroke=\"url(#pl-webseiten-2-i3-35)\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
+          "ohne": "Nach dem Launch wird die Website nie wieder angefasst: Veraltete Plugins und offene Sicherheitslücken bleiben unbemerkt.",
+          "mitStark": "Laufend gewartet statt einmal gebaut.",
+          "mitText": "Updates, Backups und Sicherheitschecks laufen im Hintergrund, ohne dass Sie sich darum kümmern müssen."
+        },
+        {
+          "titel": "KI-Auffindbarkeit",
+          "icon": "<defs><linearGradient id=\"pl-webseiten-3-i4-36\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"3\" stroke=\"url(#pl-webseiten-3-i4-36)\" stroke-width=\"1.6\"></rect> <circle cx=\"9\" cy=\"9.5\" r=\"1.4\" fill=\"#7FD9C4\"></circle> <path d=\"M6.5 16.5 L10 12.5 L12.5 15 L17.5 9.5\" stroke=\"url(#pl-webseiten-3-i4-36)\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
+          "ohne": "Die Website ist für klassische Suchmaschinen optimiert, bei ChatGPT, Perplexity & Co. taucht sie trotzdem nicht auf.",
+          "mitStark": "Auch für KI-Suchen sichtbar.",
+          "mitText": "Strukturierte Daten und semantisches HTML sorgen dafür, dass auch KI-Systeme Ihre Inhalte verstehen und zitieren."
+        }
+      ],
+      "labelOhne": "Ohne Betreuung",
+      "labelMit": "Mit",
+      "kicker": "Der beste Zustand für Ihre Website ist der, an dem Sie nie merken, dass im Hintergrund gearbeitet wird. <strong>Kein Sicherheitsvorfall, kein Sichtbarkeitsverlust, kein böses Erwachen.</strong>"
+    },
+    {
+      "typ": "trustbar",
+      "label": "Zertifizierte Partner & Technologien",
+      "logos": [
+        "Microsoft",
+        "Hornetsecurity",
+        "Partner-Logo",
+        "Partner-Logo",
+        "Partner-Logo",
+        "Partner-Logo"
+      ]
+    },
+    {
+      "typ": "ebenen",
+      "eyebrow": "Wie eine Webseite entsteht",
+      "titel": "Sechs Ebenen, ein Ergebnis",
+      "intro": "Was Ihre Besucher sehen, ist nur die oberste Schicht. Klicken Sie auf eine Ebene, um zu sehen, was darunter steckt.",
+      "hinweis": "Klicken Sie auf eine Ebene",
+      "ebenen": [
+        {
+          "tag": "Fundament",
+          "titel": "Hosting & Server",
+          "sub": "Zuverlässige Infrastruktur im Hintergrund",
+          "text": "Alles beginnt mit zuverlässiger Infrastruktur im Hintergrund. Ihre Website läuft auf performanten Servern mit hoher Verfügbarkeit, unsichtbar für Besucher, aber die Grundlage für alles Weitere.",
+          "stats": [
+            "Hohe Verfügbarkeit",
+            "Server in Deutschland",
+            "SSD-Speicher"
+          ]
+        },
+        {
+          "tag": "Ebene 2",
+          "titel": "Datenschutz & Sicherheit",
+          "sub": "DSGVO-konform und geschützt",
+          "text": "Verschlüsselte Verbindungen, DSGVO-konforme Datenverarbeitung und regelmäßige Backups schützen Ihre Website und die Daten Ihrer Besucher, von Anfang an mitgedacht, nicht nachträglich aufgesetzt.",
+          "stats": [
+            "SSL-Verschlüsselung",
+            "DSGVO-konform",
+            "Regelmäßige Backups"
+          ]
+        },
+        {
+          "tag": "Ebene 3",
+          "titel": "Content & Struktur",
+          "sub": "Klar aufgebaut, verständlich geschrieben",
+          "text": "Eine klare Navigation und verständlich geschriebene Inhalte entscheiden, ob Besucher bleiben oder abspringen. Wir strukturieren Ihre Website so, dass sich Kunden ohne Umwege zurechtfinden.",
+          "stats": [
+            "Klare Navigation",
+            "Zielgruppengerechte Texte",
+            "Barrierefrei"
+          ]
+        },
+        {
+          "tag": "Ebene 4",
+          "titel": "Suchmaschinenoptimierung",
+          "sub": "Gefunden werden bei Google",
+          "text": "Die beste Website nützt wenig, wenn sie niemand findet. Technische SEO, Ladezeit-Optimierung und lokale Sichtbarkeit sorgen dafür, dass Google Sie dort zeigt, wo Ihre Kunden suchen.",
+          "stats": [
+            "Technische SEO",
+            "Ladezeit-Optimierung",
+            "Local SEO"
+          ]
+        },
+        {
+          "tag": "Ebene 5",
+          "titel": "KI-Auffindbarkeit",
+          "sub": "Sichtbar bei ChatGPT & Co.",
+          "text": "Immer mehr Menschen suchen über ChatGPT, Perplexity und Co. statt über klassische Suchmaschinen. Strukturierte Daten und semantisches HTML sorgen dafür, dass auch KI-Systeme Ihre Inhalte richtig verstehen und zitieren.",
+          "stats": [
+            "Strukturierte Daten",
+            "llms.txt",
+            "Semantisches HTML"
+          ]
+        },
+        {
+          "tag": "Oberste Ebene",
+          "titel": "Ihre Website",
+          "sub": "Das, was Ihre Kunden sehen",
+          "text": "Das ist es, was Ihre Kunden tatsächlich sehen, aber nur, weil die fünf Ebenen darunter zuverlässig funktionieren. Individuelles Design, responsiv auf jedem Gerät und auf Conversion ausgelegt.",
+          "stats": [
+            "Individuelles Design",
+            "Responsive",
+            "Conversion-optimiert"
+          ]
+        }
+      ]
+    },
+    {
+      "typ": "zeitstrahl",
+      "eyebrow": "So entsteht Ihre Website",
+      "titel": "So entsteht Ihre neue Website",
+      "intro": "Sie sehen Ihre Website, bevor Sie sich entscheiden. Auffindbarkeit bei Google und KI-Assistenten ist von Anfang an eingeplant.",
+      "aktiv": 1,
+      "schritte": [
+        {
+          "nummer": "01",
+          "titel": "Verständnis & Strategie-Planung",
+          "text": "Wir klären Zielgruppe, Angebot und Struktur Ihrer neuen Website."
+        },
+        {
+          "nummer": "02",
+          "titel": "Marken-Identität",
+          "text": "Optional: Logo, Farbwelt, Schriftarten und Bildstil."
+        },
+        {
+          "nummer": "03",
+          "titel": "Kostenlose Vorschau",
+          "text": "Sie sehen Ihre Website, bevor Sie sich entscheiden."
+        },
+        {
+          "nummer": "04",
+          "titel": "SEO- & GEO-Optimierung",
+          "text": "Auffindbarkeit über Google und KI-Assistenten von Anfang an eingebaut."
+        }
+      ]
+    },
+    {
+      "typ": "pricingPakete",
+      "eyebrow": "Pakete & Preise",
+      "titel": "Pakete & Preise",
+      "intro": "Alle Pakete enthalten die gleiche Grundausstattung. Der Unterschied liegt im Umfang, in der Auffindbarkeit und den Zusatzfunktionen.",
+      "chips": {
+        "titel": "Ihre Website-Grundausstattung: immer inklusive",
+        "sub": "Egal für welches Paket Sie sich entscheiden: Diese Basis ist ohne Aufpreis dabei.",
+        "icon": "<circle cx=\"12\" cy=\"12\" r=\"9\"></circle><line x1=\"3\" y1=\"12\" x2=\"21\" y2=\"12\"></line><path d=\"M12 3c2.5 2.5 3.8 5.7 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.7-3.8-9s1.3-6.5 3.8-9z\"></path>",
+        "items": [
+          "Mobile-/Desktop-optimiert",
+          "Kontaktformular",
+          "SEO Basis",
+          "DSGVO-konform",
+          "Call-to-Action-Führung",
+          "Anfahrtskarte",
+          "Bildergalerie",
+          "Video-Einbettung",
+          "Datei-Downloads nach Bedarf",
+          "Individuelles Webdesign mit Live-Vorschau",
+          "3 finale Korrekturläufe"
+        ]
+      },
+      "einheit": "einmalig",
+      "pakete": [
+        {
+          "name": "Starter",
+          "variante": "neutral",
+          "claim": "Mobile- und Desktop-optimiertes Design für den Einstieg.",
+          "preis": 990,
+          "diffTitel": "Enthaltene Leistungen",
+          "geerbt": false,
+          "diffs": [
+            "8 Inhaltsseiten",
+            "Persönliche Beratung"
+          ],
+          "cta": "Jetzt anfragen"
+        },
+        {
+          "name": "Business",
+          "variante": "beliebt",
+          "badge": "Beliebt",
+          "claim": "Mehr Reichweite durch erweiterte SEO- und KI-Auffindbarkeit.",
+          "preis": 1490,
+          "diffTitel": "Alles aus Starter, außerdem:",
+          "geerbt": true,
+          "diffs": [
+            "10 Inhaltsseiten",
+            "SEO Erweitert",
+            "KI-gestützte Auffindbarkeit",
+            "Lead-optimierte Struktur",
+            "Karriere-Bereich mit Stellenportal, Google Jobs & Bewerbung"
+          ],
+          "cta": "Jetzt anfragen"
+        },
+        {
+          "name": "Premium",
+          "variante": "premium",
+          "badge": "Alles inklusive",
+          "claim": "Individuell erweiterte Auffindbarkeit und Funktionen.",
+          "preis": 1990,
+          "diffTitel": "Alles aus Business, außerdem:",
+          "geerbt": true,
+          "diffs": [
+            "12 Inhaltsseiten",
+            "Individuell erweiterte KI-Auffindbarkeit",
+            "Mehrsprachigkeit",
+            "Priority Support",
+            "Portfolio-Funktion für Referenzen & Projekte"
+          ],
+          "cta": "Jetzt anfragen"
+        }
+      ],
+      "zusatz": {
+        "titel": "Zusatzleistungen",
+        "sub": "Passend zu jedem Website-Paket buchbar, unabhängig davon, für welches Sie sich entscheiden.",
+        "karten": [
+          {
+            "icon": "<rect x=\"3\" y=\"4\" width=\"18\" height=\"6\" rx=\"1.5\"></rect><rect x=\"3\" y=\"14\" width=\"18\" height=\"6\" rx=\"1.5\"></rect><circle cx=\"7\" cy=\"7\" r=\"0.8\" fill=\"currentColor\" stroke=\"none\"></circle><circle cx=\"7\" cy=\"17\" r=\"0.8\" fill=\"currentColor\" stroke=\"none\"></circle>",
+            "name": "Hosting-Paket",
+            "claim": "Zuverlässiges Hosting für Ihre Website.",
+            "preisLabel": "Ab 49 €",
+            "preisEinheit": "/ Monat",
+            "notiz": "Keine Mindestlaufzeit",
+            "features": [
+              "DE-Rechenzentrum",
+              "Domain inklusive",
+              "Postfächer inklusive",
+              "Wartung, Sicherheit und Backup",
+              "Laufende Inhaltsoptimierung"
+            ],
+            "cta": "Hosting anfragen"
+          },
+          {
+            "icon": "<path d=\"M12 2C6.5 2 2 6 2 11c0 3.3 2.5 4 4.5 4H8a2 2 0 0 1 2 2v1c0 1.7 1 3 3 3 5.5 0 9-4.5 9-10 0-5-4.5-9-10-9z\"></path><circle cx=\"7.5\" cy=\"10.5\" r=\"1\" fill=\"currentColor\" stroke=\"none\"></circle><circle cx=\"12\" cy=\"7\" r=\"1\" fill=\"currentColor\" stroke=\"none\"></circle><circle cx=\"16.5\" cy=\"10.5\" r=\"1\" fill=\"currentColor\" stroke=\"none\"></circle>",
+            "name": "Branding",
+            "claim": "Ihr Markenauftritt aus einer Hand.",
+            "preisLabel": "Preis nach Aufwand",
+            "features": [
+              "Logo",
+              "Farbpalette und Typografie",
+              "Social-Media-Profilbilder",
+              "Auslieferung von Farblogos, Monochrom- und Inversvarianten in allen gängigen Dateiformaten inkl. hochskalierbarer Vektorgrafiken"
+            ],
+            "cta": "Branding anfragen"
+          }
+        ]
+      }
+    },
+    {
+      "typ": "faq",
+      "titel": "Häufige Fragen zu Webseiten",
+      "intro": "Was Sie vor der Zusammenarbeit wissen sollten: kurz und ohne Kleingedrucktes.",
+      "fragen": [
+        {
+          "frage": "Was kostet eine neue Website?",
+          "antwort": "Der Preis richtet sich nach Umfang, Funktionen und Anzahl der Seiten. Nach einem kurzen Blick auf Ihren Bedarf nennen wir Ihnen ein konkretes Angebot."
+        },
+        {
+          "frage": "Wie lange dauert die Erstellung?",
+          "antwort": "Eine schlanke Website steht meist innerhalb weniger Wochen, umfangreichere Projekte mit individuellen Funktionen entsprechend länger. Den genauen Zeitrahmen legen wir vorab gemeinsam fest."
+        },
+        {
+          "frage": "Übernehmen Sie auch die Wartung nach dem Launch?",
+          "antwort": "Ja, das empfehlen wir sogar ausdrücklich. Updates, Backups und Sicherheitschecks laufen dann laufend im Hintergrund, statt dass die Website nach dem Launch sich selbst überlassen bleibt."
+        },
+        {
+          "frage": "Wird meine Website auch bei ChatGPT & Co. gefunden?",
+          "antwort": "Wir bauen strukturierte Daten und semantisches HTML von Anfang an mit ein, damit auch KI-Systeme Ihre Inhalte korrekt verstehen und zitieren können, zusätzlich zur klassischen Google-Optimierung."
+        },
+        {
+          "frage": "Kann ich Inhalte später selbst bearbeiten?",
+          "antwort": "Ja. Sie erhalten einen einfachen Zugang, über den sich Texte und Bilder ohne Programmierkenntnisse aktualisieren lassen. Für größere Änderungen sind wir natürlich auch weiterhin für Sie da."
+        },
+        {
+          "frage": "Übernehmen Sie den Umzug einer bestehenden Website?",
+          "antwort": "Ja. Wir übernehmen bestehende Inhalte und Domain, sodass Ihre Website unter derselben Adresse erreichbar bleibt und keine Sichtbarkeit bei Google verloren geht."
+        }
+      ]
+    },
+    {
+      "typ": "kontakt"
+    },
+    {
+      "typ": "wissenTeaser"
+    }
+  ]
+}

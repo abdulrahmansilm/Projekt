@@ -1,0 +1,62 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { firma } from "../lib/config";
+
+const pruefdatum = "29. August 2026";
+---
+
+<BaseLayout
+  title="Erklärung zur Barrierefreiheit | Selim-IT"
+  description="Erklärung zur Barrierefreiheit von selim-it.de gemäß BFSG."
+  path="/barrierefreiheit"
+>
+  <section class="mx-auto max-w-3xl px-4 py-16 md:py-20">
+    <h1 class="font-headline text-3xl font-medium tracking-tight md:text-4xl">Erklärung zur Barrierefreiheit</h1>
+
+    <div class="prose-legal mt-10 space-y-8 text-sm leading-relaxed">
+      <section>
+        <h2 class="font-headline text-lg font-medium">Geltungsbereich</h2>
+        <p class="mt-2">
+          Diese Erklärung gilt für die Website {firma.domain}. {firma.name} ist bestrebt, seine Website im
+          Einklang mit dem Barrierefreiheitsstärkungsgesetz (BFSG) barrierefrei zugänglich zu machen.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-headline text-lg font-medium">Konformitätsstatus</h2>
+        <p class="mt-2">
+          Diese Website wurde nach den Maßstäben der Web Content Accessibility Guidelines (WCAG) 2.2, Stufe AA,
+          entwickelt. Der angestrebte Konformitätsstatus ist „weitgehend konform“: Die Anforderungen sind für
+          die überwiegende Mehrheit der Inhalte erfüllt, ohne dass bereits eine förmliche externe Prüfung
+          stattgefunden hat.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-headline text-lg font-medium">Bekannte Einschränkungen</h2>
+        <p class="mt-2">
+          Uns sind aktuell keine wesentlichen Barrieren bekannt. Sollten Ihnen bei der Nutzung dieser Website
+          dennoch Barrieren begegnen, freuen wir uns über Ihre Rückmeldung (siehe „Feedback“ unten).
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-headline text-lg font-medium">Feedback und Kontaktangaben</h2>
+        <p class="mt-2">
+          Wenn Sie auf Barrieren stoßen oder Fragen zur Barrierefreiheit dieser Website haben, kontaktieren
+          Sie uns gerne:
+        </p>
+        <p class="mt-2">
+          E-Mail: {firma.kontakt.email}<br />
+          Telefon: {firma.kontakt.telefon}<br />
+          Oder über unser <a href="/kontakt" class="text-accent-start underline">Kontaktformular</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-headline text-lg font-medium">Erstellung dieser Erklärung</h2>
+        <p class="mt-2">Diese Erklärung wurde zuletzt am {pruefdatum} erstellt bzw. geprüft.</p>
+      </section>
+    </div>
+  </section>
+</BaseLayout>

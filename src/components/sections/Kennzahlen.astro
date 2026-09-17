@@ -1,0 +1,123 @@
+---
+/**
+ * Kennzahlen-Sektion mit großformatigen Zahlen (besondere Sektion: dunkles Petrol, weißer Rand,
+ * vollständig abgerundete Ecken, siehe Anforderungen 17.09.2026). Reine Fakten-Darstellung ohne Diagramm,
+ * für Seiten, auf denen wenige, aussagekräftige Zahlen mehr Wirkung haben als ein Chart.
+ */
+interface Props {
+  titel: string;
+  intro?: string;
+  quelle?: string;
+  zahlen: { wert: string; label: string }[];
+}
+const { titel, intro, quelle, zahlen } = Astro.props;
+---
+
+<section class="kz section-dark besondere-sektion" aria-labelledby="kz-titel">
+  <div class="kz__inner">
+    <div class="kz__kopf" data-reveal>
+      <h2 id="kz-titel" class="h2">{titel}</h2>
+      {intro && <p class="lead">{intro}</p>}
+    </div>
+    <ul class="kz__grid" role="list" data-reveal-group>
+      {
+        zahlen.map((z, i) => (
+          <li data-reveal style={`--reveal-index:${i}`}>
+            <span class="kz__wert text-verlauf-hell">{z.wert}</span>
+            <span class="kz__label">{z.label}</span>
+          </li>
+        ))
+      }
+    </ul>
+    {quelle && <p class="kz__quelle">{quelle}</p>}
+  </div>
+</section>
+
+<style>
+  .kz {
+    padding: 96px 32px 100px;
+  }
+
+  .kz__inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .kz__kopf {
+    max-width: 640px;
+    margin: 0 auto 56px;
+  }
+
+  .kz__kopf h2 {
+    margin-bottom: 14px;
+    color: #ffffff;
+  }
+
+  .kz__kopf .lead {
+    color: var(--on-dark-72);
+  }
+
+  .kz__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .kz__grid li {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 16px;
+  }
+
+  .kz__grid li + li {
+    border-left: 1px solid var(--line-dark);
+  }
+
+  .kz__wert {
+    font-family: var(--font-headline);
+    font-size: clamp(38px, 4.6vw, 56px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  .kz__label {
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--on-dark-72);
+  }
+
+  .kz__quelle {
+    margin-top: 44px;
+    font-size: 12.5px;
+    color: var(--on-dark-55);
+  }
+
+  @media (max-width: 760px) {
+    .kz__grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .kz__grid li + li {
+      border-left: 0;
+      padding-top: 24px;
+      border-top: 1px solid var(--line-dark);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .kz {
+      padding: 64px 20px 72px;
+    }
+
+    .kz__kopf h2 {
+      font-size: 27px;
+    }
+  }
+</style>

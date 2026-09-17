@@ -1,0 +1,159 @@
+{
+  "titel": "Prozessautomatisierung",
+  "kategorie": "ki-kommunikation",
+  "kategorieLabel": "KI & Kommunikation",
+  "reihenfolge": 10,
+  "kurz": "Wiederkehrende manuelle Abläufe zwischen Systemen automatisieren, statt sie von Hand zu wiederholen.",
+  "seo": {
+    "titel": "Prozessautomatisierung: Abläufe ohne Abtippen",
+    "beschreibung": "Wir automatisieren wiederkehrende Abläufe wie Rechnungsverarbeitung, Datenabgleich, On- und Offboarding und Eskalationen. Festpreis statt Stundensatz, die Automatisierung gehört Ihnen."
+  },
+  "hero": {
+    "headline": "Prozessautomatisierung für Ihr Unternehmen",
+    "subline": "Wiederkehrende Aufgaben laufen automatisch: Systeme sprechen miteinander, ohne manuelles Abtippen.",
+    "zitat": "Was von Hand erledigt wird, wird irgendwann vergessen. Was automatisiert ist, nie.",
+    "cta": "Anfragen",
+    "visualLabel": "Zahnrad-Hub, der Dokumente, Postfach, Datenbank, Kalender und Schnittstellen automatisch verbindet"
+  },
+  "kontaktVorauswahl": {
+    "thema": "ki-kommunikation"
+  },
+  "wissenArtikel": [
+    "bueroablaeufe-automatisieren",
+    "ki-telefonassistent",
+    "microsoft-365-plaene-vergleich"
+  ],
+  "sektionen": [
+    {
+      "typ": "bildText",
+      "titel": "Zeit, die Sie nicht mehr abtippen",
+      "absaetze": [
+        "Rechnungen abtippen, Termine doppelt bestätigen, Daten von einem System ins nächste übertragen: Diese Routinearbeit kostet in vielen Betrieben mehrere Stunden pro Woche, ohne dass sie irgendwo als Aufwand auftaucht.",
+        "Prozessautomatisierung nimmt genau diese Arbeit weg, damit Ihr Team sich auf das Kerngeschäft konzentrieren kann statt auf Zwischenschritte."
+      ],
+      "bildLabel": "Automatisierte Abläufe"
+    },
+    {
+      "typ": "anwendungsfaelle",
+      "eyebrow": "Praxisbeispiele",
+      "titel": "Typische Anwendungsfälle",
+      "intro": "Sechs wiederkehrende Muster, die sich in fast jedem Betrieb finden und sich besonders gut automatisieren lassen. Tippen oder darüberfahren für Details.",
+      "karten": [
+        {
+          "nummer": "01",
+          "icon": "<path d=\"M4 5 H20 L14 12.5 V18 L10 20 V12.5 Z\" stroke=\"#7FD9C4\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path>",
+          "titel": "Datenzusammenführung",
+          "text": "Daten aus mehreren Systemen automatisch zusammenführen, statt sie manuell zu übertragen."
+        },
+        {
+          "nummer": "02",
+          "icon": "<path d=\"M7 7h11M14 3l4 4-4 4\" stroke=\"#7FD9C4\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M17 17H6M10 21l-4-4 4-4\" stroke=\"#7FD9C4\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
+          "titel": "System zu System",
+          "text": "Zwei Systeme automatisiert miteinander verbinden, ohne manuellen Zwischenschritt."
+        },
+        {
+          "nummer": "03",
+          "icon": "<rect x=\"3.5\" y=\"4\" width=\"10\" height=\"14\" rx=\"1.8\" stroke=\"#7FD9C4\" stroke-width=\"1.6\"></rect><path d=\"M6.5 8 H10.5 M6.5 11 H10.5 M6.5 14 H8.5\" stroke=\"#7FD9C4\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><path d=\"M15 11 H21\" stroke=\"#7FD9C4\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><path d=\"M18.3 8.3 L21 11 L18.3 13.7\" stroke=\"#7FD9C4\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
+          "titel": "Formular → System",
+          "text": "Formulardaten fließen direkt in das Zielsystem, ohne Abtippen."
+        },
+        {
+          "nummer": "04",
+          "icon": "<path d=\"M6 3 H18 V20 L15.5 18.2 L13 20 L10.5 18.2 L8 20 L6 18.2 V3 Z\" stroke=\"#7FD9C4\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M9 7.5 H15 M9 11 H15 M9 14.5 H12.5\" stroke=\"#7FD9C4\" stroke-width=\"1.5\" stroke-linecap=\"round\"></path>",
+          "titel": "Rechnungen & Ablage",
+          "text": "Rechnungen automatisch erfassen, zuordnen und ablegen."
+        },
+        {
+          "nummer": "05",
+          "icon": "<circle cx=\"9.5\" cy=\"8\" r=\"3.3\" stroke=\"#7FD9C4\" stroke-width=\"1.6\"></circle><path d=\"M4 20 C4 15.85 6.42 13.4 9.5 13.4 C12.58 13.4 15 15.85 15 20\" stroke=\"#7FD9C4\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><circle cx=\"18\" cy=\"7\" r=\"3\" stroke=\"#7FD9C4\" stroke-width=\"1.5\"></circle><path d=\"M18 5.3 V8.7 M16.3 7 H19.7\" stroke=\"#7FD9C4\" stroke-width=\"1.5\" stroke-linecap=\"round\"></path>",
+          "titel": "On-/Offboarding",
+          "text": "Zugänge und Konten bei Ein- und Austritt automatisiert anlegen oder sperren."
+        },
+        {
+          "nummer": "06",
+          "icon": "<path d=\"M12 3 L21 19 H3 Z\" stroke=\"#7FD9C4\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M12 9.5 V13.5\" stroke=\"#7FD9C4\" stroke-width=\"1.7\" stroke-linecap=\"round\"></path><circle cx=\"12\" cy=\"16\" r=\"1\" fill=\"#7FD9C4\"></circle>",
+          "titel": "Eskalation nach Regel",
+          "text": "Vorgänge werden nach festen Regeln automatisch weitergeleitet oder eskaliert."
+        }
+      ]
+    },
+    {
+      "typ": "trustbar",
+      "label": "Zertifizierte Partner & Technologien",
+      "logos": [
+        "Microsoft",
+        "Hornetsecurity",
+        "Partner-Logo",
+        "Partner-Logo",
+        "Partner-Logo",
+        "Partner-Logo"
+      ]
+    },
+    {
+      "typ": "zeitstrahl",
+      "eyebrow": "Wie wir vorgehen",
+      "titel": "Wie wir vorgehen",
+      "intro": "Vom bestehenden Ablauf zur fertigen Automatisierung in vier Schritten. Sie zahlen einen Festpreis, und das Ergebnis gehört Ihnen.",
+      "aktiv": 1,
+      "schritte": [
+        {
+          "nummer": "01",
+          "titel": "Analyse",
+          "text": "Wir erfassen den bestehenden Ablauf und identifizieren Automatisierungspotenzial."
+        },
+        {
+          "nummer": "02",
+          "titel": "Angebot",
+          "text": "Festpreis statt Stundensatz, transparent kalkuliert."
+        },
+        {
+          "nummer": "03",
+          "titel": "Umsetzung",
+          "text": "Test mit echten Fällen, Übergabe. Die Automatisierung gehört Ihnen."
+        },
+        {
+          "nummer": "04",
+          "titel": "Betreuung",
+          "text": "Optional: Wir überwachen die Automatisierung bei Systemänderungen."
+        }
+      ]
+    },
+    {
+      "typ": "faq",
+      "titel": "Häufige Fragen zur Prozessautomatisierung",
+      "intro": "Was Sie vor der Zusammenarbeit wissen sollten: kurz und ohne Kleingedrucktes.",
+      "fragen": [
+        {
+          "frage": "Was kostet Prozessautomatisierung?",
+          "antwort": "Der Preis richtet sich nach Umfang und Komplexität des Prozesses. Nach einem kurzen Blick auf Ihren Ablauf nennen wir Ihnen ein konkretes Angebot."
+        },
+        {
+          "frage": "Welche Prozesse lassen sich automatisieren?",
+          "antwort": "Wiederkehrende, regelbasierte Abläufe eignen sich am besten, etwa Rechnungsverarbeitung, Datenabgleich zwischen Systemen, Berichte oder Benachrichtigungen. Im Erstgespräch schauen wir gemeinsam, welche Ihrer Prozesse den größten Aufwand sparen."
+        },
+        {
+          "frage": "Brauchen wir dafür Programmierkenntnisse?",
+          "antwort": "Nein. Wir setzen die Automatisierung um und übergeben Ihnen eine fertig laufende Lösung: Ihr Team bedient sie wie gewohnt, ohne selbst etwas programmieren zu müssen."
+        },
+        {
+          "frage": "Wie lange dauert die Umsetzung?",
+          "antwort": "Bei einem klar abgegrenzten Prozess meist wenige Tage bis zwei Wochen. Umfangreichere Automatisierungen mit mehreren Systemen dauern entsprechend länger, den Zeitrahmen klären wir vorab mit Ihnen."
+        },
+        {
+          "frage": "Was passiert, wenn sich ein Prozess später ändert?",
+          "antwort": "Wir passen die Automatisierung entsprechend an. Abläufe ändern sich mit der Zeit, deshalb dokumentieren wir jede Lösung so, dass spätere Anpassungen unkompliziert möglich sind."
+        },
+        {
+          "frage": "Ersetzt das unsere bestehende Software, oder arbeitet es damit zusammen?",
+          "antwort": "In der Regel Letzteres. Die Automatisierung bindet sich an Ihre vorhandenen Systeme an und verbindet sie miteinander, statt sie zu ersetzen: Ihr Team arbeitet weiter in der gewohnten Software."
+        }
+      ]
+    },
+    {
+      "typ": "kontakt"
+    },
+    {
+      "typ": "wissenTeaser"
+    }
+  ]
+}

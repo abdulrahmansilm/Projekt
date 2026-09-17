@@ -1,0 +1,561 @@
+---
+/**
+ * Hero-Visual Webseiten (referenz/webseiten/hero.html, docs/DESIGNSYSTEM.md → Komponente 9, Abweichung „Webseiten“):
+ * Browser-Fenster mit Vorher/Nachher-Vergleich. Die „Vorher“-Ebene wird per clip-path beschnitten (GPU-freundlich,
+ * emil-design-eng: Vergleichs-Slider über clip-path), der Griff wandert ruhig zwischen 30 % und 56 % (7s ease-in-out).
+ * Browser und Info-Karten schweben leicht. prefers-reduced-motion: alles statisch, Trennlinie bei 42 %.
+ */
+import HeroStage from "./HeroStage.astro";
+
+const ebenen = ["nachher", "vorher"] as const;
+---
+
+<HeroStage breite={560} hoehe={600}>
+  <div class="web">
+    <div class="browser">
+      <div class="chrome">
+        <span class="chrome__dot"></span><span class="chrome__dot"></span><span class="chrome__dot"></span>
+        <span class="adresse">
+          <svg width="9" height="10" viewBox="0 0 9 10" fill="none" aria-hidden="true">
+            <path d="M2 4V2.8C2 1.6 2.9 1 4.5 1S7 1.6 7 2.8V4" stroke="rgba(11,46,60,0.4)" stroke-width="1.1" stroke-linecap="round"></path>
+            <rect x="1" y="4" width="7" height="5" rx="1.2" fill="rgba(11,46,60,0.25)"></rect>
+          </svg>
+          <span>ihrefirma.de</span>
+        </span>
+      </div>
+
+      <div class="inhalt">
+        {
+          ebenen.map((ebene) => (
+            <div class={`seite seite--${ebene}`}>
+              <span class="badge">{ebene === "nachher" ? "Ihre individuelle Website" : "Standard-Vorlage"}</span>
+              <div class="nav">
+                <span class="logo-box" />
+                <span class="linie wortmarke" />
+                <span class="menue">
+                  <span class="linie" />
+                  <span class="linie" />
+                  <span class="linie" />
+                </span>
+                <span class="cta-pill" />
+              </div>
+              <div class="hero-zeile">
+                <div class="hero-text">
+                  <span class="linie titel w1" />
+                  <span class="linie titel w2" />
+                  <span class="linie sub w1" style="margin-top:6px" />
+                  <span class="linie sub w2" />
+                  <span class="hero-btn">
+                    <span class="linie" />
+                  </span>
+                </div>
+                <div class="hero-bild">
+                  <span class="hero-bild__icon" />
+                </div>
+              </div>
+              <div class="features">
+                {[1, 2, 3].map(() => (
+                  <div class="feature">
+                    <span class="feature__icon" />
+                    <span class="linie feature__titel" />
+                    <span class="linie feature__sub" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+        <span class="griff-linie"></span>
+        <span class="griff">
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">
+            <path d="M4.2 1L1 5l3.2 4" stroke="#1B6E7A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M9.8 1L13 5l-3.2 4" stroke="#1B6E7A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </span>
+      </div>
+    </div>
+
+    <div class="karte karte--farben">
+      <p class="karte__label">Ihre Marke</p>
+      <div class="swatches">
+        <span style="background:#0B2E3C"></span>
+        <span style="background:#1B6E7A"></span>
+        <span style="background:#4FB8A6"></span>
+        <span style="background:#FFFFFF;border:1px solid rgba(11,46,60,0.15)"></span>
+      </div>
+    </div>
+
+    <div class="karte karte--individuell">
+      <span class="karte__icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 20l1-4L16 5l3 3-11 11-4 1Z" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"></path></svg>
+      </span>
+      <span>
+        <span class="karte__titel">Individuell für Sie gestaltet</span>
+        <span class="karte__sub">Kein Baukasten, echtes Design</span>
+      </span>
+    </div>
+  </div>
+</HeroStage>
+
+<style>
+  .web {
+    position: relative;
+    width: 560px;
+    height: 600px;
+    font-family: var(--font-body);
+  }
+
+  .browser {
+    position: absolute;
+    top: 68px;
+    left: 46px;
+    width: 460px;
+    overflow: hidden;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 30px 60px -14px rgba(0, 0, 0, 0.35);
+    transform: rotate(-3deg);
+    animation: web-browser 5s ease-in-out infinite;
+  }
+
+  @keyframes web-browser {
+    0%,
+    100% {
+      transform: rotate(-3deg) translateY(0);
+    }
+    50% {
+      transform: rotate(-3deg) translateY(-10px);
+    }
+  }
+
+  .chrome {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 34px;
+    padding: 0 14px;
+    background: #e9efee;
+  }
+
+  .chrome__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(11, 46, 60, 0.18);
+  }
+
+  .adresse {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 6px;
+    height: 20px;
+    margin-left: 8px;
+    padding: 0 10px;
+    border-radius: 10px;
+    background: #ffffff;
+    font-size: 10px;
+    color: rgba(11, 46, 60, 0.55);
+  }
+
+  .inhalt {
+    --trenner: 42%;
+    position: relative;
+    height: 420px;
+    background: #ffffff;
+  }
+
+  .seite {
+    position: absolute;
+    inset: 0;
+    padding: 24px;
+    background: #ffffff;
+  }
+
+  /* „Vorher“ liegt oben und wird von rechts beschnitten */
+  .seite--vorher {
+    z-index: 2;
+    clip-path: inset(0 calc(100% - var(--trenner)) 0 0);
+    animation: web-clip 7s ease-in-out infinite alternate;
+  }
+
+  .griff-linie,
+  .griff {
+    position: absolute;
+    left: 0;
+    z-index: 4;
+    transform: translateX(var(--trenner));
+    animation: web-griff 7s ease-in-out infinite alternate;
+  }
+
+  .griff-linie {
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    margin-left: -1.5px;
+    background: #ffffff;
+    box-shadow: 0 0 0 1px rgba(11, 46, 60, 0.1);
+  }
+
+  .griff {
+    top: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    margin: -17px 0 0 -17px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 10px 22px -6px rgba(11, 46, 60, 0.4);
+  }
+
+  /* Die Trennlinie liegt bei 30–56 % der 460px-Breite: clip-path und transform laufen synchron */
+  @keyframes web-clip {
+    from {
+      clip-path: inset(0 70% 0 0);
+    }
+    to {
+      clip-path: inset(0 44% 0 0);
+    }
+  }
+
+  @keyframes web-griff {
+    from {
+      transform: translateX(138px);
+    }
+    to {
+      transform: translateX(257.6px);
+    }
+  }
+
+  .badge {
+    display: inline-flex;
+    margin-bottom: 18px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-family: var(--font-headline);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .logo-box {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    border-radius: 6px;
+  }
+
+  .linie {
+    display: block;
+    border-radius: 4px;
+  }
+
+  .wortmarke {
+    width: 64px;
+    height: 9px;
+  }
+
+  .menue {
+    display: flex;
+    gap: 10px;
+    margin-left: auto;
+  }
+
+  .menue .linie {
+    width: 28px;
+    height: 7px;
+  }
+
+  .cta-pill {
+    width: 58px;
+    height: 20px;
+    flex-shrink: 0;
+    border-radius: 10px;
+  }
+
+  .hero-zeile {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 22px;
+  }
+
+  .hero-text {
+    display: flex;
+    flex: 1.3;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .titel {
+    height: 15px;
+  }
+
+  .sub {
+    height: 7px;
+  }
+
+  .titel.w1 {
+    width: 92%;
+  }
+
+  .titel.w2 {
+    width: 66%;
+  }
+
+  .sub.w1 {
+    width: 100%;
+  }
+
+  .sub.w2 {
+    width: 78%;
+  }
+
+  .hero-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 110px;
+    height: 28px;
+    margin-top: 8px;
+    border-radius: 14px;
+  }
+
+  .hero-btn .linie {
+    width: 46px;
+    height: 8px;
+  }
+
+  .hero-bild {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    height: 118px;
+    border-radius: 14px;
+  }
+
+  .hero-bild__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+
+  .features {
+    display: flex;
+    gap: 14px;
+  }
+
+  .feature {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  .feature__icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+  }
+
+  .feature__titel {
+    width: 70%;
+    height: 8px;
+  }
+
+  .feature__sub {
+    width: 88%;
+    height: 6px;
+    margin-top: 6px;
+  }
+
+  /* Nachher: fertige Website in Markenfarben */
+  .seite--nachher .badge {
+    background: linear-gradient(135deg, rgba(27, 110, 122, 0.12), rgba(79, 184, 166, 0.2));
+    color: #1b6e7a;
+  }
+  .seite--nachher .logo-box,
+  .seite--nachher .cta-pill,
+  .seite--nachher .hero-btn,
+  .seite--nachher .hero-bild__icon {
+    background: var(--verlauf);
+  }
+  .seite--nachher .wortmarke {
+    background: rgba(11, 46, 60, 0.75);
+  }
+  .seite--nachher .menue .linie {
+    background: rgba(11, 46, 60, 0.28);
+  }
+  .seite--nachher .titel {
+    background: rgba(11, 46, 60, 0.85);
+  }
+  .seite--nachher .sub {
+    background: rgba(11, 46, 60, 0.28);
+  }
+  .seite--nachher .hero-btn .linie {
+    background: rgba(255, 255, 255, 0.9);
+  }
+  .seite--nachher .hero-bild {
+    background: linear-gradient(135deg, rgba(27, 110, 122, 0.14), rgba(79, 184, 166, 0.22));
+  }
+  .seite--nachher .feature {
+    background: #f5faf9;
+  }
+  .seite--nachher .feature__icon {
+    background: rgba(79, 184, 166, 0.22);
+  }
+  .seite--nachher .feature__titel {
+    background: rgba(11, 46, 60, 0.65);
+  }
+  .seite--nachher .feature__sub {
+    background: rgba(11, 46, 60, 0.22);
+  }
+
+  /* Vorher: generische, unfertige Vorlage in gedämpften Tönen */
+  .seite--vorher .badge {
+    background: rgba(11, 46, 60, 0.06);
+    color: rgba(11, 46, 60, 0.72);
+  }
+  .seite--vorher .logo-box,
+  .seite--vorher .hero-bild__icon {
+    background: rgba(11, 46, 60, 0.14);
+  }
+  .seite--vorher .wortmarke,
+  .seite--vorher .feature__titel {
+    background: rgba(11, 46, 60, 0.16);
+  }
+  .seite--vorher .menue .linie,
+  .seite--vorher .titel {
+    background: rgba(11, 46, 60, 0.13);
+  }
+  .seite--vorher .cta-pill,
+  .seite--vorher .sub,
+  .seite--vorher .feature__icon,
+  .seite--vorher .feature__sub {
+    background: rgba(11, 46, 60, 0.1);
+  }
+  .seite--vorher .hero-btn {
+    background: rgba(11, 46, 60, 0.08);
+  }
+  .seite--vorher .hero-btn .linie {
+    background: rgba(11, 46, 60, 0.22);
+  }
+  .seite--vorher .hero-bild {
+    background: rgba(11, 46, 60, 0.05);
+  }
+  .seite--vorher .feature {
+    background: rgba(11, 46, 60, 0.03);
+  }
+
+  /* Info-Karten */
+  .karte {
+    position: absolute;
+    z-index: 10;
+    padding: 14px 16px;
+    border-radius: 16px 16px 8px 8px;
+    background: #ffffff;
+    box-shadow: 0 16px 36px -10px rgba(11, 46, 60, 0.3);
+    animation: web-karte 5s ease-in-out infinite;
+  }
+
+  @keyframes web-karte {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  .karte--farben {
+    top: 14px;
+    right: 0;
+    width: 156px;
+  }
+
+  .karte__label {
+    margin-bottom: 10px;
+    font-family: var(--font-headline);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(11, 46, 60, 0.74);
+  }
+
+  .swatches {
+    display: flex;
+    gap: 8px;
+  }
+
+  .swatches span {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+  }
+
+  .karte--individuell {
+    bottom: 6px;
+    left: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 214px;
+    animation-delay: -2.5s;
+  }
+
+  .karte__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: var(--verlauf);
+  }
+
+  .karte__titel {
+    display: block;
+    font-family: var(--font-headline);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #0b2e3c;
+  }
+
+  .karte__sub {
+    display: block;
+    margin-top: 3px;
+    font-size: 11px;
+    color: rgba(11, 46, 60, 0.7);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .browser,
+    .karte,
+    .seite--vorher,
+    .griff,
+    .griff-linie {
+      animation: none;
+    }
+
+    .griff,
+    .griff-linie {
+      transform: translateX(193.2px);
+    }
+  }
+</style>

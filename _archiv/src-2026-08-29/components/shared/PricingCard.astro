@@ -1,0 +1,132 @@
+---
+import { Icon } from "astro-icon/components";
+import { cx } from "../../lib/utils";
+
+interface FeatureItem {
+  text: string;
+  status: "ja" | "nein" | "text";
+  wert?: string;
+}
+
+interface Props {
+  name: string;
+  variante: "neutral" | "beliebt" | "premium";
+  badge?: string;
+  zielgruppe?: string;
+  claim: string;
+  preisHaupt: string;
+  preisZusatz?: string;
+  preisJaehrlich?: string;
+  reaktionszeit?: string;
+  supportKanal?: string;
+  laufzeit?: string;
+  features: FeatureItem[];
+  ctaText: string;
+  ctaHref: string;
+  jaehrlich?: boolean;
+}
+
+const {
+  name,
+  variante,
+  badge,
+  zielgruppe,
+  claim,
+  preisHaupt,
+  preisZusatz,
+  preisJaehrlich,
+  reaktionszeit,
+  supportKanal,
+  laufzeit,
+  features,
+  ctaText,
+  ctaHref,
+  jaehrlich = false,
+} = Astro.props;
+
+const istPremium = variante === "premium";
+const istBeliebt = variante === "beliebt";
+---
+
+<article
+  class={cx(
+    "reveal flex flex-col rounded-none border p-6 md:p-8",
+    istPremium && "border-transparent bg-bg-dark text-white shadow-[0_0_32px_rgba(195,211,49,0.18)]",
+    istBeliebt && "border-2 border-accent-end bg-bg text-bg-dark md:scale-[1.03]",
+    variante === "neutral" && "border-bg-dark/15 bg-bg text-bg-dark"
+  )}
+>
+  {
+    badge && (
+      <span class="bg-gradient-brand text-bg-dark mb-4 inline-block w-fit rounded-full px-4 py-1 font-headline text-xs font-medium uppercase tracking-wide">
+        {badge}
+      </span>
+    )
+  }
+
+  {zielgruppe && <p class={cx("mb-1 text-sm", istPremium ? "text-white/68" : "text-bg-dark/68")}>{zielgruppe}</p>}
+
+  <h3 class="font-headline text-xl font-medium md:text-2xl">{name}</h3>
+  <p class={cx("mt-2 text-sm", istPremium ? "text-white/68" : "text-bg-dark/68")}>{claim}</p>
+
+  <div class="mt-6 flex items-baseline gap-2">
+    <span class="font-headline text-4xl font-medium">{jaehrlich && preisJaehrlich ? preisJaehrlich : preisHaupt}</span>
+  </div>
+  {preisZusatz && <p class={cx("mt-1 font-mono text-sm", istPremium ? "text-white/68" : "text-bg-dark/68")}>{preisZusatz}</p>}
+
+  {
+    (reaktionszeit || supportKanal || laufzeit) && (
+      <dl class={cx("mt-4 space-y-1 border-t pt-4 text-sm", istPremium ? "border-white/15" : "border-bg-dark/10")}>
+        {reaktionszeit && (
+          <div class="flex justify-between gap-4">
+            <dt class={istPremium ? "text-white/68" : "text-bg-dark/68"}>Reaktionszeit</dt>
+            <dd class="font-mono">{reaktionszeit}</dd>
+          </div>
+        )}
+        {supportKanal && (
+          <div class="flex justify-between gap-4">
+            <dt class={istPremium ? "text-white/68" : "text-bg-dark/68"}>Support-Kanal</dt>
+            <dd class="text-right font-mono">{supportKanal}</dd>
+          </div>
+        )}
+        {laufzeit && (
+          <div class="flex justify-between gap-4">
+            <dt class={istPremium ? "text-white/68" : "text-bg-dark/68"}>Laufzeit</dt>
+            <dd class="font-mono">{laufzeit}</dd>
+          </div>
+        )}
+      </dl>
+    )
+  }
+
+  <ul class={cx("mt-6 flex-1 space-y-3 border-t pt-6 text-sm", istPremium ? "border-white/15" : "border-bg-dark/10")}>
+    {
+      features.map((feature) => (
+        <li class="flex items-start gap-3">
+          {feature.status === "ja" && (
+            <Icon name="check" class={cx("mt-0.5 size-4 shrink-0", istPremium ? "text-accent-end" : "text-accent-start")} aria-hidden="true" />
+          )}
+          {feature.status === "nein" && (
+            <span aria-hidden="true" class={cx("mt-0.5 w-4 shrink-0 text-center", istPremium ? "text-white/40" : "text-bg-dark/40")}>
+              –
+            </span>
+          )}
+          {feature.status === "text" && (
+            <Icon name="circle-dot" class={cx("mt-0.5 size-4 shrink-0", istPremium ? "text-accent-end" : "text-accent-start")} aria-hidden="true" />
+          )}
+          <span class={feature.status === "nein" ? (istPremium ? "text-white/40" : "text-bg-dark/40") : ""}>
+            {feature.text}
+            {feature.status === "text" && feature.wert && <span class="font-mono"> ({feature.wert})</span>}
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+
+  <a
+    href={ctaHref}
+    class="bg-gradient-brand mt-8 inline-flex min-h-11 items-center justify-center rounded-full px-6 py-3 text-base font-semibold text-white"
+  >
+    {ctaText}
+  </a>
+</article>

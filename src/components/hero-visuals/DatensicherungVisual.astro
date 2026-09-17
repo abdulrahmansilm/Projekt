@@ -1,0 +1,97 @@
+---
+/**
+ * Hero-Visual Datensicherung (referenz/datensicherung/hero.html): Wolke in den Farben der Deutschland-Flagge
+ * (dokumentierte Ausnahme von der Farbpalette) mit Schloss, schwebend, dazu zwei Toast-Karten.
+ */
+import HeroStage from "./HeroStage.astro";
+import HeroToast from "./HeroToast.astro";
+---
+
+<HeroStage breite={400} hoehe={500}>
+  <div class="ds">
+    <div class="wolke">
+      <svg width="340" height="198" viewBox="0 0 24 14" aria-hidden="true">
+        <defs>
+          <clipPath id="ds-wolke-clip">
+            <path d="M6,19A5,5 0 0,1 1,14A5,5 0 0,1 6,9C7,6.65 9.3,5 12,5C15.43,5 18.24,7.66 18.5,11.03L19,11A4,4 0 0,1 23,15A4,4 0 0,1 19,19H6Z" transform="translate(0,-5)"></path>
+          </clipPath>
+        </defs>
+        <g clip-path="url(#ds-wolke-clip)">
+          <rect x="0" y="0" width="24" height="4.67" fill="#1A1A1A"></rect>
+          <rect x="0" y="4.67" width="24" height="4.67" fill="#C64B3C"></rect>
+          <rect x="0" y="9.34" width="24" height="4.67" fill="#C9A227"></rect>
+        </g>
+        <path d="M6,19A5,5 0 0,1 1,14A5,5 0 0,1 6,9C7,6.65 9.3,5 12,5C15.43,5 18.24,7.66 18.5,11.03L19,11A4,4 0 0,1 23,15A4,4 0 0,1 19,19H6Z" transform="translate(0,-5)" fill="none" stroke="#FFFFFF" stroke-width="0.35"></path>
+      </svg>
+      <span class="schloss">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="5" y="11" width="14" height="10" rx="2" stroke="#0B2E3C" stroke-width="2.5"></rect>
+          <path d="M8 11V7a4 4 0 0 1 8 0v4" stroke="#0B2E3C" stroke-width="2.5"></path>
+        </svg>
+      </span>
+    </div>
+
+    <HeroToast titel="Deutsches Rechenzentrum" sub="Ihre Daten bleiben in Deutschland" breite={200} radius="14px" dauer={5} style="top:60px;right:20px">
+      <svg slot="icon" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="7" rx="1.5" stroke="#FFFFFF" stroke-width="2"></rect><rect x="4" y="14" width="16" height="7" rx="1.5" stroke="#FFFFFF" stroke-width="2"></rect><circle cx="7.5" cy="6.5" r="1" fill="#FFFFFF"></circle><circle cx="7.5" cy="17.5" r="1" fill="#FFFFFF"></circle></svg>
+    </HeroToast>
+    <HeroToast titel="DSGVO-konform" sub="Vollständig rechtskonforme Datenspeicherung" breite={200} radius="14px" dauer={4.5} hub={-9} style="bottom:70px;left:20px">
+      <svg slot="icon" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6l7-3z" stroke="#FFFFFF" stroke-width="2"></path><path d="M9 12l2 2 4-4" stroke="#FFFFFF" stroke-width="2"></path></svg>
+    </HeroToast>
+  </div>
+</HeroStage>
+
+<style>
+  .ds {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    height: 500px;
+  }
+
+  .wolke {
+    position: relative;
+    width: 340px;
+    height: 198px;
+    animation: ds-wolke 4.5s ease-in-out infinite;
+  }
+
+  .wolke svg {
+    position: absolute;
+    inset: 0;
+    overflow: visible;
+    filter: drop-shadow(0 0 24px rgba(255, 255, 255, 0.22));
+  }
+
+  @keyframes ds-wolke {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-14px);
+    }
+  }
+
+  .schloss {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.35);
+    transform: translate(-50%, -50%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wolke {
+      animation: none;
+    }
+  }
+</style>

@@ -1,0 +1,158 @@
+---
+/**
+ * Über uns (Neuordnung 17.09.2026): Hero → Sitz/Einsatzgebiet/Erreichbarkeit → Team-Bild-Text
+ * → wofür wir stehen → IT & KI aus einer Hand → Ihre Vorteile → CTA.
+ * How we work und Ein Projekt aus der Praxis wurden von dieser Seite entfernt (stehen bereits auf der Startseite).
+ * Bewusst ohne erfundene Kennzahlen oder Testimonials (docs/BRANCHE.md → „Nicht vorhanden“).
+ */
+import { getEntry } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/sections/Hero.astro";
+import BildText from "../components/sections/BildText.astro";
+import Vorteile from "../components/sections/Vorteile.astro";
+import KontaktWizard from "../components/kontakt/KontaktWizard.astro";
+import { firma } from "../lib/config";
+import { breadcrumbJsonLd } from "../lib/seo";
+
+const eintrag = await getEntry("seiten", "startseite");
+if (!eintrag) throw new Error("src/content/seiten/startseite.json fehlt");
+const s = eintrag.data as Record<string, any>;
+
+const fakten = [
+  { label: "Sitz", wert: firma.adresse.stadt },
+  { label: "Einsatzgebiet", wert: firma.einsatzgebiet },
+  { label: "Erreichbarkeit", wert: firma.supportZeiten },
+];
+---
+
+<BaseLayout
+  title="Über uns: IT-Dienstleister aus Frankfurt am Main"
+  description="Selim-IT betreut Unternehmen bei IT-Betrieb, Sicherheit, Microsoft 365, Webseiten, Automatisierung und KI-Assistenten: aus Frankfurt am Main, im Rhein-Main-Gebiet vor Ort und bundesweit remote."
+  pfad="/ueber-uns"
+  mitKontaktformular
+  jsonLd={[
+    breadcrumbJsonLd([
+      { name: "Startseite", pfad: "/" },
+      { name: "Über uns", pfad: "/ueber-uns" },
+    ]),
+  ]}
+>
+  <Hero kompakt headline="Über uns" subline={firma.claim} />
+
+  <section class="fakten-band section-light" aria-labelledby="fakten-titel">
+    <div class="container-site">
+      <h2 id="fakten-titel" class="sr-only">Sitz, Einsatzgebiet und Erreichbarkeit</h2>
+      <ul class="fakten-band__liste" role="list" data-reveal-group>
+        {
+          fakten.map((f, i) => (
+            <li data-reveal style={`--reveal-index:${i}`}>
+              <span class="fakten-band__label">{f.label}</span>
+              <span class="fakten-band__wert">{f.wert}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <BildText
+    titel="Ein Team, das Sie kennen"
+    absaetze={[
+      "Wenn Sie anrufen, ist am anderen Ende keine Warteschleife, sondern jemand, der Ihre Umgebung kennt. Kein Ticket-System ohne Gesicht, sondern feste Ansprechpartner.",
+      "Wir sind bewusst klein genug geblieben, um persönlich erreichbar zu sein, und breit genug aufgestellt, um Ihre gesamte IT abzudecken.",
+    ]}
+    bildLabel="Unser Team"
+  />
+
+  <section class="haltung section-light" aria-labelledby="haltung-titel">
+    <div class="container-site haltung__inner">
+      <div data-reveal>
+        <h2 id="haltung-titel" class="h2">Wofür wir stehen</h2>
+        <p class="lead">
+          Planbare IT-Kosten statt Überraschungsrechnungen, ein fester Ansprechpartner statt wechselnder Zuständigkeiten
+          und Technik, die im Hintergrund einfach funktioniert. Wir betreuen Ihre IT so, wie wir sie uns selbst wünschen
+          würden.
+        </p>
+      </div>
+      <div data-reveal style="--reveal-index:1">
+        <h2 class="h2">IT und KI aus einer Hand</h2>
+        <p class="lead">
+          Klassische IT-Betreuung und moderne KI-Assistenten kommen bei uns aus demselben Team. So passt neue Technik
+          nahtlos in Ihre bestehende Infrastruktur, statt eine weitere Baustelle mit einem weiteren Ansprechpartner zu
+          eröffnen.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <Vorteile {...s.vorteile} />
+  <KontaktWizard />
+</BaseLayout>
+
+<style>
+  .fakten-band {
+    padding: 48px 0;
+  }
+
+  .fakten-band__liste {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .fakten-band__liste li {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 22px 26px;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 3px 14px rgba(11, 46, 60, 0.05);
+  }
+
+  .fakten-band__label {
+    font-family: var(--font-headline);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--petrol);
+  }
+
+  .fakten-band__wert {
+    font-size: 17px;
+    font-weight: 500;
+  }
+
+  .haltung {
+    padding: 8px 0 100px;
+  }
+
+  .haltung__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+
+  .haltung h2 {
+    margin-bottom: 14px;
+  }
+
+  @media (max-width: 760px) {
+    .fakten-band__liste {
+      grid-template-columns: 1fr;
+    }
+
+    .haltung__inner {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+
+    .haltung {
+      padding-bottom: 72px;
+    }
+  }
+</style>

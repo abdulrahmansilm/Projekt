@@ -1,0 +1,68 @@
+---
+/**
+ * Hero-Visual Hardware-Beschaffung (referenz/hardware-beschaffung/hero.html): unbewegtes Piktogramm
+ * (Monitor + Server-Rack) mit drei versetzt schwebenden Info-Karten (7s/8s/9s).
+ */
+import HeroStage from "./HeroStage.astro";
+import HeroToast from "./HeroToast.astro";
+---
+
+<HeroStage breite={480} hoehe={520}>
+  <div class="hw">
+    <div class="piktogramm">
+      <svg width="180" height="170" viewBox="0 0 180 170" fill="none" aria-hidden="true">
+        <g transform="translate(16,0)">
+          <rect x="91" y="26" width="46" height="20" rx="5" stroke="#FFFFFF" stroke-width="2.5"></rect>
+          <circle cx="128" cy="32" r="2.2" fill="#FFFFFF"></circle>
+          <circle cx="128" cy="40" r="2.2" fill="#FFFFFF"></circle>
+          <rect x="91" y="52" width="46" height="20" rx="5" stroke="#FFFFFF" stroke-width="2.5"></rect>
+          <circle cx="128" cy="58" r="2.2" fill="#FFFFFF"></circle>
+          <circle cx="128" cy="66" r="2.2" fill="#FFFFFF"></circle>
+          <rect x="91" y="78" width="46" height="20" rx="5" stroke="#FFFFFF" stroke-width="2.5"></rect>
+          <circle cx="128" cy="84" r="2.2" fill="#FFFFFF"></circle>
+          <circle cx="128" cy="92" r="2.2" fill="#FFFFFF"></circle>
+          <rect x="91" y="104" width="46" height="20" rx="5" stroke="#FFFFFF" stroke-width="2.5"></rect>
+          <circle cx="128" cy="110" r="2.2" fill="#FFFFFF"></circle>
+          <circle cx="128" cy="118" r="2.2" fill="#FFFFFF"></circle>
+          <rect x="10" y="40" width="100" height="65" rx="5" stroke="#FFFFFF" stroke-width="2.5"></rect>
+          <line x1="60" y1="105" x2="60" y2="120" stroke="#FFFFFF" stroke-width="2.5"></line>
+          <rect x="38" y="119" width="44" height="7" rx="3.5" stroke="#FFFFFF" stroke-width="2.5"></rect>
+        </g>
+      </svg>
+    </div>
+
+    <HeroToast titel="Beratung, Auswahl & Beschaffung" sub="Passende Geräte für Ihren Bedarf, komplett organisiert" breite={196} radius="14px" dauer={7} style="top:60px;left:0" class="hw__karte">
+      <svg slot="icon" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="#FFFFFF" stroke-width="1.6"></circle><path d="M10 10L13.5 13.5" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round"></path></svg>
+    </HeroToast>
+    <HeroToast titel="Eingerichtet & startklar" sub="Betriebssystem, Microsoft 365 und bestehende Daten übernommen" breite={184} radius="14px" dauer={8} style="top:100px;right:0" class="hw__karte">
+      <svg slot="icon" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6 11.5L13 4.5" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </HeroToast>
+    <HeroToast titel="Angebunden & einsatzbereit" sub="Ins Firmennetzwerk eingebunden, vor Ort aufgebaut" breite={204} radius="14px" dauer={9} style="top:372px;left:14px" class="hw__karte">
+      <svg slot="icon" viewBox="0 0 16 16" fill="none"><circle cx="4.5" cy="8" r="2" stroke="#FFFFFF" stroke-width="1.6"></circle><circle cx="11.5" cy="4" r="2" stroke="#FFFFFF" stroke-width="1.6"></circle><circle cx="11.5" cy="12" r="2" stroke="#FFFFFF" stroke-width="1.6"></circle><path d="M6.3 7.1L9.7 4.9M6.3 8.9L9.7 11.1" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round"></path></svg>
+    </HeroToast>
+  </div>
+</HeroStage>
+
+<style>
+  .hw {
+    position: relative;
+    width: 480px;
+    height: 520px;
+  }
+
+  .piktogramm {
+    position: absolute;
+    top: 50%;
+    left: 210px;
+    display: flex;
+    width: 180px;
+    height: 170px;
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.25));
+    transform: translate(-50%, -50%);
+  }
+
+  .hw :global(.hw__karte) {
+    padding: 14px;
+    gap: 10px;
+  }
+</style>

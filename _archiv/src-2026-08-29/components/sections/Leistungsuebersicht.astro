@@ -1,0 +1,48 @@
+---
+import { getCollection } from "astro:content";
+import { Icon } from "astro-icon/components";
+import { kategorien, kategorienReihenfolge } from "../../lib/config";
+
+const alleLeistungen = await getCollection("leistungen");
+const gruppen = kategorienReihenfolge.map((kat) => ({
+  kategorie: kat,
+  label: kategorien[kat].label,
+  icon: kategorien[kat].icon,
+  leistungen: alleLeistungen
+    .filter((l) => l.data.kategorie === kat)
+    .sort((a, b) => a.data.reihenfolge - b.data.reihenfolge),
+}));
+---
+
+<section id="leistungen" aria-labelledby="leistungen-heading" class="scroll-mt-24 py-16 md:py-20">
+  <div class="mx-auto max-w-6xl px-4">
+    <span class="bg-accent-start/10 text-bg-dark reveal mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1 text-xs font-medium uppercase tracking-wide">
+      <span aria-hidden="true" class="bg-accent-start size-1.5 rounded-full"></span>
+      — UNSERE LEISTUNGEN
+    </span>
+    <h2 id="leistungen-heading" class="reveal font-headline text-3xl font-medium tracking-tight md:text-4xl">Vier Bereiche, ein Ansprechpartner</h2>
+
+    <div class="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
+      {
+        gruppen.map((gruppe) => (
+          <div class="reveal border-bg-dark/15 bg-bg rounded-none border p-6 md:p-8">
+            <div class="bg-accent-start/10 text-accent-start flex size-11 items-center justify-center rounded-md">
+              <Icon name={gruppe.icon} class="size-5" aria-hidden="true" />
+            </div>
+            <h3 class="font-headline mt-4 text-xl font-medium">{gruppe.label}</h3>
+            <ul class="mt-4 space-y-2">
+              {gruppe.leistungen.map((l) => (
+                <li>
+                  <a href={`/leistungen/${l.id}`} class="hover:text-accent-start group flex items-center justify-between gap-2 py-1 text-sm">
+                    {l.data.titel}
+                    <Icon name="arrow-right" class="size-4 shrink-0 opacity-0 transition-opacity group-hover:opacity-100" aria-hidden="true" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

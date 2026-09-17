@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Selim-IT – Hero-Hintergrund kombiniert</title>
+<style>
+  :root{
+    --nebel:#F0F4F3;
+    --wald:#0B2E3C;
+    --teal1:#1B6E7A;
+    --teal2:#4FB8A6;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--nebel);font-family:'Outfit','Segoe UI',sans-serif;color:var(--wald);}
+  .intro{max-width:760px;margin:44px auto 8px;padding:0 24px;}
+  .intro h1{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;margin-bottom:4px;}
+  .intro p{font-size:0.92rem;line-height:1.5;opacity:0.7;}
+
+  .panel-wrap{max-width:1180px;margin:0 auto 12px;padding:0 24px;}
+  .panel{
+    position:relative;border-radius:18px;overflow:hidden;height:440px;
+    background: linear-gradient(135deg, var(--teal1), var(--wald) 38%, var(--wald) 62%, color-mix(in srgb, var(--teal2) 65%, var(--wald) 35%));
+    background-size:250% 250%;
+    animation: breathe 22s ease-in-out infinite;
+  }
+  @keyframes breathe{
+    0%{background-position:0% 0%;}
+    50%{background-position:80% 80%;}
+    100%{background-position:0% 0%;}
+  }
+  .scale-logo{position:absolute;top:26px;left:28px;z-index:5;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--teal1),var(--teal2));}
+
+  .contour-svg{position:absolute;inset:0;}
+  .contour-shape{fill:none;stroke:rgba(240,244,243,0.10);stroke-width:1;}
+  .runner{
+    fill:none;
+    stroke:url(#runnerGrad);
+    stroke-width:2.2;
+    stroke-linecap:round;
+    stroke-dasharray:1300 1650;
+    animation: run 17s linear infinite;
+    filter:drop-shadow(0 0 5px rgba(79,184,166,0.55));
+  }
+  @keyframes run{ to{ stroke-dashoffset:-2950; } }
+
+  @media (max-width:820px){ .panel{height:320px;} }
+</style>
+</head>
+<body>
+
+<div class="intro">
+  <h1>Hero-Hintergrund – kombiniert</h1>
+  <p>Ursprüngliche atmende Fläche (diagonaler Verlauf, ~20s) + die laufende Kontur, jetzt langsamer (17s statt 11s).</p>
+</div>
+
+<div class="panel-wrap"><div class="panel"></div></div>
+
+<div style="height:30px;"></div>
+</body>
+</html>

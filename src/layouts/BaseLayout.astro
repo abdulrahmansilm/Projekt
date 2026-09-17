@@ -1,0 +1,184 @@
+---
+/**
+ * Basis-Layout für alle Seiten: Fonts (self-hosted), Meta/SEO, JSON-LD, Skip-Link, Ladescreen,
+ * Sticky-Header, mobiles Menü, Footer, Floating-CTA.
+ */
+import "@fontsource/space-grotesk/latin-500.css";
+import "@fontsource/space-grotesk/latin-600.css";
+import "@fontsource/space-grotesk/latin-700.css";
+import "@fontsource/outfit/latin-400.css";
+import "@fontsource/outfit/latin-500.css";
+import "@fontsource/outfit/latin-600.css";
+import "@fontsource/suse-mono/latin-400.css";
+import "@fontsource/suse-mono/latin-500.css";
+import "../styles/global.css";
+
+import Ladescreen from "../components/layout/Ladescreen.astro";
+import SiteNav from "../components/layout/SiteNav.astro";
+import MobileMenu from "../components/layout/MobileMenu.astro";
+import Footer from "../components/layout/Footer.astro";
+import MobileFloatingCTA from "../components/layout/MobileFloatingCTA.astro";
+import { SITE_URL, firma, KONTAKT_ANKER } from "../lib/config";
+import { organisationJsonLd } from "../lib/seo";
+
+interface Props {
+  title: string;
+  description: string;
+  pfad?: string;
+  ogTyp?: "website" | "article";
+  noindex?: boolean;
+  /** zusätzliche JSON-LD-Knoten für den @graph */
+  jsonLd?: Record<string, unknown>[];
+  /** Seite enthält den Anfrage-Wizard (#kontakt): Header-CTA springt dorthin statt zu /kontakt */
+  mitKontaktformular?: boolean;
+}
+
+const { title, description, ogTyp = "website", noindex = false, jsonLd = [], mitKontaktformular = false } = Astro.props;
+const kontaktHref = mitKontaktformular ? KONTAKT_ANKER : "/kontakt";
+const pfad = Astro.props.pfad ?? Astro.url.pathname;
+const canonical = new URL(pfad, SITE_URL).toString();
+const vollerTitel = title.includes(firma.name) ? title : `${title} | ${firma.name}`;
+const graph = {
+  "@context": "https://schema.org",
+  "@graph": [organisationJsonLd(), ...jsonLd],
+};
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>document.documentElement.classList.add("js");</script>
+    <title>{vollerTitel}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <meta name="theme-color" content="#0B2E3C" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content={ogTyp} />
+    <meta property="og:title" content={vollerTitel} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={firma.name} />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:image" content={`${SITE_URL}/logo/logo-social.png`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={vollerTitel} />
+    <meta name="twitter:description" content={description} />
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(graph)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Zum Inhalt springen</a>
+    <Ladescreen />
+
+    <div class="sticky-kopf" data-sticky-header inert aria-hidden="true">
+      <div class="sticky-kopf__inner">
+        <SiteNav variant="sticky" aktuellerPfad={pfad} kontaktHref={kontaktHref} />
+      </div>
+    </div>
+    <MobileMenu kontaktHref={kontaktHref} />
+
+    <!-- Kopfzeile liegt im DOM vor <main>, visuell auf dem dunklen Hero-Verlauf (Komponente 9) -->
+    <div class="seiten-kopf-wrap">
+      <header class="seiten-kopf">
+        <SiteNav variant="hero" aktuellerPfad={pfad} kontaktHref={kontaktHref} />
+      </header>
+    </div>
+
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+
+    <Footer />
+    <MobileFloatingCTA />
+
+    <script>
+      import { initNavigation } from "../lib/navigation";
+      import { initReveal } from "../lib/animations";
+      initNavigation();
+      initReveal();
+    </script>
+  </body>
+</html>
+
+<style>
+  main:focus {
+    outline: none;
+  }
+
+  /* Abstände synchron zu Hero.astro: 12px Außenrand, 32px oben / 48px seitlich Innenabstand */
+  .seiten-kopf-wrap {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    z-index: 50;
+  }
+
+  .seiten-kopf {
+    max-width: 1376px;
+    margin: 0 auto;
+    padding: 28px 48px 0;
+  }
+
+  @media (max-width: 760px) {
+    .seiten-kopf-wrap {
+      top: 8px;
+      left: 8px;
+      right: 8px;
+    }
+
+    .seiten-kopf {
+      padding: 16px 16px 0;
+    }
+  }
+
+  /* Sticky-Header: kompakter Header auf hellem Grund, 240ms ein / 180ms aus */
+  .sticky-kopf {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 1000;
+    background: rgba(240, 244, 243, 0.94);
+    backdrop-filter: saturate(1.4) blur(10px);
+    -webkit-backdrop-filter: saturate(1.4) blur(10px);
+    border-bottom: 1px solid rgba(11, 46, 60, 0.08);
+    box-shadow: 0 8px 24px -16px rgba(11, 46, 60, 0.35);
+    transform: translateY(-110%);
+    transition: transform 180ms var(--ease-out);
+  }
+
+  .sticky-kopf.is-visible {
+    transform: translateY(0);
+    transition-duration: 240ms;
+  }
+
+  /* Beim Runterscrollen vollständig ausblenden, bei leichtem Hochscrollen sofort wieder einblenden */
+  .sticky-kopf.is-visible.is-hidden-scroll {
+    transform: translateY(-110%);
+    transition-duration: 220ms;
+  }
+
+  .sticky-kopf__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 10px 32px;
+  }
+
+  @media (max-width: 600px) {
+    .sticky-kopf__inner {
+      padding: 8px 16px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sticky-kopf,
+    .sticky-kopf.is-visible {
+      transition: none;
+    }
+  }
+</style>

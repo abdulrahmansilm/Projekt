@@ -1,0 +1,265 @@
+---
+/**
+ * Footer (docs/DESIGNSYSTEM.md → Komponente 18, referenz/global/footer.html).
+ * Spalten spiegeln die Navbar-Kategorien. Block „Unternehmen“ an die finale Navbar angeglichen
+ * (Über uns, Wissen + Kontakt), Rechtslinks gemäß docs/ANFORDERUNGEN.md (Impressum, Datenschutz, Barrierefreiheit).
+ * Bewusst ohne Social-Media-Icons.
+ */
+import Logo from "../ui/Logo.astro";
+import { firma, navigation, leistungHref, rechtsLinks } from "../../lib/config";
+
+const it = navigation.find((k) => k.id === "it-infrastruktur")!;
+const ki = navigation.find((k) => k.id === "ki-kommunikation")!;
+const web = navigation.find((k) => k.id === "webseiten")!;
+const unternehmen = navigation.find((k) => k.id === "unternehmen")!;
+const jahr = new Date().getFullYear();
+---
+
+<footer class="fuss on-dark">
+  <div class="fuss__inner">
+    <div class="fuss__oben">
+      <div class="fuss__marke">
+        <a href="/" class="fuss__logo" aria-label="Selim-IT, zur Startseite">
+          <Logo variant="hell" class="fuss__logo-svg" />
+        </a>
+        <p class="fuss__claim">{firma.claim}</p>
+        <address class="fuss__kontakt">
+          {firma.adresse.strasse}<br />
+          <span class:list={{ platzhalter: firma.adresse.plz.platzhalter }}>{firma.adresse.plz.wert}</span>
+          {" "}{firma.adresse.stadt}<br />
+          <a href={firma.telefon.href}>
+            <span class:list={{ platzhalter: firma.telefon.platzhalter }}>{firma.telefon.anzeige}</span>
+          </a><br />
+          <a href={`mailto:${firma.email.adresse}`}>{firma.email.adresse}</a>
+        </address>
+      </div>
+
+      <nav class="fuss__spalte" aria-labelledby="fuss-it">
+        <h2 id="fuss-it" class="fuss__titel">{it.label}</h2>
+        <ul role="list">
+          {it.eintraege.map((e) => (
+            <li>
+              <a href={leistungHref(e.slug)}>{e.label}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <nav class="fuss__spalte" aria-labelledby="fuss-ki">
+        <h2 id="fuss-ki" class="fuss__titel">{ki.label}</h2>
+        <ul role="list">
+          {ki.eintraege
+            .filter((e) => !e.bald)
+            .map((e) => (
+              <li>
+                <a href={leistungHref(e.slug)}>{e.label}</a>
+              </li>
+            ))}
+          <li class="fuss__bald">
+            <span class="fuss__bald-tag">Bald verfügbar</span>
+            {ki.eintraege
+              .filter((e) => e.bald)
+              .map((e) => (
+                <span class="fuss__bald-name">{e.label}</span>
+              ))}
+          </li>
+        </ul>
+      </nav>
+
+      <div class="fuss__spalte">
+        <nav aria-labelledby="fuss-web">
+          <h2 id="fuss-web" class="fuss__titel">{web.label}</h2>
+          <ul role="list">
+            <li><a href={web.href}>{web.label}</a></li>
+          </ul>
+        </nav>
+        <nav aria-labelledby="fuss-unternehmen">
+          <h2 id="fuss-unternehmen" class="fuss__titel fuss__titel--abstand">{unternehmen.label}</h2>
+          <ul role="list">
+            {unternehmen.eintraege.map((e) => (
+              <li>
+                <a href={leistungHref(e.slug)}>{e.label}</a>
+              </li>
+            ))}
+            <li><a href="/kontakt">Kontakt</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <div class="fuss__unten">
+      <nav class="fuss__recht" aria-label="Rechtliches">
+        {rechtsLinks.map((l) => <a href={l.href}>{l.label}</a>)}
+      </nav>
+      <span class="fuss__copy">&copy; {jahr} {firma.name}</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .fuss {
+    padding: 72px 32px 0;
+    background: linear-gradient(150deg, #1b6e7a 0%, #0b2e3c 65%);
+    color: var(--on-dark);
+  }
+
+  .fuss__inner {
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+
+  .fuss__oben {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr 1fr 1fr;
+    gap: 48px;
+    padding-bottom: 88px;
+  }
+
+  .fuss__logo {
+    display: inline-flex;
+    margin-bottom: 20px;
+  }
+
+  .fuss__logo :global(.fuss__logo-svg) {
+    height: 34px;
+    width: auto;
+  }
+
+  .fuss__claim {
+    max-width: 300px;
+    margin-bottom: 22px;
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: rgba(240, 244, 243, 0.75);
+  }
+
+  .fuss__kontakt {
+    font-size: 14.5px;
+    font-style: normal;
+    line-height: 1.9;
+    color: rgba(240, 244, 243, 0.88);
+  }
+
+  .fuss a {
+    color: rgba(240, 244, 243, 0.82);
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .fuss a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+  }
+
+  .fuss__titel {
+    margin-bottom: 18px;
+    font-family: var(--font-headline);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--helltuerkis);
+  }
+
+  .fuss__titel--abstand {
+    margin-top: 26px;
+  }
+
+  .fuss__spalte ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .fuss__spalte li {
+    margin-bottom: 11px;
+    font-size: 14.5px;
+    line-height: 1.5;
+  }
+
+  .fuss__spalte li a {
+    display: inline-block;
+    padding-block: 2px;
+  }
+
+  .fuss__bald {
+    margin-top: 2px;
+  }
+
+  .fuss__bald-tag {
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(240, 244, 243, 0.14);
+    color: rgba(240, 244, 243, 0.8);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .fuss__bald-name {
+    display: block;
+    line-height: 1.7;
+    color: rgba(240, 244, 243, 0.6);
+  }
+
+  .fuss__unten {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-top: 24px;
+    padding: 44px 0 48px;
+    border-top: 1px solid rgba(240, 244, 243, 0.16);
+  }
+
+  .fuss__recht {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+  }
+
+  .fuss__recht a,
+  .fuss__copy {
+    font-size: 13.5px;
+    color: rgba(240, 244, 243, 0.72);
+  }
+
+  .fuss__recht a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  @media (max-width: 940px) {
+    .fuss__oben {
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .fuss {
+      padding: 56px 20px 96px;
+    }
+
+    .fuss__oben {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding-bottom: 48px;
+    }
+
+    .fuss__unten {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+      padding: 28px 0 8px;
+    }
+  }
+</style>

@@ -1,0 +1,71 @@
+---
+/**
+ * Erklärung zur Barrierefreiheit (docs/BARRIEREFREIHEIT.md → „Erklärung zur Barrierefreiheit“).
+ *
+ * HINWEIS – KEINE GEWÄHR, KEINE RECHTSBERATUNG: Unverbindliche Platzhalter-Vorlage.
+ * Vor Veröffentlichung von einer fachkundigen Person prüfen lassen. Bekannte Einschränkungen nach jeder
+ * Prüfung (axe/Lighthouse, Tastatur, Screenreader-Stichprobe) aktualisieren, ebenso das Prüfdatum.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/sections/Hero.astro";
+import Rechtstext from "../components/sections/Rechtstext.astro";
+import { firma } from "../lib/config";
+
+const pruefdatum = "16. September 2026";
+---
+
+<BaseLayout
+  title="Erklärung zur Barrierefreiheit"
+  description="Erklärung zur Barrierefreiheit von selim-it.de: Konformitätsstatus nach WCAG 2.2 AA, bekannte Einschränkungen und wie Sie uns Barrieren melden."
+  pfad="/barrierefreiheit"
+>
+  <Hero
+    kompakt
+    headline="Erklärung zur Barrierefreiheit"
+    subline="Wir möchten, dass alle Menschen diese Website ohne Hürden nutzen können."
+  />
+
+  <Rechtstext stand={pruefdatum}>
+    <h2>Geltungsbereich</h2>
+    <p>
+      Diese Erklärung gilt für die Website {firma.domain}. {firma.name} gestaltet diese Website im Sinne des
+      Barrierefreiheitsstärkungsgesetzes (BFSG) barrierefrei.
+    </p>
+
+    <h2>Stand der Vereinbarkeit</h2>
+    <p>
+      Die Website wurde nach den Web Content Accessibility Guidelines (WCAG) 2.2, Konformitätsstufe AA, entwickelt. Sie ist
+      nach unserer eigenen Prüfung weitgehend konform. Eine Prüfung durch eine externe Stelle hat bisher nicht
+      stattgefunden.
+    </p>
+    <p>Unter anderem umgesetzt:</p>
+    <ul>
+      <li>vollständige Bedienbarkeit per Tastatur mit sichtbarer Fokusmarkierung und Sprunglink zum Inhalt</li>
+      <li>klare Seitenstruktur mit Überschriften und Landmarken für Screenreader</li>
+      <li>Formulare mit sichtbaren Beschriftungen und verständlichen Fehlermeldungen</li>
+      <li>Rücksicht auf die Systemeinstellung „Bewegung reduzieren“: Animationen entfallen dann</li>
+      <li>laufende Bewegungen wie Logo-Leisten lassen sich anhalten</li>
+      <li>Textalternativen für informative Grafiken und ein Transkript zum Hörbeispiel</li>
+    </ul>
+
+    <h2>Bekannte Einschränkungen</h2>
+    <p>
+      Uns sind derzeit keine wesentlichen Barrieren bekannt. Sollten Ihnen dennoch Hürden begegnen, freuen wir uns über Ihre
+      Rückmeldung.
+    </p>
+
+    <h2>Barriere melden</h2>
+    <p>Wenn Sie auf eine Barriere stoßen oder Fragen zur Barrierefreiheit dieser Website haben, erreichen Sie uns so:</p>
+    <p class="rt__karte">
+      E-Mail: <a href={`mailto:${firma.email.adresse}`}>{firma.email.adresse}</a><br />
+      Telefon:{" "}
+      {firma.telefon.platzhalter ? <span class="platzhalter">[Telefonnummer folgt]</span> : <a href={firma.telefon.href}>{firma.telefon.anzeige}</a>}
+      <br />
+      Oder über unser <a href="/kontakt">Anfrageformular</a>.
+    </p>
+    <p>Wir melden uns so schnell wie möglich und suchen gemeinsam mit Ihnen nach einer Lösung.</p>
+
+    <h2>Erstellung dieser Erklärung</h2>
+    <p>Diese Erklärung wurde am {pruefdatum} erstellt und zuletzt geprüft.</p>
+  </Rechtstext>
+</BaseLayout>

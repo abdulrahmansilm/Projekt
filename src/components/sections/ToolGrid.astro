@@ -1,0 +1,169 @@
+---
+/**
+ * Tool-Grid 2×2 auf hellem Grund (docs/DESIGNSYSTEM.md → Komponente 22d, referenz/m365/tools.html).
+ * Hover: Karte hebt sich 4px, Icon-Kachel füllt sich mit dem Verlauf, Strich wird weiß.
+ */
+interface Props {
+  eyebrow?: string;
+  titel: string;
+  intro?: string;
+  karten: { icon: string; titel: string; text: string }[];
+}
+const { eyebrow, titel, intro, karten } = Astro.props;
+const id = `tg-${Math.random().toString(36).slice(2, 7)}`;
+---
+
+<section class="tg" aria-labelledby={`${id}-titel`}>
+  <div class="tg__inner">
+    <div class="tg__kopf" data-reveal>
+      {
+        eyebrow && (
+          <p class="eyebrow">
+            <span class="eyebrow__dot" aria-hidden="true" />
+            {eyebrow}
+          </p>
+        )
+      }
+      <h2 id={`${id}-titel`} class="h2">{titel}</h2>
+      {intro && <p class="lead">{intro}</p>}
+    </div>
+    <ul class="tg__grid" role="list" data-reveal-group>
+      {
+        karten.map((k) => (
+          <li class="tk" data-reveal>
+            <span class="tk__ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" set:html={k.icon} />
+            </span>
+            <h3>{k.titel}</h3>
+            <p>{k.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .tg {
+    padding: 92px 32px 96px;
+    background: var(--nebel);
+  }
+
+  .tg__inner {
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+
+  .tg__kopf {
+    max-width: 640px;
+    margin-bottom: 52px;
+  }
+
+  .tg__kopf .eyebrow {
+    margin-bottom: 14px;
+  }
+
+  .tg__kopf h2 {
+    margin-bottom: 14px;
+  }
+
+  .tg__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .tk {
+    padding: 28px 26px 30px;
+    border: 1.5px solid transparent;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 4px 16px rgba(11, 46, 60, 0.06);
+    transition:
+      transform 200ms var(--ease-out),
+      box-shadow 200ms ease,
+      border-color 200ms ease;
+  }
+
+  .tk__ico {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    background: rgba(79, 184, 166, 0.1);
+    transition:
+      background-color 200ms ease,
+      transform 200ms var(--ease-out);
+  }
+
+  .tk__ico svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .tk:hover {
+      transform: translateY(-4px);
+      border-color: rgba(79, 184, 166, 0.3);
+      box-shadow: 0 14px 32px rgba(11, 46, 60, 0.12);
+    }
+
+    .tk:hover .tk__ico {
+      background: var(--verlauf);
+      transform: scale(1.06);
+    }
+
+    .tk:hover .tk__ico :global(path),
+    .tk:hover .tk__ico :global(rect) {
+      stroke: #ffffff;
+    }
+  }
+
+  .tk h3 {
+    margin-bottom: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .tk p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-72);
+  }
+
+  @media (max-width: 560px) {
+    .tg {
+      padding: 64px 20px 72px;
+    }
+
+    .tg__kopf {
+      margin-bottom: 36px;
+    }
+
+    .tg__kopf h2 {
+      font-size: 27px;
+    }
+
+    .tg__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .tk {
+      padding: 24px 22px 26px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tk:hover,
+    .tk:hover .tk__ico {
+      transform: none;
+    }
+  }
+</style>

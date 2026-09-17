@@ -1,0 +1,150 @@
+---
+/**
+ * Hero-Visual Startseite (referenz/startseite/hero.html): großes Logo-Mark mit Glow,
+ * entlang der echten Pfad-Kanten läuft ein farbiges Kontur-Segment (10s Loop).
+ * prefers-reduced-motion: keine Animation, Logo statisch. Außerhalb des Viewports pausiert der Loop.
+ */
+import { MARKE_BOGEN, MARKE_PUNKT, MARKE_VIEWBOX } from "../../lib/brand";
+---
+
+<div class="sv" data-startseite-visual>
+  <div class="sv__glow"></div>
+  <svg viewBox={MARKE_VIEWBOX} xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="sv-dot-fill" x1="233.34" y1="80.93" x2="165.38" y2="12.97" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#1b6e7a"></stop>
+        <stop offset="1" stop-color="#4fb8a6"></stop>
+      </linearGradient>
+      <linearGradient id="sv-travel-u" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="0">
+        <stop offset="0%" stop-color="#4fb8a6" stop-opacity="0"></stop>
+        <stop offset="100%" stop-color="#7fd9c4" stop-opacity="1"></stop>
+      </linearGradient>
+      <linearGradient id="sv-travel-dot" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="0">
+        <stop offset="0%" stop-color="#4fb8a6" stop-opacity="0"></stop>
+        <stop offset="100%" stop-color="#7fd9c4" stop-opacity="1"></stop>
+      </linearGradient>
+    </defs>
+    <path class="sv__u" d={MARKE_BOGEN}></path>
+    <path class="sv__dot" d={MARKE_PUNKT}></path>
+    <path class="sv__kante" d={MARKE_BOGEN}></path>
+    <path class="sv__kante" d={MARKE_PUNKT}></path>
+    <path class="sv__lauf" data-lauf="u" style="stroke:url(#sv-travel-u)" d={MARKE_BOGEN}></path>
+    <path class="sv__lauf" data-lauf="dot" style="stroke:url(#sv-travel-dot)" d={MARKE_PUNKT}></path>
+  </svg>
+</div>
+
+<script>
+  import { bewegungErlaubt } from "../../lib/animations";
+
+  const root = document.querySelector<HTMLElement>("[data-startseite-visual]");
+  if (root && bewegungErlaubt()) {
+    type Lauf = { pfad: SVGPathElement; grad: SVGLinearGradientElement; ms: number; anteil: number; len: number; seg: number };
+    const laeufe: Lauf[] = [];
+    const u = root.querySelector<SVGPathElement>('[data-lauf="u"]');
+    const d = root.querySelector<SVGPathElement>('[data-lauf="dot"]');
+    const gu = root.querySelector<SVGLinearGradientElement>("#sv-travel-u");
+    const gd = root.querySelector<SVGLinearGradientElement>("#sv-travel-dot");
+    if (u && gu) laeufe.push({ pfad: u, grad: gu, ms: 10000, anteil: 0.14, len: 0, seg: 0 });
+    if (d && gd) laeufe.push({ pfad: d, grad: gd, ms: 10000, anteil: 0.22, len: 0, seg: 0 });
+
+    for (const l of laeufe) {
+      l.len = l.pfad.getTotalLength();
+      l.seg = l.len * l.anteil;
+      l.pfad.style.strokeDasharray = `${l.seg} ${l.len - l.seg}`;
+      l.pfad.style.opacity = "1";
+    }
+
+    let start: number | null = null;
+    let frame = 0;
+    let laeuft = false;
+
+    // Pro Frame wird der Verlauf exakt auf Schweif- und Kopfpunkt des sichtbaren Segments gesetzt
+    const schritt = (ts: number) => {
+      if (start === null) start = ts;
+      for (const l of laeufe) {
+        const dist = (((ts - start) % l.ms) / l.ms) * l.len;
+        l.pfad.style.strokeDashoffset = String(-dist);
+        const schweif = l.pfad.getPointAtLength(dist % l.len);
+        const kopf = l.pfad.getPointAtLength((dist + l.seg) % l.len);
+        l.grad.setAttribute("x1", String(schweif.x));
+        l.grad.setAttribute("y1", String(schweif.y));
+        l.grad.setAttribute("x2", String(kopf.x));
+        l.grad.setAttribute("y2", String(kopf.y));
+      }
+      frame = requestAnimationFrame(schritt);
+    };
+
+    const setzeLaufend = (an: boolean) => {
+      if (an === laeuft) return;
+      laeuft = an;
+      if (an) frame = requestAnimationFrame(schritt);
+      else cancelAnimationFrame(frame);
+    };
+
+    new IntersectionObserver(([e]) => setzeLaufend(e.isIntersecting)).observe(root);
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) setzeLaufend(false);
+    });
+  }
+</script>
+
+<style>
+  .sv {
+    position: relative;
+    width: 260px;
+    height: 340px;
+  }
+
+  .sv svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .sv__glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(79, 184, 166, 0.24) 0%, rgba(79, 184, 166, 0) 72%);
+    transform: translate(-50%, -50%);
+  }
+
+  .sv__u {
+    fill: #f5f8f7;
+  }
+
+  .sv__dot {
+    fill: url(#sv-dot-fill);
+  }
+
+  .sv__kante {
+    fill: none;
+    stroke: rgba(240, 244, 243, 0.28);
+    stroke-width: 3;
+  }
+
+  .sv__lauf {
+    fill: none;
+    stroke-width: 6;
+    stroke-linecap: round;
+    opacity: 0;
+    filter: drop-shadow(0 0 6px rgba(79, 184, 166, 0.6));
+  }
+
+  @media (max-width: 760px) {
+    .sv {
+      width: 200px;
+      height: 262px;
+    }
+
+    .sv__glow {
+      width: 240px;
+      height: 240px;
+    }
+  }
+</style>

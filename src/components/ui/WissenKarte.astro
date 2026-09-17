@@ -1,0 +1,133 @@
+---
+/** Artikel-Karte für Wissen-Teaser und Wissen-Übersicht (Komponenten 17 und 22). */
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  artikel: CollectionEntry<"wissen">;
+  ueberschrift?: "h2" | "h3";
+  medienHoehe?: number;
+}
+
+const { artikel, ueberschrift = "h3", medienHoehe = 150 } = Astro.props;
+const Titel = ueberschrift;
+const d = artikel.data;
+---
+
+<a class="wk" href={`/wissen/${artikel.id}`} style={`--medien-h:${medienHoehe}px`}>
+  <span class="wk__media" aria-hidden="true">
+    <img src={`/wissen/${artikel.id}.svg`} alt="" loading="lazy" width="500" height="500" />
+  </span>
+  <span class="wk__body">
+    <span class="wk__tag">{d.kategorie}</span>
+    <Titel class="wk__titel">{d.titel}</Titel>
+    <span class="wk__teaser">{d.teaser}</span>
+    <span class="wk__meta">{d.lesezeit} Min. Lesezeit</span>
+  </span>
+</a>
+
+<style>
+  .wk {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 16px;
+    background: #ffffff;
+    color: inherit;
+    text-decoration: none;
+    box-shadow: 0 3px 14px rgba(11, 46, 60, 0.05);
+    transition:
+      transform 250ms var(--ease-out),
+      box-shadow 250ms ease;
+  }
+
+  .wk:focus-visible {
+    outline: 2px solid var(--petrol);
+    outline-offset: 3px;
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px rgba(11, 46, 60, 0.11);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .wk:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 32px rgba(11, 46, 60, 0.11);
+    }
+  }
+
+  .wk:active {
+    transform: translateY(-2px) scale(0.99);
+  }
+
+  .wk__media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--medien-h);
+    flex: none;
+    overflow: hidden;
+    background: linear-gradient(150deg, #1b6e7a 0%, #0b2e3c 100%);
+  }
+
+  .wk__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .wk__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 24px 24px 26px;
+  }
+
+  .wk__tag {
+    align-self: flex-start;
+    margin-bottom: 16px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: rgba(79, 184, 166, 0.13);
+    color: var(--petrol);
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+
+  .wk__titel {
+    min-height: calc(17px * 1.35 * 2);
+    margin-bottom: 11px;
+    font-family: var(--font-headline);
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .wk__teaser {
+    flex: 1;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--ink-72);
+  }
+
+  .wk__meta {
+    margin-top: 18px;
+    font-size: 12.5px;
+    color: var(--ink-68);
+  }
+
+  @media (max-width: 600px) {
+    .wk__titel {
+      min-height: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wk,
+    .wk:hover,
+    .wk:focus-visible {
+      transform: none;
+      transition: box-shadow 200ms ease;
+    }
+  }
+</style>

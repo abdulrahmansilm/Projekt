@@ -1,0 +1,256 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Fortschrittsbalken from "../components/shared/Fortschrittsbalken.astro";
+import { Icon } from "astro-icon/components";
+import { kategorien, kategorienReihenfolge, firma } from "../lib/config";
+import { dringlichkeitOptionen, mitarbeiterOptionen, erlaubteDateiTypen, maxDateiGroesseBytes, maxDateiAnzahl } from "../lib/validation";
+
+const alleLeistungen = await getCollection("leistungen");
+const gruppen = kategorienReihenfolge.map((kat) => ({
+  label: kategorien[kat].label,
+  leistungen: alleLeistungen.filter((l) => l.data.kategorie === kat).sort((a, b) => a.data.reihenfolge - b.data.reihenfolge),
+}));
+---
+
+<BaseLayout
+  title="Kontakt | Selim-IT"
+  description="Kostenlose Erstberatung oder Anfrage senden: Wählen Sie eine Leistung, beschreiben Sie Ihr Anliegen, wir melden uns."
+  path="/kontakt"
+  noindex={false}
+>
+  <section class="px-4 pt-10 pb-6 text-center">
+    <h1 class="font-headline text-3xl font-medium tracking-tight md:text-4xl">Kontakt</h1>
+    <p class="text-bg-dark/68 mx-auto mt-3 max-w-xl text-base">
+      Wählen Sie Ihr Anliegen, wir melden uns oder Sie buchen direkt ein kostenloses Erstgespräch.
+    </p>
+  </section>
+
+  <div class="mb-10">
+    <Fortschrittsbalken />
+  </div>
+
+  <form id="kontakt-formular" novalidate class="mx-auto max-w-3xl px-4 pb-24">
+    <!-- Honeypot: für Menschen unsichtbar, für Bots eine normale Textfrage -->
+    <div aria-hidden="true" class="absolute -left-[9999px]" style="position:absolute; left:-9999px;">
+      <label for="website">Firmen-Website (bitte freilassen)</label>
+      <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+    </div>
+    <input type="hidden" id="formularGeladenUm" name="formularGeladenUm" />
+    <input type="hidden" id="leistungSlug" name="leistungSlug" />
+
+    <p id="formular-fehler" role="alert" class="mb-4 hidden rounded-none border border-red-700/40 bg-red-700/5 p-4 text-sm text-red-800"></p>
+
+    <!-- Schritt 1: Anliegen -->
+    <section data-schritt="1" class="formular-schritt">
+      <h2 class="font-headline text-xl font-medium">Wobei können wir helfen?</h2>
+      <p class="text-bg-dark/68 mt-1 text-sm">Wählen Sie die passende Leistung.</p>
+
+      <fieldset class="mt-6 space-y-6">
+        <legend class="sr-only">Leistung auswählen</legend>
+        {
+          gruppen.map((gruppe) => (
+            <div>
+              <p class="text-bg-dark/68 mb-3 text-xs font-medium uppercase tracking-wide">{gruppe.label}</p>
+              <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                {gruppe.leistungen.map((l) => (
+                  <label class="leistung-karte border-bg-dark/15 has-checked:border-accent-start has-checked:bg-accent-start/5 flex cursor-pointer items-center gap-3 border p-4 text-sm font-medium">
+                    <input type="radio" name="leistungSlugRadio" value={l.id} class="accent-accent-start size-4" />
+                    {l.data.titel}
+                  </label>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </fieldset>
+      <p id="fehler-schritt-1" class="mt-3 hidden text-sm text-red-700" role="alert"></p>
+    </section>
+
+    <!-- Schritt 2: Details -->
+    <section data-schritt="2" class="formular-schritt hidden">
+      <h2 class="font-headline text-xl font-medium">Details zu Ihrer Anfrage</h2>
+
+      <fieldset class="mt-6">
+        <legend class="text-sm font-medium">Dringlichkeit</legend>
+        <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-3">
+          {
+            dringlichkeitOptionen.map((opt) => (
+              <label class="dringlichkeit-karte border-bg-dark/15 has-checked:border-accent-start has-checked:bg-accent-start/5 flex cursor-pointer items-center gap-2 border p-3 text-sm">
+                <input type="radio" name="dringlichkeit" value={opt.value} class="accent-accent-start size-4" />
+                <span aria-hidden="true">{opt.icon}</span>
+                {opt.label}
+              </label>
+            ))
+          }
+        </div>
+      </fieldset>
+
+      <div class="mt-6">
+        <label for="kurzthema" class="text-sm font-medium">Worum geht es hauptsächlich?</label>
+        <input
+          type="text"
+          id="kurzthema"
+          name="kurzthema"
+          class="border-bg-dark/25 focus-visible:border-accent-start mt-2 w-full rounded-md border bg-white px-4 py-3 text-sm"
+          aria-describedby="fehler-kurzthema"
+          maxlength="120"
+        />
+        <p id="fehler-kurzthema" class="mt-1 hidden text-sm text-red-700" role="alert"></p>
+      </div>
+
+      <fieldset class="mt-6">
+        <legend class="text-sm font-medium">Anzahl Mitarbeiter / IT-Arbeitsplätze</legend>
+        <div class="mt-3 flex flex-wrap gap-3">
+          {
+            mitarbeiterOptionen.map((opt) => (
+              <label class="mitarbeiter-karte border-bg-dark/15 has-checked:border-accent-start has-checked:bg-accent-start/5 flex cursor-pointer items-center gap-2 border px-4 py-2 text-sm">
+                <input type="radio" name="mitarbeiterAnzahl" value={opt.value} class="accent-accent-start size-4" />
+                {opt.label}
+              </label>
+            ))
+          }
+        </div>
+      </fieldset>
+      <p id="fehler-schritt-2" class="mt-3 hidden text-sm text-red-700" role="alert"></p>
+    </section>
+
+    <!-- Schritt 3: Beschreibung -->
+    <section data-schritt="3" class="formular-schritt hidden">
+      <h2 class="font-headline text-xl font-medium">Anliegen beschreiben</h2>
+
+      <div class="mt-6">
+        <label for="beschreibung" class="text-sm font-medium">Ihre Nachricht</label>
+        <textarea
+          id="beschreibung"
+          name="beschreibung"
+          rows="6"
+          class="border-bg-dark/25 focus-visible:border-accent-start mt-2 w-full rounded-md border bg-white px-4 py-3 text-sm"
+          aria-describedby="fehler-beschreibung"
+        ></textarea>
+        <p id="fehler-beschreibung" class="mt-1 hidden text-sm text-red-700" role="alert"></p>
+      </div>
+
+      <div class="mt-6">
+        <label for="dateien" class="text-sm font-medium">Dateien anhängen (optional)</label>
+        <p class="text-bg-dark/68 mt-1 text-xs">
+          Maximal {maxDateiAnzahl} Dateien, je maximal {Math.round(maxDateiGroesseBytes / 1024 / 1024)} MB. Erlaubt: JPG, PNG, PDF.
+        </p>
+        <input
+          type="file"
+          id="dateien"
+          name="dateien"
+          multiple
+          accept={erlaubteDateiTypen.join(",")}
+          class="border-bg-dark/25 mt-2 w-full rounded-md border bg-white px-4 py-3 text-sm"
+          aria-describedby="fehler-dateien"
+        />
+        <p id="fehler-dateien" class="mt-1 hidden text-sm text-red-700" role="alert"></p>
+        <ul id="datei-liste" class="mt-3 space-y-2"></ul>
+      </div>
+    </section>
+
+    <!-- Schritt 4: Kontakt -->
+    <section data-schritt="4" class="formular-schritt hidden">
+      <h2 class="font-headline text-xl font-medium">Ihre Kontaktdaten</h2>
+
+      <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <div>
+          <label for="vorname" class="text-sm font-medium">Vorname</label>
+          <input type="text" id="vorname" name="vorname" autocomplete="given-name" class="border-bg-dark/25 focus-visible:border-accent-start mt-2 w-full rounded-md border bg-white px-4 py-3 text-sm" aria-describedby="fehler-vorname" />
+          <p id="fehler-vorname" class="mt-1 hidden text-sm text-red-700" role="alert"></p>
+        </div>
+        <div>
+          <label for="nachname" class="text-sm font-medium">Nachname</label>
+          <input type="text" id="nachname" name="nachname" autocomplete="family-name" class="border-bg-dark/25 focus-visible:border-accent-start mt-2 w-full rounded-md border bg-white px-4 py-3 text-sm" aria-describedby="fehler-nachname" />
+          <p id="fehler-nachname" class="mt-1 hidden text-sm text-red-700" role="alert"></p>
+        </div>
+        <div class="sm:col-span-2">
+          <label for="unternehmen" class="text-sm font-medium">Unternehmen</label>
+          <input type="text" id="unternehmen" name="unternehmen" autocomplete="organization" class="border-bg-dark/25 focus-visible:border-accent-start mt-2 w-full rounded-md border bg-white px-4 py-3 text-sm" aria-describedby="fehler-unternehmen" />
+          <p id="fehler-unternehmen" class="mt-1 hidden text-sm text-red-700" role="alert"></p>
+        </div>
+        <div>
+          <label for="email" class="text-sm font-medium">E-Mail</label>
+          <input type="email" id="email" name="email" autocomplete="email" class="border-bg-dark/25 focus-visible:border-accent-start mt-2 w-full rounded-md border bg-white px-4 py-3 text-sm" aria-describedby="fehler-email" />
+          <p id="fehler-email" class="mt-1 hidden text-sm text-red-700" role="alert"></p>
+        </div>
+        <div>
+          <label for="telefon" class="text-sm font-medium">Telefon (optional, empfohlen)</label>
+          <input type="tel" id="telefon" name="telefon" autocomplete="tel" class="border-bg-dark/25 focus-visible:border-accent-start mt-2 w-full rounded-md border bg-white px-4 py-3 text-sm" />
+        </div>
+      </div>
+
+      <p class="text-bg-dark/68 mt-6 text-xs leading-relaxed">
+        Mit dem Absenden speichern wir Ihre Angaben zur Bearbeitung Ihrer Anfrage. Details dazu in unserer
+        <a href="/datenschutz" class="text-accent-start underline">Datenschutzerklärung</a>.
+      </p>
+    </section>
+
+    <!-- Schritt 5: Abschluss -->
+    <section data-schritt="5" class="formular-schritt hidden">
+      <h2 class="font-headline text-xl font-medium">Wie möchten Sie fortfahren?</h2>
+
+      <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <button type="button" data-weg="anfrage_senden" class="weg-option border-bg-dark/15 aria-pressed:border-accent-start aria-pressed:bg-accent-start/5 flex flex-col items-start gap-2 border p-5 text-left" aria-pressed="false">
+          <Icon name="send" class="text-accent-start size-6" aria-hidden="true" />
+          <span class="font-headline text-base font-medium">Anfrage senden</span>
+          <span class="text-bg-dark/68 text-sm">Wir prüfen Ihr Anliegen und melden uns bei Ihnen.</span>
+        </button>
+        <button type="button" data-weg="termin_buchen" class="weg-option border-bg-dark/15 aria-pressed:border-accent-start aria-pressed:bg-accent-start/5 flex flex-col items-start gap-2 border p-5 text-left" aria-pressed="false">
+          <Icon name="calendar-check" class="text-accent-start size-6" aria-hidden="true" />
+          <span class="font-headline text-base font-medium">Kostenloses Erstgespräch buchen</span>
+          <span class="text-bg-dark/68 text-sm">30 Minuten, unverbindlich, per Video.</span>
+        </button>
+      </div>
+
+      <div id="termin-auswahl" class="mt-6 hidden">
+        <p class="text-sm font-medium">Verfügbare Termine</p>
+        <div id="termin-slots" class="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
+          <p class="text-bg-dark/68 col-span-full text-sm">Termine werden geladen…</p>
+        </div>
+        <p id="fehler-termin" class="mt-2 hidden text-sm text-red-700" role="alert"></p>
+      </div>
+
+      <div id="altcha-container" class="mt-6">
+        <altcha-widget challengeurl="/api/altcha-challenge" hidelogo hidefooter style="--altcha-max-width: 100%;"></altcha-widget>
+      </div>
+
+      <div id="zusammenfassung" class="border-bg-dark/15 bg-bg mt-8 hidden border p-5 text-sm">
+        <h3 class="font-headline text-base font-medium">Zusammenfassung</h3>
+        <dl class="mt-3 space-y-2">
+          <div class="flex justify-between gap-4"><dt class="text-bg-dark/68">Bereich</dt><dd id="zsf-bereich" class="text-right font-medium"></dd></div>
+          <div class="flex justify-between gap-4"><dt class="text-bg-dark/68">Unternehmensgröße</dt><dd id="zsf-groesse" class="text-right font-medium"></dd></div>
+          <div class="flex justify-between gap-4"><dt class="text-bg-dark/68">Anliegen</dt><dd id="zsf-anliegen" class="text-right font-medium"></dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <p id="formular-status" role="status" aria-live="polite" class="sr-only"></p>
+
+    <div class="mt-10 flex items-center justify-between gap-4">
+      <button type="button" id="btn-zurueck" class="text-accent-start hidden text-sm font-semibold">Zurück</button>
+      <div class="ml-auto flex gap-3">
+        <button type="button" id="btn-weiter" class="bg-gradient-brand inline-flex min-h-11 items-center justify-center rounded-full px-6 py-3 text-base font-semibold text-white">
+          Weiter
+        </button>
+        <button type="submit" id="btn-absenden" class="bg-gradient-brand hidden min-h-11 inline-flex items-center justify-center rounded-full px-6 py-3 text-base font-semibold text-white">
+          Anfrage senden
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <section id="formular-erfolg" class="hidden px-4 py-24 text-center" aria-labelledby="erfolg-heading">
+    <Icon name="check-circle" class="text-accent-start mx-auto size-12" aria-hidden="true" />
+    <h2 id="erfolg-heading" class="font-headline mt-4 text-2xl font-medium">Vielen Dank für Ihre Anfrage</h2>
+    <p id="erfolg-text" class="text-bg-dark/68 mx-auto mt-3 max-w-md">Wir prüfen Ihr Anliegen und melden uns bei Ihnen.</p>
+    <a href={firma.kontakt.telefonHref} class="text-accent-start mt-4 inline-block text-sm">Oder rufen Sie uns direkt an: {firma.kontakt.telefon}</a>
+  </section>
+
+  <script>
+    import "altcha";
+    import { initKontaktFormular } from "../lib/kontaktFormular";
+    initKontaktFormular();
+  </script>
+</BaseLayout>

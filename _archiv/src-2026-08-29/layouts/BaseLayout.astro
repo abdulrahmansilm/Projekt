@@ -1,0 +1,87 @@
+---
+import "../styles/global.css";
+import Header from "../components/layout/Header.astro";
+import Footer from "../components/layout/Footer.astro";
+import MobileFloatingCTA from "../components/shared/MobileFloatingCTA.astro";
+import RevealOnScroll from "../components/shared/RevealOnScroll.astro";
+import { firma } from "../lib/config";
+
+interface Props {
+  title: string;
+  description: string;
+  keywords?: string[];
+  path?: string;
+  ogImage?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  keywords = [],
+  path = Astro.url.pathname,
+  ogImage = "/logo/logo-social.png",
+  noindex = false,
+} = Astro.props;
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, "") ?? "https://selim-it.de";
+const canonicalURL = new URL(path, Astro.site ?? siteUrl);
+
+const localBusinessJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: firma.name,
+  image: `${siteUrl}${ogImage}`,
+  url: siteUrl,
+  telephone: firma.kontakt.telefon,
+  email: firma.kontakt.email,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: firma.adresse.strasse,
+    postalCode: firma.adresse.plz,
+    addressLocality: firma.adresse.stadt,
+    addressCountry: "DE",
+  },
+};
+---
+
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {keywords.length > 0 && <meta name="keywords" content={keywords.join(", ")} />}
+    {noindex && <meta name="robots" content="noindex,nofollow" />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={`${siteUrl}${ogImage}`} />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:site_name" content={firma.name} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(localBusinessJsonLd)} />
+
+    <slot name="head" />
+  </head>
+  <body class="bg-bg text-bg-dark">
+    <Header />
+    <main id="main" class="pb-24 md:pb-0">
+      <slot />
+    </main>
+    <Footer />
+    <MobileFloatingCTA />
+    <RevealOnScroll />
+  </body>
+</html>

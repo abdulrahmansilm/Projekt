@@ -1,0 +1,169 @@
+---
+/**
+ * Kostenvergleich-Tabelle (docs/DESIGNSYSTEM.md → Komponente 22f, referenz/ki-telefonassistent/kostenvergleich.html).
+ * CSS-Grid-Zeilen mit Tabellen-Rollen, damit Screenreader die Beziehung Kriterium/Spalte erhalten.
+ * Unter 640px bricht jede Zeile in eine Karte mit vorangestelltem Spaltennamen um.
+ */
+interface Props {
+  eyebrow?: string;
+  titel: string;
+  intro?: string;
+  spalten: [string, string];
+  kurzLabels: [string, string];
+  zeilen: { label: string; links: string; rechts: string }[];
+  fazit: string;
+}
+const { eyebrow, titel, intro, spalten, kurzLabels, zeilen, fazit } = Astro.props;
+---
+
+<section class="kv section-dark besondere-sektion" aria-labelledby="kv-titel">
+  <div class="kv__inner">
+    <div class="kv__kopf" data-reveal>
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h2 id="kv-titel" class="h2">{titel}</h2>
+      {intro && <p class="lead">{intro}</p>}
+    </div>
+
+    <div class="tabelle" role="table" aria-labelledby="kv-titel" data-reveal>
+      <div class="zeile zeile--kopf" role="row">
+        <span class="zelle label" role="columnheader"><span class="sr-only">Kriterium</span></span>
+        <span class="zelle wert" role="columnheader">{spalten[0]}</span>
+        <span class="zelle wert" role="columnheader">{spalten[1]}</span>
+      </div>
+      {
+        zeilen.map((z) => (
+          <div class="zeile" role="row">
+            <span class="zelle label" role="rowheader">
+              {z.label}
+            </span>
+            <span class="zelle wert" role="cell" data-k={kurzLabels[0]}>
+              {z.links}
+            </span>
+            <span class="zelle wert wert--ki" role="cell" data-k={kurzLabels[1]}>
+              {z.rechts}
+            </span>
+          </div>
+        ))
+      }
+    </div>
+
+    <p class="kv__fazit">{fazit}</p>
+  </div>
+</section>
+
+<style>
+  .kv {
+    --glow-pos: 22% 0%;
+    padding: 96px 32px 100px;
+  }
+
+  .kv__inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .kv__kopf {
+    max-width: 600px;
+    margin-bottom: 48px;
+  }
+
+  .kv__kopf .eyebrow {
+    margin-bottom: 14px;
+  }
+
+  .kv__kopf h2 {
+    margin-bottom: 14px;
+    color: #ffffff;
+  }
+
+  .tabelle {
+    border-top: 1px solid var(--line-dark);
+  }
+
+  .zeile {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr 1fr;
+    gap: 20px;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line-dark);
+  }
+
+  .zeile--kopf {
+    padding-bottom: 16px;
+  }
+
+  .zeile--kopf .wert {
+    font-family: var(--font-headline);
+    font-size: 14.5px;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  .label {
+    font-size: 14.5px;
+    color: rgba(240, 244, 243, 0.72);
+  }
+
+  .wert {
+    font-size: 15px;
+    color: rgba(240, 244, 243, 0.92);
+  }
+
+  .wert--ki {
+    font-family: var(--font-headline);
+    font-weight: 600;
+    color: var(--helltuerkis);
+  }
+
+  .kv__fazit {
+    max-width: 620px;
+    margin-top: 32px;
+    font-size: 15px;
+    line-height: 1.65;
+    color: rgba(240, 244, 243, 0.75);
+  }
+
+  @media (max-width: 640px) {
+    .zeile {
+      grid-template-columns: 1fr;
+      gap: 4px;
+      padding: 18px 0;
+    }
+
+    .zeile--kopf {
+      display: none;
+    }
+
+    .label {
+      margin-bottom: 6px;
+      font-family: var(--font-headline);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: rgba(240, 244, 243, 0.62);
+    }
+
+    .wert::before {
+      content: attr(data-k) ": ";
+      font-family: var(--font-body);
+      font-weight: 400;
+      color: rgba(240, 244, 243, 0.62);
+    }
+
+    .wert--ki::before {
+      color: rgba(127, 217, 196, 0.8);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .kv {
+      padding: 64px 20px 72px;
+    }
+
+    .kv__kopf h2 {
+      font-size: 27px;
+    }
+  }
+</style>

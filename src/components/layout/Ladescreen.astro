@@ -1,0 +1,156 @@
+---
+/**
+ * Seitenweiter Ladescreen (docs/DESIGNSYSTEM.md → Komponente 24, referenz/global/ladescreen.html).
+ * Einsatz 1: initialer (harter) Seitenaufruf. Einsatz 2: Übergang beim Wechsel zwischen Unterseiten.
+ *
+ * Choreografie (emil-design-eng):
+ * - Nur opacity wird animiert (kein Layout, GPU-freundlich).
+ * - Ausblenden: 320ms ease-out, sobald die Seite geladen ist, frühestens 450ms nach Navigationsstart,
+ *   damit der Punkt nicht nur „aufblitzt“. Fallback nach 3s, falls load nie feuert.
+ * - Seitenwechsel: Einblenden 180ms ease-out (System reagiert schnell), erst danach wird navigiert.
+ * - Ohne JavaScript ist der Ladescreen ausgeblendet (<noscript>), bfcache-Rückkehr blendet sofort aus.
+ * - prefers-reduced-motion: Punkt-Animation entfällt, der Opacity-Übergang bleibt (keine Bewegung).
+ */
+import { WORTMARKE_PFADE as P } from "../../lib/brand";
+---
+
+<div id="ladescreen" class="ladescreen" aria-hidden="true">
+  <div class="ladescreen__logo">
+    <svg viewBox="0 -25 652.94 243.71" xmlns="http://www.w3.org/2000/svg" focusable="false">
+      <defs>
+        <linearGradient id="ladescreen-dot" x1="382.03" y1="33.05" x2="355.69" y2="6.72" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#1b6e7a"></stop>
+          <stop offset="1" stop-color="#4fb8a6"></stop>
+        </linearGradient>
+      </defs>
+      <path fill="#fff" d={P.s}></path>
+      <path fill="#fff" d={P.e}></path>
+      <path fill="#fff" d={P.lim}></path>
+      <g class="ladescreen__dot-wrap">
+        <path class="ladescreen__dot" fill="url(#ladescreen-dot)" d={P.punkt}></path>
+      </g>
+      <path fill="#fff" d={P.i}></path>
+      <path fill="#fff" d={P.t}></path>
+    </svg>
+  </div>
+</div>
+<noscript><style is:inline>#ladescreen{display:none!important}</style></noscript>
+
+<script is:inline>
+  (function () {
+    var el = document.getElementById("ladescreen");
+    if (!el) return;
+    var MIN_SICHTBAR = 450;
+    var AUS = "is-hidden";
+
+    function ausblenden() {
+      var warten = Math.max(0, MIN_SICHTBAR - performance.now());
+      window.setTimeout(function () {
+        el.classList.remove("is-entering");
+        el.classList.add(AUS);
+      }, warten);
+    }
+
+    if (document.readyState === "complete") ausblenden();
+    else window.addEventListener("load", ausblenden, { once: true });
+    window.setTimeout(function () { el.classList.add(AUS); }, 3000);
+
+    // Rückkehr aus dem Back-Forward-Cache: Ladescreen darf nicht stehen bleiben
+    window.addEventListener("pageshow", function (e) {
+      if (e.persisted) {
+        el.classList.remove("is-entering");
+        el.classList.add(AUS);
+      }
+    });
+
+    // Seitenübergang zwischen Unterseiten
+    document.addEventListener("click", function (e) {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var a = e.target instanceof Element ? e.target.closest("a[href]") : null;
+      if (!a || a.hasAttribute("download") || a.dataset.noTransition !== undefined) return;
+      if (a.target && a.target !== "_self") return;
+      var url;
+      try { url = new URL(a.href, location.href); } catch (_) { return; }
+      if (url.origin !== location.origin) return;
+      if (url.pathname === location.pathname && url.search === location.search) return;
+      if (/\.(pdf|xml|txt|png|jpe?g|svg|webp|zip|mp3)$/i.test(url.pathname)) return;
+
+      e.preventDefault();
+      el.classList.remove(AUS);
+      el.classList.add("is-entering");
+      var dauer = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 120 : 180;
+      window.setTimeout(function () { location.href = url.href; }, dauer);
+    });
+  })();
+</script>
+
+<style>
+  .ladescreen {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0b2e3c;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Ausblenden: etwas länger, sanft; visibility erst nach dem Fade entziehen */
+  .ladescreen.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity 320ms var(--ease-out),
+      visibility 0s linear 320ms;
+  }
+
+  /* Einblenden beim Seitenwechsel: schnell, System reagiert sofort */
+  .ladescreen.is-entering {
+    transition: opacity 180ms var(--ease-out);
+  }
+
+  .ladescreen__logo {
+    position: relative;
+    width: min(320px, 70vw);
+  }
+
+  .ladescreen__logo svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .ladescreen__dot-wrap,
+  .ladescreen__dot {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  /* Dauerschleife (ausdrücklich von der 300ms-Regel ausgenommen, ruhige 1.8s-Periode) */
+  .ladescreen__dot {
+    animation: ladescreen-dot 1.8s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+  }
+
+  .ladescreen.is-hidden .ladescreen__dot {
+    animation-play-state: paused;
+  }
+
+  @keyframes ladescreen-dot {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-100px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ladescreen__dot {
+      animation: none;
+    }
+  }
+</style>

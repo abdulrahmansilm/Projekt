@@ -1,0 +1,32 @@
+---
+import type { CollectionEntry } from "astro:content";
+import FaqAccordion from "../shared/FaqAccordion.astro";
+
+interface Props {
+  eintraege: CollectionEntry<"faq">[];
+  titel?: string;
+  id?: string;
+  headingLevel?: "h2" | "h3";
+}
+
+const { eintraege, titel = "Häufige Fragen", id = "faq", headingLevel = "h2" } = Astro.props;
+const HeadingTag = headingLevel;
+---
+
+{
+  eintraege.length > 0 && (
+    <section aria-labelledby={`${id}-heading`} class="py-16 md:py-20">
+      <div class="mx-auto max-w-3xl px-4">
+        <span class="bg-accent-start/10 text-bg-dark reveal mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1 text-xs font-medium uppercase tracking-wide">
+          <span aria-hidden="true" class="bg-accent-start size-1.5 rounded-full" />— FAQ
+        </span>
+        <HeadingTag id={`${id}-heading`} class="reveal font-headline text-3xl font-medium tracking-tight md:text-4xl">
+          {titel}
+        </HeadingTag>
+        <div class="mt-10">
+          <FaqAccordion eintraege={eintraege} id={id} />
+        </div>
+      </div>
+    </section>
+  )
+}

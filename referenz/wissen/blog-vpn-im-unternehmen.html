@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VPN im Unternehmen: Wann es nötig ist und welche Alternativen es gibt | Selim-IT</title>
+<meta name="description" content="Ein VPN ist nötig, wenn Mitarbeitende von außerhalb auf Server, Netzlaufwerke oder Geräte im Firmennetz zugreifen müssen. Wer ausschließlich mit Cloud-Diensten arbeitet, braucht in der Regel keins.">
+<link rel="canonical" href="https://selim-it.de/wissen/vpn-im-unternehmen">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VPN im Betrieb: Wann Sie einen brauchen und wann nicht">
+<meta property="og:description" content="Ein VPN ist nötig, wenn Mitarbeitende von außerhalb auf Server, Netzlaufwerke oder Geräte im Firmennetz zugreifen müssen. Wer ausschließlich mit Cloud-Diensten arbeitet, braucht in der Regel keins.">
+<meta property="og:url" content="https://selim-it.de/wissen/vpn-im-unternehmen">
+<meta property="og:site_name" content="Selim-IT">
+<meta property="og:locale" content="de_DE">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": "https://selim-it.de/wissen/vpn-im-unternehmen#article",
+      "headline": "VPN im Betrieb: Wann Sie einen brauchen und wann nicht",
+      "description": "Ein VPN ist nötig, wenn Mitarbeitende von außerhalb auf Server, Netzlaufwerke oder Geräte im Firmennetz zugreifen müssen. Wer ausschließlich mit Cloud-Diensten arbeitet, braucht in der Regel keins.",
+      "datePublished": "2026-09-08",
+      "dateModified": "2026-09-08",
+      "inLanguage": "de-DE",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://selim-it.de/wissen/vpn-im-unternehmen"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "Selim-IT",
+        "url": "https://selim-it.de"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Selim-IT",
+        "url": "https://selim-it.de"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://selim-it.de/wissen/vpn-im-unternehmen#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Braucht mein Unternehmen ein VPN?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ein VPN ist nötig, wenn Mitarbeitende von außerhalb auf Server, Netzlaufwerke oder andere Ressourcen im Firmennetzwerk zugreifen müssen. Wer ausschließlich mit Cloud-Diensten wie Microsoft 365 arbeitet, braucht in der Regel kein VPN."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Macht ein VPN das Homeoffice sicher?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nur teilweise. Ein VPN verschlüsselt die Verbindung, macht aber ein infiziertes oder ungepflegtes Gerät nicht sicher. Es verbindet dieses Gerät sogar direkt mit dem Firmennetz. Voraussetzung sind deshalb verwaltete Geräte mit Verschlüsselung, aktuellen Updates und Endpoint-Schutz."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Was ist der Unterschied zwischen VPN und Zero Trust?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ein klassisches VPN gibt Zugriff auf das gesamte Netzwerk. Zero Trust Network Access gibt Zugriff nur auf einzelne Anwendungen und prüft bei jedem Zugriff Nutzer, Gerät und Gerätezustand. Das reduziert die Angriffsfläche erheblich."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Reicht Benutzername und Passwort für den VPN-Zugang?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nein. Für VPN-Zugänge sollte grundsätzlich Multi-Faktor-Authentifizierung aktiviert sein. Ein VPN, das sich allein mit Benutzername und Passwort öffnen lässt, ist bei gestohlenen Zugangsdaten wirkungslos."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  :root{
+    --bg:#F1F3F0;
+    --ink:#05231F;
+    --dark:#0B2E3C;
+    --grad-start:#4FB8A6;
+    --grad-end:#1B6E7A;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ background:var(--bg); font-family:'Outfit',sans-serif; color:var(--ink); -webkit-font-smoothing:antialiased; }
+
+  .article-hero{
+    background:linear-gradient(150deg, #1B6E7A 0%, #0B2E3C 100%);
+    padding:88px 32px 72px;
+  }
+  .hero-inner{ max-width:760px; margin:0 auto; }
+  .breadcrumb{ font-size:13.5px; color:rgba(240,244,243,0.6); margin-bottom:22px; }
+  .breadcrumb a{ color:rgba(240,244,243,0.75); text-decoration:none; }
+  .breadcrumb a:hover{ color:#FFFFFF; }
+  .tag{
+    display:inline-block;
+    font-size:12px;
+    font-weight:500;
+    letter-spacing:0.02em;
+    color:#7FD9C4;
+    background:rgba(79,184,166,0.16);
+    border-radius:999px;
+    padding:5px 13px;
+    margin-bottom:20px;
+  }
+  h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;
+    font-size:clamp(28px,4.2vw,42px);
+    line-height:1.2;
+    letter-spacing:-0.015em;
+    color:#FFFFFF;
+    margin-bottom:20px;
+  }
+  .standfirst{ font-size:18px; line-height:1.6; color:rgba(240,244,243,0.88); }
+  .hero-meta{ margin-top:28px; font-size:13.5px; color:rgba(240,244,243,0.55); }
+
+  .article{ max-width:760px; margin:0 auto; padding:64px 32px 88px; }
+  .article p{ font-size:17px; line-height:1.75; margin-bottom:22px; }
+  .article h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;
+    font-size:27px;
+    line-height:1.28;
+    letter-spacing:-0.01em;
+    margin:48px 0 18px;
+  }
+  .article h3{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;
+    font-size:20px;
+    line-height:1.32;
+    margin:34px 0 14px;
+  }
+  .article ul, .article ol{ margin:0 0 24px 22px; }
+  .article li{ font-size:17px; line-height:1.7; margin-bottom:10px; }
+  .article strong{ font-weight:600; }
+  .article a{ color:var(--grad-end); text-decoration:underline; text-underline-offset:3px; }
+
+  .keypoint{
+    background:#FFFFFF;
+    border-left:3px solid var(--grad-start);
+    border-radius:0 12px 12px 0;
+    padding:22px 26px;
+    margin:32px 0;
+  }
+  .keypoint p{ margin:0; font-size:16.5px; }
+  .keypoint p + p{ margin-top:14px; }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:28px 0;
+    font-size:15.5px;
+    background:#FFFFFF;
+    border-radius:12px;
+    overflow:hidden;
+  }
+  th{
+    text-align:left;
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;
+    font-size:14.5px;
+    background:rgba(27,110,122,0.08);
+    padding:14px 18px;
+  }
+  td{ padding:14px 18px; border-top:1px solid rgba(11,46,60,0.08); line-height:1.55; }
+
+  .faq-block{ margin-top:52px; }
+  .faq-block h2{ margin-bottom:8px; }
+  .faq-q{
+    background:#FFFFFF;
+    border-radius:14px;
+    padding:22px 24px;
+    margin-bottom:12px;
+    box-shadow:0 3px 12px rgba(11,46,60,0.05);
+  }
+  .faq-q h3{ margin:0 0 10px; font-size:17px; }
+  .faq-q p{ margin:0; font-size:15.5px; line-height:1.65; opacity:0.85; }
+
+  .cta{
+    background:linear-gradient(135deg, var(--grad-start), var(--grad-end));
+    border-radius:16px;
+    padding:34px 34px 36px;
+    margin-top:56px;
+    color:#FFFFFF;
+  }
+  .cta h2{ margin:0 0 12px; font-size:22px; color:#FFFFFF; }
+  .cta p{ margin:0 0 22px; font-size:16px; line-height:1.65; color:rgba(255,255,255,0.92); }
+  .cta a{
+    display:inline-block;
+    background:#FFFFFF;
+    color:var(--grad-end);
+    font-family:'Outfit',sans-serif;
+    font-weight:600;
+    font-size:15.5px;
+    text-decoration:none;
+    padding:13px 28px;
+    border-radius:999px;
+  }
+
+  @media (max-width:600px){
+    .article-hero{ padding:56px 20px 48px; }
+    .article{ padding:44px 20px 64px; }
+    .article p, .article li{ font-size:16px; }
+    .article h2{ font-size:23px; margin:38px 0 14px; }
+    .standfirst{ font-size:16.5px; }
+    table{ font-size:14px; }
+    th, td{ padding:11px 13px; }
+  }
+</style>
+</head>
+<body>
+
+<article>
+  <header class="article-hero">
+    <div class="hero-inner">
+      <nav class="breadcrumb"><a href="/">Startseite</a> &rsaquo; <a href="/wissen">Wissen</a> &rsaquo; Homeoffice</nav>
+      <span class="tag">Homeoffice</span>
+      <h1>VPN im Betrieb: Wann Sie einen brauchen und wann nicht</h1>
+      <p class="standfirst">VPN gilt vielen als Standardantwort auf jede Frage zum Homeoffice. Tatsächlich lösen sie ein sehr konkretes Problem — und wenn Sie dieses Problem nicht haben, schaffen sie eher neue.</p>
+      <p class="hero-meta">6 Min. Lesezeit &middot; Zuletzt aktualisiert: 8. September 2026</p>
+    </div>
+  </header>
+
+  <div class="article">
+    <p>Ein VPN brauchen Sie, wenn Mitarbeitende von außerhalb auf Ressourcen zugreifen müssen, die im Firmennetzwerk liegen: einen Server, Netzlaufwerke, eine Warenwirtschaft mit lokaler Datenbank, Maschinensteuerungen oder Netzwerkdrucker. Das VPN baut dafür einen verschlüsselten Tunnel auf, durch den das entfernte Gerät so arbeitet, als stünde es im Büro.</p>
+
+    <p>Wenn Ihr Betrieb ausschließlich mit Cloud-Diensten arbeitet — Microsoft 365, webbasierte Fachanwendungen, Cloud-Ablagen — brauchen Sie in der Regel kein VPN. Diese Dienste sind bereits verschlüsselt erreichbar und sichern den Zugang über Anmeldung und Multi-Faktor-Authentifizierung.</p>
+
+    <h2>Was ein VPN leistet</h2>
+
+    <p>Drei Dinge, sauber getrennt:</p>
+
+    <ul>
+      <li><strong>Verschlüsselung der Verbindung</strong> zwischen Gerät und Firmennetz, sodass die Daten unterwegs nicht mitgelesen werden können.</li>
+      <li><strong>Zugang zu internen Ressourcen,</strong> die aus dem Internet bewusst nicht erreichbar sind.</li>
+      <li><strong>Eine Firmen-IP-Adresse</strong> für das entfernte Gerät, was für manche Fachanwendungen mit IP-Beschränkung relevant ist.</li>
+    </ul>
+
+    <h2>Was ein VPN ausdrücklich nicht leistet</h2>
+
+    <p>Hier entstehen die meisten Missverständnisse:</p>
+
+    <p><strong>Ein VPN macht ein infiziertes Gerät nicht sauber.</strong> Im Gegenteil — es verbindet ein möglicherweise kompromittiertes Notebook direkt mit dem Firmennetz. Ohne Endpoint-Schutz und Geräteverwaltung wird das VPN dann zur Einladung.</p>
+
+    <p><strong>Ein VPN ersetzt keine Zugriffsrechte.</strong> Wer im Tunnel ist, ist im Netz. Ob er auf die Personalordner zugreifen darf, entscheidet die Rechtevergabe — nicht das VPN.</p>
+
+    <p><strong>Ein VPN schützt keine Cloud-Dienste.</strong> Microsoft 365 wird nicht sicherer, weil der Zugriff durch einen Tunnel läuft. Dort schützen Multi-Faktor-Authentifizierung und bedingter Zugriff.</p>
+
+    <div class="keypoint">
+      <p><strong>Die wichtigste Regel:</strong> Ein VPN ist nur so sicher wie das Gerät an seinem Ende. Ein privates Notebook ohne Verschlüsselung, ohne aktuelle Updates und mit installierter Software unbekannter Herkunft gehört nicht in einen Tunnel ins Firmennetz.</p>
+    </div>
+
+    <h2>Die drei üblichen Varianten</h2>
+
+    <table>
+      <tr><th>Variante</th><th>Wofür</th><th>Anmerkung</th></tr>
+      <tr><td>Client-to-Site</td><td>Einzelne Mitarbeitende von unterwegs oder aus dem Homeoffice</td><td>Der Standardfall; Software auf jedem Gerät</td></tr>
+      <tr><td>Site-to-Site</td><td>Dauerhafte Verbindung zwischen zwei Standorten</td><td>Läuft auf den Routern, nicht auf den Geräten</td></tr>
+      <tr><td>Zero Trust / ZTNA</td><td>Zugriff auf einzelne Anwendungen statt aufs ganze Netz</td><td>Der modernere Ansatz, siehe unten</td></tr>
+    </table>
+
+    <h2>Die Alternative: Zugriff auf Anwendungen statt aufs Netzwerk</h2>
+
+    <p>Der konzeptionelle Nachteil klassischer VPN: Wer drin ist, ist im ganzen Netz. Ein übernommenes Konto oder ein infiziertes Gerät hat damit denselben Bewegungsspielraum wie ein Rechner im Büro.</p>
+
+    <p>Neuere Ansätze — häufig als Zero Trust Network Access bezeichnet — drehen das um: Nicht das Netzwerk wird freigegeben, sondern einzelne Anwendungen. Geprüft wird bei jedem Zugriff, wer zugreift, mit welchem Gerät und in welchem Zustand dieses Gerät ist. Ein nicht verwaltetes Privatgerät bekommt dann eben keinen Zugang zur Buchhaltung, auch wenn Benutzername und Passwort stimmen.</p>
+
+    <p>Für Betriebe mit wenigen internen Anwendungen ist das oft die sinnvollere Lösung — weniger Angriffsfläche und für die Nutzer meist bequemer, weil kein Tunnel manuell aufgebaut werden muss.</p>
+
+    <h2>Wenn Sie ein VPN einrichten: worauf es ankommt</h2>
+
+    <ol>
+      <li><strong>Multi-Faktor-Authentifizierung</strong> für den VPN-Zugang. Ein VPN, das mit Benutzername und Passwort allein aufgeht, ist ein offenes Tor mit Vorhang.</li>
+      <li><strong>Nur verwaltete Geräte zulassen.</strong> Firmengeräte mit Verschlüsselung, aktuellem Betriebssystem und Endpoint-Schutz — keine privaten Rechner.</li>
+      <li><strong>Split Tunneling bewusst entscheiden.</strong> Soll der gesamte Internetverkehr durch die Firma laufen oder nur der Zugriff auf interne Ressourcen? Ersteres bringt mehr Kontrolle, kostet aber Bandbreite und Geschwindigkeit.</li>
+      <li><strong>Zugänge regelmäßig aufräumen.</strong> Ausgeschiedene Mitarbeitende und alte Testzugänge gehören sofort deaktiviert. In der Praxis ist genau das die häufigste Lücke.</li>
+      <li><strong>Protokollierung aktivieren.</strong> Wer war wann verbunden? Im Ernstfall die entscheidende Frage.</li>
+    </ol>
+
+    <h2>Die Entscheidungshilfe in vier Fragen</h2>
+
+    <p>Beantworten Sie diese vier Fragen, und die Antwort ergibt sich meist von selbst:</p>
+
+    <ol>
+      <li>Gibt es Anwendungen oder Daten, die ausschließlich auf einem Server im Haus liegen?</li>
+      <li>Müssen Mitarbeitende von außerhalb darauf zugreifen?</li>
+      <li>Sind die Geräte, mit denen zugegriffen wird, Firmengeräte unter Ihrer Verwaltung?</li>
+      <li>Gibt es mehr als eine Handvoll interner Anwendungen?</li>
+    </ol>
+
+    <p>Zweimal Ja bei den ersten beiden Fragen: Sie brauchen einen gesicherten Fernzugriff. Ein Nein bei Frage drei sollte zuerst gelöst werden — Geräteverwaltung vor Fernzugriff. Ein Nein bei Frage vier spricht dafür, statt eines klassischen VPN einen anwendungsbezogenen Zugriff zu prüfen.</p>
+
+    <section class="faq-block">
+      <h2>Häufige Fragen</h2>
+      <div class="faq-q">
+        <h3>Braucht mein Unternehmen ein VPN?</h3>
+        <p>Ein VPN ist nötig, wenn Mitarbeitende von außerhalb auf Server, Netzlaufwerke oder andere Ressourcen im Firmennetzwerk zugreifen müssen. Wer ausschließlich mit Cloud-Diensten wie Microsoft 365 arbeitet, braucht in der Regel kein VPN.</p>
+      </div>
+      <div class="faq-q">
+        <h3>Macht ein VPN das Homeoffice sicher?</h3>
+        <p>Nur teilweise. Ein VPN verschlüsselt die Verbindung, macht aber ein infiziertes oder ungepflegtes Gerät nicht sicher. Es verbindet dieses Gerät sogar direkt mit dem Firmennetz. Voraussetzung sind deshalb verwaltete Geräte mit Verschlüsselung, aktuellen Updates und Endpoint-Schutz.</p>
+      </div>
+      <div class="faq-q">
+        <h3>Was ist der Unterschied zwischen VPN und Zero Trust?</h3>
+        <p>Ein klassisches VPN gibt Zugriff auf das gesamte Netzwerk. Zero Trust Network Access gibt Zugriff nur auf einzelne Anwendungen und prüft bei jedem Zugriff Nutzer, Gerät und Gerätezustand. Das reduziert die Angriffsfläche erheblich.</p>
+      </div>
+      <div class="faq-q">
+        <h3>Reicht Benutzername und Passwort für den VPN-Zugang?</h3>
+        <p>Nein. Für VPN-Zugänge sollte grundsätzlich Multi-Faktor-Authentifizierung aktiviert sein. Ein VPN, das sich allein mit Benutzername und Passwort öffnen lässt, ist bei gestohlenen Zugangsdaten wirkungslos.</p>
+      </div>
+    </section>
+
+
+    <div class="cta">
+      <h2>Fernzugriff sicher einrichten</h2>
+      <p>Wir prüfen, ob ein VPN für Ihren Betrieb der richtige Weg ist oder ob eine anwendungsbezogene Lösung besser passt — und richten es ein.</p>
+      <a href="/kontakt">Kostenlos beraten lassen</a>
+    </div>
+  </div>
+</article>
+
+</body>
+</html>

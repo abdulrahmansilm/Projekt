@@ -1,0 +1,43 @@
+---
+/**
+ * Statisches Hero-Bild (docs/Anforderungen 17.09.2026): ersetzt die bisherigen selbstgebauten
+ * Dashboard-/Toast-Visuals auf allen Leistungsseiten außer KI-Telefonassistent (bleibt interaktiv).
+ * Bilder liegen unter public/hero/<slug>.svg (Quelle: referenz/Hero Images).
+ */
+interface Props {
+  slug: string;
+  alt?: string;
+}
+const { slug, alt = "" } = Astro.props;
+---
+
+<div class="hb">
+  <img src={`/hero/${slug}.svg`} alt={alt} width="500" height="500" loading="eager" decoding="async" />
+</div>
+
+<style>
+  .hb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .hb img {
+    width: 100%;
+    max-width: 480px;
+    height: auto;
+  }
+
+  @media (max-width: 760px) {
+    .hb img {
+      max-width: 320px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hb img {
+      animation: none !important;
+    }
+  }
+</style>

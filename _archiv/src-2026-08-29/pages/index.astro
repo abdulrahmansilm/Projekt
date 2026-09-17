@@ -1,0 +1,31 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/sections/Hero.astro";
+import TrustBar from "../components/sections/TrustBar.astro";
+import Leistungsuebersicht from "../components/sections/Leistungsuebersicht.astro";
+import AblaufGrafik from "../components/sections/AblaufGrafik.astro";
+import WarumSelimIT from "../components/sections/WarumSelimIT.astro";
+import FaqSection from "../components/sections/FaqSection.astro";
+import WissenTeaser from "../components/sections/WissenTeaser.astro";
+import CtaBanner from "../components/sections/CtaBanner.astro";
+
+const faqEintraege = (await getCollection("faq"))
+  .filter((f) => f.data.bereich === "startseite")
+  .sort((a, b) => a.data.reihenfolge - b.data.reihenfolge);
+---
+
+<BaseLayout
+  title="Selim-IT – IT-Betreuung, Cloud & KI-Assistenten in Frankfurt am Main"
+  description="IT-Betreuung, Managed Server, Cloud & Sicherheit, Digitalisierung und KI-Assistenten für Unternehmen. Planbare Kosten, fester Ansprechpartner, self-hosted in Deutschland."
+  keywords={["IT-Dienstleister Frankfurt", "IT-Betreuung", "Managed Services", "KI-Assistenten"]}
+>
+  <Hero />
+  <TrustBar />
+  <Leistungsuebersicht />
+  <AblaufGrafik />
+  <WarumSelimIT />
+  <FaqSection eintraege={faqEintraege} titel="Häufige Fragen" id="start-faq" />
+  <WissenTeaser />
+  <CtaBanner />
+</BaseLayout>

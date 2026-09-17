@@ -1,0 +1,459 @@
+---
+/**
+ * Zeitstrahl / Ablauf-Sektion als Bogen-/Dial-Visualisierung (docs/DESIGNSYSTEM.md → Komponente 5,
+ * referenz/global/zeitstrahl-template.html). Geometrie skaliert automatisch mit der Schrittzahl.
+ * Änderungen ggü. Referenz: Schrittliste für Screenreader lesbar (sr-only statt hidden), Verlauf Türkis → Petrol,
+ * Bewegung 450ms ease-in-out, Textwechsel als kurzer Crossfade mit Blur, inaktive Nummern mit ausreichendem Kontrast.
+ */
+interface Props {
+  eyebrow?: string;
+  titel: string;
+  intro?: string;
+  aktiv?: number;
+  schritte: { nummer: string; titel: string; text: string }[];
+}
+const { eyebrow, titel, intro, aktiv = 1, schritte } = Astro.props;
+const start = Math.min(schritte.length, Math.max(1, aktiv));
+const id = `zt-${Math.random().toString(36).slice(2, 7)}`;
+---
+
+<section class="zt" aria-labelledby={`${id}-titel`} data-zt data-aktiv={start}>
+  <div class="zt__inner">
+    <div class="zt__copy" data-reveal>
+      {eyebrow && <p class="zt__eyebrow">{eyebrow}</p>}
+      <h2 id={`${id}-titel`} class="zt__h2">{titel}</h2>
+      {intro && <p class="zt__lead">{intro}</p>}
+      <p class="zt__zaehler" aria-hidden="true" data-zt-zaehler></p>
+    </div>
+
+    <div class="zt__buehne-wrap" data-zt-wrap>
+      <div class="zt__buehne" data-zt-buehne>
+        <svg width="790" height="700" viewBox="0 0 790 700" aria-hidden="true" focusable="false">
+          <defs>
+            <linearGradient id={`${id}-grad`} x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#4FB8A6"></stop>
+              <stop offset="1" stop-color="#1B6E7A"></stop>
+            </linearGradient>
+          </defs>
+          <path data-zt-bogen fill="none" stroke="rgba(11,46,60,.16)" stroke-width="1"></path>
+          <path data-zt-spur fill="none" stroke={`url(#${id}-grad)`} stroke-width="2.5" stroke-linecap="round"></path>
+          <g data-zt-punkte data-grad={`url(#${id}-grad)`}></g>
+        </svg>
+        <div data-zt-labels></div>
+        <div class="zt__panel" aria-live="polite" data-zt-panel>
+          <div class="zt__grosszahl" data-zt-nummer aria-hidden="true">{schritte[start - 1].nummer}</div>
+          <div class="zt__text">
+            <p class="zt__titel" data-zt-titel>{schritte[start - 1].titel}</p>
+            <p class="zt__desc" data-zt-desc>{schritte[start - 1].text}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile: Text des aktiven Schritts unskaliert unter dem Bogen -->
+    <div class="zt__panel zt__panel--mobil" aria-hidden="true" data-zt-panel>
+      <div class="zt__grosszahl" data-zt-nummer>{schritte[start - 1].nummer}</div>
+      <div class="zt__text">
+        <p class="zt__titel" data-zt-titel>{schritte[start - 1].titel}</p>
+        <p class="zt__desc" data-zt-desc>{schritte[start - 1].text}</p>
+      </div>
+    </div>
+
+    <ol class="zt__schritte sr-only" data-zt-schritte>
+      {
+        schritte.map((s) => (
+          <li data-nummer={s.nummer} data-titel={s.titel}>
+            {s.titel}: {s.text}
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<script>
+  const G = { cx: -80, cy: 350, R: 340, labelR: 386, gap: 18, punktKlein: 3.5, punktGross: 11, endPad: 13 };
+  const SVGNS = "http://www.w3.org/2000/svg";
+  const reduziert = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  document.querySelectorAll<HTMLElement>("[data-zt]").forEach((root) => {
+    const schritte = Array.from(root.querySelectorAll<HTMLLIElement>("[data-zt-schritte] > li")).map((li) => ({
+      nummer: li.dataset.nummer ?? "",
+      titel: li.dataset.titel ?? "",
+      text: (li.textContent ?? "").replace(`${li.dataset.titel}:`, "").trim(),
+    }));
+    if (!schritte.length) return;
+
+    const buehne = root.querySelector<HTMLElement>("[data-zt-buehne]")!;
+    const wrap = root.querySelector<HTMLElement>("[data-zt-wrap]")!;
+    const bogen = root.querySelector<SVGPathElement>("[data-zt-bogen]")!;
+    const spur = root.querySelector<SVGPathElement>("[data-zt-spur]")!;
+    const punkteG = root.querySelector<SVGGElement>("[data-zt-punkte]")!;
+    const labels = root.querySelector<HTMLElement>("[data-zt-labels]")!;
+    const panels = Array.from(root.querySelectorAll<HTMLElement>("[data-zt-panel]"));
+    const elZaehler = root.querySelector<HTMLElement>("[data-zt-zaehler]");
+    const mobil = window.matchMedia("(max-width: 640px)");
+    const grad = punkteG.dataset.grad ?? "#1B6E7A";
+    const scope = Array.from(root.attributes).find((a) => a.name.startsWith("data-astro-cid-"))?.name;
+    let aktiv = Math.min(schritte.length, Math.max(1, Number(root.dataset.aktiv ?? 1))) - 1;
+    let erstesMal = true;
+
+    const P = (r: number, grad: number): [number, number] => {
+      const t = (grad * Math.PI) / 180;
+      return [G.cx + r * Math.cos(t), G.cy + r * Math.sin(t)];
+    };
+    const bogenPfad = (a0: number, a1: number) => {
+      const s = P(G.R, a0);
+      const e = P(G.R, a1);
+      return `M${s[0].toFixed(1)} ${s[1].toFixed(1)} A${G.R} ${G.R} 0 0 1 ${e[0].toFixed(1)} ${e[1].toFixed(1)}`;
+    };
+
+    const elemente = schritte.map((s, i) => {
+      const kreis = document.createElementNS(SVGNS, "circle");
+      kreis.setAttribute("class", "zt__punkt");
+      kreis.setAttribute("stroke", "transparent");
+      kreis.setAttribute("stroke-width", "24");
+      kreis.addEventListener("click", () => setzeAktiv(i));
+      if (scope) kreis.setAttribute(scope, "");
+      punkteG.appendChild(kreis);
+
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "zt__num";
+      btn.textContent = s.nummer;
+      btn.setAttribute("aria-label", `Schritt ${s.nummer}: ${s.titel}`);
+      btn.addEventListener("click", () => setzeAktiv(i));
+      if (scope) btn.setAttribute(scope, "");
+      labels.appendChild(btn);
+      return { kreis, btn };
+    });
+
+    function setzeAktiv(i: number) {
+      const wechsel = i !== aktiv && !erstesMal;
+      aktiv = i;
+      const letzter = schritte.length - 1;
+      schritte.forEach((_, k) => {
+        const winkel = (k - aktiv) * G.gap;
+        const p = P(G.R, winkel);
+        const q = P(G.labelR, winkel);
+        const { kreis, btn } = elemente[k];
+        kreis.setAttribute("cx", p[0].toFixed(1));
+        kreis.setAttribute("cy", p[1].toFixed(1));
+        kreis.setAttribute("r", String(k === aktiv ? G.punktGross : G.punktKlein));
+        kreis.setAttribute("fill", k === aktiv ? grad : "rgba(11,46,60,.3)");
+        btn.style.left = `${q[0].toFixed(1)}px`;
+        btn.style.top = `${q[1].toFixed(1)}px`;
+        btn.style.transform = `translate(-50%,-50%) rotate(${winkel.toFixed(1)}deg)`;
+        btn.style.visibility = k === aktiv ? "hidden" : "visible";
+        btn.dataset.erledigt = k < aktiv ? "1" : "0";
+        if (k === aktiv) btn.setAttribute("aria-current", "step");
+        else btn.removeAttribute("aria-current");
+      });
+      bogen.setAttribute("d", bogenPfad(-aktiv * G.gap - G.endPad, (letzter - aktiv) * G.gap + G.endPad));
+      spur.setAttribute("d", aktiv > 0 ? bogenPfad(-aktiv * G.gap, 0) : "");
+      for (const panel of panels) {
+        panel.querySelector("[data-zt-nummer]")!.textContent = schritte[aktiv].nummer;
+        panel.querySelector("[data-zt-titel]")!.textContent = schritte[aktiv].titel;
+        panel.querySelector("[data-zt-desc]")!.textContent = schritte[aktiv].text;
+        // Crossfade mit leichtem Blur verbindet alten und neuen Zustand (emil-design-eng)
+        if (wechsel && panel.offsetParent !== null) {
+          const mobilPanel = panel.classList.contains("zt__panel--mobil");
+          const basis = mobilPanel ? "none" : "translateY(-50%)";
+          const start = mobilPanel ? "translateY(6px)" : "translateY(calc(-50% + 6px))";
+          panel.animate(
+            reduziert
+              ? [{ opacity: 0.4 }, { opacity: 1 }]
+              : [
+                  { opacity: 0, filter: "blur(3px)", transform: start },
+                  { opacity: 1, filter: "blur(0)", transform: basis },
+                ],
+            { duration: reduziert ? 150 : 280, easing: "cubic-bezier(0.23, 1, 0.32, 1)" }
+          );
+        }
+      }
+      if (elZaehler) elZaehler.textContent = `Schritt ${schritte[aktiv].nummer} von ${schritte[letzter].nummer}`;
+      erstesMal = false;
+    }
+
+    // Mobil wird nur der Bogenbereich (ca. 420px) gezeigt, der Text steht darunter
+    function einpassen() {
+      const basis = mobil.matches ? 420 : 790;
+      const verfuegbar = wrap.clientWidth - parseFloat(getComputedStyle(wrap).paddingLeft || "0");
+      const s = Math.min(1, verfuegbar / basis);
+      buehne.style.transform = s < 1 ? `scale(${s})` : "none";
+      wrap.style.height = `${700 * s}px`;
+    }
+
+    // Erste Positionierung ohne Transition, danach weich
+    root.classList.add("zt--ohne-transition");
+    setzeAktiv(aktiv);
+    einpassen();
+    requestAnimationFrame(() => requestAnimationFrame(() => root.classList.remove("zt--ohne-transition")));
+    if ("ResizeObserver" in window) new ResizeObserver(einpassen).observe(wrap);
+
+    // Pfeiltasten zwischen den Schritten
+    labels.addEventListener("keydown", (e) => {
+      if (e.key !== "ArrowDown" && e.key !== "ArrowUp" && e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      e.preventDefault();
+      const richtung = e.key === "ArrowDown" || e.key === "ArrowRight" ? 1 : -1;
+      const ziel = Math.min(schritte.length - 1, Math.max(0, aktiv + richtung));
+      setzeAktiv(ziel);
+      const naechster = elemente[Math.min(schritte.length - 1, Math.max(0, ziel + richtung))]?.btn;
+      (ziel === aktiv && naechster && naechster.style.visibility !== "hidden" ? naechster : elemente.find((x) => x.btn.style.visibility !== "hidden")?.btn)?.focus();
+    });
+  });
+</script>
+
+<style>
+  .zt {
+    display: flex;
+    justify-content: center;
+    background: var(--nebel);
+    overflow: hidden;
+  }
+
+  .zt__inner {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 1320px;
+    padding: 24px 0;
+  }
+
+  .zt__copy {
+    display: flex;
+    flex: none;
+    flex-direction: column;
+    gap: 18px;
+    /* statischer Bereich links größer, dafür weniger Abstand zum Dial rechts */
+    width: 540px;
+    padding: 0 8px 0 72px;
+    box-sizing: content-box;
+  }
+
+  .zt__eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--petrol);
+  }
+
+  .zt__h2 {
+    font-size: clamp(34px, 3.1vw, 42px);
+    font-weight: 700;
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+    color: var(--tiefsee);
+    text-wrap: pretty;
+  }
+
+  .zt__lead {
+    max-width: 420px;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--ink-72);
+  }
+
+  .zt__zaehler {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-68);
+  }
+
+  .zt__zaehler::before {
+    content: "";
+    width: 26px;
+    height: 2px;
+    background: var(--verlauf);
+  }
+
+  .zt__buehne-wrap {
+    flex: 1 1 790px;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .zt__buehne {
+    position: relative;
+    width: 790px;
+    height: 700px;
+    transform-origin: left top;
+  }
+
+  .zt__buehne svg {
+    position: absolute;
+    inset: 0;
+  }
+
+  .zt__num {
+    position: absolute;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: rgba(11, 46, 60, 0.5);
+    font-family: var(--font-headline);
+    font-size: 52px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    cursor: pointer;
+    user-select: none;
+    transition:
+      left 450ms var(--ease-in-out),
+      top 450ms var(--ease-in-out),
+      transform 450ms var(--ease-in-out),
+      color 200ms ease;
+  }
+
+  .zt__num[data-erledigt="1"] {
+    color: rgba(27, 110, 122, 0.62);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .zt__num:hover {
+      color: rgba(11, 46, 60, 0.75);
+    }
+  }
+
+  .zt__num:focus-visible {
+    outline: 2px solid var(--petrol);
+    outline-offset: 6px;
+    border-radius: 4px;
+  }
+
+  .zt__punkt {
+    cursor: pointer;
+    transition:
+      cx 450ms var(--ease-in-out),
+      cy 450ms var(--ease-in-out),
+      r 250ms var(--ease-out);
+  }
+
+  .zt--ohne-transition .zt__num,
+  .zt--ohne-transition .zt__punkt {
+    transition: none;
+  }
+
+  .zt__panel {
+    position: absolute;
+    top: 350px;
+    left: 372px;
+    display: flex;
+    align-items: flex-start;
+    gap: 28px;
+    width: 400px;
+    transform: translateY(-50%);
+  }
+
+  .zt__grosszahl {
+    flex: none;
+    background: var(--verlauf);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-family: var(--font-headline);
+    font-size: 104px;
+    font-weight: 700;
+    line-height: 0.82;
+    letter-spacing: -0.045em;
+  }
+
+  .zt__text {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding-top: 9px;
+  }
+
+  .zt__titel {
+    font-family: var(--font-headline);
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--tiefsee);
+  }
+
+  .zt__desc {
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--ink-72);
+    text-wrap: pretty;
+  }
+
+  @media (max-width: 1120px) {
+    .zt__inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 56px 0;
+    }
+
+    .zt__copy {
+      width: auto;
+      max-width: 640px;
+      padding: 0 32px;
+    }
+
+    .zt__buehne-wrap {
+      flex: none;
+      width: 100%;
+    }
+  }
+
+  .zt__panel--mobil {
+    display: none;
+  }
+
+  @media (max-width: 640px) {
+    .zt__buehne .zt__panel {
+      display: none;
+    }
+
+    .zt__panel--mobil {
+      position: static;
+      display: flex;
+      gap: 18px;
+      width: auto;
+      padding: 0 20px;
+      transform: none;
+    }
+
+    .zt__panel--mobil .zt__grosszahl {
+      font-size: 64px;
+    }
+
+    .zt__panel--mobil .zt__text {
+      padding-top: 4px;
+    }
+
+    .zt__buehne-wrap {
+      padding-left: 12px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .zt__copy {
+      padding: 0 20px;
+    }
+
+    .zt__h2 {
+      font-size: 32px;
+    }
+
+    .zt__lead {
+      font-size: 16px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .zt__num,
+    .zt__punkt {
+      transition: none;
+    }
+  }
+</style>

@@ -1,0 +1,45 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  titel: string;
+  badge?: string;
+  claim: string;
+  features: string[];
+  ctaText: string;
+  ctaHref: string;
+}
+
+const { titel, badge, claim, features, ctaText, ctaHref } = Astro.props;
+---
+
+<article class="reveal border-bg-dark/15 bg-bg flex flex-col rounded-none border p-6 md:p-8">
+  {
+    badge && (
+      <span class="bg-gradient-brand text-bg-dark mb-4 inline-block w-fit rounded-full px-4 py-1 font-headline text-xs font-medium uppercase tracking-wide">
+        {badge}
+      </span>
+    )
+  }
+
+  <h3 class="font-headline text-xl font-medium md:text-2xl">{titel}</h3>
+  <p class="text-gradient mt-2 font-headline text-sm font-medium">{claim}</p>
+
+  <ul class="text-bg-dark mt-6 flex-1 space-y-3 text-sm">
+    {
+      features.map((feature) => (
+        <li class="flex items-start gap-3">
+          <Icon name="check" class="text-accent-start mt-0.5 size-4 shrink-0" aria-hidden="true" />
+          <span>{feature}</span>
+        </li>
+      ))
+    }
+  </ul>
+
+  <a
+    href={ctaHref}
+    class="bg-gradient-brand mt-8 inline-flex min-h-11 items-center justify-center rounded-full px-6 py-3 text-base font-semibold text-white"
+  >
+    {ctaText}
+  </a>
+</article>

@@ -1,0 +1,1147 @@
+---
+/**
+ * CTA + Kontaktformular (docs/DESIGNSYSTEM.md → Komponente 16, referenz/global/cta-kontaktformular.html).
+ * 4 Schritte: Anliegen → Details → Kontakt → Absenden (Anfrage senden oder Erstgespräch buchen).
+ * Barrierefreiheit: echte Checkboxen/Radios/Labels, aria-current für den Fortschritt, Fehlertexte per aria-describedby,
+ * Live-Region für Status. Von einer Leistungsseite aus ist der passende Bereich vorausgewählt.
+ * Verhalten: src/lib/kontaktWizard.ts
+ */
+import { getEntry } from "astro:content";
+import { firma } from "../../lib/config";
+
+interface Props {
+  vorauswahl?: { thema: string; option?: string };
+}
+
+const { vorauswahl } = Astro.props;
+const eintrag = await getEntry("seiten", "kontakt");
+if (!eintrag) throw new Error("src/content/seiten/kontakt.json fehlt");
+const k = eintrag.data as {
+  titel: string;
+  intro: string;
+  schritte: string[];
+  schritt1: { titel: string; hinweis: string };
+  schritt2: {
+    titel: string;
+    hinweis: string;
+    dringlichkeitLabel: string;
+    dringendHinweis: string;
+    groesseLabel: string;
+    freitextLabel: string;
+    freitextHinweis: string;
+    freitextPlatzhalter: string;
+  };
+  schritt3: { titel: string; hinweis: string };
+  schritt4: {
+    titel: string;
+    hinweis: string;
+    wegeLabel: string;
+    senden: { titel: string; text: string; button: string };
+    termin: { titel: string; text: string; button: string };
+  };
+  danke: { titel: string; text: string };
+  themen: { id: string; titel: string; beschreibung: string; icon: string }[];
+  dringlichkeit: { wert: string; stufe: string }[];
+  groessen: string[];
+};
+
+const dringendHinweis = k.schritt2.dringendHinweis.replace(/^Bei einem akuten Ausfall:\s*/, "");
+---
+
+<section
+  id="kontakt"
+  class="kw section-dark besondere-sektion"
+  aria-labelledby="kontakt-titel"
+  data-kw
+  data-vorauswahl={vorauswahl ? JSON.stringify(vorauswahl) : undefined}
+>
+  <div class="kw__inner">
+    <div class="kw__kopf">
+      <h2 id="kontakt-titel" class="h2">{k.titel}</h2>
+      <p class="lead">{k.intro}</p>
+      <div class="kw__personen" aria-hidden="true">
+        <span class="kw__avatare">
+          <span class="kw__avatar"></span>
+          <span class="kw__avatar"></span>
+        </span>
+      </div>
+    </div>
+
+    <ol class="kw__fortschritt" aria-label="Fortschritt der Anfrage" data-kw-fortschritt>
+      {
+        k.schritte.map((label, i) => (
+          <li class:list={["pschritt", { "is-aktiv": i === 0 }]} data-schritt={i + 1}>
+            <button type="button" class="pschritt__btn" data-kw-sprung={i + 1} disabled={i > 0} aria-current={i === 0 ? "step" : undefined}>
+              <span class="pschritt__punkt" aria-hidden="true">
+                {i + 1}
+              </span>
+              <span class="pschritt__label">
+                <span class="sr-only">Schritt {i + 1} von {k.schritte.length}: </span>
+                {label}
+              </span>
+            </button>
+          </li>
+        ))
+      }
+    </ol>
+
+    <p class="sr-only" role="status" aria-live="polite" data-kw-live></p>
+
+    <form class="kw__form" novalidate data-kw-form>
+      <div class="kw__hp" aria-hidden="true">
+        <label>Website <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+      </div>
+
+      <!-- ============ Schritt 1 ============ -->
+      <fieldset class="panel is-aktiv" data-panel="1">
+        <legend class="panel__titel" tabindex="-1">{k.schritt1.titel}</legend>
+        <p class="panel__hinweis" id="kw-hinweis-1">{k.schritt1.hinweis}</p>
+        <div class="karten">
+          {
+            k.themen.map((t) => (
+              <label class="karte">
+                <input type="checkbox" name="thema" value={t.id} aria-describedby={`kw-thema-${t.id}-d`} />
+                <span class="karte__ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" set:html={t.icon} />
+                </span>
+                <span class="karte__text">
+                  <span class="karte__titel">{t.titel}</span>
+                  <span class="karte__desc" id={`kw-thema-${t.id}-d`}>
+                    {t.beschreibung}
+                  </span>
+                </span>
+                <span class="karte__check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M5 12.5l4.5 4.5L19 7.5" stroke="#FFFFFF" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+              </label>
+            ))
+          }
+        </div>
+        <p class="kw__fehler" data-kw-fehler="1" hidden>Bitte wählen Sie mindestens einen Bereich aus.</p>
+      </fieldset>
+
+      <!-- ============ Schritt 2 ============ -->
+      <div class="panel" data-panel="2" hidden>
+        <h3 class="panel__titel" tabindex="-1">{k.schritt2.titel}</h3>
+        <p class="panel__hinweis">{k.schritt2.hinweis}</p>
+
+        <fieldset class="block">
+          <legend class="block__label">{k.schritt2.dringlichkeitLabel}</legend>
+          <div class="optionen">
+            {
+              k.dringlichkeit.map((d) => (
+                <label class="option option--weiss">
+                  <input type="radio" name="dringlichkeit" value={d.stufe} data-label={d.wert} />
+                  <span>
+                    <i class:list={["ampel", `ampel--${d.stufe}`]} aria-hidden="true" />
+                    {d.wert}
+                  </span>
+                </label>
+              ))
+            }
+          </div>
+          <div class="dringend" data-kw-dringend hidden>
+            <strong>Bei einem akuten Ausfall:</strong>
+            {dringendHinweis}
+            <a href={firma.telefon.href}>Jetzt anrufen</a>
+          </div>
+        </fieldset>
+
+        <fieldset class="block">
+          <legend class="block__label">{k.schritt2.groesseLabel}</legend>
+          <div class="optionen">
+            {
+              k.groessen.map((g) => (
+                <label class="option option--weiss">
+                  <input type="radio" name="groesse" value={g} />
+                  <span>{g}</span>
+                </label>
+              ))
+            }
+          </div>
+        </fieldset>
+
+        <div class="block">
+          <label class="block__label" for="kw-freitext">{k.schritt2.freitextLabel}</label>
+          <p class="block__sub" id="kw-freitext-hinweis">{k.schritt2.freitextHinweis}</p>
+          <textarea
+            id="kw-freitext"
+            name="nachricht"
+            rows="5"
+            maxlength="4000"
+            aria-describedby="kw-freitext-hinweis"
+            placeholder={k.schritt2.freitextPlatzhalter}></textarea>
+        </div>
+        <p class="kw__fehler" data-kw-fehler="2" hidden></p>
+      </div>
+
+      <!-- ============ Schritt 3 ============ -->
+      <div class="panel" data-panel="3" hidden>
+        <h3 class="panel__titel" tabindex="-1">{k.schritt3.titel}</h3>
+        <p class="panel__hinweis">{k.schritt3.hinweis}</p>
+        <div class="felder">
+          <div class="feld">
+            <label for="kw-vorname">Vorname <span class="feld__pflicht">(Pflichtfeld)</span></label>
+            <input id="kw-vorname" name="vorname" type="text" autocomplete="given-name" required aria-describedby="kw-vorname-fehler" />
+            <p class="feld__fehler" id="kw-vorname-fehler" hidden></p>
+          </div>
+          <div class="feld">
+            <label for="kw-nachname">Nachname <span class="feld__pflicht">(Pflichtfeld)</span></label>
+            <input id="kw-nachname" name="nachname" type="text" autocomplete="family-name" required aria-describedby="kw-nachname-fehler" />
+            <p class="feld__fehler" id="kw-nachname-fehler" hidden></p>
+          </div>
+          <div class="feld feld--voll">
+            <label for="kw-unternehmen">Unternehmen <span class="feld__optional">(optional)</span></label>
+            <input id="kw-unternehmen" name="unternehmen" type="text" autocomplete="organization" />
+          </div>
+          <div class="feld">
+            <label for="kw-email">E-Mail <span class="feld__pflicht">(Pflichtfeld)</span></label>
+            <input id="kw-email" name="email" type="email" autocomplete="email" required aria-describedby="kw-email-fehler" />
+            <p class="feld__fehler" id="kw-email-fehler" hidden></p>
+          </div>
+          <div class="feld">
+            <label for="kw-telefon">Telefon <span class="feld__optional">(empfohlen für Rückfragen)</span></label>
+            <input id="kw-telefon" name="telefon" type="tel" autocomplete="tel" />
+          </div>
+        </div>
+        <p class="kw__datenschutz">
+          Wir verarbeiten Ihre Angaben ausschließlich zur Bearbeitung Ihrer Anfrage. Details finden Sie in der
+          <a href="/datenschutz">Datenschutzerklärung</a>.
+        </p>
+      </div>
+
+      <!-- ============ Schritt 4 ============ -->
+      <div class="panel" data-panel="4" hidden>
+        <div data-kw-final>
+          <h3 class="panel__titel" tabindex="-1">{k.schritt4.titel}</h3>
+          <p class="panel__hinweis">{k.schritt4.hinweis}</p>
+          <dl class="zusammenfassung" data-kw-zusammenfassung></dl>
+
+          <p class="block__label">{k.schritt4.wegeLabel}</p>
+          <div class="wege">
+            <div class="weg weg--primaer">
+              <span class="weg__ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <rect x="2.5" y="5" width="19" height="14" rx="2.2" stroke="currentColor" stroke-width="1.7" />
+                  <path d="M3.5 6.5L12 13l8.5-6.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+              <h4>{k.schritt4.senden.titel}</h4>
+              <p>{k.schritt4.senden.text}</p>
+              <button type="button" class="btn btn--block" data-kw-senden>
+                <span>{k.schritt4.senden.button}</span>
+              </button>
+            </div>
+            <div class="weg">
+              <span class="weg__ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <rect x="3" y="5" width="18" height="16" rx="2.2" stroke="currentColor" stroke-width="1.7" />
+                  <path d="M3 10h18" stroke="currentColor" stroke-width="1.7" />
+                  <path d="M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+                  <path d="M9.5 15.3l1.8 1.8 3.5-3.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+              <h4>{k.schritt4.termin.titel}</h4>
+              <p>{k.schritt4.termin.text}</p>
+              <button type="button" class="btn-outline btn--block" aria-expanded="false" aria-controls="kw-kalender" data-kw-termin>
+                {k.schritt4.termin.button}
+              </button>
+            </div>
+          </div>
+
+          <div class="kalender" id="kw-kalender" data-kw-kalender hidden>
+            <fieldset class="kalender__slots">
+              <legend class="block__label">Wählen Sie einen Termin (30 Minuten, per Video über Nextcloud Talk)</legend>
+              <p class="kalender__status" data-kw-slot-status>Verfügbare Termine werden geladen …</p>
+              <div class="kalender__liste" data-kw-slots></div>
+            </fieldset>
+            <button type="button" class="btn" data-kw-buchen hidden>
+              <span>Termin verbindlich anfragen</span>
+            </button>
+          </div>
+
+          <div class="kw__spamschutz" data-kw-altcha></div>
+          <p class="kw__fehler" data-kw-sendefehler hidden></p>
+        </div>
+
+        <div class="danke" data-kw-danke hidden>
+          <span class="danke__haken" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M5 12.5l4.5 4.5L19 7.5" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
+          <h3 tabindex="-1">{k.danke.titel}</h3>
+          <p>{k.danke.text}</p>
+          <p class="danke__termin" data-kw-danke-termin hidden></p>
+        </div>
+      </div>
+
+      <div class="kw__nav" data-kw-nav>
+        <button type="button" class="kw__zurueck" data-kw-zurueck hidden>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M19 12H5M11 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          Zurück
+        </button>
+        <button type="button" class="btn" data-kw-weiter aria-disabled="true">
+          <span>Weiter</span>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<script>
+  import { initKontaktWizard } from "../../lib/kontaktWizard";
+  document.querySelectorAll<HTMLElement>("[data-kw]").forEach(initKontaktWizard);
+</script>
+
+<style>
+  .kw {
+    scroll-margin-top: 72px;
+  }
+
+  .kw__inner {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 92px 32px 100px;
+  }
+
+  .kw__kopf {
+    max-width: 620px;
+    margin: 0 auto 44px;
+    text-align: center;
+  }
+
+  .kw__kopf h2 {
+    margin-bottom: 14px;
+  }
+
+  .kw__personen {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 26px;
+  }
+
+  .kw__avatare {
+    display: flex;
+  }
+
+  .kw__avatar {
+    display: block;
+    width: 56px;
+    height: 56px;
+    border: 3px solid var(--nebel);
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(79, 184, 166, 0.35), rgba(27, 110, 122, 0.35));
+  }
+
+  .kw__avatar + .kw__avatar {
+    margin-left: -16px;
+  }
+
+  /* ---------- Fortschritt ---------- */
+  .kw__fortschritt {
+    display: flex;
+    align-items: flex-start;
+    margin: 0 0 40px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .pschritt {
+    position: relative;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  .pschritt::after {
+    content: "";
+    position: absolute;
+    top: 16px;
+    left: calc(50% + 22px);
+    right: calc(-50% + 22px);
+    height: 2px;
+    background: var(--line-dark);
+    transition: background-color 250ms ease;
+  }
+
+  .pschritt:last-child::after {
+    display: none;
+  }
+
+  .pschritt.is-erledigt::after {
+    background: var(--tuerkis);
+  }
+
+  .pschritt__btn {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-family: var(--font-body);
+    cursor: default;
+  }
+
+  .pschritt.is-erledigt .pschritt__btn {
+    cursor: pointer;
+  }
+
+  .pschritt__btn:disabled {
+    color: inherit;
+  }
+
+  .pschritt__punkt {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(240, 244, 243, 0.08);
+    box-shadow: inset 0 0 0 2px var(--line-dark);
+    color: var(--on-dark-55);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1;
+    transition:
+      background-color 250ms ease,
+      box-shadow 250ms ease,
+      color 250ms ease,
+      transform 160ms var(--ease-out);
+  }
+
+  .pschritt.is-aktiv .pschritt__punkt {
+    background: var(--verlauf);
+    box-shadow: none;
+    color: #ffffff;
+  }
+
+  .pschritt.is-erledigt .pschritt__punkt {
+    background: var(--petrol);
+    box-shadow: none;
+    color: #ffffff;
+  }
+
+  .pschritt.is-erledigt .pschritt__btn:active .pschritt__punkt {
+    transform: scale(0.94);
+  }
+
+  .pschritt__label {
+    font-size: 12.5px;
+    line-height: 1.3;
+    text-align: center;
+    color: var(--on-dark-55);
+  }
+
+  .pschritt.is-aktiv .pschritt__label {
+    color: var(--on-dark);
+    font-weight: 500;
+  }
+
+  /* ---------- Panels ---------- */
+  .kw__form {
+    position: relative;
+  }
+
+  .kw__hp {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .panel {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .panel.is-aktiv {
+    animation: kw-panel 240ms var(--ease-out);
+  }
+
+  @keyframes kw-panel {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .panel__titel {
+    display: block;
+    margin-bottom: 6px;
+    padding: 0;
+    font-family: var(--font-headline);
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .panel__titel:focus {
+    outline: none;
+  }
+
+  .panel__hinweis {
+    margin-bottom: 24px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--on-dark-72);
+  }
+
+  /* Karten (Schritt 1) */
+  .karten {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .karte {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 22px 46px 22px 22px;
+    border: 1.5px solid rgba(240, 244, 243, 0.12);
+    border-radius: 16px;
+    background: rgba(240, 244, 243, 0.05);
+    cursor: pointer;
+    transition:
+      border-color 200ms ease,
+      background-color 200ms ease,
+      transform 160ms var(--ease-out);
+  }
+
+  .karte input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .karte:hover {
+      background: rgba(240, 244, 243, 0.09);
+      border-color: rgba(127, 217, 196, 0.35);
+      transform: translateY(-2px);
+    }
+  }
+
+  .karte:active {
+    transform: scale(0.98);
+  }
+
+  .karte:has(input:focus-visible) {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 3px;
+  }
+
+  .karte:has(input:checked) {
+    border-color: var(--tuerkis);
+    box-shadow: 0 0 0 3px rgba(79, 184, 166, 0.16);
+  }
+
+  .karte__ico {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    flex: none;
+    border-radius: 12px;
+    background: rgba(79, 184, 166, 0.13);
+    transition: background-color 200ms ease;
+  }
+
+  .karte__ico svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .karte:has(input:checked) .karte__ico {
+    background: var(--verlauf);
+  }
+
+  .karte:has(input:checked) .karte__ico :global([stroke]) {
+    stroke: #ffffff;
+  }
+
+  .karte:has(input:checked) .karte__ico :global([fill]:not([fill="none"])) {
+    fill: #ffffff;
+  }
+
+  .karte__titel {
+    display: block;
+    margin-bottom: 5px;
+    font-family: var(--font-headline);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .karte__desc {
+    display: block;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--on-dark-72);
+  }
+
+  .karte__check {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border: 1.5px solid rgba(240, 244, 243, 0.35);
+    border-radius: 6px;
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease;
+  }
+
+  .karte__check svg {
+    width: 12px;
+    height: 12px;
+    opacity: 0;
+    transform: scale(0.8);
+    transition:
+      opacity 150ms ease,
+      transform 150ms var(--ease-out);
+  }
+
+  .karte:has(input:checked) .karte__check {
+    border-color: var(--petrol);
+    background: var(--petrol);
+  }
+
+  .karte:has(input:checked) .karte__check svg {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .optionen {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .option {
+    position: relative;
+    display: inline-flex;
+    cursor: pointer;
+  }
+
+  .option input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+  }
+
+  .option span {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 44px;
+    padding: 10px 17px;
+    border: 1.5px solid rgba(240, 244, 243, 0.14);
+    border-radius: 12px;
+    background: rgba(240, 244, 243, 0.06);
+    font-size: 14.5px;
+    color: var(--on-dark);
+    transition:
+      border-color 180ms ease,
+      background-color 180ms ease,
+      transform 160ms var(--ease-out);
+  }
+
+  .option--weiss span {
+    background: rgba(240, 244, 243, 0.05);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .option:hover span {
+      border-color: rgba(79, 184, 166, 0.5);
+    }
+  }
+
+  .option:active span {
+    transform: scale(0.97);
+  }
+
+  .option input:focus-visible + span {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+
+  .option input:checked + span {
+    border-color: var(--tuerkis);
+    background: rgba(79, 184, 166, 0.12);
+    font-weight: 500;
+  }
+
+  .ampel {
+    width: 9px;
+    height: 9px;
+    flex: none;
+    border-radius: 50%;
+  }
+
+  .ampel--dringend {
+    background: #c0392b;
+  }
+
+  .ampel--bald {
+    background: #e0a82e;
+  }
+
+  .ampel--allgemein {
+    background: var(--tuerkis);
+  }
+
+  .block {
+    min-width: 0;
+    margin: 0 0 30px;
+    padding: 0;
+    border: 0;
+  }
+
+  .block__label {
+    display: block;
+    margin-bottom: 12px;
+    padding: 0;
+    font-family: var(--font-headline);
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .block__sub {
+    margin: -6px 0 13px;
+    font-size: 13px;
+    color: var(--on-dark-72);
+  }
+
+  .dringend {
+    margin-top: 16px;
+    padding: 14px 18px;
+    border-left: 3px solid #e0685a;
+    border-radius: 0 10px 10px 0;
+    background: rgba(192, 57, 43, 0.14);
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+
+  .dringend a {
+    margin-left: 4px;
+    color: #ffffff;
+    font-weight: 600;
+  }
+
+  textarea,
+  .feld input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1.5px solid rgba(240, 244, 243, 0.22);
+    border-radius: 12px;
+    background: rgba(240, 244, 243, 0.06);
+    color: var(--on-dark);
+    font-family: var(--font-body);
+    font-size: 16px;
+    transition: border-color 150ms ease;
+  }
+
+  textarea {
+    min-height: 140px;
+    line-height: 1.6;
+    resize: vertical;
+  }
+
+  textarea:focus-visible,
+  .feld input:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 1px;
+    border-color: var(--tuerkis);
+  }
+
+  textarea::placeholder,
+  .feld input::placeholder {
+    color: rgba(240, 244, 243, 0.45);
+  }
+
+  /* Felder (Schritt 3) */
+  .felder {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .feld--voll {
+    grid-column: 1 / -1;
+  }
+
+  .feld label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 13.5px;
+    font-weight: 500;
+  }
+
+  .feld__pflicht,
+  .feld__optional {
+    font-weight: 400;
+    color: var(--on-dark-55);
+  }
+
+  .feld input[aria-invalid="true"] {
+    border-color: var(--fehler);
+  }
+
+  .feld__fehler,
+  .kw__fehler {
+    margin-top: 6px;
+    font-size: 13px;
+    color: #ff9a86;
+  }
+
+  .kw__fehler {
+    margin-top: 16px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    background: rgba(192, 57, 43, 0.16);
+  }
+
+  .kw__datenschutz {
+    margin-top: 20px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--on-dark-72);
+  }
+
+  .kw__datenschutz a {
+    color: var(--helltuerkis);
+    font-weight: 500;
+  }
+
+  /* Zusammenfassung + Wege (Schritt 4) */
+  .zusammenfassung {
+    margin: 0 0 28px;
+    padding: 12px 28px;
+    border-radius: 16px;
+    background: rgba(240, 244, 243, 0.05);
+    border: 1px solid rgba(240, 244, 243, 0.1);
+  }
+
+  .zusammenfassung :global(.zeile) {
+    display: flex;
+    gap: 18px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(240, 244, 243, 0.12);
+  }
+
+  .zusammenfassung :global(.zeile:last-child) {
+    border-bottom: 0;
+  }
+
+  .zusammenfassung :global(dt) {
+    flex: none;
+    width: 180px;
+    font-size: 13.5px;
+    color: var(--on-dark-55);
+  }
+
+  .zusammenfassung :global(dd) {
+    margin: 0;
+    font-size: 14.5px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  .wege {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .weg {
+    display: flex;
+    flex-direction: column;
+    padding: 26px 24px;
+    border-radius: 16px;
+    background: rgba(240, 244, 243, 0.05);
+    border: 1px solid rgba(240, 244, 243, 0.1);
+  }
+
+  .weg__ico {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin-bottom: 16px;
+    border-radius: 12px;
+    background: rgba(79, 184, 166, 0.18);
+    color: var(--helltuerkis);
+  }
+
+  .weg--primaer .weg__ico {
+    background: var(--verlauf);
+    color: #ffffff;
+  }
+
+  .weg__ico svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .weg h4 {
+    margin-bottom: 8px;
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  .weg p {
+    flex: 1;
+    margin-bottom: 18px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--on-dark-72);
+  }
+
+  .kalender {
+    margin-top: 24px;
+    padding: 26px;
+    border-radius: 16px;
+    background: rgba(240, 244, 243, 0.05);
+    border: 1px solid rgba(240, 244, 243, 0.1);
+  }
+
+  .kalender__slots {
+    min-width: 0;
+    margin: 0 0 18px;
+    padding: 0;
+    border: 0;
+  }
+
+  .kalender__status {
+    font-size: 14px;
+    color: var(--on-dark-72);
+  }
+
+  .kalender__liste :global(.tag) {
+    margin-bottom: 14px;
+  }
+
+  .kalender__liste :global(.tag__titel) {
+    margin-bottom: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+  }
+
+  .kw__spamschutz:empty {
+    display: none;
+  }
+
+  .kw__spamschutz {
+    margin-top: 20px;
+  }
+
+  .danke {
+    padding: 36px 0 8px;
+    text-align: center;
+  }
+
+  .danke__haken {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: var(--verlauf);
+    animation: kw-haken 420ms var(--ease-out);
+  }
+
+  @keyframes kw-haken {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .danke__haken svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .danke h3 {
+    margin-bottom: 10px;
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  .danke h3:focus {
+    outline: none;
+  }
+
+  .danke p {
+    max-width: 440px;
+    margin: 0 auto;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--on-dark-72);
+  }
+
+  .danke__termin {
+    margin-top: 12px !important;
+    font-weight: 500;
+    color: var(--on-dark) !important;
+  }
+
+  /* Navigation */
+  .kw__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 36px;
+    padding-top: 26px;
+    border-top: 1px solid var(--line-dark);
+  }
+
+  .kw__zurueck {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 44px;
+    padding: 0 6px;
+    border: 0;
+    background: none;
+    color: var(--on-dark-72);
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      color 150ms ease,
+      transform 160ms var(--ease-out);
+  }
+
+  .kw__zurueck svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .kw__zurueck:hover {
+      color: var(--on-dark);
+    }
+  }
+
+  .kw__zurueck:active {
+    transform: scale(0.97);
+  }
+
+  .kw__nav [data-kw-weiter] {
+    margin-left: auto;
+  }
+
+  @media (max-width: 700px) {
+    .kw__inner {
+      padding: 64px 20px 72px;
+    }
+
+    .karten,
+    .felder,
+    .wege {
+      grid-template-columns: 1fr;
+    }
+
+    /* nur visuell ausblenden: der Button behält seinen zugänglichen Namen */
+    .pschritt__label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    .pschritt::after {
+      top: 15px;
+      left: calc(50% + 20px);
+      right: calc(-50% + 20px);
+    }
+
+    .zusammenfassung {
+      padding: 8px 20px;
+    }
+
+    .zusammenfassung :global(.zeile) {
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .zusammenfassung :global(dt) {
+      width: auto;
+    }
+
+    .gruppe {
+      padding: 20px;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .kw__personen {
+      flex-direction: column;
+      gap: 12px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .panel.is-aktiv,
+    .danke__haken {
+      animation: none;
+    }
+
+    .karte,
+    .option span,
+    .karte__check svg {
+      transition: none;
+    }
+
+    .karte:hover,
+    .karte:active,
+    .option:active span {
+      transform: none;
+    }
+  }
+</style>

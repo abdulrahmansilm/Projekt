@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Selim-IT — Die wichtigsten M365-Tools</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F1F3F0;
+    --ink:#05231F;
+    --grad-start:#4FB8A6;
+    --grad-end:#1B6E7A;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ background:var(--bg); font-family:'Outfit',sans-serif; color:var(--ink); }
+
+  .section{ padding:92px 32px 96px; }
+  .inner{ max-width:1120px; margin:0 auto; }
+
+  .head{ max-width:640px; margin-bottom:52px; }
+  .head .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600; font-size:13px; letter-spacing:0.06em; text-transform:uppercase;
+    color:#1B6E7A; margin-bottom:14px;
+  }
+  .head .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:linear-gradient(135deg,var(--grad-start),var(--grad-end)); }
+  .head h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:500; font-size:36px; letter-spacing:-0.01em;
+    margin-bottom:14px;
+  }
+  .head p{ font-size:15.5px; line-height:1.6; opacity:0.75; }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+    list-style:none;
+  }
+
+  .card{
+    background:#FFFFFF;
+    border-radius:18px;
+    box-shadow:0 4px 16px rgba(11,46,60,0.06);
+    padding:28px 26px 30px;
+    transition:transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    border:1.5px solid transparent;
+  }
+  .card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 14px 32px rgba(11,46,60,0.12);
+    border-color:rgba(79,184,166,0.3);
+  }
+
+  .card.featured{
+    background:linear-gradient(155deg, rgba(79,184,166,0.1), rgba(79,184,166,0.02)), #FFFFFF;
+    border-color:rgba(79,184,166,0.35);
+  }
+
+  .top{ display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+  .ico{
+    width:44px; height:44px; border-radius:12px;
+    background:rgba(79,184,166,0.1);
+    display:flex; align-items:center; justify-content:center;
+    transition:background 0.25s ease, transform 0.25s ease;
+  }
+  .ico svg{ width:22px; height:22px; transition:opacity 0.25s ease; }
+  .card:hover .ico{
+    background:linear-gradient(135deg,var(--grad-start),var(--grad-end));
+    transform:scale(1.06);
+  }
+  .card:hover .ico svg path{ stroke:#FFFFFF; }
+  .badge{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600; font-size:10.5px; letter-spacing:0.06em; text-transform:uppercase;
+    color:#1B6E7A;
+    background:rgba(79,184,166,0.12);
+    border-radius:999px;
+    padding:4px 10px;
+  }
+
+  .card h3{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600; font-size:18px; line-height:1.3;
+    margin-bottom:8px;
+  }
+  .card p{ font-size:14px; line-height:1.6; opacity:0.72; }
+
+  @media (max-width:900px){
+    .grid{ grid-template-columns:repeat(2,1fr); }
+  }
+  @media (max-width:560px){
+    .section{ padding:64px 20px 72px; }
+    .head{ margin-bottom:36px; }
+    .head h2{ font-size:27px; }
+    .grid{ grid-template-columns:1fr; }
+    .card{ padding:24px 22px 26px; }
+  }
+</style>
+</head>
+<body>
+
+<section class="section" aria-labelledby="tools-titel">
+  <div class="inner">
+    <div class="head">
+      <div class="eyebrow"><span class="dot"></span>Was in Microsoft 365 steckt</div>
+      <h2 id="tools-titel">Mehr als Teams: die weiteren Bausteine im Überblick</h2>
+      <p>Microsoft 365 ist mehr als Chat und Videocalls. Wir richten das gesamte Paket sauber ein und betreuen es laufend — hier die übrigen zentralen Bausteine.</p>
+    </div>
+
+    <ul class="grid">
+
+      <li class="card">
+        <div class="top">
+          <div class="ico">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <defs><linearGradient id="t2" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#4FB8A6"/><stop offset="1" stop-color="#1B6E7A"/></linearGradient></defs>
+              <rect x="3" y="5" width="18" height="14" rx="2.2" stroke="url(#t2)" stroke-width="1.6"/>
+              <path d="M4 6.5 L12 13 L20 6.5" stroke="url(#t2)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <h3>Outlook &amp; Exchange</h3>
+        <p>E-Mail und Kalender zentral verwaltet. Wir sorgen für zuverlässigen Spam- und Phishing-Schutz und saubere Freigaben bei gemeinsamen Postfächern.</p>
+      </li>
+
+      <li class="card">
+        <div class="top">
+          <div class="ico">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <defs><linearGradient id="t3" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#4FB8A6"/><stop offset="1" stop-color="#1B6E7A"/></linearGradient></defs>
+              <path d="M12 3 L20 7.5 V16.5 L12 21 L4 16.5 V7.5 Z" stroke="url(#t3)" stroke-width="1.6" stroke-linejoin="round"/>
+              <path d="M12 3 V21 M4 7.5 L12 12 L20 7.5 M4 16.5 L12 12" stroke="url(#t3)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <h3>SharePoint</h3>
+        <p>Zentrale, strukturierte Dateiablage für Teams und Abteilungen. Wir setzen Berechtigungen so, dass jeder sieht, was er braucht — und nicht mehr.</p>
+      </li>
+
+      <li class="card">
+        <div class="top">
+          <div class="ico">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <defs><linearGradient id="t4" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#4FB8A6"/><stop offset="1" stop-color="#1B6E7A"/></linearGradient></defs>
+              <path d="M7.5 17 C4.8 17 3 15.1 3 12.7 C3 10.5 4.6 8.8 6.7 8.5 C7.3 5.9 9.6 4 12.4 4 C15.4 4 17.9 6.2 18.3 9.1 C20.2 9.5 21.5 11.1 21.5 13 C21.5 15.2 19.7 17 17.5 17 Z" stroke="url(#t4)" stroke-width="1.6" stroke-linejoin="round"/>
+              <path d="M12 11 V18 M9 15 L12 18 L15 15" stroke="url(#t4)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <h3>OneDrive</h3>
+        <p>Persönlicher Cloud-Speicher für jeden Mitarbeiter. Dateien sind automatisch gesichert und von jedem eingerichteten Gerät aus erreichbar.</p>
+      </li>
+
+      <li class="card">
+        <div class="top">
+          <div class="ico">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <defs><linearGradient id="t5" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#4FB8A6"/><stop offset="1" stop-color="#1B6E7A"/></linearGradient></defs>
+              <rect x="3" y="4" width="18" height="16" rx="2.2" stroke="url(#t5)" stroke-width="1.6"/>
+              <path d="M3 9.5 H21" stroke="url(#t5)" stroke-width="1.6"/>
+              <path d="M8 4 V9.5" stroke="url(#t5)" stroke-width="1.6"/>
+            </svg>
+          </div>
+        </div>
+        <h3>Word, Excel &amp; PowerPoint</h3>
+        <p>Die klassischen Office-Anwendungen, immer aktuell und geräteübergreifend synchron — Desktop, Web und Handy zeigen denselben Stand.</p>
+      </li>
+
+    </ul>
+  </div>
+</section>
+
+</body>
+</html>

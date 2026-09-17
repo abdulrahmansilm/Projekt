@@ -1,0 +1,202 @@
+---
+/**
+ * „Für wen sich das eignet“: zwei gegenläufige Branchen-Laufbänder (referenz/ki-telefonassistent/branchen.html).
+ * In docs/ANFORDERUNGEN.md als offene dritte Sonder-Sektion vermerkt; die Referenz liegt inzwischen vor.
+ * Konstante Bewegung (linear), Pause bei Hover/Fokus und per Knopf (WCAG 2.2.2), reduzierte Bewegung → statische Liste.
+ */
+interface Props {
+  eyebrow?: string;
+  titel: string;
+  intro?: string;
+  reihen: { icon: string; label: string }[][];
+}
+const { eyebrow, titel, intro, reihen } = Astro.props;
+---
+
+<section class="br" aria-labelledby="br-titel">
+  <div class="br__inner">
+    <div class="br__kopf" data-reveal>
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h2 id="br-titel" class="h2">{titel}</h2>
+      {intro && <p class="lead">{intro}</p>}
+    </div>
+  </div>
+
+  <div class="br__bahnen">
+    {
+      reihen.map((reihe, i) => (
+        <div class="bahn">
+          <ul class:list={["spur", { "spur--rueckwaerts": i % 2 === 1 }]} role="list">
+            {reihe.map((b) => (
+              <li class="chip">
+                <span class="chip__ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" set:html={b.icon} />
+                </span>
+                <span>{b.label}</span>
+              </li>
+            ))}
+            {reihe.map((b) => (
+              <li class="chip chip--kopie" aria-hidden="true">
+                <span class="chip__ico">
+                  <svg viewBox="0 0 24 24" fill="none" set:html={b.icon} />
+                </span>
+                <span>{b.label}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .br {
+    padding: 80px 0 88px;
+    background: var(--nebel);
+  }
+
+  .br__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    max-width: 1120px;
+    margin: 0 auto 40px;
+    padding: 0 32px;
+  }
+
+  .br__kopf {
+    max-width: 600px;
+  }
+
+  .br__kopf .eyebrow {
+    margin-bottom: 14px;
+  }
+
+  .br__kopf h2 {
+    margin-bottom: 12px;
+    font-size: 34px;
+  }
+
+  .br__bahnen {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .bahn {
+    position: relative;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 64px, #000 calc(100% - 64px), transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 64px, #000 calc(100% - 64px), transparent 100%);
+  }
+
+  .spur {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: max-content;
+    margin: 0;
+    padding: 0 6px 0 0;
+    list-style: none;
+    animation: br-links 42s linear infinite;
+  }
+
+  .spur--rueckwaerts {
+    animation-name: br-rechts;
+  }
+
+  .bahn:hover .spur {
+    animation-play-state: paused;
+  }
+
+  @keyframes br-links {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes br-rechts {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  .chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    padding: 10px 20px 10px 12px;
+    border: 1px solid rgba(11, 46, 60, 0.09);
+    border-radius: 999px;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(11, 46, 60, 0.04);
+    font-family: var(--font-headline);
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .chip__ico {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: rgba(79, 184, 166, 0.12);
+  }
+
+  .chip__ico svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  @media (max-width: 560px) {
+    .br {
+      padding: 56px 0 64px;
+    }
+
+    .br__inner {
+      padding: 0 20px;
+    }
+
+    .br__kopf h2 {
+      font-size: 25px;
+    }
+
+    .chip {
+      padding: 9px 16px 9px 10px;
+      font-size: 13px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .spur {
+      flex-wrap: wrap;
+      justify-content: center;
+      width: auto;
+      padding: 0 20px;
+      animation: none;
+    }
+
+    .bahn {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+
+    .chip--kopie {
+      display: none;
+    }
+  }
+</style>

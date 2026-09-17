@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Selim-IT — Anfrage (CTA)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F1F3F0;
+    --ink:#05231F;
+    --dark:#0B2E3C;
+    --grad-start:#4FB8A6;
+    --grad-end:#1B6E7A;
+    --line:rgba(11,46,60,0.12);
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ background:var(--bg); }
+  body{ background:var(--bg); font-family:'Outfit',sans-serif; color:var(--ink); }
+
+  .section{ padding:92px 32px 100px; }
+  .inner{ max-width:880px; margin:0 auto; }
+
+  .head{ text-align:center; max-width:620px; margin:0 auto 44px; }
+  .head h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:500; font-size:36px;
+    letter-spacing:-0.01em; margin-bottom:14px;
+  }
+  .head p{ font-size:15.5px; line-height:1.6; opacity:0.72; }
+
+  /* ---------- Ansprechpartner ---------- */
+  .people{
+    display:flex; align-items:center; justify-content:center;
+    gap:14px; margin-top:26px; flex-wrap:wrap;
+  }
+  .avatars{ display:flex; }
+  .avatar{
+    width:68px; height:68px; border-radius:50%;
+    overflow:hidden; flex:none;
+    border:3px solid var(--bg);
+    background:linear-gradient(135deg, rgba(79,184,166,0.35), rgba(27,110,122,0.35));
+    display:block;
+  }
+  .avatar + .avatar{ margin-left:-18px; }
+  .avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .people-text{ font-size:13.5px !important; line-height:1.5; opacity:0.62 !important; text-align:left; }
+
+  @media (max-width:520px){
+    .people{ flex-direction:column; gap:12px; }
+    .people-text{ text-align:center; }
+  }
+
+  /* ---------- Fortschritt ---------- */
+  .progress{ display:flex; align-items:flex-start; margin-bottom:40px; }
+  .pstep{
+    flex:1; display:flex; flex-direction:column; align-items:center; gap:9px;
+    position:relative; background:none; border:none;
+    font-family:'Outfit',sans-serif; padding:0; cursor:default;
+  }
+  .pstep.done{ cursor:pointer; }
+  .pstep::after{
+    content:""; position:absolute; top:16px;
+    left:calc(50% + 22px); right:calc(-50% + 22px);
+    height:2px; background:var(--line);
+  }
+  .pstep:last-child::after{ display:none; }
+  .pstep.done::after{ background:var(--grad-start); }
+
+  .pdot{
+    width:32px; height:32px;
+    border-radius:50%;
+    border:none;
+    overflow:hidden;
+    background-clip:padding-box;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Outfit',sans-serif;
+    font-size:15px; font-weight:500; line-height:1;
+    letter-spacing:0;
+    background:#FFFFFF;
+    box-shadow:inset 0 0 0 2px var(--line);
+    color:rgba(5,35,31,0.4);
+    position:relative; z-index:1;
+    transition:background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+  }
+  .pstep.active .pdot{
+    background:linear-gradient(135deg,var(--grad-start),var(--grad-end));
+    box-shadow:none; color:#FFFFFF;
+  }
+  .pstep.done .pdot{ background:var(--grad-start); box-shadow:none; color:#FFFFFF; }
+  .plabel{
+    font-size:12.5px; line-height:1.3; text-align:center;
+    color:rgba(5,35,31,0.45); transition:color 0.3s ease;
+  }
+  .pstep.active .plabel{ color:var(--ink); font-weight:500; }
+  .pstep.done .plabel{ color:rgba(5,35,31,0.65); }
+
+  /* ---------- Panels ---------- */
+  .panel{ display:none; }
+  .panel.on{ display:block; animation:fade 0.35s ease; }
+  @keyframes fade{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:none; } }
+
+  .qtitle{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600; font-size:21px; line-height:1.3; margin-bottom:6px;
+  }
+  .qhint{ font-size:14px; line-height:1.55; opacity:0.65; margin-bottom:24px; }
+
+  .qblock{ margin-bottom:30px; }
+  .qlabel{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600; font-size:16px; margin-bottom:5px;
+  }
+  .qsub{ font-size:13px; opacity:0.55; margin-bottom:13px; }
+
+  /* Gruppe je gewähltem Bereich */
+  .topic-group{
+    background:#FFFFFF; border-radius:16px;
+    padding:24px 26px 26px; margin-bottom:16px;
+    box-shadow:0 3px 14px rgba(11,46,60,0.05);
+  }
+  .tg-head{ display:flex; align-items:center; gap:11px; margin-bottom:8px; }
+  .tg-ico{
+    width:32px; height:32px; border-radius:9px; flex:none;
+    background:linear-gradient(135deg,var(--grad-start),var(--grad-end));
+    display:flex; align-items:center; justify-content:center;
+  }
+  .tg-ico svg{ width:17px; height:17px; }
+  .tg-ico svg [stroke]{ stroke:#FFFFFF !important; }
+  .tg-ico svg [fill]:not([fill="none"]){ fill:#FFFFFF !important; }
+  .topic-group h4{ font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:16.5px; }
+  .tg-sub{ font-size:13px; opacity:0.55; margin-bottom:14px; }
+
+  /* ---------- Auswahl-Karten ---------- */
+  .cards{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+  .cardbtn{
+    display:flex; align-items:flex-start; gap:16px; text-align:left;
+    background:#FFFFFF; border:1.5px solid transparent; border-radius:16px;
+    padding:22px 46px 22px 22px; cursor:pointer; font-family:'Outfit',sans-serif;
+    box-shadow:0 3px 14px rgba(11,46,60,0.05);
+    transition:border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    position:relative;
+  }
+  .cardbtn:hover{ transform:translateY(-3px); box-shadow:0 14px 28px rgba(11,46,60,0.1); }
+  .cardbtn.sel{ border-color:var(--grad-start); box-shadow:0 0 0 3px rgba(79,184,166,0.16); }
+  .cardbtn .ci{
+    flex:none; width:42px; height:42px; border-radius:12px;
+    background:rgba(79,184,166,0.13);
+    display:flex; align-items:center; justify-content:center;
+    transition:background 0.25s ease;
+  }
+  .cardbtn.sel .ci{ background:linear-gradient(135deg,var(--grad-start),var(--grad-end)); }
+  .cardbtn .ci svg{ width:21px; height:21px; }
+  .cardbtn.sel .ci svg [stroke]{ stroke:#FFFFFF !important; }
+  .cardbtn.sel .ci svg [fill]:not([fill="none"]){ fill:#FFFFFF !important; }
+  .cardbtn .ct{
+    font-family:'Space Grotesk',sans-serif; font-weight:600;
+    font-size:16px; line-height:1.3; color:var(--ink); margin-bottom:5px; display:block;
+  }
+  .cardbtn .cd{ font-size:13.5px; line-height:1.5; color:var(--ink); opacity:0.62; display:block; }
+  .cardbtn .check{
+    position:absolute; top:18px; right:18px;
+    width:20px; height:20px; border-radius:6px;
+    border:1.5px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    transition:background 0.2s ease, border-color 0.2s ease;
+  }
+  .cardbtn .check svg{ width:12px; height:12px; opacity:0; transition:opacity 0.2s ease; }
+  .cardbtn.sel .check{ background:var(--grad-start); border-color:var(--grad-start); }
+  .cardbtn.sel .check svg{ opacity:1; }
+
+  /* ---------- Optionen ---------- */
+  .opts{ display:flex; flex-wrap:wrap; gap:10px; }
+  .opt{
+    background:#F7F9F8; border:1.5px solid transparent; border-radius:12px;
+    padding:12px 17px; font-family:'Outfit',sans-serif; font-size:14.5px;
+    color:var(--ink); cursor:pointer;
+    transition:border-color 0.22s ease, background 0.22s ease;
+    display:inline-flex; align-items:center; gap:9px;
+  }
+  .opt:hover{ border-color:rgba(79,184,166,0.5); }
+  .opt.sel{ border-color:var(--grad-start); background:rgba(79,184,166,0.1); font-weight:500; }
+  .opt .dot{ width:9px; height:9px; border-radius:50%; flex:none; }
+  .qblock > .opts .opt{ background:#FFFFFF; box-shadow:0 2px 10px rgba(11,46,60,0.04); }
+
+  /* ---------- Eingaben ---------- */
+  textarea, input[type="text"], input[type="email"], input[type="tel"]{
+    width:100%; background:#FFFFFF; border:1.5px solid transparent;
+    border-radius:12px; padding:14px 16px;
+    font-family:'Outfit',sans-serif; font-size:14.5px; color:var(--ink);
+    box-shadow:0 2px 10px rgba(11,46,60,0.04);
+    transition:border-color 0.2s ease;
+  }
+  textarea{ min-height:140px; resize:vertical; line-height:1.6; }
+  textarea:focus, input:focus{ outline:none; border-color:var(--grad-start); }
+  textarea::placeholder, input::placeholder{ color:rgba(5,35,31,0.35); }
+
+  .fields{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .field.full{ grid-column:1 / -1; }
+  .flabel{ font-size:13.5px; font-weight:500; margin-bottom:7px; display:block; }
+  .flabel .opt-tag{ font-weight:400; opacity:0.5; }
+  .err{ font-size:12.5px; color:#C0392B; margin-top:6px; display:none; }
+  .field.bad input{ border-color:#C0392B; }
+  .field.bad .err{ display:block; }
+
+  /* ---------- Zusammenfassung ---------- */
+  .summary{
+    background:#FFFFFF; border-radius:16px; padding:26px 28px;
+    box-shadow:0 3px 14px rgba(11,46,60,0.05); margin-bottom:28px;
+  }
+  .srow{ display:flex; gap:18px; padding:12px 0; border-bottom:1px solid rgba(11,46,60,0.08); }
+  .srow:last-child{ border-bottom:none; }
+  .sk{ flex:none; width:180px; font-size:13.5px; opacity:0.55; }
+  .sv{ font-size:14.5px; line-height:1.55; }
+  .sv.pre{ white-space:pre-wrap; }
+
+  .ways{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .way{
+    background:#FFFFFF; border-radius:16px; padding:26px 24px;
+    box-shadow:0 3px 14px rgba(11,46,60,0.05);
+    display:flex; flex-direction:column;
+  }
+  .way .wi{
+    width:44px; height:44px; border-radius:12px; margin-bottom:16px;
+    background:rgba(79,184,166,0.13);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .way .wi svg{ width:22px; height:22px; }
+  .way.primary .wi{ background:linear-gradient(135deg,var(--grad-start),var(--grad-end)); }
+  .way.primary .wi svg [stroke]{ stroke:#FFFFFF !important; }
+  .way h4{ font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:17px; margin-bottom:8px; }
+  .way p{ font-size:13.5px; line-height:1.55; opacity:0.66; flex:1; margin-bottom:18px; }
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:9px;
+    border:none; border-radius:999px; padding:14px 28px;
+    font-family:'Outfit',sans-serif; font-weight:600; font-size:15px;
+    cursor:pointer; text-decoration:none;
+    transition:opacity 0.2s ease, background 0.2s ease;
+  }
+  .btn svg{ width:15px; height:15px; }
+  .btn-primary{ background:linear-gradient(135deg,var(--grad-start),var(--grad-end)); color:#FFFFFF; }
+  .btn-primary:hover{ opacity:0.9; }
+  .btn-primary:disabled{ opacity:0.4; cursor:not-allowed; }
+  .btn-ghost{ background:none; color:var(--ink); opacity:0.7; padding-left:6px; }
+  .btn-ghost:hover{ opacity:1; }
+  .btn-outline{ background:#FFFFFF; color:var(--grad-end); box-shadow:inset 0 0 0 1.5px var(--grad-end); }
+  .btn-outline:hover{ background:rgba(79,184,166,0.08); }
+  .btn-block{ width:100%; }
+
+  .nav{
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    margin-top:36px; padding-top:26px; border-top:1px solid var(--line);
+  }
+  .nav .spacer{ flex:1; }
+
+  .urgent-note{
+    display:none; margin-top:16px;
+    background:rgba(192,57,43,0.07);
+    border-left:3px solid #C0392B; border-radius:0 10px 10px 0;
+    padding:14px 18px; font-size:13.5px; line-height:1.55;
+  }
+  .urgent-note.on{ display:block; }
+
+  .cal{
+    display:none; margin-top:24px; background:#FFFFFF;
+    border-radius:16px; padding:26px;
+    box-shadow:0 3px 14px rgba(11,46,60,0.05);
+  }
+  .cal.on{ display:block; }
+  .cal-embed{
+    border:1.5px dashed rgba(11,46,60,0.2); border-radius:12px;
+    padding:44px 20px; text-align:center;
+    font-size:13.5px; line-height:1.6; opacity:0.6;
+  }
+
+  .done-box{ display:none; text-align:center; padding:36px 0 8px; }
+  .done-box.on{ display:block; }
+  .done-box .dcheck{
+    width:60px; height:60px; border-radius:50%;
+    background:linear-gradient(135deg,var(--grad-start),var(--grad-end));
+    display:flex; align-items:center; justify-content:center; margin:0 auto 20px;
+  }
+  .done-box .dcheck svg{ width:28px; height:28px; }
+  .done-box h3{ font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:22px; margin-bottom:10px; }
+  .done-box p{ font-size:15px; line-height:1.6; opacity:0.7; max-width:440px; margin:0 auto; }
+
+  @media (prefers-reduced-motion: reduce){
+    .panel.on{ animation:none; }
+    .cardbtn, .opt, .btn{ transition:none; }
+  }
+  @media (max-width:700px){
+    .section{ padding:64px 20px 72px; }
+    .head h2{ font-size:28px; }
+    .cards{ grid-template-columns:1fr; }
+    .fields{ grid-template-columns:1fr; }
+    .ways{ grid-template-columns:1fr; }
+    .plabel{ display:none; }
+    .pstep::after{ left:calc(50% + 20px); right:calc(-50% + 20px); top:15px; }
+    .srow{ flex-direction:column; gap:4px; }
+    .sk{ width:auto; }
+    .topic-group{ padding:20px; }
+  }
+</style>
+</head>
+<body>
+
+<section class="section" aria-labelledby="cta-titel">
+  <div class="inner">
+
+    <div class="head">
+      <h2 id="cta-titel">Lassen Sie sich von Experten beraten</h2>
+      <p>In wenigen Schritten schildern Sie uns Ihr Anliegen — wir melden uns mit einer konkreten Einschätzung zurück.</p>
+
+      <div class="people">
+        <div class="avatars">
+          <span class="avatar">
+            <img src="assets/ansprechpartner-1.jpg" alt="Ansprechpartner bei Selim-IT" onerror="this.style.display='none'">
+          </span>
+          <span class="avatar">
+            <img src="assets/ansprechpartner-2.jpg" alt="Ansprechpartner bei Selim-IT" onerror="this.style.display='none'">
+          </span>
+        </div>
+        <p class="people-text">Ihre Ansprechpartner — Sie sprechen direkt mit den Menschen, die Ihre IT betreuen.</p>
+      </div>
+    </div>
+
+    <div class="progress" id="progress" role="list">
+      <button class="pstep active" data-step="1" role="listitem"><span class="pdot">1</span><span class="plabel">Anliegen</span></button>
+      <button class="pstep" data-step="2" role="listitem"><span class="pdot">2</span><span class="plabel">Details</span></button>
+      <button class="pstep" data-step="3" role="listitem"><span class="pdot">3</span><span class="plabel">Kontakt</span></button>
+      <button class="pstep" data-step="4" role="listitem"><span class="pdot">4</span><span class="plabel">Absenden</span></button>
+    </div>
+
+    <div id="wizard">
+
+      <!-- ============ SCHRITT 1 ============ -->
+      <div class="panel on" data-panel="1">
+        <p class="qtitle">Wobei können wir helfen?</p>
+        <p class="qhint">Mehrfachauswahl möglich — wählen Sie alles, was auf Sie zutrifft.</p>
+        <div class="cards" id="topicCards"></div>
+      </div>
+
+      <!-- ============ SCHRITT 2 ============ -->
+      <div class="panel" data-panel="2">
+        <p class="qtitle">Ein paar Details</p>
+        <p class="qhint">Damit wir Ihr Anliegen richtig einordnen können.</p>
+
+        <div id="topicGroups"></div>
+
+        <div class="qblock">
+          <p class="qlabel">Wie dringend ist Ihr Anliegen?</p>
+          <div class="opts" id="urgencyOpts"></div>
+          <div class="urgent-note" id="urgentNote">
+            <strong>Bei einem akuten Ausfall:</strong> Rufen Sie uns direkt an, statt auf eine Antwort per E-Mail zu warten — so reagieren wir am schnellsten.
+          </div>
+        </div>
+
+        <div class="qblock">
+          <p class="qlabel">Wie viele Mitarbeitende bzw. IT-Arbeitsplätze haben Sie?</p>
+          <div class="opts" id="sizeOpts"></div>
+        </div>
+
+        <div class="qblock">
+          <p class="qlabel">Erzählen Sie uns kurz mehr</p>
+          <p class="qsub">Beschreiben Sie Ihr Anliegen, Ihre aktuelle Situation oder Ihr Projekt — optional.</p>
+          <textarea id="freitext" placeholder="Zum Beispiel: Wir betreuen unsere IT bisher selbst und merken, dass uns die Zeit dafür fehlt. Besonders bei Updates und Datensicherung sind wir unsicher, ob alles richtig läuft."></textarea>
+        </div>
+      </div>
+
+      <!-- ============ SCHRITT 3 ============ -->
+      <div class="panel" data-panel="3">
+        <p class="qtitle">Wie können wir Sie erreichen?</p>
+        <p class="qhint">Wir nutzen Ihre Daten ausschließlich zur Bearbeitung dieser Anfrage.</p>
+        <div class="fields">
+          <div class="field" data-req="1">
+            <label class="flabel" for="f-vorname">Vorname</label>
+            <input type="text" id="f-vorname" autocomplete="given-name">
+            <span class="err">Bitte ausfüllen</span>
+          </div>
+          <div class="field" data-req="1">
+            <label class="flabel" for="f-nachname">Nachname</label>
+            <input type="text" id="f-nachname" autocomplete="family-name">
+            <span class="err">Bitte ausfüllen</span>
+          </div>
+          <div class="field full">
+            <label class="flabel" for="f-firma">Unternehmen <span class="opt-tag">— optional</span></label>
+            <input type="text" id="f-firma" autocomplete="organization">
+          </div>
+          <div class="field" data-req="1" data-type="email">
+            <label class="flabel" for="f-mail">E-Mail</label>
+            <input type="email" id="f-mail" autocomplete="email">
+            <span class="err">Bitte gültige E-Mail-Adresse angeben</span>
+          </div>
+          <div class="field">
+            <label class="flabel" for="f-tel">Telefon <span class="opt-tag">— empfohlen für Rückfragen</span></label>
+            <input type="tel" id="f-tel" autocomplete="tel">
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ SCHRITT 4 ============ -->
+      <div class="panel" data-panel="4">
+        <div id="finalArea">
+          <p class="qtitle">Ihre Anfrage im Überblick</p>
+          <p class="qhint">Bitte kurz prüfen — Sie können jeden Schritt über die Punkte oben korrigieren.</p>
+
+          <div class="summary" id="summary"></div>
+
+          <p class="qlabel" style="margin-bottom:14px">Wie möchten Sie fortfahren?</p>
+          <div class="ways">
+            <div class="way primary">
+              <div class="wi">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <rect x="2.5" y="5" width="19" height="14" rx="2.2" stroke="#1B6E7A" stroke-width="1.7"/>
+                  <path d="M3.5 6.5L12 13l8.5-6.5" stroke="#1B6E7A" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <h4>Anfrage senden</h4>
+              <p>Wir prüfen Ihr Anliegen und melden uns bei Ihnen zurück.</p>
+              <button class="btn btn-primary btn-block" id="sendBtn">Anfrage senden</button>
+            </div>
+            <div class="way">
+              <div class="wi">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <rect x="3" y="5" width="18" height="16" rx="2.2" stroke="#1B6E7A" stroke-width="1.7"/>
+                  <path d="M3 10h18" stroke="#1B6E7A" stroke-width="1.7"/>
+                  <path d="M8 3v4M16 3v4" stroke="#1B6E7A" stroke-width="1.7" stroke-linecap="round"/>
+                  <path d="M9.5 15.3l1.8 1.8 3.5-3.6" stroke="#1B6E7A" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <h4>Kostenloses Erstgespräch buchen</h4>
+              <p>Wählen Sie direkt einen passenden Termin für ein unverbindliches Gespräch.</p>
+              <button class="btn btn-outline btn-block" id="calBtn">Termin auswählen</button>
+            </div>
+          </div>
+
+          <div class="cal" id="calArea">
+            <div class="cal-embed">
+              Hier wird der Buchungskalender eingebunden.<br>
+              (Platzhalter für die Astro-Integration)
+            </div>
+          </div>
+        </div>
+
+        <div class="done-box" id="doneBox">
+          <div class="dcheck">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 12.5l4.5 4.5L19 7.5" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>Vielen Dank für Ihre Anfrage</h3>
+          <p>Wir haben Ihre Angaben erhalten und melden uns zeitnah bei Ihnen. Bei dringenden Anliegen erreichen Sie uns auch telefonisch.</p>
+        </div>
+      </div>
+
+      <div class="nav" id="nav">
+        <button class="btn btn-ghost" id="backBtn" style="visibility:hidden">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M19 12H5M11 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Zurück
+        </button>
+        <div class="spacer"></div>
+        <button class="btn btn-primary" id="nextBtn" disabled>
+          Weiter
+          <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+
+  /* ============ Bereiche ============ */
+
+  var TOPICS = [
+    {
+      id:'betreuung',
+      title:'IT-Betreuung',
+      desc:'Laufende Betreuung, Störungen, Wechsel des Dienstleisters',
+      icon:'<rect x="3" y="4" width="18" height="12" rx="2" stroke="#1B6E7A" stroke-width="1.6"/><path d="M8 20h8M12 16v4" stroke="#1B6E7A" stroke-width="1.6" stroke-linecap="round"/>',
+      sub:'Was steht bei Ihnen an?',
+      options:[
+        'Laufende Betreuung aufbauen',
+        'Dienstleister wechseln',
+        'Einzelnes Problem lösen',
+        'Server & Infrastruktur',
+        'Hardware beschaffen'
+      ]
+    },
+    {
+      id:'m365',
+      title:'Microsoft 365',
+      desc:'Einrichtung, Migration, Lizenzen, laufende Betreuung',
+      icon:'<rect x="3" y="3" width="8" height="8" rx="2" stroke="#1B6E7A" stroke-width="1.6"/><rect x="13" y="3" width="8" height="8" rx="2" stroke="#1B6E7A" stroke-width="1.6"/><rect x="3" y="13" width="8" height="8" rx="2" stroke="#1B6E7A" stroke-width="1.6"/><rect x="13" y="13" width="8" height="8" rx="2" stroke="#1B6E7A" stroke-width="1.6"/>',
+      sub:'Was steht bei Ihnen an?',
+      options:[
+        'Neu einrichten',
+        'Von einem anderen Anbieter migrieren',
+        'Lizenzen prüfen und optimieren',
+        'Laufende Betreuung',
+        'Teams & Zusammenarbeit'
+      ]
+    },
+    {
+      id:'security',
+      title:'Datensicherung & Sicherheit',
+      desc:'Backup, E-Mail-Schutz, Fernzugriff, Sicherheitsprüfung',
+      icon:'<path d="M12 3l8 3.5V12c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6.5L12 3z" stroke="#1B6E7A" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#1B6E7A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>',
+      sub:'Was steht bei Ihnen an?',
+      options:[
+        'Datensicherung & Wiederherstellung',
+        'E-Mail-Sicherheit',
+        'Fernzugriff / VPN',
+        'Gesamte IT prüfen lassen',
+        'NIS-2 / Compliance'
+      ]
+    },
+    {
+      id:'ki',
+      title:'KI & Kommunikation',
+      desc:'Telefonassistent, WhatsApp-Chatbot, Prozessautomatisierung',
+      icon:'<path d="M4 5.5h16a1.5 1.5 0 0 1 1.5 1.5v8.5a1.5 1.5 0 0 1-1.5 1.5H10l-5 4v-4H4A1.5 1.5 0 0 1 2.5 15.5V7A1.5 1.5 0 0 1 4 5.5Z" stroke="#1B6E7A" stroke-width="1.6" stroke-linejoin="round"/><circle cx="8.5" cy="11" r="1" fill="#1B6E7A"/><circle cx="12" cy="11" r="1" fill="#1B6E7A"/><circle cx="15.5" cy="11" r="1" fill="#1B6E7A"/>',
+      sub:'Was interessiert Sie?',
+      options:[
+        'KI-Telefonassistent',
+        'WhatsApp-Chatbot',
+        'Prozessautomatisierung',
+        'Noch unklar – beraten Sie mich'
+      ]
+    },
+    {
+      id:'web',
+      title:'Webseiten',
+      desc:'Neue Webseite, Relaunch oder Betreuung',
+      icon:'<rect x="2.5" y="4.5" width="19" height="15" rx="2" stroke="#1B6E7A" stroke-width="1.6"/><path d="M2.5 8.5h19" stroke="#1B6E7A" stroke-width="1.6"/><path d="M6 12h7M6 15.5h10" stroke="#1B6E7A" stroke-width="1.6" stroke-linecap="round"/>',
+      sub:'Was brauchen Sie?',
+      options:[
+        'Neue Webseite',
+        'Relaunch einer bestehenden Seite',
+        'Betreuung einer bestehenden Seite',
+        'Auffindbarkeit verbessern'
+      ]
+    },
+    {
+      id:'other',
+      title:'Etwas anderes',
+      desc:'Allgemeine Beratung oder ein Thema, das oben nicht passt',
+      icon:'<circle cx="12" cy="12" r="9" stroke="#1B6E7A" stroke-width="1.6"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.2 2.4c-.5.2-.7.6-.7 1.1v.5" stroke="#1B6E7A" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1" fill="#1B6E7A"/>',
+      sub:null,
+      options:[]
+    }
+  ];
+
+  var URGENCY = [
+    {v:'Dringend – wir benötigen schnell Hilfe', c:'#C0392B'},
+    {v:'In den nächsten Tagen', c:'#E0A82E'},
+    {v:'Allgemeine Anfrage / Beratung', c:'#4FB8A6'}
+  ];
+  var SIZES = ['1–10','11–25','26–50','51–100','Über 100'];
+
+  /* ============ Zustand ============ */
+
+  var state = { step:1, topics:[], details:{}, urgency:null, size:null, text:'', contact:{} };
+  var TOTAL = 4;
+
+  var $ = function(s){ return document.querySelector(s); };
+  var $$ = function(s){ return Array.prototype.slice.call(document.querySelectorAll(s)); };
+  function topicById(id){ return TOPICS.filter(function(t){ return t.id === id; })[0]; }
+
+  /* ============ Schritt 1 — Mehrfachauswahl ============ */
+
+  var cardWrap = $('#topicCards');
+  TOPICS.forEach(function(t){
+    var b = document.createElement('button');
+    b.className = 'cardbtn';
+    b.type = 'button';
+    b.setAttribute('aria-pressed','false');
+    b.innerHTML =
+      '<span class="ci"><svg viewBox="0 0 24 24" fill="none">' + t.icon + '</svg></span>' +
+      '<span><span class="ct">' + t.title + '</span><span class="cd">' + t.desc + '</span></span>' +
+      '<span class="check"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#FFFFFF" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+
+    b.addEventListener('click', function(){
+      var i = state.topics.indexOf(t.id);
+      if (i > -1){
+        state.topics.splice(i,1);
+        delete state.details[t.id];
+        b.classList.remove('sel');
+        b.setAttribute('aria-pressed','false');
+      } else {
+        state.topics.push(t.id);
+        b.classList.add('sel');
+        b.setAttribute('aria-pressed','true');
+      }
+      updateNav();
+    });
+    cardWrap.appendChild(b);
+  });
+
+  /* ============ Schritt 2 — je Bereich eine Gruppe ============ */
+
+  function buildDetails(){
+    var wrap = $('#topicGroups');
+    wrap.innerHTML = '';
+
+    state.topics.forEach(function(id){
+      var t = topicById(id);
+      if (!t.options.length) return;
+      if (!state.details[id]) state.details[id] = [];
+
+      var g = document.createElement('div');
+      g.className = 'topic-group';
+      g.innerHTML =
+        '<div class="tg-head">' +
+          '<span class="tg-ico"><svg viewBox="0 0 24 24" fill="none">' + t.icon + '</svg></span>' +
+          '<h4>' + t.title + '</h4>' +
+        '</div>' +
+        '<p class="tg-sub">' + t.sub + ' <span style="opacity:.8">(Mehrfachauswahl möglich)</span></p>';
+
+      var opts = document.createElement('div');
+      opts.className = 'opts';
+
+      t.options.forEach(function(o){
+        var btn = document.createElement('button');
+        btn.className = 'opt';
+        btn.type = 'button';
+        btn.textContent = o;
+        if (state.details[id].indexOf(o) > -1) btn.classList.add('sel');
+        btn.addEventListener('click', function(){
+          var arr = state.details[id];
+          var i = arr.indexOf(o);
+          if (i > -1){ arr.splice(i,1); btn.classList.remove('sel'); }
+          else { arr.push(o); btn.classList.add('sel'); }
+          updateNav();
+        });
+        opts.appendChild(btn);
+      });
+
+      g.appendChild(opts);
+      wrap.appendChild(g);
+    });
+
+    buildSingle('#urgencyOpts', URGENCY, 'urgency');
+    buildSingle('#sizeOpts', SIZES, 'size');
+  }
+
+  function buildSingle(sel, list, key){
+    var wrap = $(sel);
+    wrap.innerHTML = '';
+    list.forEach(function(o){
+      var value = (typeof o === 'string') ? o : o.v;
+      var color = (typeof o === 'string') ? null : o.c;
+      var btn = document.createElement('button');
+      btn.className = 'opt';
+      btn.type = 'button';
+      btn.innerHTML = (color ? '<span class="dot" style="background:' + color + '"></span>' : '') + value;
+      if (state[key] === value) btn.classList.add('sel');
+      btn.addEventListener('click', function(){
+        state[key] = value;
+        Array.prototype.slice.call(wrap.children).forEach(function(c){ c.classList.remove('sel'); });
+        btn.classList.add('sel');
+        if (key === 'urgency')
+          $('#urgentNote').classList.toggle('on', value.indexOf('Dringend') === 0);
+        updateNav();
+      });
+      wrap.appendChild(btn);
+    });
+    if (key === 'urgency')
+      $('#urgentNote').classList.toggle('on', !!state.urgency && state.urgency.indexOf('Dringend') === 0);
+  }
+
+  function detailsComplete(){
+    var allPicked = state.topics.every(function(id){
+      var t = topicById(id);
+      if (!t.options.length) return true;
+      return (state.details[id] || []).length > 0;
+    });
+    return allPicked && !!state.urgency && !!state.size;
+  }
+
+  /* ============ Schritt 3 — Validierung ============ */
+
+  function validateContact(show){
+    var ok = true;
+    $$('.field[data-req]').forEach(function(f){
+      var input = f.querySelector('input');
+      var val = input.value.trim();
+      var good = val.length > 0;
+      if (f.dataset.type === 'email') good = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+      if (!good){ ok = false; if (show) f.classList.add('bad'); }
+      else f.classList.remove('bad');
+    });
+    return ok;
+  }
+  $$('.field input').forEach(function(i){
+    i.addEventListener('input', function(){
+      i.closest('.field').classList.remove('bad');
+      updateNav();
+    });
+  });
+
+  /* ============ Schritt 4 — Zusammenfassung ============ */
+
+  function esc(s){
+    return String(s).replace(/[&<>"]/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];
+    });
+  }
+
+  function buildSummary(){
+    state.contact = {
+      vorname: $('#f-vorname').value.trim(),
+      nachname: $('#f-nachname').value.trim(),
+      firma: $('#f-firma').value.trim(),
+      mail: $('#f-mail').value.trim(),
+      tel: $('#f-tel').value.trim()
+    };
+    state.text = $('#freitext').value.trim();
+
+    var html = '';
+    function row(k,v,pre){
+      html += '<div class="srow"><div class="sk">' + esc(k) + '</div><div class="sv' +
+              (pre ? ' pre' : '') + '">' + esc(v) + '</div></div>';
+    }
+
+    row('Bereich', state.topics.map(function(id){ return topicById(id).title; }).join(', '));
+
+    state.topics.forEach(function(id){
+      var t = topicById(id);
+      var picked = state.details[id] || [];
+      if (picked.length) row(t.title, picked.join(', '));
+    });
+
+    row('Dringlichkeit', state.urgency);
+    row('Unternehmensgröße', state.size);
+    if (state.text) row('Ihr Anliegen', state.text, true);
+
+    var name = [state.contact.vorname, state.contact.nachname].filter(Boolean).join(' ');
+    var kontakt = name;
+    if (state.contact.firma) kontakt += '\n' + state.contact.firma;
+    kontakt += '\n' + state.contact.mail;
+    if (state.contact.tel) kontakt += '\n' + state.contact.tel;
+    row('Kontakt', kontakt, true);
+
+    $('#summary').innerHTML = html;
+  }
+
+  /* ============ Navigation ============ */
+
+  function canAdvance(){
+    if (state.step === 1) return state.topics.length > 0;
+    if (state.step === 2) return detailsComplete();
+    if (state.step === 3) return validateContact(false);
+    return false;
+  }
+
+  function updateNav(){
+    $('#nextBtn').disabled = !canAdvance();
+    $('#backBtn').style.visibility = state.step > 1 ? 'visible' : 'hidden';
+    $('#nextBtn').style.display = state.step === TOTAL ? 'none' : 'inline-flex';
+    $$('.pstep').forEach(function(p){
+      var n = parseInt(p.dataset.step, 10);
+      p.classList.toggle('active', n === state.step);
+      p.classList.toggle('done', n < state.step);
+    });
+  }
+
+  function goto(n){
+    state.step = n;
+    $$('.panel').forEach(function(p){
+      p.classList.toggle('on', parseInt(p.dataset.panel,10) === n);
+    });
+    if (n === 2) buildDetails();
+    if (n === 4) buildSummary();
+    updateNav();
+    $('#progress').scrollIntoView({ behavior:'smooth', block:'center' });
+  }
+
+  $('#nextBtn').addEventListener('click', function(){
+    if (state.step === 3 && !validateContact(true)) return;
+    if (canAdvance()) goto(state.step + 1);
+  });
+  $('#backBtn').addEventListener('click', function(){
+    if (state.step > 1) goto(state.step - 1);
+  });
+  $$('.pstep').forEach(function(p){
+    p.addEventListener('click', function(){
+      var n = parseInt(p.dataset.step,10);
+      if (n < state.step) goto(n);
+    });
+  });
+
+  $('#calBtn').addEventListener('click', function(){
+    $('#calArea').classList.toggle('on');
+    if ($('#calArea').classList.contains('on'))
+      $('#calArea').scrollIntoView({ behavior:'smooth', block:'nearest' });
+  });
+
+  $('#sendBtn').addEventListener('click', function(){
+    // Prototyp: hier wird später der tatsächliche Versand angebunden.
+    $('#finalArea').style.display = 'none';
+    $('#doneBox').classList.add('on');
+    $('#nav').style.display = 'none';
+    $$('.pstep').forEach(function(p){ p.classList.add('done'); p.classList.remove('active'); });
+    $('#progress').scrollIntoView({ behavior:'smooth', block:'center' });
+  });
+
+  updateNav();
+
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,108 @@
+---
+/**
+ * Floating CTA „Jetzt anrufen“ (docs/ANFORDERUNGEN.md → Mobil-spezifisch).
+ * Nur mobil (<768px), erscheint nach dem Hero. Einblenden 220ms ease-out, Ausblenden 160ms.
+ */
+import { firma } from "../../lib/config";
+---
+
+<a class="floating-cta" href={firma.telefon.href} data-floating-cta aria-hidden="true" tabindex="-1">
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path
+      d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.5 2.5.8 3.8.9.6 0 1 .5 1 1.1v3.6c0 .6-.5 1.1-1.1 1.1C10.9 21.7 2.3 13.1 2.3 3.9c0-.6.5-1.1 1.1-1.1H7c.6 0 1.1.4 1.1 1 .1 1.3.4 2.6.9 3.8.1.4.1.8-.2 1.1L6.6 10.8Z"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linejoin="round"></path>
+  </svg>
+  <span>Jetzt anrufen</span>
+</a>
+
+<script>
+  const cta = document.querySelector<HTMLElement>("[data-floating-cta]");
+  const hero = document.querySelector<HTMLElement>("[data-hero]");
+  const kontakt = document.getElementById("kontakt");
+  if (cta) {
+    let nachHero = !hero;
+    let kontaktSichtbar = false;
+    const aktualisieren = () => {
+      const zeigen = nachHero && !kontaktSichtbar;
+      cta.classList.toggle("is-visible", zeigen);
+      cta.setAttribute("aria-hidden", String(!zeigen));
+      cta.tabIndex = zeigen ? 0 : -1;
+    };
+    if (hero) {
+      new IntersectionObserver(([e]) => {
+        nachHero = !e.isIntersecting;
+        aktualisieren();
+      }).observe(hero);
+    }
+    // Über dem Kontaktformular würde der Button Felder verdecken: dort ausblenden
+    if (kontakt) {
+      new IntersectionObserver(([e]) => {
+        kontaktSichtbar = e.isIntersecting;
+        aktualisieren();
+      }).observe(kontakt);
+    }
+    aktualisieren();
+  }
+</script>
+
+<style>
+  .floating-cta {
+    display: none;
+  }
+
+  @media (max-width: 767px) {
+    .floating-cta {
+      position: fixed;
+      left: 50%;
+      bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+      z-index: 900;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 52px;
+      padding: 0 26px;
+      border-radius: 999px;
+      background: var(--verlauf);
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 16px;
+      white-space: nowrap;
+      text-decoration: none;
+      box-shadow: 0 14px 30px -10px rgba(11, 46, 60, 0.55);
+      opacity: 0;
+      transform: translate(-50%, 16px) scale(0.96);
+      pointer-events: none;
+      transition:
+        opacity 160ms ease,
+        transform 160ms var(--ease-out);
+    }
+
+    .floating-cta.is-visible {
+      opacity: 1;
+      transform: translate(-50%, 0) scale(1);
+      pointer-events: auto;
+      transition:
+        opacity 220ms var(--ease-out),
+        transform 220ms var(--ease-out);
+    }
+
+    .floating-cta:active {
+      transform: translate(-50%, 0) scale(0.97);
+    }
+
+    .floating-cta svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .floating-cta,
+    .floating-cta.is-visible {
+      transform: translate(-50%, 0);
+      transition: opacity 200ms ease;
+    }
+  }
+</style>

@@ -1,0 +1,361 @@
+---
+/**
+ * „Unsere Leistungen“ (docs/DESIGNSYSTEM.md → Komponente 11, referenz/startseite/leistungen.html).
+ * Jede Karte ist ein echter Link (keine verschachtelten interaktiven Elemente).
+ * Hover/Fokus: Titel fährt hoch, Text + „Mehr lesen“ gestaffelt ein. Timing nach emil-design-eng
+ * gestrafft (Referenz 700ms → 450ms ease-out, 60ms Stagger), Verlassen spürbar schneller.
+ * Touch-Geräte und schmale Viewports zeigen den Inhalt dauerhaft.
+ */
+interface Props {
+  titel: string;
+  intro: string;
+  karten: { slug: string; titel: string; text: string; icon: string }[];
+}
+const { titel, intro, karten } = Astro.props;
+---
+
+<section class="leistungen section-dark besondere-sektion" aria-labelledby="leistungen-titel">
+  <div class="container-site">
+    <div class="leistungen__kopf" data-reveal>
+      <h2 id="leistungen-titel" class="h2">{titel}</h2>
+      <p class="lead">{intro}</p>
+    </div>
+    <ul class="leistungen__grid" role="list" data-reveal-group>
+      {
+        karten.map((k) => (
+          <li data-reveal>
+            <a class="lk" href={`/leistungen/${k.slug}`}>
+              <span class="lk__media" aria-hidden="true">
+                <svg class="lk__icon" viewBox="0 0 24 24" fill="none" set:html={k.icon} />
+              </span>
+              <span class="lk__scrim" aria-hidden="true" />
+              <span class="lk__veil" aria-hidden="true" />
+              <span class="lk__inhalt">
+                <h3 class="lk__titel">{k.titel}</h3>
+                <span class="lk__text">{k.text}</span>
+                <span class="lk__mehr">Mehr lesen</span>
+              </span>
+              <span class="lk__plus" aria-hidden="true" />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .leistungen {
+    --glow-pos: 20% 0%;
+    padding: 88px 0 96px;
+  }
+
+  /* Deutlich verlangsamte Scroll-Reveal-Animation für diese Sektion (Titel wandert hoch, Text erscheint) */
+  .leistungen [data-reveal] {
+    transition:
+      opacity 900ms var(--ease-out),
+      transform 1100ms var(--ease-out);
+  }
+
+  .leistungen__kopf {
+    max-width: 560px;
+    margin-bottom: 40px;
+  }
+
+  .leistungen__kopf h2 {
+    margin-bottom: 14px;
+    color: #ffffff;
+  }
+
+  .leistungen__kopf .lead {
+    color: #f0f4f3;
+  }
+
+  .leistungen__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .lk {
+    position: relative;
+    display: block;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 4px;
+    background: #14384a;
+    color: #ffffff;
+    text-decoration: none;
+    isolation: isolate;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 160ms var(--ease-out);
+  }
+
+  .lk:active {
+    transform: scale(0.98);
+  }
+
+  .lk:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px #7fd9c4;
+  }
+
+  .lk__media {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(120% 90% at 70% 20%, rgba(79, 184, 166, 0.28), transparent 60%),
+      linear-gradient(160deg, #1b6e7a 0%, #0b2e3c 100%);
+  }
+
+  .lk__icon {
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    width: 76px;
+    height: 76px;
+    opacity: 0.95;
+    transform: translate(-50%, -50%);
+    transition: opacity 180ms ease;
+  }
+
+  .lk__scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(11, 46, 60, 0.85) 0%, rgba(11, 46, 60, 0.25) 45%, transparent 70%);
+    transition: opacity 250ms ease;
+  }
+
+  .lk__veil {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(27, 110, 122, 0.94), rgba(11, 46, 60, 0.96));
+    opacity: 0;
+    transition: opacity 220ms ease;
+  }
+
+  .lk__inhalt {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 26px;
+  }
+
+  .lk__titel {
+    max-width: 78%;
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 1.28;
+    color: #ffffff;
+    hyphens: auto;
+    transform: translateY(186px);
+    transition: transform 280ms var(--ease-out);
+  }
+
+  .lk__text,
+  .lk__mehr {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 150ms ease,
+      transform 200ms var(--ease-out);
+  }
+
+  .lk__text {
+    margin-top: 16px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: #f0f4f3;
+  }
+
+  .lk__mehr {
+    margin-top: 16px;
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgba(240, 244, 243, 0.6);
+    font-size: 13.5px;
+    font-weight: 500;
+  }
+
+  .lk__plus {
+    position: absolute;
+    right: 22px;
+    bottom: 22px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #ffffff;
+    transition: background-color 200ms ease;
+  }
+
+  .lk__plus::before,
+  .lk__plus::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border-radius: 1px;
+    background: #0b2e3c;
+    transform: translate(-50%, -50%);
+    transition: background-color 200ms ease;
+  }
+
+  .lk__plus::before {
+    width: 13px;
+    height: 1.8px;
+  }
+
+  .lk__plus::after {
+    width: 1.8px;
+    height: 13px;
+  }
+
+  /* Aktiver Zustand: Maus-Hover oder Tastaturfokus. Eintreten langsamer, gestaffelt. */
+  .lk:focus-visible .lk__icon {
+    opacity: 0;
+  }
+
+  .lk:focus-visible .lk__veil {
+    opacity: 1;
+  }
+
+  .lk:focus-visible .lk__scrim {
+    opacity: 0;
+  }
+
+  .lk:focus-visible .lk__titel {
+    transform: translateY(0);
+  }
+
+  .lk:focus-visible .lk__text,
+  .lk:focus-visible .lk__mehr {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .lk:focus-visible .lk__plus {
+    background: var(--verlauf);
+  }
+
+  .lk:focus-visible .lk__plus::before,
+  .lk:focus-visible .lk__plus::after {
+    background: #ffffff;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .lk:hover .lk__icon {
+      opacity: 0;
+    }
+
+    .lk:hover .lk__veil {
+      opacity: 1;
+      transition-duration: 320ms;
+    }
+
+    .lk:hover .lk__scrim {
+      opacity: 0;
+    }
+
+    .lk:hover .lk__titel {
+      transform: translateY(0);
+      transition-duration: 450ms;
+    }
+
+    .lk:hover .lk__text,
+    .lk:hover .lk__mehr {
+      opacity: 1;
+      transform: translateY(0);
+      transition:
+        opacity 300ms ease 60ms,
+        transform 450ms var(--ease-out) 60ms;
+    }
+
+    .lk:hover .lk__mehr {
+      transition-delay: 120ms;
+    }
+
+    .lk:hover .lk__plus {
+      background: var(--verlauf);
+    }
+
+    .lk:hover .lk__plus::before,
+    .lk:hover .lk__plus::after {
+      background: #ffffff;
+    }
+  }
+
+  @media (max-width: 940px) {
+    .leistungen__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* Touch-Geräte und Mobile: Inhalt dauerhaft sichtbar, Icon ausgeblendet */
+  @media (hover: none), (max-width: 600px) {
+    .lk {
+      height: auto;
+      min-height: 240px;
+    }
+
+    .lk__icon {
+      display: none;
+    }
+
+    .lk__inhalt {
+      position: relative;
+      padding-bottom: 72px;
+    }
+
+    .lk__titel {
+      transform: none;
+    }
+
+    .lk__text,
+    .lk__mehr {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .leistungen {
+      padding: 56px 0 64px;
+    }
+
+    .leistungen__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lk__titel,
+    .lk__text,
+    .lk__mehr {
+      transition: opacity 200ms ease !important;
+    }
+
+    .lk:hover .lk__titel,
+    .lk:focus-visible .lk__titel {
+      transform: none;
+    }
+
+    .lk__titel {
+      transform: none;
+    }
+
+    .lk__text,
+    .lk__mehr {
+      transform: none;
+    }
+
+    .lk__inhalt {
+      justify-content: flex-end;
+    }
+  }
+</style>

@@ -1,0 +1,32 @@
+---
+interface Props {
+  titel?: string;
+  text?: string;
+  ctaText?: string;
+  ctaHref?: string;
+  leistungSlug?: string;
+}
+
+const {
+  titel = "Bereit für eine IT, die einfach funktioniert?",
+  text = "In 30 Minuten klären wir, wo Sie stehen und was als Nächstes sinnvoll ist. Unverbindlich und kostenlos.",
+  ctaText = "Kostenloses Erstgespräch buchen",
+  ctaHref = "/kontakt",
+  leistungSlug,
+} = Astro.props;
+
+const href = leistungSlug ? `${ctaHref}?leistung=${leistungSlug}` : ctaHref;
+---
+
+<section aria-labelledby="cta-banner-heading" class="bg-bg-dark py-16 text-white md:py-20">
+  <div class="mx-auto max-w-3xl px-4 text-center">
+    <h2 id="cta-banner-heading" class="reveal font-headline text-3xl font-medium tracking-tight md:text-4xl">{titel}</h2>
+    <p class="reveal mt-4 text-base text-white/68 md:text-lg">{text}</p>
+    <a
+      href={href}
+      class="bg-gradient-brand reveal mt-8 inline-flex min-h-11 items-center justify-center rounded-full px-8 py-3.5 text-base font-semibold text-white"
+    >
+      {ctaText}
+    </a>
+  </div>
+</section>

@@ -1,0 +1,27 @@
+---
+interface Props {
+  kategorieTag: string;
+  headline: string;
+  text?: string;
+  zitat: string;
+}
+
+const { kategorieTag, headline, text, zitat } = Astro.props;
+---
+
+<div>
+  <span class="bg-accent-start/10 text-bg-dark mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1 text-xs font-medium uppercase tracking-wide">
+    <span aria-hidden="true" class="bg-accent-start size-1.5 rounded-full"></span>
+    {kategorieTag}
+  </span>
+
+  <h1 class="font-headline text-4xl font-medium leading-[1.1] tracking-tight md:text-5xl lg:text-6xl">{headline}</h1>
+
+  {text && <p class="text-bg-dark/80 mt-4 max-w-xl text-base leading-relaxed md:text-lg">{text}</p>}
+
+  <blockquote class="border-accent-start relative mt-8 max-w-xl border-l-4 pl-6 py-1">
+    <p class="font-mono text-base leading-relaxed md:text-lg">
+      <span aria-hidden="true">„</span>{zitat}<span aria-hidden="true">“</span>
+    </p>
+  </blockquote>
+</div>

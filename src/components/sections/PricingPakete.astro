@@ -1,0 +1,923 @@
+---
+/**
+ * Pricing mit 3 Paketen (docs/DESIGNSYSTEM.md → Komponente 1; referenz/it-betreuung/pricing.html,
+ * referenz/server-betreuung/pricing.html, referenz/webseiten/pricing.html).
+ * Monatlich/Jährlich-Umschalter als echte Radiogruppe; Preise für beide Zahlweisen stehen im HTML
+ * und werden per CSS umgeschaltet (funktioniert ohne JavaScript). Farben auf die Kernpalette abgebildet.
+ */
+import { KONTAKT_ANKER } from "../../lib/config";
+
+type Paket = {
+  name: string;
+  variante: "neutral" | "beliebt" | "premium";
+  badge?: string;
+  claim: string;
+  preis: number;
+  geraetPreis?: number;
+  reaktion?: { wert: string; sub: string };
+  diffTitel: string;
+  geerbt: boolean;
+  diffs: string[];
+  cta: string;
+};
+
+interface Props {
+  eyebrow?: string;
+  titel: string;
+  intro?: string;
+  chips: { titel: string; sub: string; icon: string; items: string[] };
+  jahresRabatt?: number;
+  rabattHinweis?: string;
+  einheit: string;
+  geraetEinheit?: string;
+  pakete: Paket[];
+  vergleich?: { label: string; werte?: string[]; preisFeld?: "preis" | "geraetPreis"; betont?: boolean }[];
+  zusatz?: {
+    titel: string;
+    sub: string;
+    karten: {
+      icon: string;
+      badge?: string;
+      name: string;
+      claim: string;
+      preisLabel: string;
+      preisEinheit?: string;
+      notiz?: string;
+      features: string[];
+      cta: string;
+    }[];
+  };
+}
+
+const { titel, intro, chips, jahresRabatt, rabattHinweis, einheit, geraetEinheit, pakete, vergleich, zusatz } = Astro.props;
+const id = `preise-${Math.random().toString(36).slice(2, 7)}`;
+const euro = (n: number) => `${n.toLocaleString("de-DE", { maximumFractionDigits: 2 })} €`;
+const jahr = (n: number) => Math.round(n * (1 - (jahresRabatt ?? 0)) * 100) / 100;
+const mitToggle = typeof jahresRabatt === "number";
+const einmalig = einheit === "einmalig";
+---
+
+<section class:list={["preise", { "preise--toggle": mitToggle }]} id="preise" aria-labelledby={`${id}-titel`}>
+  <svg width="0" height="0" class="preise__defs" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="preise-verlauf" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#4FB8A6"></stop>
+        <stop offset="1" stop-color="#1B6E7A"></stop>
+      </linearGradient>
+      <linearGradient id="de-flagge" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#1A1A1A"></stop><stop offset="0.333" stop-color="#1A1A1A"></stop>
+        <stop offset="0.333" stop-color="#D00000"></stop><stop offset="0.666" stop-color="#D00000"></stop>
+        <stop offset="0.666" stop-color="#FFCE00"></stop><stop offset="1" stop-color="#FFCE00"></stop>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <div class="preise__wrap">
+    <div class="preise__kopf" data-reveal>
+      <h2 id={`${id}-titel`} class="h2">{titel}</h2>
+      {intro && <p class="lead">{intro}</p>}
+    </div>
+
+    <div class="basis" data-reveal>
+      <div class="basis__kopf">
+        <span class="basis__ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" set:html={chips.icon} />
+        </span>
+        <div>
+          <h3 class="basis__titel">{chips.titel}</h3>
+          <p class="basis__sub">{chips.sub}</p>
+        </div>
+      </div>
+      <ul class="basis__chips" role="list">
+        {
+          chips.items.map((c) => (
+            <li class="chip">
+              <span class="chip__ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </span>
+              {c}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    {
+      mitToggle && (
+        <div class="zahlweise">
+          <fieldset class="umschalter">
+            <legend class="sr-only">Zahlweise</legend>
+            <span class="umschalter__daumen" aria-hidden="true" />
+            <label>
+              <input type="radio" name={`${id}-zahlweise`} value="monatlich" checked />
+              <span>Monatlich</span>
+            </label>
+            <label>
+              <input type="radio" name={`${id}-zahlweise`} value="jaehrlich" />
+              <span>Jährlich</span>
+            </label>
+          </fieldset>
+          {rabattHinweis && <span class="zahlweise__hinweis">{rabattHinweis}</span>}
+        </div>
+      )
+    }
+
+    <ul class="karten" role="list" data-reveal-group>
+      {
+        pakete.map((p) => (
+          <li class:list={["karte", `karte--${p.variante}`, { "on-dark": p.variante === "premium" }]} data-reveal>
+            {p.badge && <span class="karte__badge">{p.badge}</span>}
+            <h3 class="karte__name">{p.name}</h3>
+            <p class="karte__claim">{p.claim}</p>
+            <p class="karte__preis">
+              <span class="preis preis--monat">{euro(p.preis)}</span>
+              {mitToggle && <span class="preis preis--jahr">{euro(jahr(p.preis))}</span>}
+              <span class="karte__periode">{einmalig ? "einmalig" : einheit}</span>
+            </p>
+            {p.geraetPreis !== undefined && (
+              <p class="karte__geraet">
+                <span class="preis--monat">+ {euro(p.geraetPreis).replace(" €", "")}</span>
+                {mitToggle && <span class="preis--jahr">+ {euro(jahr(p.geraetPreis)).replace(" €", "")}</span>} {geraetEinheit}
+              </p>
+            )}
+            {mitToggle && (
+              <p class="karte__jahresnotiz">
+                <span class="preis--jahr">jährliche Zahlweise, {Math.round((jahresRabatt ?? 0) * 100)} % Rabatt inklusive</span>
+              </p>
+            )}
+            {!mitToggle && <div class="karte__trenner" />}
+            {p.reaktion && (
+              <div class="reaktion">
+                <p class="reaktion__label">Reaktionszeit</p>
+                <p class="reaktion__wert">{p.reaktion.wert}</p>
+                <p class="reaktion__sub">{p.reaktion.sub}</p>
+              </div>
+            )}
+            {p.geerbt ? (
+              <p class="diff-titel diff-titel--geerbt">
+                <span class="plus" aria-hidden="true">
+                  +
+                </span>
+                {p.diffTitel}
+              </p>
+            ) : (
+              <p class="diff-titel">{p.diffTitel}</p>
+            )}
+            <ul class="diffs" role="list">
+              {p.diffs.map((d) => (
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  <span>{d}</span>
+                </li>
+              ))}
+            </ul>
+            <a
+              class:list={["btn btn--sm btn--block karte__cta", { "btn--hell": p.variante === "premium" }]}
+              href={KONTAKT_ANKER}
+              aria-label={`${p.cta}: Paket ${p.name}`}
+            >
+              <span>{p.cta}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    {
+      vergleich && (
+        <details class="vergleich">
+          <summary>
+            Vollständigen Funktionsvergleich anzeigen
+            <svg class="vergleich__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </summary>
+          <div class="vergleich__scroll">
+            <table>
+              <caption class="sr-only">Funktionsvergleich der Pakete</caption>
+              <thead>
+                <tr>
+                  <td />
+                  {pakete.map((p) => (
+                    <th scope="col">{p.name}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {vergleich.map((z) => (
+                  <tr class:list={{ "ist-betont": z.betont }}>
+                    <th scope="row">{z.label}</th>
+                    {z.preisFeld
+                      ? pakete.map((p) => (
+                          <td>
+                            <span class="preis--monat">{euro(p[z.preisFeld!] ?? 0)}</span>
+                            {mitToggle && <span class="preis--jahr">{euro(jahr(p[z.preisFeld!] ?? 0))}</span>}
+                          </td>
+                        ))
+                      : (z.werte ?? []).map((w) => (
+                          <td>
+                            {w === "✓" ? (
+                              <>
+                                <span class="wert-ja" aria-hidden="true">✓</span>
+                                <span class="sr-only">enthalten</span>
+                              </>
+                            ) : w === "–" ? (
+                              <>
+                                <span class="wert-nein" aria-hidden="true">–</span>
+                                <span class="sr-only">nicht enthalten</span>
+                              </>
+                            ) : (
+                              w
+                            )}
+                          </td>
+                        ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </details>
+      )
+    }
+
+    {
+      zusatz && (
+        <div class="zusatz">
+          <h3 class="zusatz__titel">{zusatz.titel}</h3>
+          <p class="zusatz__sub">{zusatz.sub}</p>
+          <ul class:list={["zusatz__grid", { "zusatz__grid--einzeln": zusatz.karten.length === 1 }]} role="list">
+            {zusatz.karten.map((z) => (
+              <li class:list={["karte", z.badge ? "karte--beliebt" : "karte--neutral"]}>
+                {z.badge && <span class="karte__badge">{z.badge}</span>}
+                <div class="karte__name-zeile">
+                  <span class="karte__name-ico" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="url(#preise-verlauf)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" set:html={z.icon} />
+                  </span>
+                  <h4 class="karte__name">{z.name}</h4>
+                </div>
+                <p class="karte__claim">{z.claim}</p>
+                <p class="karte__preis">
+                  <span class="preis">{z.preisLabel}</span>
+                  {z.preisEinheit && <span class="karte__periode">{z.preisEinheit}</span>}
+                </p>
+                {z.notiz && <p class="karte__jahresnotiz karte__jahresnotiz--fest">{z.notiz}</p>}
+                <div class="karte__trenner" />
+                <p class="diff-titel">Enthaltene Leistungen</p>
+                <ul class="diffs" role="list">
+                  {z.features.map((f) => (
+                    <li>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+                <a class="btn btn--sm btn--block karte__cta" href={KONTAKT_ANKER}>
+                  <span>{z.cta}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .preise {
+    padding: 96px 24px 104px;
+    background: var(--nebel);
+  }
+
+  .preise__defs {
+    position: absolute;
+  }
+
+  .preise__wrap {
+    max-width: 980px;
+    margin: 0 auto;
+  }
+
+  .preise__kopf {
+    max-width: 560px;
+    margin-bottom: 32px;
+  }
+
+  .preise__kopf h2 {
+    margin-bottom: 10px;
+  }
+
+  /* ---------- Grundausstattung ---------- */
+  .basis {
+    margin-bottom: 28px;
+    padding: 26px 30px;
+    border: 1px solid rgba(11, 46, 60, 0.14);
+    border-radius: 18px;
+    background: #ffffff;
+  }
+
+  .basis__kopf {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .basis__ico {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    flex: none;
+    border-radius: 12px;
+    background: var(--verlauf);
+    box-shadow: 0 4px 12px rgba(27, 110, 122, 0.25);
+  }
+
+  .basis__ico svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .basis__titel {
+    font-size: 17px;
+    font-weight: 700;
+  }
+
+  .basis__sub {
+    margin-top: 2px;
+    font-size: 13.5px;
+    color: var(--ink-72);
+  }
+
+  .basis__chips {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13.5px;
+    font-weight: 500;
+  }
+
+  .chip__ico {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    flex: none;
+    border: 1px solid rgba(11, 46, 60, 0.14);
+    border-radius: 50%;
+    background: var(--nebel);
+    color: var(--petrol);
+  }
+
+  .chip__ico svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* ---------- Zahlweise ---------- */
+  .zahlweise {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 36px;
+  }
+
+  .umschalter {
+    position: relative;
+    display: inline-flex;
+    margin: 0;
+    padding: 4px;
+    border: 1px solid rgba(11, 46, 60, 0.14);
+    border-radius: 999px;
+    background: #ffffff;
+  }
+
+  .umschalter label {
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+  }
+
+  .umschalter input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+  }
+
+  .umschalter span:not(.umschalter__daumen) {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 22px;
+    border-radius: 999px;
+    color: var(--ink-72);
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 200ms ease;
+  }
+
+  .umschalter input:checked + span {
+    color: #ffffff;
+  }
+
+  .umschalter input:focus-visible + span {
+    outline: 2px solid var(--petrol);
+    outline-offset: 2px;
+  }
+
+  /* Daumen gleitet auf dem Bildschirm → ease-in-out (emil-design-eng), 220ms */
+  .umschalter__daumen {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 4px;
+    z-index: 1;
+    width: calc(50% - 4px);
+    border-radius: 999px;
+    background: var(--verlauf);
+    transition: transform 220ms var(--ease-in-out);
+  }
+
+  .umschalter:has(input[value="jaehrlich"]:checked) .umschalter__daumen {
+    transform: translateX(100%);
+  }
+
+  .zahlweise__hinweis {
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(79, 184, 166, 0.14);
+    color: var(--petrol);
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  /* Preisumschaltung per CSS */
+  .preis--jahr {
+    display: none;
+  }
+
+  .preise--toggle:has(input[value="jaehrlich"]:checked) .preis--monat {
+    display: none;
+  }
+
+  .preise--toggle:has(input[value="jaehrlich"]:checked) .preis--jahr {
+    display: inline;
+  }
+
+  /* ---------- Karten ---------- */
+  .karten,
+  .zusatz__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    align-items: stretch;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .karte {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 22px 20px 20px;
+    border: 1px solid rgba(11, 46, 60, 0.14);
+    border-radius: 18px;
+    background: #ffffff;
+    color: var(--ink);
+    transition:
+      box-shadow 200ms ease,
+      transform 200ms var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .karte:hover {
+      box-shadow: 0 10px 28px rgba(11, 46, 60, 0.09);
+      transform: translateY(-2px);
+    }
+  }
+
+  .karte--beliebt {
+    border: 2px solid var(--tuerkis);
+  }
+
+  .karte--premium {
+    border-color: transparent;
+    background: var(--tiefsee);
+    color: #ffffff;
+    box-shadow: 0 0 0 1px rgba(79, 184, 166, 0.2), 0 14px 40px -12px rgba(79, 184, 166, 0.2);
+  }
+
+  /* Badge: helle Verlaufsvariante mit dunklem Text (Kontrast ≥ 4,5:1) */
+  .karte__badge {
+    position: absolute;
+    top: -13px;
+    left: 24px;
+    padding: 5px 14px;
+    border-radius: 999px;
+    background: var(--verlauf-hell);
+    color: var(--tiefsee);
+    font-family: var(--font-headline);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .karte--premium .karte__badge {
+    background: #ffffff;
+  }
+
+  .karte__name {
+    margin: 6px 0;
+    font-size: 19px;
+    font-weight: 600;
+  }
+
+  .karte__claim {
+    min-height: 37px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--ink-72);
+  }
+
+  .karte--premium .karte__claim {
+    color: rgba(240, 244, 243, 0.78);
+  }
+
+  .karte__preis {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 2px;
+  }
+
+  .preis {
+    font-family: var(--font-headline);
+    font-size: 30px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .karte__periode,
+  .karte__geraet {
+    font-size: 12.5px;
+    color: var(--ink-72);
+  }
+
+  .karte__geraet {
+    margin-bottom: 6px;
+  }
+
+  .karte--premium .karte__periode,
+  .karte--premium .karte__geraet {
+    color: rgba(240, 244, 243, 0.78);
+  }
+
+  .karte__jahresnotiz {
+    min-height: 16px;
+    margin-bottom: 14px;
+    font-size: 11.5px;
+    color: var(--petrol);
+  }
+
+  .karte--premium .karte__jahresnotiz {
+    color: var(--helltuerkis);
+  }
+
+  .karte__trenner {
+    height: 1px;
+    margin: 14px 0 16px;
+    background: rgba(11, 46, 60, 0.1);
+  }
+
+  .reaktion {
+    margin-bottom: 16px;
+    padding: 13px 15px;
+    border-left: 4px solid var(--tuerkis);
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(79, 184, 166, 0.12), var(--nebel));
+  }
+
+  .karte--premium .reaktion {
+    border-left-color: var(--helltuerkis);
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .reaktion__label {
+    margin-bottom: 10px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--petrol);
+  }
+
+  .reaktion__wert {
+    margin-bottom: 4px;
+    font-family: var(--font-headline);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .reaktion__sub {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--petrol);
+  }
+
+  .karte--premium .reaktion__label,
+  .karte--premium .reaktion__sub {
+    color: var(--helltuerkis);
+  }
+
+  .diff-titel {
+    margin-bottom: 10px;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--ink-68);
+  }
+
+  .karte--premium .diff-titel {
+    color: rgba(240, 244, 243, 0.72);
+  }
+
+  .diff-titel--geerbt {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--petrol);
+  }
+
+  .karte--premium .diff-titel--geerbt {
+    color: var(--helltuerkis);
+  }
+
+  .plus {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 15px;
+    flex: none;
+    border-radius: 50%;
+    background: var(--petrol);
+    color: #ffffff;
+    font-size: 11px;
+    line-height: 1;
+  }
+
+  .karte--premium .plus {
+    background: var(--helltuerkis);
+    color: var(--tiefsee);
+  }
+
+  .diffs {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0 0 18px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .diffs li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .diffs svg {
+    width: 15px;
+    height: 15px;
+    flex: none;
+    margin-top: 2px;
+    color: var(--petrol);
+  }
+
+  .karte--premium .diffs svg {
+    color: var(--helltuerkis);
+  }
+
+  .karte__cta {
+    margin-top: auto;
+  }
+
+  .karte__name-zeile {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 6px 0;
+  }
+
+  .karte__name-zeile .karte__name {
+    margin: 0;
+  }
+
+  .karte__name-ico svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* ---------- Vergleich ---------- */
+  .vergleich {
+    margin-top: 26px;
+    text-align: center;
+  }
+
+  .vergleich summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 22px;
+    border: 1.5px solid var(--tuerkis);
+    border-radius: 999px;
+    background: #ffffff;
+    color: var(--petrol);
+    font-size: 14px;
+    font-weight: 600;
+    list-style: none;
+    cursor: pointer;
+    transition:
+      background-color 200ms ease,
+      transform 160ms var(--ease-out);
+  }
+
+  .vergleich summary::-webkit-details-marker {
+    display: none;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .vergleich summary:hover {
+      background: rgba(79, 184, 166, 0.1);
+    }
+  }
+
+  .vergleich summary:active {
+    transform: scale(0.97);
+  }
+
+  .vergleich__chevron {
+    width: 14px;
+    height: 14px;
+    transition: transform 200ms var(--ease-out);
+  }
+
+  .vergleich[open] .vergleich__chevron {
+    transform: rotate(180deg);
+  }
+
+  .vergleich__scroll {
+    margin-top: 18px;
+    overflow-x: auto;
+    border: 1px solid rgba(11, 46, 60, 0.14);
+    border-radius: 14px;
+    background: #ffffff;
+  }
+
+  .vergleich table {
+    width: 100%;
+    min-width: 520px;
+    border-collapse: collapse;
+  }
+
+  .vergleich th,
+  .vergleich td {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(11, 46, 60, 0.07);
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .vergleich thead th {
+    font-family: var(--font-headline);
+    font-weight: 600;
+  }
+
+  .vergleich tbody th {
+    font-weight: 400;
+    text-align: left;
+    color: var(--ink-72);
+  }
+
+  .vergleich tr:last-child th,
+  .vergleich tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .vergleich .ist-betont th,
+  .vergleich .ist-betont td {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .wert-ja {
+    color: var(--petrol);
+    font-weight: 700;
+  }
+
+  .wert-nein {
+    color: rgba(11, 46, 60, 0.45);
+  }
+
+  /* ---------- Zusatzleistungen ---------- */
+  .zusatz {
+    margin-top: 52px;
+  }
+
+  .zusatz__titel {
+    margin-bottom: 6px;
+    font-size: 22px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .zusatz__sub {
+    margin-bottom: 26px;
+    font-size: 14px;
+    text-align: center;
+    color: var(--ink-72);
+  }
+
+  .zusatz__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .zusatz__grid--einzeln {
+    grid-template-columns: minmax(280px, 380px);
+    justify-content: center;
+  }
+
+  .karte__jahresnotiz--fest {
+    margin: 4px 0 0;
+  }
+
+  @media (max-width: 820px) {
+    .basis__chips {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .karten,
+    .zusatz__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .karte + .karte {
+      margin-top: 10px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .preise {
+      padding: 64px 20px 72px;
+    }
+
+    .basis {
+      padding: 22px 20px;
+    }
+
+    .basis__chips {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .karte,
+    .karte:hover {
+      transform: none;
+    }
+
+    .umschalter__daumen {
+      transition: none;
+    }
+  }
+</style>

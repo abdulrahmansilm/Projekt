@@ -1,0 +1,13 @@
+:80 {
+	handle /api/* {
+		reverse_proxy backend:8000
+	}
+
+	handle {
+		root * /srv
+		try_files {path} /404.html
+		file_server
+	}
+
+	encode gzip
+}

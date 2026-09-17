@@ -1,0 +1,141 @@
+---
+/**
+ * Preise „auf Anfrage“ (docs/ANFORDERUNGEN.md → Fernzugriff/VPN, Hardware-Beschaffung, Microsoft 365, jeweils Punkt „Preise“).
+ * Keine eigene Referenzdatei: kompakte Sektion im Stil der Einrichtungs-Karte (gestrichelter Rahmen),
+ * führt direkt in das Kontaktformular.
+ */
+import { KONTAKT_ANKER } from "../../lib/config";
+
+interface Props {
+  eyebrow?: string;
+  titel: string;
+  intro?: string;
+  punkte: string[];
+  cta: string;
+}
+const { eyebrow, titel, intro, punkte, cta } = Astro.props;
+---
+
+<section class="paa" id="preise" aria-labelledby="paa-titel">
+  <div class="paa__karte" data-reveal>
+    <div class="paa__text">
+      {
+        eyebrow && (
+          <p class="eyebrow">
+            <span class="eyebrow__dot" aria-hidden="true" />
+            {eyebrow}
+          </p>
+        )
+      }
+      <h2 id="paa-titel" class="h2">{titel}</h2>
+      {intro && <p class="lead">{intro}</p>}
+      <a class="btn" href={KONTAKT_ANKER}>
+        <span>{cta}</span>
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </a>
+    </div>
+    <div class="paa__faktoren">
+      <p class="paa__faktoren-titel">Der Preis richtet sich nach</p>
+      <ul role="list">
+        {
+          punkte.map((p) => (
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              {p}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .paa {
+    padding: 96px 24px;
+    background: var(--nebel);
+  }
+
+  .paa__karte {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 48px;
+    align-items: center;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 40px 44px;
+    border: 1.5px dashed var(--tuerkis);
+    border-radius: 20px;
+    background: #ffffff;
+  }
+
+  .paa__text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .paa__text .btn {
+    margin-top: 8px;
+  }
+
+  .paa__faktoren {
+    padding: 26px 28px;
+    border-radius: 16px;
+    background: var(--nebel);
+  }
+
+  .paa__faktoren-titel {
+    margin-bottom: 14px;
+    font-family: var(--font-headline);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--petrol);
+  }
+
+  .paa__faktoren ul {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .paa__faktoren li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14.5px;
+    line-height: 1.45;
+  }
+
+  .paa__faktoren svg {
+    width: 16px;
+    height: 16px;
+    flex: none;
+    margin-top: 2px;
+    color: var(--petrol);
+  }
+
+  @media (max-width: 820px) {
+    .paa__karte {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding: 30px 24px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .paa {
+      padding: 64px 20px;
+    }
+  }
+</style>
