@@ -3,5 +3,3 @@
   "include": [".astro/types.d.ts", "**/*"],
   "exclude": ["dist", "_archiv", "backend"]
 }
-
-
