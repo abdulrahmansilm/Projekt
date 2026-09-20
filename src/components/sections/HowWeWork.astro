@@ -1,9 +1,9 @@
 ---
 /**
- * „So arbeiten wir“ (Redesign 17.09.2026, Vorlage referenz/startseite/claude_components_howwework-redesign-startseite.html).
- * Karussell: große Geisterzahl + Illustration links, Schritt-Text rechts, Pfeile + Punkte zur Navigation.
- * Autoplay alle 6s, pausiert bei Hover/Fokus und bei prefers-reduced-motion aus (emil-design-eng).
- * Bilder liegen unter public/hww/schritt-N.svg (aus der Referenzdatei extrahiert).
+ * „So arbeiten wir“ (Redesign, Vorlage referenz/startseite/claude_components_howwework-redesign-startseite.html).
+ * Besondere Sektion. Kleine Schrittzahl oben links am Bild, Illustration rechts daneben, Schritt-Text rechts.
+ * Navigation über Schritt-Reiter (kein Autoplay, keine Pfeile): Der Wechsel passiert nur auf Klick oder per Tastatur.
+ * Bilder unter public/hww/schritt-N.svg.
  */
 const schritte = [
   { titel: "Kennenlernen", text: "Ein unverbindliches Gespräch, in dem Sie Ihre Situation schildern. Wir hören zu, ohne Fachjargon." },
@@ -11,28 +11,24 @@ const schritte = [
   { titel: "Umsetzung", text: "Wir setzen die passende Lösung um, mit möglichst wenig Unterbrechung Ihres Tagesgeschäfts." },
   { titel: "Betreuung", text: "Danach bleiben wir Ihr fester Ansprechpartner. Eine Nummer, ein Name, keine wechselnden Zuständigkeiten." },
 ];
+const id = `hww-${Math.random().toString(36).slice(2, 7)}`;
 ---
 
-<section class="hww2 section-dark" aria-labelledby="hww2-titel" data-hww>
-  <div class="container-site">
+<section class="hww2 section-dark besondere-sektion" aria-labelledby={`${id}-titel`} data-hww>
+  <div class="hww2__inner">
     <div class="hww2-head" data-reveal>
-      <h2 id="hww2-titel" class="h2">So arbeiten wir</h2>
+      <h2 id={`${id}-titel`} class="h2">So arbeiten wir</h2>
       <p class="lead">Vier klare Schritte, ein fester Ansprechpartner: von der ersten Frage bis zur laufenden Betreuung.</p>
     </div>
 
     <div class="hww2-grid">
       <div class="hww2-visual" data-hww-visual>
-        <div class="hww2-dots-bg" aria-hidden="true"><span></span><span></span><span></span></div>
-        {
-          schritte.map((_, i) => (
-            <span class:list={["hww2-num", { show: i === 0 }]} data-num={i} aria-hidden="true">
-              {String(i + 1).padStart(2, "0")}
-            </span>
-          ))
-        }
         {
           schritte.map((_, i) => (
             <div class:list={["hww2-illustration", { show: i === 0 }]} data-illu={i}>
+              <span class="hww2-num" aria-hidden="true">
+                {String(i + 1).padStart(2, "0")}
+              </span>
               <img src={`/hww/schritt-${i + 1}.svg`} alt="" width="500" height="500" loading={i === 0 ? "eager" : "lazy"} />
             </div>
           ))
@@ -40,10 +36,17 @@ const schritte = [
       </div>
 
       <div class="hww2-content">
-        <div class="hww2-steps" data-hww-steps>
+        <div class="hww2-steps">
           {
             schritte.map((s, i) => (
-              <div class:list={["hww2-step", { show: i === 0 }]} data-step={i}>
+              <div
+                class:list={["hww2-step", { show: i === 0 }]}
+                role="tabpanel"
+                id={`${id}-panel-${i}`}
+                aria-labelledby={`${id}-tab-${i}`}
+                data-step={i}
+                aria-hidden={i === 0 ? undefined : "true"}
+              >
                 <h3>{s.titel}</h3>
                 <p>{s.text}</p>
               </div>
@@ -51,25 +54,24 @@ const schritte = [
           }
         </div>
 
-        <div class="hww2-nav">
-          <button class="hww2-arrow" data-hww-prev aria-label="Vorheriger Schritt" type="button">
-            <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"></path></svg>
-          </button>
-          <div class="hww2-dashes" role="tablist" aria-label="Schritte">
-            {
-              schritte.map((s, i) => (
-                <button
-                  class:list={["hww2-dash", { active: i === 0 }]}
-                  data-hww-idx={i}
-                  aria-label={`Schritt ${i + 1}: ${s.titel}`}
-                  type="button"
-                />
-              ))
-            }
-          </div>
-          <button class="hww2-arrow" data-hww-next aria-label="Nächster Schritt" type="button">
-            <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"></path></svg>
-          </button>
+        <div class="hww2-tabs" role="tablist" aria-label="Schritte">
+          {
+            schritte.map((s, i) => (
+              <button
+                type="button"
+                role="tab"
+                id={`${id}-tab-${i}`}
+                aria-controls={`${id}-panel-${i}`}
+                aria-selected={i === 0 ? "true" : "false"}
+                tabindex={i === 0 ? 0 : -1}
+                class:list={["hww2-tab", { active: i === 0 }]}
+                data-hww-idx={i}
+              >
+                <span class="hww2-tab__nr">{String(i + 1).padStart(2, "0")}</span>
+                <span class="hww2-tab__name">{s.titel}</span>
+              </button>
+            ))
+          }
         </div>
       </div>
     </div>
@@ -78,73 +80,61 @@ const schritte = [
 
 <script>
   document.querySelectorAll<HTMLElement>("[data-hww]").forEach((root) => {
-    const total = 4;
-    let current = 0;
-    let timer: number | undefined;
-    const AUTOPLAY_MS = 6000;
-
-    const nums = Array.from(root.querySelectorAll<HTMLElement>(".hww2-num"));
     const illus = Array.from(root.querySelectorAll<HTMLElement>(".hww2-illustration"));
     const steps = Array.from(root.querySelectorAll<HTMLElement>(".hww2-step"));
-    const dashes = Array.from(root.querySelectorAll<HTMLElement>(".hww2-dash"));
-    const prevBtn = root.querySelector<HTMLButtonElement>("[data-hww-prev]")!;
-    const nextBtn = root.querySelector<HTMLButtonElement>("[data-hww-next]")!;
-    const visual = root.querySelector<HTMLElement>("[data-hww-visual]")!;
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>(".hww2-tab"));
 
-    const gehe = (idx: number) => {
-      current = (idx + total) % total;
-      nums.forEach((el) => el.classList.toggle("show", el.dataset.num === String(current)));
-      illus.forEach((el) => el.classList.toggle("show", el.dataset.illu === String(current)));
-      steps.forEach((el) => el.classList.toggle("show", el.dataset.step === String(current)));
-      dashes.forEach((el, i) => {
-        el.classList.toggle("active", i === current);
-        el.setAttribute("aria-current", i === current ? "true" : "false");
+    const gehe = (idx: number, fokus = false) => {
+      const n = (idx + tabs.length) % tabs.length;
+      illus.forEach((el, i) => el.classList.toggle("show", i === n));
+      steps.forEach((el, i) => {
+        el.classList.toggle("show", i === n);
+        if (i === n) el.removeAttribute("aria-hidden");
+        else el.setAttribute("aria-hidden", "true");
       });
+      tabs.forEach((t, i) => {
+        t.classList.toggle("active", i === n);
+        t.setAttribute("aria-selected", String(i === n));
+        t.tabIndex = i === n ? 0 : -1;
+      });
+      if (fokus) tabs[n].focus();
     };
 
-    const weiter = () => gehe(current + 1);
-    const zurueck = () => gehe(current - 1);
-
-    const neuStarten = () => {
-      window.clearInterval(timer);
-      timer = window.setInterval(weiter, AUTOPLAY_MS);
-    };
-
-    nextBtn.addEventListener("click", () => {
-      weiter();
-      neuStarten();
+    tabs.forEach((t, i) => t.addEventListener("click", () => gehe(i)));
+    root.querySelector(".hww2-tabs")?.addEventListener("keydown", (e) => {
+      const ev = e as KeyboardEvent;
+      const aktuell = tabs.findIndex((t) => t.getAttribute("aria-selected") === "true");
+      if (ev.key === "ArrowRight") {
+        ev.preventDefault();
+        gehe(aktuell + 1, true);
+      } else if (ev.key === "ArrowLeft") {
+        ev.preventDefault();
+        gehe(aktuell - 1, true);
+      } else if (ev.key === "Home") {
+        ev.preventDefault();
+        gehe(0, true);
+      } else if (ev.key === "End") {
+        ev.preventDefault();
+        gehe(tabs.length - 1, true);
+      }
     });
-    prevBtn.addEventListener("click", () => {
-      zurueck();
-      neuStarten();
-    });
-    dashes.forEach((el, i) => {
-      el.addEventListener("click", () => {
-        gehe(i);
-        neuStarten();
-      });
-    });
-
-    visual.addEventListener("mouseenter", () => window.clearInterval(timer));
-    visual.addEventListener("mouseleave", neuStarten);
-    root.addEventListener("focusin", () => window.clearInterval(timer));
-    root.addEventListener("focusout", neuStarten);
-
-    const reduziert = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!reduziert) neuStarten();
   });
 </script>
 
 <style>
   .hww2 {
     --glow-pos: 14% 8%;
-    padding: 120px 0 130px;
-    overflow: hidden;
+    padding: 110px 32px 120px;
+  }
+
+  .hww2__inner {
+    max-width: 1180px;
+    margin: 0 auto;
   }
 
   .hww2-head {
     max-width: 640px;
-    margin: 0 0 64px;
+    margin: 0 0 56px;
   }
 
   .hww2-head .h2 {
@@ -153,41 +143,15 @@ const schritte = [
 
   .hww2-grid {
     display: grid;
-    grid-template-columns: 0.86fr 1.14fr;
-    gap: 16px;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 40px;
     align-items: center;
   }
 
-  /* ---------- Visual ---------- */
+  /* ---------- Bild + kleine Schrittzahl ---------- */
   .hww2-visual {
     position: relative;
     height: 460px;
-    display: flex;
-    align-items: center;
-    padding-left: clamp(60px, 9vw, 130px);
-  }
-
-  .hww2-num {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    font-family: var(--font-headline);
-    font-weight: 700;
-    font-size: clamp(110px, 11vw, 180px);
-    line-height: 1;
-    color: rgba(240, 244, 243, 0.07);
-    -webkit-text-stroke: 1.5px rgba(240, 244, 243, 0.24);
-    letter-spacing: -0.02em;
-    z-index: 0;
-    user-select: none;
-    opacity: 0;
-    transition: opacity 500ms ease;
-    pointer-events: none;
-  }
-
-  .hww2-num.show {
-    opacity: 1;
   }
 
   .hww2-illustration {
@@ -197,54 +161,49 @@ const schritte = [
     align-items: center;
     justify-content: flex-end;
     opacity: 0;
-    transform: translateY(14px) scale(0.97);
+    transform: translateY(14px) scale(0.98);
     transition:
       opacity 500ms ease,
       transform 500ms ease;
     pointer-events: none;
-    z-index: 1;
   }
 
   .hww2-illustration.show {
     opacity: 1;
     transform: none;
-    pointer-events: auto;
   }
 
   .hww2-illustration img {
     width: 100%;
-    max-width: 400px;
+    max-width: 380px;
     height: auto;
-    display: block;
     filter: drop-shadow(0 22px 40px rgba(0, 0, 0, 0.35));
   }
 
-  .hww2-dots-bg {
+  /* Klein und oben links vom Bild: keine Überschneidung mit der Illustration */
+  .hww2-num {
     position: absolute;
-    right: 6%;
-    top: 14%;
-    display: flex;
-    gap: 9px;
-    z-index: 0;
+    top: 6px;
+    left: 0;
+    font-family: var(--font-headline);
+    font-weight: 700;
+    font-size: 44px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: rgba(240, 244, 243, 0.14);
+    -webkit-text-stroke: 1.2px rgba(240, 244, 243, 0.4);
+    user-select: none;
   }
 
-  .hww2-dots-bg span {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: rgba(240, 244, 243, 0.22);
-  }
-
-  /* ---------- Content ---------- */
+  /* ---------- Text ---------- */
   .hww2-content {
-    position: relative;
     padding-left: 8px;
   }
 
   .hww2-steps {
     position: relative;
-    min-height: 172px;
-    margin-bottom: 36px;
+    min-height: 180px;
+    margin-bottom: 34px;
   }
 
   .hww2-step {
@@ -260,115 +219,108 @@ const schritte = [
   }
 
   .hww2-step.show {
+    position: relative;
     opacity: 1;
     transform: none;
     pointer-events: auto;
-    position: relative;
   }
 
   .hww2-step h3 {
-    font-size: clamp(24px, 2.6vw, 32px);
-    font-weight: 600;
     margin-bottom: 14px;
+    font-size: clamp(26px, 2.8vw, 34px);
+    font-weight: 600;
     line-height: 1.2;
   }
 
   .hww2-step p {
-    font-size: 15.5px;
+    max-width: 500px;
+    font-size: 17.5px;
     line-height: 1.7;
     color: var(--on-dark-72);
-    max-width: 480px;
   }
 
-  /* ---------- Nav ---------- */
-  .hww2-nav {
+  /* ---------- Schritt-Reiter statt Pfeile ---------- */
+  .hww2-tabs {
     display: flex;
-    align-items: center;
-    gap: 22px;
+    flex-wrap: wrap;
+    gap: 8px 6px;
   }
 
-  .hww2-arrow {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    flex: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--line-dark);
-    background: rgba(240, 244, 243, 0.04);
-    color: var(--on-dark);
+  .hww2-tab {
+    position: relative;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    min-height: 44px;
+    padding: 10px 16px 12px;
+    border: 0;
+    border-radius: 12px;
+    background: transparent;
+    color: var(--on-dark-55);
+    font-family: var(--font-headline);
     cursor: pointer;
     transition:
-      background-color 200ms ease,
-      border-color 200ms ease,
-      transform 160ms var(--ease-out);
+      color 200ms ease,
+      background-color 200ms ease;
   }
 
-  .hww2-arrow svg {
-    width: 16px;
-    height: 16px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+  .hww2-tab::after {
+    content: "";
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 6px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--verlauf);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 320ms var(--ease-out);
+  }
+
+  .hww2-tab.active {
+    color: #ffffff;
+  }
+
+  .hww2-tab.active::after {
+    transform: scaleX(1);
+  }
+
+  .hww2-tab__nr {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--helltuerkis);
+  }
+
+  .hww2-tab__name {
+    font-size: 16px;
+    font-weight: 600;
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .hww2-arrow:hover {
-      background: rgba(240, 244, 243, 0.09);
-      border-color: rgba(240, 244, 243, 0.28);
+    .hww2-tab:hover {
+      background: rgba(240, 244, 243, 0.07);
+      color: #ffffff;
     }
   }
 
-  .hww2-arrow:active {
-    transform: scale(0.94);
-  }
-
-  .hww2-dashes {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .hww2-dash {
-    width: 22px;
-    height: 3px;
-    border-radius: 2px;
-    background: rgba(240, 244, 243, 0.18);
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    transition:
-      width 350ms ease,
-      background-color 350ms ease;
-  }
-
-  .hww2-dash:focus-visible {
-    outline: 2px solid var(--focus-ring);
-    outline-offset: 3px;
-  }
-
-  .hww2-dash.active {
-    width: 38px;
-    background: var(--verlauf);
+  .hww2-tab:active {
+    transform: scale(0.97);
   }
 
   @media (max-width: 980px) {
     .hww2-grid {
       grid-template-columns: 1fr;
-      gap: 0;
+      gap: 12px;
     }
 
     .hww2-visual {
-      height: 320px;
-      margin-bottom: 20px;
-      padding-left: clamp(40px, 14vw, 90px);
+      height: 340px;
     }
 
-    .hww2-num {
-      font-size: clamp(80px, 20vw, 130px);
+    .hww2-illustration {
+      justify-content: center;
     }
 
     .hww2-content {
@@ -378,16 +330,15 @@ const schritte = [
 
   @media (max-width: 600px) {
     .hww2 {
-      padding: 80px 0 90px;
+      padding: 72px 20px 80px;
     }
 
     .hww2-head {
-      margin-bottom: 44px;
+      margin-bottom: 32px;
     }
 
     .hww2-visual {
-      height: 250px;
-      padding-left: 38px;
+      height: 270px;
     }
 
     .hww2-illustration img {
@@ -395,25 +346,27 @@ const schritte = [
     }
 
     .hww2-num {
-      font-size: clamp(64px, 26vw, 100px);
-      -webkit-text-stroke: 1px rgba(240, 244, 243, 0.22);
+      font-size: 34px;
     }
 
     .hww2-steps {
-      min-height: 200px;
-      margin-bottom: 26px;
+      min-height: 210px;
     }
 
-    .hww2-dots-bg {
-      display: none;
+    .hww2-tab {
+      padding: 8px 12px 12px;
+    }
+
+    .hww2-tab::after {
+      left: 12px;
+      right: 12px;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .hww2-illustration,
     .hww2-step,
-    .hww2-num,
-    .hww2-dash {
+    .hww2-tab::after {
       transition: none;
     }
   }

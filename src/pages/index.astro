@@ -1,14 +1,15 @@
 ---
 /**
  * Startseite (Neuordnung 17.09.2026):
- * Hero → IT & KI aus einer Hand (neu) → Ihre Vorteile → Starke Partner → Unsere Leistungen (besondere Sektion)
- * → So arbeiten wir (Karussell) → Ein Projekt aus der Praxis → FAQ → CTA + Kontaktformular → Wissen → Footer
+ * Hero → IT & KI aus einer Hand → Ihre Vorteile → Starke Partner → Unsere Leistungen (besondere Sektion)
+ * → Branchen-Laufband → So arbeiten wir → Ein Projekt aus der Praxis → FAQ → CTA + Kontaktformular → Wissen → Footer
  */
 import { getEntry } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/sections/Hero.astro";
 import HeroBildVisual from "../components/hero-visuals/HeroBildVisual.astro";
 import BildText from "../components/sections/BildText.astro";
+import Branchen from "../components/sections/Branchen.astro";
 import Vorteile from "../components/sections/Vorteile.astro";
 import LeistungenGrid from "../components/sections/LeistungenGrid.astro";
 import HowWeWork from "../components/sections/HowWeWork.astro";
@@ -41,12 +42,15 @@ const s = eintrag.data as Record<string, any>;
       "Betreuung, Sicherheit und Digitalisierung liefen bislang oft bei verschiedenen Anbietern zusammen. Wir bringen beides in ein Team: klassische IT-Betreuung und moderne KI-Assistenten.",
       "Ein Ansprechpartner kennt Ihre gesamte Umgebung und sorgt dafür, dass neue Technik nahtlos in die bestehende Infrastruktur passt.",
     ]}
-    bildLabel="Team bei der Arbeit"
+    bild="/bildtext/startseite.svg"
+    bildLabel="IT und KI aus einer Hand"
+    ctaText="Beratung vereinbaren"
   />
 
   <Vorteile {...s.vorteile} />
   <StarkePartner {...s.partner} />
   <LeistungenGrid {...s.leistungen} />
+  <Branchen {...s.branchen} />
   <HowWeWork />
   <Praxisbeispiel />
   <FaqSection titel={s.faq.titel} intro={s.faq.intro} fragen={s.faq.fragen} />

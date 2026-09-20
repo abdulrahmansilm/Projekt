@@ -18,6 +18,21 @@ THEMEN: dict[str, str] = {
     "allgemein": "Allgemeine Beratung",
 }
 
+# Leistungen der Navbar (Slug -> Anzeigename), Interessen sind optional
+LEISTUNGEN: dict[str, str] = {
+    "it-betreuung": "IT-Betreuung",
+    "server-betreuung": "Server-Betreuung",
+    "fernzugriff-vpn": "Fernzugriff / VPN",
+    "hardware-beschaffung": "Hardware-Beschaffung",
+    "microsoft-365": "Microsoft 365",
+    "datensicherung": "Datensicherung",
+    "email-sicherheit": "E-Mail-Sicherheit",
+    "ki-telefonassistent": "KI-Telefonassistent",
+    "whatsapp-chatbot": "WhatsApp-Chatbot",
+    "prozessautomatisierung": "Automatisierung",
+    "webseiten": "Webseiten",
+}
+
 GROESSEN: tuple[str, ...] = ("1–10", "11–25", "26–50", "51–100", "Über 100")
 
 MINDEST_AUSFUELLZEIT_MS = 3000
@@ -31,7 +46,7 @@ class Dringlichkeit(str, Enum):
 
 DRINGLICHKEIT_LABEL: dict[Dringlichkeit, str] = {
     Dringlichkeit.dringend: "Dringend, wir benötigen schnell Hilfe",
-    Dringlichkeit.bald: "In den nächsten Tagen",
+    Dringlichkeit.bald: "In der nächsten Zeit",
     Dringlichkeit.allgemein: "Allgemeine Anfrage / Beratung",
 }
 
@@ -43,6 +58,7 @@ class Weg(str, Enum):
 
 class KontaktAnfrageEingabe(BaseModel):
     themen: list[str] = Field(min_length=1, max_length=len(THEMEN))
+    leistungen: list[str] = Field(default_factory=list, max_length=len(LEISTUNGEN))
     dringlichkeit: Dringlichkeit
     groesse: str
     nachricht: str | None = Field(default=None, max_length=4000)
@@ -70,6 +86,14 @@ class KontaktAnfrageEingabe(BaseModel):
         unbekannt = [t for t in v if t not in THEMEN]
         if unbekannt:
             raise ValueError(f"Unbekannter Bereich: {', '.join(unbekannt)}")
+        return list(dict.fromkeys(v))
+
+    @field_validator("leistungen")
+    @classmethod
+    def leistungen_bekannt(cls, v: list[str]) -> list[str]:
+        unbekannt = [x for x in v if x not in LEISTUNGEN]
+        if unbekannt:
+            raise ValueError(f"Unbekannte Leistung: {', '.join(unbekannt)}")
         return list(dict.fromkeys(v))
 
     @field_validator("groesse")
@@ -113,10 +137,14 @@ class KontaktAnfrageEingabe(BaseModel):
     def themen_lesbar(self) -> str:
         return ", ".join(THEMEN[t] for t in self.themen)
 
+    def leistungen_lesbar(self) -> str:
+        return ", ".join(LEISTUNGEN[x] for x in self.leistungen) or "-"
+
     def zusammenfassung(self) -> str:
         zeilen = [f"Bereiche: {self.themen_lesbar()}"] + [
+            f"Interesse an: {self.leistungen_lesbar()}",
             f"Dringlichkeit: {DRINGLICHKEIT_LABEL[self.dringlichkeit]}",
-            f"Mitarbeitende / IT-Arbeitsplätze: {self.groesse}",
+            f"Mitarbeitende: {self.groesse}",
             "",
             f"Name: {self.vorname} {self.nachname}",
             f"Unternehmen: {self.unternehmen or '-'}",

@@ -25,6 +25,7 @@ import Konversation from "../../components/sections/Konversation.astro";
 import Anwendungsfaelle from "../../components/sections/Anwendungsfaelle.astro";
 import EbenenStapel from "../../components/sections/EbenenStapel.astro";
 import Kennzahlen from "../../components/sections/Kennzahlen.astro";
+import PraxisBeispiele from "../../components/sections/PraxisBeispiele.astro";
 import KontaktWizard from "../../components/kontakt/KontaktWizard.astro";
 import WissenTeaser from "../../components/sections/WissenTeaser.astro";
 import HeroBildVisual from "../../components/hero-visuals/HeroBildVisual.astro";
@@ -114,8 +115,10 @@ if (faqSektion && faqSektion.typ === "faq") {
           return <EbenenStapel {...s} />;
         case "kennzahlen":
           return <Kennzahlen {...s} />;
+        case "praxisbeispiele":
+          return <PraxisBeispiele {...s} />;
         case "kontakt":
-          return <KontaktWizard vorauswahl={d.kontaktVorauswahl} />;
+          return <KontaktWizard vorauswahl={d.kontaktVorauswahl} leistung={leistung.id} />;
         case "wissenTeaser":
           return <WissenTeaser artikel={d.wissenArtikel} />;
         default:

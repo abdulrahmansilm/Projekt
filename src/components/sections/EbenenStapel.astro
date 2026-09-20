@@ -23,7 +23,7 @@ const { eyebrow, titel, intro, hinweis, ebenen } = Astro.props;
 const startIndex = ebenen.length - 1;
 ---
 
-<section class="eb section-dark" aria-labelledby="eb-titel" data-ebenen>
+<section class="eb section-dark besondere-sektion" aria-labelledby="eb-titel" data-ebenen>
   <div class="eb__inner">
     <div class="eb__kopf" data-reveal>
       {eyebrow && <p class="eyebrow">{eyebrow}</p>}
@@ -95,23 +95,32 @@ const startIndex = ebenen.length - 1;
     einpassen();
     if ("ResizeObserver" in window) new ResizeObserver(einpassen).observe(rahmen);
 
-    karten.forEach((karte) => {
-      const knopf = karte.querySelector<HTMLButtonElement>("button")!;
-      knopf.addEventListener("click", () => {
-        const index = Number(karte.dataset.ebKarte);
-        layout.classList.add("is-aktiv");
-        karten.forEach((k) => {
-          const aktiv = k === karte;
-          k.classList.toggle("is-gewaehlt", aktiv);
-          k.querySelector("button")!.setAttribute("aria-pressed", String(aktiv));
-        });
-        inhalte.forEach((inhalt) => {
-          const zeigen = Number(inhalt.dataset.ebInhalt) === index;
-          inhalt.hidden = !zeigen;
-          if (zeigen) inhalt.classList.add("is-neu");
-        });
-        window.setTimeout(() => inhalte.forEach((i) => i.classList.remove("is-neu")), 300);
+    const waehle = (karte: HTMLElement) => {
+      const index = Number(karte.dataset.ebKarte);
+      layout.classList.add("is-aktiv");
+      karten.forEach((k) => {
+        const aktiv = k === karte;
+        k.classList.toggle("is-gewaehlt", aktiv);
+        k.querySelector("button")!.setAttribute("aria-pressed", String(aktiv));
       });
+      inhalte.forEach((inhalt) => {
+        const zeigen = Number(inhalt.dataset.ebInhalt) === index;
+        inhalt.hidden = !zeigen;
+        if (zeigen) inhalt.classList.add("is-neu");
+      });
+      window.setTimeout(() => inhalte.forEach((i) => i.classList.remove("is-neu")), 300);
+    };
+    karten.forEach((karte) => {
+      karte.querySelector<HTMLButtonElement>("button")!.addEventListener("click", () => waehle(karte));
+    });
+
+    // Klick auf eine leere Fläche der Sektion: zurück zur obersten Ebene
+    root.addEventListener("click", (e) => {
+      const ziel = e.target as Element;
+      if (ziel.closest(".karte, .panel, .eb__kopf")) return;
+      if (window.getSelection()?.toString()) return;
+      const oberste = karten[karten.length - 1];
+      if (oberste && !oberste.classList.contains("is-gewaehlt")) waehle(oberste);
     });
   });
 </script>

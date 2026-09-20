@@ -40,3 +40,62 @@ export function initReveal(root: ParentNode = document) {
 export function bewegungErlaubt(): boolean {
   return !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
+
+/**
+ * Typewriter-Wechselwort im Hero (siehe Hero.astro): löscht das Wort Buchstabe für Buchstabe und schreibt das nächste.
+ * Die Höhe der Headline wird auf das höchste Wort festgelegt, damit der Text darunter nicht springt.
+ * Bei prefers-reduced-motion bleibt das erste Wort stehen.
+ */
+export function initTypewriter() {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  document.querySelectorAll<HTMLElement>("[data-typewriter]").forEach((el) => {
+    const woerter = (el.dataset.typewriter ?? "").split("|").filter(Boolean);
+    const text = el.querySelector<HTMLElement>(".tw__text");
+    if (woerter.length < 2 || !text) return;
+    const h1 = el.closest<HTMLElement>("h1");
+    let aktuell = woerter[0];
+    const warte = (ms: number) => new Promise((r) => window.setTimeout(r, ms));
+
+    const hoeheFestlegen = () => {
+      if (!h1) return;
+      h1.style.minHeight = "";
+      let max = h1.offsetHeight;
+      for (const w of woerter) {
+        text.textContent = w;
+        max = Math.max(max, h1.offsetHeight);
+      }
+      text.textContent = aktuell;
+      h1.style.minHeight = `${max}px`;
+    };
+    hoeheFestlegen();
+    document.fonts?.ready.then(hoeheFestlegen);
+    let resizeTimer: number | undefined;
+    window.addEventListener("resize", () => {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(hoeheFestlegen, 200);
+    });
+
+    (async () => {
+      let i = 0;
+      await warte(2600);
+      for (;;) {
+        if (document.hidden) {
+          await warte(500);
+          continue;
+        }
+        for (let n = aktuell.length; n >= 0; n--) {
+          text.textContent = aktuell.slice(0, n);
+          await warte(55);
+        }
+        await warte(280);
+        i = (i + 1) % woerter.length;
+        aktuell = woerter[i];
+        for (let n = 1; n <= aktuell.length; n++) {
+          text.textContent = aktuell.slice(0, n);
+          await warte(85);
+        }
+        await warte(2400);
+      }
+    })();
+  });
+}

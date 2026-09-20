@@ -25,13 +25,25 @@ const {
   visualLabel,
 } = Astro.props;
 const hatVisual = Astro.slots.has("visual") && !kompakt;
+
+/**
+ * Typewriter-Wechselwort: {{IT|KI}} im Headline-Text wird zu einem Wort, das per Schreibmaschinen-Effekt
+ * (Buchstabe für Buchstabe löschen, neu schreiben) durch die Liste läuft. Screenreader lesen nur das erste Wort.
+ */
+const tw = /\{\{(.+?)\}\}/.exec(headline);
+const headlineHtml = tw
+  ? headline.replace(
+      tw[0],
+      `<span class="tw" data-typewriter="${tw[1]}"><span class="tw__text akzent" aria-hidden="true">${tw[1].split("|")[0]}</span><span class="tw__cursor" aria-hidden="true"></span><span class="sr-only">${tw[1].split("|")[0]}</span></span>`
+    )
+  : headline;
 ---
 
 <section class:list={["hero on-dark", { "hero--kompakt": kompakt }]} data-hero aria-labelledby="hero-titel">
   <div class="hero__bg" aria-hidden="true"></div>
   <div class:list={["hero__inner", { "hero__inner--solo": !hatVisual }]}>
     <div class="hero__text">
-      <h1 id="hero-titel" class="hero__titel" set:html={headline} />
+      <h1 id="hero-titel" class:list={["hero__titel", { "hero__titel--tw": !!tw }]} set:html={headlineHtml} />
       {subline && <p class="hero__sub">{subline}</p>}
       {
         !kompakt && (
@@ -155,6 +167,41 @@ const hatVisual = Astro.slots.has("visual") && !kompakt;
     max-width: 22ch;
   }
 
+  .hero__inner:not(.hero__inner--solo) .hero__text {
+    max-width: 560px;
+  }
+
+  .hero__titel--tw {
+    max-width: none;
+  }
+
+  .hero__titel :global(.tw) {
+    white-space: normal;
+  }
+
+  .hero__titel :global(.tw__cursor) {
+    display: inline-block;
+    width: 0.07em;
+    height: 0.86em;
+    margin: 0 -0.11em 0 0.04em;
+    vertical-align: -0.06em;
+    border-radius: 2px;
+    background: var(--helltuerkis);
+    animation: tw-blink 1s steps(1) infinite;
+  }
+
+  @keyframes tw-blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__titel :global(.tw__cursor) {
+      display: none;
+    }
+  }
+
   .hero__titel :global(.akzent) {
     background: var(--verlauf-hell);
     -webkit-background-clip: text;
@@ -163,10 +210,10 @@ const hatVisual = Astro.slots.has("visual") && !kompakt;
   }
 
   .hero__sub {
-    max-width: 460px;
-    font-size: 17px;
+    max-width: 500px;
+    font-size: 18.5px;
     line-height: 1.6;
-    color: rgba(240, 244, 243, 0.78);
+    color: rgba(240, 244, 243, 0.92);
   }
 
   .hero__aktionen {
@@ -212,7 +259,7 @@ const hatVisual = Astro.slots.has("visual") && !kompakt;
     }
 
     .hero__sub {
-      font-size: 16px;
+      font-size: 17px;
     }
   }
 

@@ -1,15 +1,15 @@
 {
-  "titel": "Prozessautomatisierung",
+  "titel": "Automatisierung",
   "kategorie": "ki-kommunikation",
   "kategorieLabel": "KI & Kommunikation",
   "reihenfolge": 10,
   "kurz": "Wiederkehrende manuelle Abläufe zwischen Systemen automatisieren, statt sie von Hand zu wiederholen.",
   "seo": {
-    "titel": "Prozessautomatisierung: Abläufe ohne Abtippen",
+    "titel": "Automatisierung: Abläufe ohne Abtippen",
     "beschreibung": "Wir automatisieren wiederkehrende Abläufe wie Rechnungsverarbeitung, Datenabgleich, On- und Offboarding und Eskalationen. Festpreis statt Stundensatz, die Automatisierung gehört Ihnen."
   },
   "hero": {
-    "headline": "Prozessautomatisierung für Ihr Unternehmen",
+    "headline": "Automatisierung für Ihr Unternehmen",
     "subline": "Wiederkehrende Aufgaben laufen automatisch: Systeme sprechen miteinander, ohne manuelles Abtippen.",
     "zitat": "Was von Hand erledigt wird, wird irgendwann vergessen. Was automatisiert ist, nie.",
     "cta": "Anfragen",
@@ -29,53 +29,50 @@
       "titel": "Zeit, die Sie nicht mehr abtippen",
       "absaetze": [
         "Rechnungen abtippen, Termine doppelt bestätigen, Daten von einem System ins nächste übertragen: Diese Routinearbeit kostet in vielen Betrieben mehrere Stunden pro Woche, ohne dass sie irgendwo als Aufwand auftaucht.",
-        "Prozessautomatisierung nimmt genau diese Arbeit weg, damit Ihr Team sich auf das Kerngeschäft konzentrieren kann statt auf Zwischenschritte."
+        "Automatisierung nimmt genau diese Arbeit weg, damit Ihr Team sich auf das Kerngeschäft konzentrieren kann statt auf Zwischenschritte."
       ],
-      "bildLabel": "Automatisierte Abläufe"
+      "bildLabel": "Automatisierte Abläufe",
+      "bild": "/bildtext/prozessautomatisierung.svg",
+      "ctaText": "Beratung anfragen"
     },
     {
-      "typ": "anwendungsfaelle",
-      "eyebrow": "Praxisbeispiele",
-      "titel": "Typische Anwendungsfälle",
-      "intro": "Sechs wiederkehrende Muster, die sich in fast jedem Betrieb finden und sich besonders gut automatisieren lassen. Tippen oder darüberfahren für Details.",
+      "typ": "problemLoesung",
+      "titel": "Abtippen kostet Zeit und Nerven.",
+      "akzent": "Wir automatisieren es.",
+      "intro": "Viele Betriebe übertragen Daten von Hand von einem System ins nächste. Das kostet täglich Zeit und lässt Fehler entstehen. Automatisierung dreht das um: Abläufe laufen von selbst, und Ihr Team kümmert sich um das Wesentliche.",
+      "labelOhne": "Ohne Automatisierung",
+      "labelMit": "Mit",
       "karten": [
         {
-          "nummer": "01",
-          "icon": "<path d=\"M4 5 H20 L14 12.5 V18 L10 20 V12.5 Z\" stroke=\"#7FD9C4\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path>",
-          "titel": "Datenzusammenführung",
-          "text": "Daten aus mehreren Systemen automatisch zusammenführen, statt sie manuell zu übertragen."
+          "titel": "Zeitaufwand",
+          "icon": "<defs><linearGradient id=\"pl-automatisierung-0-i1-29\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <path d=\"M12 20.5 C7.5 20.5 3.9 16.9 3.9 12.4 C3.9 7.9 7.5 4.3 12 4.3 C16.5 4.3 20.1 7.9 20.1 12.4 C20.1 14.1 19.6 15.7 18.7 17 L19.7 20.5 L16 19.6 C14.8 20.2 13.4 20.5 12 20.5 Z\" stroke=\"url(#pl-automatisierung-0-i1-29)\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path> <path d=\"M9 11.2 C9 11.2 9.7 12.7 10.8 13.8 C11.9 14.9 13.4 15.6 13.4 15.6 C13.9 15.8 14.4 15.5 14.6 14.9 L14.9 14.2 C15 13.9 15 13.6 14.8 13.4 L13.8 12.5 C13.6 12.3 13.3 12.3 13.1 12.5 L12.7 12.9 C12 12.6 11.4 12 11.1 11.3 L11.5 10.9 C11.7 10.7 11.7 10.4 11.5 10.2 L10.6 9.2 C10.4 9 10.1 9 9.8 9.1 L9.1 9.4 C8.5 9.6 8.2 10.1 8.4 10.6\" stroke=\"url(#pl-automatisierung-0-i1-29)\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
+          "ohne": "Rechnungen, Anfragen und Daten werden jeden Tag von Hand übertragen und abgeglichen. Das bindet Stunden, die anderswo fehlen.",
+          "mitStark": "Routinearbeit läuft im Hintergrund.",
+          "mitText": "Wiederkehrende Schritte übernimmt die Automatisierung, Ihr Team gewinnt jede Woche Zeit zurück."
         },
         {
-          "nummer": "02",
-          "icon": "<path d=\"M7 7h11M14 3l4 4-4 4\" stroke=\"#7FD9C4\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M17 17H6M10 21l-4-4 4-4\" stroke=\"#7FD9C4\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
-          "titel": "System zu System",
-          "text": "Zwei Systeme automatisiert miteinander verbinden, ohne manuellen Zwischenschritt."
+          "titel": "Fehlerquote",
+          "icon": "<defs><linearGradient id=\"pl-automatisierung-1-i2-30\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <path d=\"M4 6 H20 V16 H9 L5 19.5 V16 H4 Z\" stroke=\"url(#pl-automatisierung-1-i2-30)\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path> <path d=\"M8 10.5 H16 M8 13 H13\" stroke=\"url(#pl-automatisierung-1-i2-30)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path>",
+          "ohne": "Beim Abtippen schleichen sich Zahlendreher und Übertragungsfehler ein, die oft erst spät auffallen.",
+          "mitStark": "Daten werden einmal erfasst,",
+          "mitText": "dann automatisch und einheitlich weitergegeben. Das senkt die Fehlerquote deutlich."
         },
         {
-          "nummer": "03",
-          "icon": "<rect x=\"3.5\" y=\"4\" width=\"10\" height=\"14\" rx=\"1.8\" stroke=\"#7FD9C4\" stroke-width=\"1.6\"></rect><path d=\"M6.5 8 H10.5 M6.5 11 H10.5 M6.5 14 H8.5\" stroke=\"#7FD9C4\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><path d=\"M15 11 H21\" stroke=\"#7FD9C4\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><path d=\"M18.3 8.3 L21 11 L18.3 13.7\" stroke=\"#7FD9C4\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
-          "titel": "Formular → System",
-          "text": "Formulardaten fließen direkt in das Zielsystem, ohne Abtippen."
+          "titel": "Systembrüche",
+          "icon": "<defs><linearGradient id=\"pl-automatisierung-2-i3-31\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <circle cx=\"12\" cy=\"12\" r=\"8.5\" stroke=\"url(#pl-automatisierung-2-i3-31)\" stroke-width=\"1.6\"></circle> <path d=\"M12 7.5 V12 L15 14\" stroke=\"url(#pl-automatisierung-2-i3-31)\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path> <path d=\"M4.5 5 L7 7\" stroke=\"url(#pl-automatisierung-2-i3-31)\" stroke-width=\"1.4\" stroke-linecap=\"round\"></path> <path d=\"M19.5 5 L17 7\" stroke=\"url(#pl-automatisierung-2-i3-31)\" stroke-width=\"1.4\" stroke-linecap=\"round\"></path>",
+          "ohne": "Warenwirtschaft, CRM, E-Mail und Tabellen stehen nebeneinander, und jeder Wechsel bedeutet Handarbeit.",
+          "mitStark": "Ihre Systeme sprechen miteinander.",
+          "mitText": "Schnittstellen verbinden Ihre Tools, sodass Informationen dort ankommen, wo sie gebraucht werden."
         },
         {
-          "nummer": "04",
-          "icon": "<path d=\"M6 3 H18 V20 L15.5 18.2 L13 20 L10.5 18.2 L8 20 L6 18.2 V3 Z\" stroke=\"#7FD9C4\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M9 7.5 H15 M9 11 H15 M9 14.5 H12.5\" stroke=\"#7FD9C4\" stroke-width=\"1.5\" stroke-linecap=\"round\"></path>",
-          "titel": "Rechnungen & Ablage",
-          "text": "Rechnungen automatisch erfassen, zuordnen und ablegen."
-        },
-        {
-          "nummer": "05",
-          "icon": "<circle cx=\"9.5\" cy=\"8\" r=\"3.3\" stroke=\"#7FD9C4\" stroke-width=\"1.6\"></circle><path d=\"M4 20 C4 15.85 6.42 13.4 9.5 13.4 C12.58 13.4 15 15.85 15 20\" stroke=\"#7FD9C4\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><circle cx=\"18\" cy=\"7\" r=\"3\" stroke=\"#7FD9C4\" stroke-width=\"1.5\"></circle><path d=\"M18 5.3 V8.7 M16.3 7 H19.7\" stroke=\"#7FD9C4\" stroke-width=\"1.5\" stroke-linecap=\"round\"></path>",
-          "titel": "On-/Offboarding",
-          "text": "Zugänge und Konten bei Ein- und Austritt automatisiert anlegen oder sperren."
-        },
-        {
-          "nummer": "06",
-          "icon": "<path d=\"M12 3 L21 19 H3 Z\" stroke=\"#7FD9C4\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M12 9.5 V13.5\" stroke=\"#7FD9C4\" stroke-width=\"1.7\" stroke-linecap=\"round\"></path><circle cx=\"12\" cy=\"16\" r=\"1\" fill=\"#7FD9C4\"></circle>",
-          "titel": "Eskalation nach Regel",
-          "text": "Vorgänge werden nach festen Regeln automatisch weitergeleitet oder eskaliert."
+          "titel": "Wachstum",
+          "icon": "<defs><linearGradient id=\"pl-automatisierung-3-i4-32\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <path d=\"M4 20 V13 M9.5 20 V9 M15 20 V15 M20 20 V6\" stroke=\"url(#pl-automatisierung-3-i4-32)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path> <path d=\"M14.5 6.5 H20 V12\" stroke=\"url(#pl-automatisierung-3-i4-32)\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
+          "ohne": "Mehr Aufträge bedeuten mehr Verwaltungsaufwand. Irgendwann reicht das Team für die Routine nicht mehr.",
+          "mitStark": "Abläufe wachsen mit.",
+          "mitText": "Ein automatisierter Prozess bewältigt doppelt so viele Vorgänge, ohne dass der Aufwand steigt."
         }
-      ]
+      ],
+      "kicker": "Die beste Aufgabe ist die, die niemand mehr erledigen muss, weil sie längst automatisch läuft. <strong>Weniger Handarbeit, weniger Fehler, mehr Zeit für Ihr Kerngeschäft.</strong>"
     },
     {
       "typ": "trustbar",
@@ -90,8 +87,143 @@
       ]
     },
     {
+      "typ": "praxisbeispiele",
+      "titel": "Beispiele aus der Praxis",
+      "intro": "So sehen automatisierte Abläufe im Alltag aus.",
+      "beispiele": [
+        {
+          "bild": "/praxis/Rechnungsverarbeitung.png",
+          "alt": "Ablaufdiagramm der automatischen Rechnungsverarbeitung",
+          "titel": "Rechnungsverarbeitung",
+          "text": "Eingehende Rechnungs-E-Mails werden nach PDF-Anhängen gefiltert. Eine KI liest die Rechnungsdaten automatisch aus und trägt sie direkt in das Rechnungs-CRM ein. Schlägt das fehl, wird die Rechnung zur manuellen Überprüfung markiert."
+        },
+        {
+          "bild": "/praxis/Formular-Anfragen.png",
+          "alt": "Ablaufdiagramm der automatischen Verarbeitung von Formular-Anfragen",
+          "titel": "Formular-Anfragen",
+          "text": "Anfragen aus einem Web-Kontaktformular werden von einer KI analysiert und strukturiert. Das System speichert die Daten im CRM, sendet dem Mandanten eine Bestätigung und benachrichtigt die Kanzlei, bei hoher Dringlichkeit sogar mit einer separaten Express-Warnung."
+        },
+        {
+          "bild": "/praxis/Bewerber-Screening.png",
+          "alt": "Ablaufdiagramm des automatischen Bewerber-Screenings",
+          "titel": "Bewerber-Screening",
+          "text": "Nach dem Absenden eines Bewerbungsformulars wird der Lebenslauf automatisch extrahiert. Die KI Gemini 2.5 Flash gleicht die Qualifikationen mit den Jobanforderungen ab und speichert die Analyse in einer Google-Sheets-Tabelle."
+        }
+      ]
+    },
+    {
+      "typ": "anwendungsfaelle",
+      "eyebrow": "Praxisbeispiele",
+      "titel": "Typische Anwendungsfälle",
+      "intro": "Sechs typische Abläufe, die wir Betrieben abnehmen. Tippen oder darüberfahren für Details.",
+      "karten": [
+        {
+          "nummer": "01",
+          "icon": "<path d=\"M4 5 H20 L14 12.5 V18 L10 20 V12.5 Z\" stroke=\"#7FD9C4\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path>",
+          "titel": "Datenzusammenführung",
+          "text": "Daten aus mehreren Systemen, etwa Warenwirtschaft, CRM und Tabellen, werden automatisch zusammengeführt und abgeglichen. Doppelte Einträge fallen auf, und Sie arbeiten immer mit einem einheitlichen, aktuellen Datenstand, statt Zahlen von Hand zu übertragen."
+        },
+        {
+          "nummer": "02",
+          "icon": "<path d=\"M7 7h11M14 3l4 4-4 4\" stroke=\"#7FD9C4\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M17 17H6M10 21l-4-4 4-4\" stroke=\"#7FD9C4\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
+          "titel": "System zu System",
+          "text": "Zwei Systeme werden automatisiert miteinander verbunden. Ändert sich ein Datensatz auf einer Seite, aktualisiert sich die andere von selbst, ganz ohne manuellen Zwischenschritt, Export oder Kopieren aus Tabellen."
+        },
+        {
+          "nummer": "03",
+          "icon": "<rect x=\"3.5\" y=\"4\" width=\"10\" height=\"14\" rx=\"1.8\" stroke=\"#7FD9C4\" stroke-width=\"1.6\"></rect><path d=\"M6.5 8 H10.5 M6.5 11 H10.5 M6.5 14 H8.5\" stroke=\"#7FD9C4\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><path d=\"M15 11 H21\" stroke=\"#7FD9C4\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><path d=\"M18.3 8.3 L21 11 L18.3 13.7\" stroke=\"#7FD9C4\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
+          "titel": "Formular → System",
+          "text": "Formulardaten von Ihrer Website oder aus internen Formularen fließen direkt in das Zielsystem, zum Beispiel CRM oder Ticketsystem. Nichts wird abgetippt, und Anfragen sind sofort für Ihr Team bearbeitbar."
+        },
+        {
+          "nummer": "04",
+          "icon": "<path d=\"M6 3 H18 V20 L15.5 18.2 L13 20 L10.5 18.2 L8 20 L6 18.2 V3 Z\" stroke=\"#7FD9C4\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M9 7.5 H15 M9 11 H15 M9 14.5 H12.5\" stroke=\"#7FD9C4\" stroke-width=\"1.5\" stroke-linecap=\"round\"></path>",
+          "titel": "Rechnungen & Ablage",
+          "text": "Rechnungen werden automatisch erfasst, dem richtigen Vorgang zugeordnet und sauber abgelegt. Eine Vorprüfung meldet Auffälligkeiten, sodass Ihre Buchhaltung nur noch Ausnahmen bearbeiten muss."
+        },
+        {
+          "nummer": "05",
+          "icon": "<circle cx=\"9.5\" cy=\"8\" r=\"3.3\" stroke=\"#7FD9C4\" stroke-width=\"1.6\"></circle><path d=\"M4 20 C4 15.85 6.42 13.4 9.5 13.4 C12.58 13.4 15 15.85 15 20\" stroke=\"#7FD9C4\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><circle cx=\"18\" cy=\"7\" r=\"3\" stroke=\"#7FD9C4\" stroke-width=\"1.5\"></circle><path d=\"M18 5.3 V8.7 M16.3 7 H19.7\" stroke=\"#7FD9C4\" stroke-width=\"1.5\" stroke-linecap=\"round\"></path>",
+          "titel": "On-/Offboarding",
+          "text": "Beim Eintritt oder Austritt legen Sie Zugänge, Konten und Berechtigungen automatisiert an oder sperren sie. Das spart der IT Zeit und sorgt dafür, dass niemand zu viele oder zu wenige Rechte hat."
+        },
+        {
+          "nummer": "06",
+          "icon": "<path d=\"M12 3 L21 19 H3 Z\" stroke=\"#7FD9C4\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M12 9.5 V13.5\" stroke=\"#7FD9C4\" stroke-width=\"1.7\" stroke-linecap=\"round\"></path><circle cx=\"12\" cy=\"16\" r=\"1\" fill=\"#7FD9C4\"></circle>",
+          "titel": "Eskalation nach Regel",
+          "text": "Vorgänge werden nach festen Regeln automatisch weitergeleitet oder eskaliert, etwa wenn eine Anfrage zu lange offen ist. So bleibt nichts liegen, und die richtige Person wird rechtzeitig informiert."
+        }
+      ]
+    },
+    {
+      "typ": "branchen",
+      "titel": "Automatisierung in jeder Branche",
+      "intro": "Überall dort, wo Daten von A nach B wandern, nimmt Automatisierung die Handarbeit ab.",
+      "reihen": [
+        [
+          {
+            "icon": "<path d=\"M14.5 3.5 L20.5 9.5 L18.3 11.7 L12.3 5.7 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M15.5 8.5 L4.5 19.5 L2.5 21.5 L4.5 19.5 L3 17 L5.5 14.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
+            "label": "Handwerk & Bau"
+          },
+          {
+            "icon": "<path d=\"M12 4 V20 M8 20 H16\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><path d=\"M3 8.5 H8.5 L5.75 14.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.5\" stroke-linejoin=\"round\"></path><path d=\"M15.5 8.5 H21 L18.25 14.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.5\" stroke-linejoin=\"round\"></path>",
+            "label": "Recht & Beratung"
+          },
+          {
+            "icon": "<path d=\"M4 16 V12 L6 7 H18 L20 12 V16\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M4 16 H20 V18.5 H17 V16 M7 18.5 V16\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><circle cx=\"7.5\" cy=\"13\" r=\"1.3\" fill=\"#1B6E7A\"></circle><circle cx=\"16.5\" cy=\"13\" r=\"1.3\" fill=\"#1B6E7A\"></circle>",
+            "label": "Automobil"
+          },
+          {
+            "icon": "<path d=\"M12 20.5 C12 20.5 4 15.5 4 9.7 C4 6.8 6.2 4.5 9 4.5 C10.5 4.5 11.6 5.2 12 6.3 C12.4 5.2 13.5 4.5 15 4.5 C17.8 4.5 20 6.8 20 9.7 C20 15.5 12 20.5 12 20.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path>",
+            "label": "Gesundheit"
+          },
+          {
+            "icon": "<path d=\"M4 20 V9.5 L12 4 L20 9.5 V20\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M9.5 20 V14 H14.5 V20\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path>",
+            "label": "Immobilien & Hausverwaltung"
+          },
+          {
+            "icon": "<path d=\"M6.5 9.5 V14.5 M17.5 9.5 V14.5\" stroke=\"#1B6E7A\" stroke-width=\"1.8\" stroke-linecap=\"round\"></path><path d=\"M4 11 V13 M20 11 V13\" stroke=\"#1B6E7A\" stroke-width=\"1.8\" stroke-linecap=\"round\"></path><path d=\"M6.5 12 H17.5\" stroke=\"#1B6E7A\" stroke-width=\"1.8\" stroke-linecap=\"round\"></path>",
+            "label": "Fitness & Sport"
+          },
+          {
+            "icon": "<path d=\"M12 3.5 L19.5 6.5 V11.5 C19.5 16.5 16.3 19.8 12 21 C7.7 19.8 4.5 16.5 4.5 11.5 V6.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M9 11.5 L11 13.5 L15.5 9\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
+            "label": "Versicherungen & Finanzen"
+          }
+        ],
+        [
+          {
+            "icon": "<path d=\"M6 3.5 V10.5 M4.5 3.5 V7.5 M7.5 3.5 V7.5 M6 10.5 V20.5\" stroke=\"#1B6E7A\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M17 3.5 C14.5 3.5 14.5 6.5 14.5 8.5 C14.5 10 15.5 11 17 11 V20.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
+            "label": "Gastronomie & Hotellerie"
+          },
+          {
+            "icon": "<path d=\"M6 8 H18 L19 20.5 H5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M9 8 V6.5 C9 4.6 10.3 3.5 12 3.5 C13.7 3.5 15 4.6 15 6.5 V8\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path>",
+            "label": "Handel"
+          },
+          {
+            "icon": "<rect x=\"2.5\" y=\"9\" width=\"12\" height=\"8\" rx=\"1.3\" stroke=\"#1B6E7A\" stroke-width=\"1.6\"></rect><path d=\"M14.5 11.5 H18 L21 14.5 V17 H14.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><circle cx=\"7\" cy=\"18.5\" r=\"1.6\" stroke=\"#1B6E7A\" stroke-width=\"1.5\"></circle><circle cx=\"18\" cy=\"18.5\" r=\"1.6\" stroke=\"#1B6E7A\" stroke-width=\"1.5\"></circle>",
+            "label": "Logistik & Transport"
+          },
+          {
+            "icon": "<path d=\"M12 5 L22 9.5 L12 14 L2 9.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M6 11.5 V16 C6 17.5 8.7 19 12 19 C15.3 19 18 17.5 18 16 V11.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path>",
+            "label": "Bildung"
+          },
+          {
+            "icon": "<circle cx=\"12\" cy=\"12\" r=\"8.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\"></circle><path d=\"M3.5 12 H20.5 M12 3.5 C14.5 6.5 14.5 17.5 12 20.5 C9.5 17.5 9.5 6.5 12 3.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.5\"></path>",
+            "label": "Tourismus"
+          },
+          {
+            "icon": "<rect x=\"7\" y=\"7\" width=\"10\" height=\"10\" rx=\"1.6\" stroke=\"#1B6E7A\" stroke-width=\"1.6\"></rect><path d=\"M12 3.5 V7 M12 17 V20.5 M3.5 12 H7 M17 12 H20.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path>",
+            "label": "IT & Technologie"
+          },
+          {
+            "icon": "<path d=\"M4.5 13 A7.5 7.5 0 0 1 19.5 13\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><rect x=\"3\" y=\"13\" width=\"3.4\" height=\"6\" rx=\"1.5\" stroke=\"#1B6E7A\" stroke-width=\"1.5\"></rect><rect x=\"17.6\" y=\"13\" width=\"3.4\" height=\"6\" rx=\"1.5\" stroke=\"#1B6E7A\" stroke-width=\"1.5\"></rect>",
+            "label": "Kundenservice & Callcenter"
+          }
+        ]
+      ]
+    },
+    {
       "typ": "zeitstrahl",
-      "eyebrow": "Wie wir vorgehen",
       "titel": "Wie wir vorgehen",
       "intro": "Vom bestehenden Ablauf zur fertigen Automatisierung in vier Schritten. Sie zahlen einen Festpreis, und das Ergebnis gehört Ihnen.",
       "aktiv": 1,
@@ -116,15 +248,16 @@
           "titel": "Betreuung",
           "text": "Optional: Wir überwachen die Automatisierung bei Systemänderungen."
         }
-      ]
+      ],
+      "bild": "/zeitstrahl/prozessautomatisierung.svg"
     },
     {
       "typ": "faq",
-      "titel": "Häufige Fragen zur Prozessautomatisierung",
+      "titel": "Häufige Fragen zur Automatisierung",
       "intro": "Was Sie vor der Zusammenarbeit wissen sollten: kurz und ohne Kleingedrucktes.",
       "fragen": [
         {
-          "frage": "Was kostet Prozessautomatisierung?",
+          "frage": "Was kostet Automatisierung?",
           "antwort": "Der Preis richtet sich nach Umfang und Komplexität des Prozesses. Nach einem kurzen Blick auf Ihren Ablauf nennen wir Ihnen ein konkretes Angebot."
         },
         {

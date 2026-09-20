@@ -27,6 +27,7 @@ class Anfrage(Base):
     erstellt_am: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=jetzt_utc)
 
     themen: Mapped[list[str]] = mapped_column(JSON)
+    leistungen: Mapped[list[str]] = mapped_column(JSON, default=list)
     dringlichkeit: Mapped[str] = mapped_column(String(20))
     groesse: Mapped[str] = mapped_column(String(20))
     nachricht: Mapped[str | None] = mapped_column(Text, nullable=True)

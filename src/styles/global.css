@@ -40,15 +40,15 @@
 
   /* Text-Abstufungen über Opacity (keine Zusatzfarben) */
   --ink: #0b2e3c;
-  --ink-72: rgba(11, 46, 60, 0.72);
-  --ink-68: rgba(11, 46, 60, 0.68);
-  --ink-55: rgba(11, 46, 60, 0.55);
+  --ink-72: rgba(11, 46, 60, 0.86);
+  --ink-68: rgba(11, 46, 60, 0.8);
+  --ink-55: rgba(11, 46, 60, 0.66);
   --line: rgba(11, 46, 60, 0.12);
   --line-strong: rgba(11, 46, 60, 0.18);
 
   --on-dark: #f0f4f3;
-  --on-dark-72: rgba(240, 244, 243, 0.72);
-  --on-dark-55: rgba(240, 244, 243, 0.55);
+  --on-dark-72: rgba(240, 244, 243, 0.88);
+  --on-dark-55: rgba(240, 244, 243, 0.7);
   --line-dark: rgba(240, 244, 243, 0.12);
 
   --fehler: #c0392b;
@@ -75,7 +75,7 @@
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    html:focus-within {
+    html {
       scroll-behavior: smooth;
     }
   }
@@ -210,6 +210,22 @@
       var(--tiefsee);
   }
 
+  /* Feines Rauschen über dem Radial-Glow verhindert sichtbare Farbstreifen (8-Bit-Banding) */
+  .section-dark {
+    isolation: isolate;
+  }
+
+  .section-dark::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27160%27 height=%27160%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.9%27 numOctaves=%272%27 stitchTiles=%27stitch%27/%3E%3CfeColorMatrix values=%270 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.05 0%27/%3E%3C/filter%3E%3Crect width=%27160%27 height=%27160%27 filter=%27url(%23n)%27/%3E%3C/svg%3E");
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
   /* Zwei dunkle Vollflächen-Sektionen direkt hintereinander: keine zweite Glow-Ellipse,
      sonst entsteht an der Nahtstelle eine sichtbar hellere Kante. Flache, exakt gleiche Fläche
      auf beiden Seiten der Naht = keine sichtbare Kante. */
@@ -286,7 +302,7 @@
   }
 
   .lead {
-    font-size: 15.5px;
+    font-size: 17px;
     line-height: 1.65;
     color: var(--ink-72);
   }
@@ -586,5 +602,65 @@
   .btn-outline:active,
   .btn-ghost:active {
     transform: none;
+  }
+}
+
+/* ============ Breite Bildschirme (ab 1700px): Sektionen gehen mehr in die Breite ============
+   Laptop, Tablet und Handy bleiben unverändert. !important, weil die Container-Breiten in den
+   Komponenten mit Astro-Scope-Attribut (höhere Spezifität) definiert sind. */
+@media (min-width: 1700px) {
+  .container-site {
+    max-width: 1400px !important;
+  }
+
+  .bt__inner,
+  .br__inner,
+  .fg__inner,
+  .af__inner,
+  .kl__inner,
+  .es__inner,
+  .tg__inner,
+  .ko__inner {
+    max-width: 1360px !important;
+  }
+
+  .eb__inner {
+    max-width: 1500px !important;
+  }
+
+  .fuss__inner {
+    max-width: 1400px !important;
+  }
+
+  .pl__inner,
+  .kz__inner,
+  .preise__wrap,
+  .ps__wrap {
+    max-width: 1240px !important;
+  }
+
+  .kv__inner,
+  .er__inner {
+    max-width: 1100px !important;
+  }
+
+  .kw__inner {
+    max-width: 1000px !important;
+  }
+
+  .hero__inner {
+    max-width: 1560px !important;
+  }
+
+  .zt__inner {
+    max-width: 1600px !important;
+  }
+
+  .seiten-kopf {
+    max-width: 1656px !important;
+  }
+
+  .sticky-kopf__inner {
+    max-width: 1560px !important;
   }
 }

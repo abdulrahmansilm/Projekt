@@ -11,9 +11,9 @@ interface Props {
   hubTitel: string;
   hubText: string;
   phasen: { nummer: string; titel: string; text: string; legende: string; frequenz: string }[];
-  hinweis: string;
+  hinweis?: string;
 }
-const { eyebrow, titel, intro, hubTitel, hubText, phasen, hinweis } = Astro.props;
+const { eyebrow, titel, intro, hubTitel, hubText, phasen } = Astro.props;
 const positionen = ["ne", "se", "sw", "nw"];
 ---
 
@@ -87,17 +87,6 @@ const positionen = ["ne", "se", "sw", "nw"];
       }
     </ol>
 
-    <p class="kl__hinweis">
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path
-          d="M4 12 A8 8 0 0 1 19.5 8.5 M16.3 5.2 L19.6 8.6 L22.6 5.4 M20 12 A8 8 0 0 1 4.5 15.5 M7.7 18.8 L4.4 15.4 L1.4 18.6"
-          stroke="rgba(240,244,243,0.55)"
-          stroke-width="1.7"
-          stroke-linecap="round"
-          stroke-linejoin="round"></path>
-      </svg>
-      {hinweis}
-    </p>
   </div>
 </section>
 
@@ -269,23 +258,6 @@ const positionen = ["ne", "se", "sw", "nw"];
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
     list-style: none;
-  }
-
-  .kl__hinweis {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 44px;
-    font-size: 13.5px;
-    text-align: center;
-    color: rgba(240, 244, 243, 0.62);
-  }
-
-  .kl__hinweis svg {
-    width: 14px;
-    height: 14px;
-    flex-shrink: 0;
   }
 
   @media (max-width: 760px) {

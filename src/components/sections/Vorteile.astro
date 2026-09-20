@@ -1,5 +1,9 @@
 ---
-/** „Ihre Vorteile“ (docs/DESIGNSYSTEM.md → Komponente 10, referenz/startseite/vorteile.html) */
+/**
+ * „Ihre Vorteile“ (docs/DESIGNSYSTEM.md → Komponente 10, überarbeitet 20.09.2026):
+ * Vier Karten mit dunkler Icon-Kachel. Beim Drüberfahren: Karte hebt sich, ein Lichtkegel folgt dem Mauszeiger,
+ * die Kachel kippt leicht und füllt sich mit dem Verlauf, unten läuft eine Akzentlinie ein.
+ */
 interface Props {
   titel: string;
   intro: string;
@@ -17,10 +21,13 @@ const { titel, intro, items } = Astro.props;
     <ul class="vorteile__band" role="list" data-reveal-group>
       {
         items.map((item) => (
-          <li class="vorteile__item" data-reveal>
-            <svg class="vorteile__ico" viewBox="0 0 48 48" fill="none" aria-hidden="true" set:html={item.icon} />
+          <li class="vorteile__item" data-reveal data-spot>
+            <span class="vorteile__kachel" aria-hidden="true">
+              <svg class="vorteile__ico" viewBox="0 0 48 48" fill="none" set:html={item.icon} />
+            </span>
             <h3>{item.titel}</h3>
             <p>{item.text}</p>
+            <span class="vorteile__linie" aria-hidden="true"></span>
           </li>
         ))
       }
@@ -28,14 +35,27 @@ const { titel, intro, items } = Astro.props;
   </div>
 </section>
 
+<script>
+  // Lichtkegel folgt der Maus (nur mit echter Maus, reine CSS-Variablen, kein Layout)
+  if (window.matchMedia("(hover: hover) and (pointer: fine)").matches && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    document.querySelectorAll<HTMLElement>(".vorteile [data-spot]").forEach((el) => {
+      el.addEventListener("pointermove", (e) => {
+        const r = el.getBoundingClientRect();
+        el.style.setProperty("--mx", `${e.clientX - r.left}px`);
+        el.style.setProperty("--my", `${e.clientY - r.top}px`);
+      });
+    });
+  }
+</script>
+
 <style>
   .vorteile {
-    padding: 92px 0 96px;
+    padding: 92px 0 100px;
   }
 
   .vorteile__kopf {
     max-width: 600px;
-    margin-bottom: 56px;
+    margin-bottom: 52px;
   }
 
   .vorteile__kopf h2 {
@@ -45,73 +65,120 @@ const { titel, intro, items } = Astro.props;
   .vorteile__band {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
   .vorteile__item {
+    --mx: 50%;
+    --my: 0%;
     position: relative;
-    padding: 0 32px;
+    overflow: hidden;
+    padding: 30px 26px 34px;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: #ffffff;
+    box-shadow: 0 4px 16px rgba(11, 46, 60, 0.05);
+    transition:
+      opacity 500ms var(--ease-out),
+      transform 320ms var(--ease-out),
+      box-shadow 320ms ease,
+      border-color 320ms ease;
   }
 
-  .vorteile__item:first-child {
-    padding-left: 0;
-  }
-
-  .vorteile__item:last-child {
-    padding-right: 0;
-  }
-
-  .vorteile__item + .vorteile__item::before {
+  /* Lichtkegel unter dem Mauszeiger */
+  .vorteile__item::before {
     content: "";
     position: absolute;
-    left: 0;
-    top: 4px;
-    bottom: 4px;
-    width: 1px;
-    background: var(--line);
+    inset: 0;
+    background: radial-gradient(240px circle at var(--mx) var(--my), rgba(79, 184, 166, 0.2), transparent 70%);
+    opacity: 0;
+    transition: opacity 320ms ease;
+    pointer-events: none;
+  }
+
+  .vorteile__kachel {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 24px;
+    border-radius: 18px;
+    background:
+      radial-gradient(120% 120% at 80% 0%, rgba(79, 184, 166, 0.35), transparent 60%),
+      var(--tiefsee);
+    box-shadow: 0 10px 22px -10px rgba(11, 46, 60, 0.6);
+    transition:
+      transform 360ms var(--ease-out),
+      box-shadow 360ms ease,
+      background-color 360ms ease;
   }
 
   .vorteile__ico {
-    width: 40px;
-    height: 40px;
-    margin-bottom: 22px;
+    width: 36px;
+    height: 36px;
+    transition: transform 360ms var(--ease-out);
   }
 
   .vorteile__item h3 {
+    position: relative;
     margin-bottom: 10px;
-    font-size: 18px;
+    font-size: 19px;
     font-weight: 600;
     line-height: 1.3;
   }
 
   .vorteile__item p {
-    font-size: 14.5px;
+    position: relative;
+    font-size: 15.5px;
     line-height: 1.65;
     color: var(--ink-72);
   }
 
-  @media (max-width: 900px) {
+  .vorteile__linie {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 4px;
+    background: var(--verlauf);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 420ms var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .vorteile__band .vorteile__item:hover {
+      transform: translateY(-8px);
+      border-color: rgba(79, 184, 166, 0.5);
+      box-shadow: 0 26px 44px -18px rgba(11, 46, 60, 0.3);
+    }
+
+    .vorteile__item:hover::before {
+      opacity: 1;
+    }
+
+    .vorteile__item:hover .vorteile__kachel {
+      transform: translateY(-2px) rotate(-6deg) scale(1.08);
+      box-shadow: 0 16px 28px -10px rgba(27, 110, 122, 0.7);
+    }
+
+    .vorteile__item:hover .vorteile__ico {
+      transform: scale(1.08) rotate(6deg);
+    }
+
+    .vorteile__item:hover .vorteile__linie {
+      transform: scaleX(1);
+    }
+  }
+
+  @media (max-width: 1000px) {
     .vorteile__band {
       grid-template-columns: repeat(2, 1fr);
-      row-gap: 44px;
-    }
-
-    .vorteile__item {
-      padding: 0 22px;
-    }
-
-    .vorteile__item:nth-child(odd) {
-      padding-left: 0;
-    }
-
-    .vorteile__item:nth-child(even) {
-      padding-right: 0;
-    }
-
-    .vorteile__item:nth-child(3)::before {
-      display: none;
     }
   }
 
@@ -121,33 +188,24 @@ const { titel, intro, items } = Astro.props;
     }
 
     .vorteile__kopf {
-      margin-bottom: 40px;
+      margin-bottom: 36px;
     }
 
     .vorteile__band {
       grid-template-columns: 1fr;
-      row-gap: 0;
     }
 
+    .vorteile__item {
+      padding: 26px 22px 30px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
     .vorteile__item,
-    .vorteile__item:nth-child(odd),
-    .vorteile__item:nth-child(even) {
-      padding: 26px 0;
-    }
-
-    .vorteile__item + .vorteile__item::before,
-    .vorteile__item:nth-child(3)::before {
-      display: block;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: auto;
-      width: auto;
-      height: 1px;
-    }
-
-    .vorteile__ico {
-      margin-bottom: 16px;
+    .vorteile__item:hover,
+    .vorteile__item:hover .vorteile__kachel,
+    .vorteile__item:hover .vorteile__ico {
+      transform: none;
     }
   }
 </style>

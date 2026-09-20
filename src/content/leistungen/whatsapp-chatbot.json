@@ -25,6 +25,18 @@
   ],
   "sektionen": [
     {
+      "typ": "bildText",
+      "bild": "/bildtext/whatsapp-chatbot.svg",
+      "ctaText": "Beratung anfragen",
+      "titel": "Die Lieblings-App Ihrer Kunden, direkt mit Ihrer Software verbunden",
+      "bildLabel": "WhatsApp-Chatbot verbindet WhatsApp mit Ihrer Unternehmenssoftware",
+      "absaetze": [
+        "Der WhatsApp-Chatbot verbindet die Lieblings-App Ihrer Kunden direkt mit der internen Software Ihres Unternehmens. Nachrichten landen dort, wo sie bearbeitet werden, und Antworten kommen aus Ihren Systemen.",
+        "Er ist rund um die Uhr erreichbar, auch wenn im Büro niemand aufs Handy schauen kann. Das spart Personalaufwand, weil Routinefragen ohne Ihr Team beantwortet werden, und verhindert Ausfälle im Tagesgeschäft, weil niemand mehr aus der Arbeit gerissen wird.",
+        "Der Chatbot fragt vorab effizient alle nötigen Informationen ab, sodass Ihr Team bei Rückfragen sofort loslegen kann, und trägt Reservierungen und Termine automatisch in Ihren Kalender ein."
+      ]
+    },
+    {
       "typ": "konversation",
       "eyebrow": "So funktioniert es",
       "titelVor": "Wie eine",
@@ -115,6 +127,40 @@
       ]
     },
     {
+      "typ": "zeitstrahl",
+      "titel": "Wie wir Kunden aufnehmen",
+      "intro": "Ihr Chatbot entsteht aus Ihren echten Anfragen, nicht aus einer Vorlage. Wir testen ihn, bevor Ihre Kunden mit ihm schreiben.",
+      "aktiv": 1,
+      "schritte": [
+        {
+          "nummer": "01",
+          "titel": "Erstgespräch",
+          "text": "Wir klären Ihre typischen Anfragen und Anforderungen."
+        },
+        {
+          "nummer": "02",
+          "titel": "Analyse & Konzept",
+          "text": "Wir entwerfen die passenden Gesprächsabläufe."
+        },
+        {
+          "nummer": "03",
+          "titel": "Einrichtung & Individualisierung",
+          "text": "Der Chatbot wird auf Ihr Unternehmen zugeschnitten."
+        },
+        {
+          "nummer": "04",
+          "titel": "Test & Optimierung",
+          "text": "Testphase mit echten Anfragen."
+        },
+        {
+          "nummer": "05",
+          "titel": "Laufende Betreuung",
+          "text": "Wir betreuen den Chatbot dauerhaft weiter."
+        }
+      ],
+      "bild": "/zeitstrahl/whatsapp-chatbot.svg"
+    },
+    {
       "typ": "branchen",
       "eyebrow": "Für wen sich das eignet",
       "titel": "Branchen, die WhatsApp bereits für den Kundenkontakt nutzen",
@@ -183,40 +229,6 @@
       ]
     },
     {
-      "typ": "zeitstrahl",
-      "eyebrow": "Wie wir Kunden aufnehmen",
-      "titel": "Wie wir Kunden aufnehmen",
-      "intro": "Ihr Chatbot entsteht aus Ihren echten Anfragen, nicht aus einer Vorlage. Wir testen ihn, bevor Ihre Kunden mit ihm schreiben.",
-      "aktiv": 1,
-      "schritte": [
-        {
-          "nummer": "01",
-          "titel": "Erstgespräch",
-          "text": "Wir klären Ihre typischen Anfragen und Anforderungen."
-        },
-        {
-          "nummer": "02",
-          "titel": "Analyse & Konzept",
-          "text": "Wir entwerfen die passenden Gesprächsabläufe."
-        },
-        {
-          "nummer": "03",
-          "titel": "Einrichtung & Individualisierung",
-          "text": "Der Chatbot wird auf Ihr Unternehmen zugeschnitten."
-        },
-        {
-          "nummer": "04",
-          "titel": "Test & Optimierung",
-          "text": "Testphase mit echten Anfragen."
-        },
-        {
-          "nummer": "05",
-          "titel": "Laufende Betreuung",
-          "text": "Wir betreuen den Chatbot dauerhaft weiter."
-        }
-      ]
-    },
-    {
       "typ": "pricingSetup",
       "eyebrow": "Pakete & Preise",
       "titel": "Pakete & Preise",
@@ -266,6 +278,11 @@
           ],
           "features": [
             {
+              "text": "Laufende Betreuung und Wartung",
+              "enthalten": true,
+              "hervor": true
+            },
+            {
               "text": "Chat-Übergabe an Menschen",
               "enthalten": true,
               "info": true
@@ -311,6 +328,16 @@
               "enthalten": true
             },
             {
+              "text": "Laufende Betreuung und Wartung",
+              "enthalten": true,
+              "hervor": true
+            },
+            {
+              "text": "Laufende Optimierung und Analyse",
+              "enthalten": true,
+              "hervor": true
+            },
+            {
               "text": "Unterstützung bei der Einrichtung",
               "enthalten": true,
               "info": true
@@ -348,6 +375,16 @@
             {
               "erbt": "Team",
               "enthalten": true
+            },
+            {
+              "text": "Laufende Betreuung und Wartung",
+              "enthalten": true,
+              "hervor": true
+            },
+            {
+              "text": "Laufende Optimierung und Analyse",
+              "enthalten": true,
+              "hervor": true
             },
             {
               "text": "Keine Datenspeicherung",

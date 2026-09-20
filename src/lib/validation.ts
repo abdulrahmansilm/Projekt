@@ -17,6 +17,7 @@ export const kontaktSchema = z.object({
 
 export const anfrageSchema = z.object({
   themen: z.array(z.string()).check(z.minLength(1, "Bitte wählen Sie mindestens einen Bereich.")),
+  leistungen: z.array(z.string()),
   dringlichkeit: z.enum(DRINGLICHKEIT),
   groesse: z.string().check(z.minLength(1)),
   nachricht: z.optional(z.string().check(z.maxLength(4000))),

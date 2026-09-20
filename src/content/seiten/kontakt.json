@@ -16,7 +16,7 @@
     "hinweis": "Damit wir Ihr Anliegen richtig einordnen können.",
     "dringlichkeitLabel": "Wie dringend ist Ihr Anliegen?",
     "dringendHinweis": "Bei einem akuten Ausfall: Rufen Sie uns direkt an, statt auf eine Antwort per E-Mail zu warten. So reagieren wir am schnellsten.",
-    "groesseLabel": "Wie viele Mitarbeitende bzw. IT-Arbeitsplätze haben Sie?",
+    "groesseLabel": "Wie viele Mitarbeitende haben Sie?",
     "freitextLabel": "Erzählen Sie uns kurz mehr",
     "freitextHinweis": "Beschreiben Sie Ihr Anliegen, Ihre aktuelle Situation oder Ihr Projekt (optional).",
     "freitextPlatzhalter": "Zum Beispiel: Wir betreuen unsere IT bisher selbst und merken, dass uns die Zeit dafür fehlt. Besonders bei Updates und Datensicherung sind wir unsicher, ob alles richtig läuft."
@@ -54,7 +54,7 @@
     {
       "id": "ki-kommunikation",
       "titel": "KI & Kommunikation",
-      "beschreibung": "Telefonassistent, WhatsApp-Chatbot, Prozessautomatisierung",
+      "beschreibung": "Telefonassistent, WhatsApp-Chatbot, Automatisierung",
       "icon": "<path d=\"M4 5.5h16a1.5 1.5 0 0 1 1.5 1.5v8.5a1.5 1.5 0 0 1-1.5 1.5H10l-5 4v-4H4A1.5 1.5 0 0 1 2.5 15.5V7A1.5 1.5 0 0 1 4 5.5Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"/><circle cx=\"8.5\" cy=\"11\" r=\"1\" fill=\"#1B6E7A\"/><circle cx=\"12\" cy=\"11\" r=\"1\" fill=\"#1B6E7A\"/><circle cx=\"15.5\" cy=\"11\" r=\"1\" fill=\"#1B6E7A\"/>"
     },
     {
@@ -76,7 +76,7 @@
       "stufe": "dringend"
     },
     {
-      "wert": "In den nächsten Tagen",
+      "wert": "In der nächsten Zeit",
       "stufe": "bald"
     },
     {

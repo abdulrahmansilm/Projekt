@@ -43,6 +43,7 @@ const zeitstrahl = z.object({
   typ: z.literal("zeitstrahl"),
   ...kopf,
   aktiv: z.number().int().min(1).default(1),
+  bild: z.string().optional(),
   schritte: z.array(z.object({ nummer: z.string(), titel: z.string(), text: z.string() })),
 });
 
@@ -52,6 +53,9 @@ const pricingPakete = z.object({
   chips: z.object({ titel: z.string(), sub: z.string(), icon: z.string(), items: z.array(z.string()) }),
   jahresRabatt: z.number().optional(),
   rabattHinweis: z.string().optional(),
+  slider: z
+    .object({ label: z.string(), einzahl: z.string(), mehrzahl: z.string(), min: z.number(), max: z.number(), start: z.number(), hinweis: z.string().optional() })
+    .optional(),
   einheit: z.string(),
   geraetEinheit: z.string().optional(),
   pakete: z.array(
@@ -89,7 +93,7 @@ const pricingPakete = z.object({
           badge: z.string().optional(),
           name: z.string(),
           claim: z.string(),
-          preisLabel: z.string(),
+          preisLabel: z.string().optional(),
           preisEinheit: z.string().optional(),
           notiz: z.string().optional(),
           features: z.array(z.string()),
@@ -107,6 +111,7 @@ const setupEintrag = z.object({
   tipp: z.string().optional(),
   info: z.boolean().optional(),
   erbt: z.string().optional(),
+  hervor: z.boolean().optional(),
 });
 
 const pricingSetup = z.object({
@@ -176,7 +181,10 @@ const bildText = z.object({
   typ: z.literal("bildText"),
   ...kopf,
   absaetze: z.array(z.string()),
-  bildLabel: z.string(),
+  bildLabel: z.string().default(""),
+  bild: z.string().optional(),
+  bildRechts: z.boolean().optional(),
+  ctaText: z.string().optional(),
 });
 
 const featureGrid = z.object({
@@ -199,7 +207,7 @@ const kreislauf = z.object({
   hubTitel: z.string(),
   hubText: z.string(),
   phasen: z.array(z.object({ nummer: z.string(), titel: z.string(), text: z.string(), legende: z.string(), frequenz: z.string() })),
-  hinweis: z.string(),
+  hinweis: z.string().optional(),
 });
 
 const kostenvergleich = z.object({
@@ -258,6 +266,13 @@ const ebenen = z.object({
   ),
 });
 
+const praxisbeispiele = z.object({
+  typ: z.literal("praxisbeispiele"),
+  titel: z.string(),
+  intro: z.string().optional(),
+  beispiele: z.array(z.object({ bild: z.string(), alt: z.string(), titel: z.string(), text: z.string() })),
+});
+
 const kennzahlen = z.object({
   typ: z.literal("kennzahlen"),
   titel: z.string(),
@@ -289,6 +304,7 @@ export const sektion = z.discriminatedUnion("typ", [
   anwendungsfaelle,
   ebenen,
   kennzahlen,
+  praxisbeispiele,
   kontakt,
   wissenTeaser,
 ]);

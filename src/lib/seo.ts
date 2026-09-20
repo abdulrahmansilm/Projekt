@@ -23,6 +23,7 @@ export function organisationJsonLd() {
     logo: `${SITE_URL}/logo/logo-dunkel.png`,
     image: `${SITE_URL}/logo/logo-social.png`,
     foundingDate: String(firma.gruendungsjahr),
+    sameAs: [firma.linkedin],
     founder: { "@type": "Person", name: firma.inhaber },
     address: adresse,
     areaServed: [

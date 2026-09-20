@@ -26,12 +26,14 @@
   "sektionen": [
     {
       "typ": "bildText",
-      "titel": "Ihre Website ist die erste Schnittstelle zum Kunden",
+      "titel": "Eine gute Website gewinnt neue Kunden",
       "absaetze": [
-        "Bevor jemand anruft oder eine Anfrage schreibt, schaut er sich Ihre Website an. Was er dort sieht, entscheidet mit, ob eine Anfrage überhaupt zustande kommt.",
-        "Eine gute Website bringt deshalb nicht nur Sichtbarkeit, sondern mehr Aufträge: schneller, klarer und auf jedem Gerät überzeugend."
+        "Bevor jemand anruft oder eine Anfrage schreibt, schaut er sich Ihre Website an. Was er dort sieht, entscheidet mit, ob aus einem Besucher ein Kunde wird.",
+        "Eine gute Website zieht neue Kunden an und bringt mehr Aufträge: Sie wird gefunden, überzeugt auf jedem Gerät und macht den nächsten Schritt so einfach wie möglich."
       ],
-      "bildLabel": "Website auf verschiedenen Geräten"
+      "bildLabel": "Website als erste Schnittstelle zum Kunden",
+      "bild": "/bildtext/webseiten.svg",
+      "ctaText": "Beratung anfragen"
     },
     {
       "typ": "problemLoesung",
@@ -161,33 +163,117 @@
       ]
     },
     {
+      "typ": "bildText",
+      "bild": "/bildtext/webseiten-2.svg",
+      "ctaText": "Beratung anfragen",
+      "bildRechts": true,
+      "titel": "Modernste Technik, individuell für Sie gebaut",
+      "bildLabel": "Individuell gebaute, schnelle Website",
+      "absaetze": [
+        "Wir bauen Ihre Website mit modernster Technologie. Das Ergebnis sind sehr schnelle Ladezeiten, die Besucher halten und von Google belohnt werden.",
+        "Keine Baukasten-Websites, die alle gleich aussehen: Jede Seite wird individuell auf Ihr Unternehmen, Ihre Marke und Ihre Kunden zugeschnitten."
+      ]
+    },
+    {
+      "typ": "branchen",
+      "titel": "Websites für jede Branche",
+      "intro": "Ob lokaler Betrieb oder Beratung: Eine gute Website gewinnt Kunden in jeder Branche.",
+      "reihen": [
+        [
+          {
+            "icon": "<path d=\"M14.5 3.5 L20.5 9.5 L18.3 11.7 L12.3 5.7 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M15.5 8.5 L4.5 19.5 L2.5 21.5 L4.5 19.5 L3 17 L5.5 14.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
+            "label": "Handwerk & Bau"
+          },
+          {
+            "icon": "<path d=\"M12 4 V20 M8 20 H16\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><path d=\"M3 8.5 H8.5 L5.75 14.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.5\" stroke-linejoin=\"round\"></path><path d=\"M15.5 8.5 H21 L18.25 14.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.5\" stroke-linejoin=\"round\"></path>",
+            "label": "Recht & Beratung"
+          },
+          {
+            "icon": "<path d=\"M4 16 V12 L6 7 H18 L20 12 V16\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M4 16 H20 V18.5 H17 V16 M7 18.5 V16\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><circle cx=\"7.5\" cy=\"13\" r=\"1.3\" fill=\"#1B6E7A\"></circle><circle cx=\"16.5\" cy=\"13\" r=\"1.3\" fill=\"#1B6E7A\"></circle>",
+            "label": "Automobil"
+          },
+          {
+            "icon": "<path d=\"M12 20.5 C12 20.5 4 15.5 4 9.7 C4 6.8 6.2 4.5 9 4.5 C10.5 4.5 11.6 5.2 12 6.3 C12.4 5.2 13.5 4.5 15 4.5 C17.8 4.5 20 6.8 20 9.7 C20 15.5 12 20.5 12 20.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path>",
+            "label": "Gesundheit"
+          },
+          {
+            "icon": "<path d=\"M4 20 V9.5 L12 4 L20 9.5 V20\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M9.5 20 V14 H14.5 V20\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path>",
+            "label": "Immobilien & Hausverwaltung"
+          },
+          {
+            "icon": "<path d=\"M6.5 9.5 V14.5 M17.5 9.5 V14.5\" stroke=\"#1B6E7A\" stroke-width=\"1.8\" stroke-linecap=\"round\"></path><path d=\"M4 11 V13 M20 11 V13\" stroke=\"#1B6E7A\" stroke-width=\"1.8\" stroke-linecap=\"round\"></path><path d=\"M6.5 12 H17.5\" stroke=\"#1B6E7A\" stroke-width=\"1.8\" stroke-linecap=\"round\"></path>",
+            "label": "Fitness & Sport"
+          },
+          {
+            "icon": "<path d=\"M12 3.5 L19.5 6.5 V11.5 C19.5 16.5 16.3 19.8 12 21 C7.7 19.8 4.5 16.5 4.5 11.5 V6.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M9 11.5 L11 13.5 L15.5 9\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
+            "label": "Versicherungen & Finanzen"
+          }
+        ],
+        [
+          {
+            "icon": "<path d=\"M6 3.5 V10.5 M4.5 3.5 V7.5 M7.5 3.5 V7.5 M6 10.5 V20.5\" stroke=\"#1B6E7A\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M17 3.5 C14.5 3.5 14.5 6.5 14.5 8.5 C14.5 10 15.5 11 17 11 V20.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
+            "label": "Gastronomie & Hotellerie"
+          },
+          {
+            "icon": "<path d=\"M6 8 H18 L19 20.5 H5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M9 8 V6.5 C9 4.6 10.3 3.5 12 3.5 C13.7 3.5 15 4.6 15 6.5 V8\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path>",
+            "label": "Handel"
+          },
+          {
+            "icon": "<rect x=\"2.5\" y=\"9\" width=\"12\" height=\"8\" rx=\"1.3\" stroke=\"#1B6E7A\" stroke-width=\"1.6\"></rect><path d=\"M14.5 11.5 H18 L21 14.5 V17 H14.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><circle cx=\"7\" cy=\"18.5\" r=\"1.6\" stroke=\"#1B6E7A\" stroke-width=\"1.5\"></circle><circle cx=\"18\" cy=\"18.5\" r=\"1.6\" stroke=\"#1B6E7A\" stroke-width=\"1.5\"></circle>",
+            "label": "Logistik & Transport"
+          },
+          {
+            "icon": "<path d=\"M12 5 L22 9.5 L12 14 L2 9.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M6 11.5 V16 C6 17.5 8.7 19 12 19 C15.3 19 18 17.5 18 16 V11.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path>",
+            "label": "Bildung"
+          },
+          {
+            "icon": "<circle cx=\"12\" cy=\"12\" r=\"8.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\"></circle><path d=\"M3.5 12 H20.5 M12 3.5 C14.5 6.5 14.5 17.5 12 20.5 C9.5 17.5 9.5 6.5 12 3.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.5\"></path>",
+            "label": "Tourismus"
+          },
+          {
+            "icon": "<rect x=\"7\" y=\"7\" width=\"10\" height=\"10\" rx=\"1.6\" stroke=\"#1B6E7A\" stroke-width=\"1.6\"></rect><path d=\"M12 3.5 V7 M12 17 V20.5 M3.5 12 H7 M17 12 H20.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path>",
+            "label": "IT & Technologie"
+          },
+          {
+            "icon": "<path d=\"M4.5 13 A7.5 7.5 0 0 1 19.5 13\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><rect x=\"3\" y=\"13\" width=\"3.4\" height=\"6\" rx=\"1.5\" stroke=\"#1B6E7A\" stroke-width=\"1.5\"></rect><rect x=\"17.6\" y=\"13\" width=\"3.4\" height=\"6\" rx=\"1.5\" stroke=\"#1B6E7A\" stroke-width=\"1.5\"></rect>",
+            "label": "Kundenservice & Callcenter"
+          }
+        ]
+      ]
+    },
+    {
       "typ": "zeitstrahl",
-      "eyebrow": "So entsteht Ihre Website",
       "titel": "So entsteht Ihre neue Website",
       "intro": "Sie sehen Ihre Website, bevor Sie sich entscheiden. Auffindbarkeit bei Google und KI-Assistenten ist von Anfang an eingeplant.",
       "aktiv": 1,
       "schritte": [
         {
           "nummer": "01",
-          "titel": "Verständnis & Strategie-Planung",
-          "text": "Wir klären Zielgruppe, Angebot und Struktur Ihrer neuen Website."
+          "titel": "Wir beraten",
+          "text": "Im Gespräch klären wir Zielgruppe, Angebot und was Ihre Website leisten soll."
         },
         {
           "nummer": "02",
-          "titel": "Marken-Identität",
-          "text": "Optional: Logo, Farbwelt, Schriftarten und Bildstil."
+          "titel": "Ziele und Struktur festlegen",
+          "text": "Gemeinsam legen wir Ziele, Seitenstruktur und Inhalte fest."
         },
         {
           "nummer": "03",
+          "titel": "Design und Marke",
+          "text": "Auf Wunsch entwickeln wir Logo, Farbwelt, Schriftarten und Bildstil."
+        },
+        {
+          "nummer": "04",
           "titel": "Kostenlose Vorschau",
           "text": "Sie sehen Ihre Website, bevor Sie sich entscheiden."
         },
         {
-          "nummer": "04",
-          "titel": "SEO- & GEO-Optimierung",
-          "text": "Auffindbarkeit über Google und KI-Assistenten von Anfang an eingebaut."
+          "nummer": "05",
+          "titel": "Umsetzung und Sichtbarkeit",
+          "text": "Wir bauen die Seite und richten Auffindbarkeit bei Google und KI-Assistenten von Anfang an ein."
         }
-      ]
+      ],
+      "bild": "/zeitstrahl/webseiten.svg"
     },
     {
       "typ": "pricingPakete",

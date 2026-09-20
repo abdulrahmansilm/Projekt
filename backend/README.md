@@ -36,6 +36,7 @@ Vertrag mit dem Frontend: `src/lib/validation.ts` → `anfrageSchema`, Optionen 
 ```json
 {
   "themen": ["it-infrastruktur", "ki-kommunikation"],
+  "leistungen": ["it-betreuung", "webseiten"],
   "dringlichkeit": "dringend | bald | allgemein",
   "groesse": "1–10 | 11–25 | 26–50 | 51–100 | Über 100",
   "nachricht": "optional",

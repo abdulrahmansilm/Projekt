@@ -229,3 +229,19 @@ export function initNavigation() {
   initStickyHeader();
   initMobileMenu();
 }
+
+/**
+ * Logo-Wechsel: „IT“ → „KI“ → „IT“ in ruhigem Takt. Alle Navbar-Logos wechseln synchron.
+ * Bei reduzierter Bewegung bleibt es bei „IT“; im Hintergrund-Tab pausiert der Takt.
+ */
+export function initLogoWechsel() {
+  const logos = Array.from(document.querySelectorAll<SVGElement>("[data-logo-wechsel]"));
+  if (!logos.length) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  let ki = false;
+  window.setInterval(() => {
+    if (document.hidden) return;
+    ki = !ki;
+    logos.forEach((l) => l.classList.toggle("ist-ki", ki));
+  }, 4200);
+}

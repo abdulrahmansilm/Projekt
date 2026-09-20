@@ -32,6 +32,8 @@ interface Props {
   geraetEinheit?: string;
   pakete: Paket[];
   vergleich?: { label: string; werte?: string[]; preisFeld?: "preis" | "geraetPreis"; betont?: boolean }[];
+  /** Regler über den Paketen (Geräte-/Serveranzahl) mit automatischer Neuberechnung */
+  slider?: { label: string; einzahl: string; mehrzahl: string; min: number; max: number; start: number; hinweis?: string };
   zusatz?: {
     titel: string;
     sub: string;
@@ -40,7 +42,7 @@ interface Props {
       badge?: string;
       name: string;
       claim: string;
-      preisLabel: string;
+      preisLabel?: string;
       preisEinheit?: string;
       notiz?: string;
       features: string[];
@@ -49,15 +51,23 @@ interface Props {
   };
 }
 
-const { titel, intro, chips, jahresRabatt, rabattHinweis, einheit, geraetEinheit, pakete, vergleich, zusatz } = Astro.props;
+const { titel, intro, chips, jahresRabatt, rabattHinweis, einheit, geraetEinheit, pakete, vergleich, zusatz, slider } = Astro.props;
 const id = `preise-${Math.random().toString(36).slice(2, 7)}`;
 const euro = (n: number) => `${n.toLocaleString("de-DE", { maximumFractionDigits: 2 })} €`;
 const jahr = (n: number) => Math.round(n * (1 - (jahresRabatt ?? 0)) * 100) / 100;
 const mitToggle = typeof jahresRabatt === "number";
 const einmalig = einheit === "einmalig";
+const sliderModus = slider ? (pakete.some((p) => p.geraetPreis !== undefined) ? "geraet" : "menge") : null;
+const start = slider?.start ?? 1;
+const bruttoStart = (p: (typeof pakete)[number]) => (sliderModus === "geraet" ? (p.geraetPreis ?? 0) * start : sliderModus === "menge" ? p.preis * start : p.preis);
+const periodeStart = () => {
+  if (!slider) return einmalig ? "einmalig" : einheit;
+  if (sliderModus === "geraet") return start === 1 ? "pro Gerät / Monat" : `für ${start} ${slider.mehrzahl} / Monat`;
+  return start === 1 ? `/ ${slider.einzahl} / Monat` : `für ${start} ${slider.mehrzahl} / Monat`;
+};
 ---
 
-<section class:list={["preise", { "preise--toggle": mitToggle }]} id="preise" aria-labelledby={`${id}-titel`}>
+<section class:list={["preise", { "preise--toggle": mitToggle }]} id="preise" aria-labelledby={`${id}-titel`} data-preise data-rabatt={jahresRabatt ?? 0} data-modus={sliderModus ?? "keiner"}>
   <svg width="0" height="0" class="preise__defs" aria-hidden="true" focusable="false">
     <defs>
       <linearGradient id="preise-verlauf" x1="0" y1="0" x2="1" y2="1">
@@ -108,7 +118,7 @@ const einmalig = einheit === "einmalig";
       mitToggle && (
         <div class="zahlweise">
           <fieldset class="umschalter">
-            <legend class="sr-only">Zahlweise</legend>
+            <legend class="sr-only">Vertragslaufzeit</legend>
             <span class="umschalter__daumen" aria-hidden="true" />
             <label>
               <input type="radio" name={`${id}-zahlweise`} value="monatlich" checked />
@@ -124,6 +134,35 @@ const einmalig = einheit === "einmalig";
       )
     }
 
+    {
+      slider && (
+        <div class="rechner" data-reveal>
+          <label class="rechner__label" for={`${id}-slider`}>
+            {slider.label}
+          </label>
+          <div class="rechner__zeile">
+            <input
+              id={`${id}-slider`}
+              class="rechner__regler"
+              type="range"
+              min={slider.min}
+              max={slider.max}
+              step="1"
+              value={slider.start}
+              data-slider
+              data-einzahl={slider.einzahl}
+              data-mehrzahl={slider.mehrzahl}
+              style={`--p:${((slider.start - slider.min) / (slider.max - slider.min)) * 100}%`}
+            />
+            <output class="rechner__wert" for={`${id}-slider`} data-slider-out>
+              {slider.start} {slider.start === 1 ? slider.einzahl : slider.mehrzahl}
+            </output>
+          </div>
+          {slider.hinweis && <p class="rechner__hinweis">{slider.hinweis}</p>}
+        </div>
+      )
+    }
+
     <ul class="karten" role="list" data-reveal-group>
       {
         pakete.map((p) => (
@@ -131,23 +170,38 @@ const einmalig = einheit === "einmalig";
             {p.badge && <span class="karte__badge">{p.badge}</span>}
             <h3 class="karte__name">{p.name}</h3>
             <p class="karte__claim">{p.claim}</p>
-            <p class="karte__preis">
-              <span class="preis preis--monat">{euro(p.preis)}</span>
-              {mitToggle && <span class="preis preis--jahr">{euro(jahr(p.preis))}</span>}
-              <span class="karte__periode">{einmalig ? "einmalig" : einheit}</span>
-            </p>
-            {p.geraetPreis !== undefined && (
-              <p class="karte__geraet">
-                <span class="preis--monat">+ {euro(p.geraetPreis).replace(" €", "")}</span>
-                {mitToggle && <span class="preis--jahr">+ {euro(jahr(p.geraetPreis)).replace(" €", "")}</span>} {geraetEinheit}
+            <div class="preisblock" data-karte data-preis={p.preis} data-geraet={p.geraetPreis ?? ""}>
+              <p class="karte__preis">
+                <span class="preis preis--monat" data-out="gross-monat">{euro(bruttoStart(p))}</span>
+                {mitToggle && <span class="preis preis--jahr" data-out="gross-jahr">{euro(jahr(bruttoStart(p)))}</span>}
+                <span class="karte__periode" data-out="periode">{periodeStart()}</span>
               </p>
-            )}
-            {mitToggle && (
-              <p class="karte__jahresnotiz">
-                <span class="preis--jahr">jährliche Zahlweise, {Math.round((jahresRabatt ?? 0) * 100)} % Rabatt inklusive</span>
-              </p>
-            )}
-            {!mitToggle && <div class="karte__trenner" />}
+              {sliderModus === "geraet" && p.geraetPreis !== undefined && (
+                <p class="karte__klein">
+                  <span class="preis--monat" data-out="klein-monat">+ {euro(p.preis)} Grundpreis</span>
+                  {mitToggle && <span class="preis--jahr" data-out="klein-jahr">+ {euro(jahr(p.preis))} Grundpreis</span>}
+                </p>
+              )}
+              {sliderModus === "menge" && (
+                <p class="karte__klein">
+                  <span class="preis--monat" data-out="klein-monat">{euro(p.preis)} pro {slider?.einzahl}</span>
+                  {mitToggle && <span class="preis--jahr" data-out="klein-jahr">{euro(jahr(p.preis))} pro {slider?.einzahl}</span>}
+                </p>
+              )}
+              {!slider && p.geraetPreis !== undefined && (
+                <p class="karte__geraet">
+                  <span class="preis--monat">+ {euro(p.geraetPreis).replace(" €", "")}</span>
+                  {mitToggle && <span class="preis--jahr">+ {euro(jahr(p.geraetPreis)).replace(" €", "")}</span>} {geraetEinheit}
+                </p>
+              )}
+            </div>
+            <a
+              class:list={["btn btn--sm btn--block karte__cta", { "btn--hell": p.variante === "premium" }]}
+              href={KONTAKT_ANKER}
+              aria-label={`${p.cta}: Paket ${p.name}`}
+            >
+              <span>{p.cta}</span>
+            </a>
             {p.reaktion && (
               <div class="reaktion">
                 <p class="reaktion__label">Reaktionszeit</p>
@@ -175,13 +229,6 @@ const einmalig = einheit === "einmalig";
                 </li>
               ))}
             </ul>
-            <a
-              class:list={["btn btn--sm btn--block karte__cta", { "btn--hell": p.variante === "premium" }]}
-              href={KONTAKT_ANKER}
-              aria-label={`${p.cta}: Paket ${p.name}`}
-            >
-              <span>{p.cta}</span>
-            </a>
           </li>
         ))
       }
@@ -260,10 +307,15 @@ const einmalig = einheit === "einmalig";
                   <h4 class="karte__name">{z.name}</h4>
                 </div>
                 <p class="karte__claim">{z.claim}</p>
-                <p class="karte__preis">
-                  <span class="preis">{z.preisLabel}</span>
-                  {z.preisEinheit && <span class="karte__periode">{z.preisEinheit}</span>}
-                </p>
+                <a class="btn btn--sm btn--block karte__cta karte__cta--oben" href={KONTAKT_ANKER} aria-label={`${z.cta}: ${z.name}`}>
+                  <span>{z.cta}</span>
+                </a>
+                {z.preisLabel && (
+                  <p class="karte__preis">
+                    <span class="preis">{z.preisLabel}</span>
+                    {z.preisEinheit && <span class="karte__periode">{z.preisEinheit}</span>}
+                  </p>
+                )}
                 {z.notiz && <p class="karte__jahresnotiz karte__jahresnotiz--fest">{z.notiz}</p>}
                 <div class="karte__trenner" />
                 <p class="diff-titel">Enthaltene Leistungen</p>
@@ -277,9 +329,6 @@ const einmalig = einheit === "einmalig";
                     </li>
                   ))}
                 </ul>
-                <a class="btn btn--sm btn--block karte__cta" href={KONTAKT_ANKER}>
-                  <span>{z.cta}</span>
-                </a>
               </li>
             ))}
           </ul>
@@ -288,6 +337,53 @@ const einmalig = einheit === "einmalig";
     }
   </div>
 </section>
+
+<script>
+  /**
+   * Regler für Geräte-/Serveranzahl: berechnet je Paket den Gesamtpreis neu.
+   * Modus "geraet": groß = Gerätepreis × Anzahl, klein = "+ Grundpreis".
+   * Modus "menge":  groß = Paketpreis × Anzahl, klein = Preis pro Einheit.
+   */
+  const euro = (n: number) => `${n.toLocaleString("de-DE", { maximumFractionDigits: 2 })} €`;
+  document.querySelectorAll<HTMLElement>("[data-preise]").forEach((root) => {
+    const regler = root.querySelector<HTMLInputElement>("[data-slider]");
+    const ausgabe = root.querySelector<HTMLOutputElement>("[data-slider-out]");
+    if (!regler || !ausgabe) return;
+    const modus = root.dataset.modus;
+    const rabatt = Number(root.dataset.rabatt ?? 0);
+    const jahr = (n: number) => Math.round(n * (1 - rabatt) * 100) / 100;
+    const einzahl = regler.dataset.einzahl ?? "";
+    const mehrzahl = regler.dataset.mehrzahl ?? "";
+    const setze = (el: Element, teil: string, text: string) => {
+      const ziel = el.querySelector<HTMLElement>(`[data-out="${teil}"]`);
+      if (ziel) ziel.textContent = text;
+    };
+    const berechne = () => {
+      const n = Number(regler.value);
+      const min = Number(regler.min);
+      const max = Number(regler.max);
+      regler.style.setProperty("--p", `${((n - min) / (max - min)) * 100}%`);
+      ausgabe.textContent = `${n} ${n === 1 ? einzahl : mehrzahl}`;
+      regler.setAttribute("aria-valuetext", ausgabe.textContent);
+      root.querySelectorAll<HTMLElement>("[data-karte]").forEach((k) => {
+        const preis = Number(k.dataset.preis);
+        const geraet = Number(k.dataset.geraet);
+        const gross = modus === "geraet" ? geraet * n : preis * n;
+        setze(k, "gross-monat", euro(gross));
+        setze(k, "gross-jahr", euro(jahr(gross)));
+        if (modus === "geraet") {
+          setze(k, "klein-monat", `+ ${euro(preis)} Grundpreis`);
+          setze(k, "klein-jahr", `+ ${euro(jahr(preis))} Grundpreis`);
+          setze(k, "periode", n === 1 ? "pro Gerät / Monat" : `für ${n} ${mehrzahl} / Monat`);
+        } else {
+          setze(k, "periode", n === 1 ? `/ ${einzahl} / Monat` : `für ${n} ${mehrzahl} / Monat`);
+        }
+      });
+    };
+    regler.addEventListener("input", berechne);
+    berechne();
+  });
+</script>
 
 <style>
   .preise {
@@ -395,10 +491,130 @@ const einmalig = einheit === "einmalig";
   /* ---------- Zahlweise ---------- */
   .zahlweise {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+    gap: 10px 16px;
     margin-bottom: 36px;
+  }
+
+  /* ---------- Regler (Geräte-/Serveranzahl) ---------- */
+  .rechner {
+    max-width: 640px;
+    margin: 0 auto 32px;
+    padding: 22px 26px 20px;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 4px 18px rgba(11, 46, 60, 0.07);
+  }
+
+  .rechner__label {
+    display: block;
+    margin-bottom: 14px;
+    font-family: var(--font-headline);
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .rechner__zeile {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .rechner__regler {
+    --p: 0%;
+    flex: 1;
+    height: 28px;
+    margin: 0;
+    background: transparent;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .rechner__regler::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--tuerkis) 0%, var(--petrol) var(--p), rgba(11, 46, 60, 0.14) var(--p));
+  }
+
+  .rechner__regler::-moz-range-track {
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(11, 46, 60, 0.14);
+  }
+
+  .rechner__regler::-moz-range-progress {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--petrol);
+  }
+
+  .rechner__regler::-webkit-slider-thumb {
+    width: 24px;
+    height: 24px;
+    margin-top: -9px;
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+    background: var(--petrol);
+    box-shadow: 0 2px 8px rgba(11, 46, 60, 0.35);
+    -webkit-appearance: none;
+    appearance: none;
+    transition: transform 160ms var(--ease-out);
+  }
+
+  .rechner__regler::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+    background: var(--petrol);
+    box-shadow: 0 2px 8px rgba(11, 46, 60, 0.35);
+  }
+
+  .rechner__regler:active::-webkit-slider-thumb {
+    transform: scale(1.12);
+  }
+
+  .rechner__regler:focus-visible {
+    outline: 2px solid var(--petrol);
+    outline-offset: 4px;
+    border-radius: 6px;
+  }
+
+  .rechner__wert {
+    min-width: 108px;
+    font-family: var(--font-headline);
+    font-size: 20px;
+    font-weight: 700;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .rechner__hinweis {
+    margin-top: 10px;
+    font-size: 13.5px;
+    color: var(--ink-68);
+  }
+
+  .preisblock {
+    margin-bottom: 14px;
+  }
+
+  .karte__klein {
+    margin-top: 2px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-72);
+  }
+
+  .karte--premium .karte__klein {
+    color: rgba(240, 244, 243, 0.85);
+  }
+
+  .karte__cta--oben {
+    margin: 4px 0 6px;
   }
 
   .umschalter {
@@ -728,7 +944,8 @@ const einmalig = einheit === "einmalig";
   }
 
   .karte__cta {
-    margin-top: auto;
+    margin-top: 2px;
+    margin-bottom: 14px;
   }
 
   .karte__name-zeile {
@@ -869,7 +1086,13 @@ const einmalig = einheit === "einmalig";
   }
 
   .zusatz__grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 1000px) and (min-width: 821px) {
+    .zusatz__grid:not(.zusatz__grid--einzeln) {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
   .zusatz__grid--einzeln {

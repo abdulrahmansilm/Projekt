@@ -1,0 +1,275 @@
+---
+/**
+ * „Beispiele aus der Praxis“ (Automatisierung): großes Bild mit voll abgerundeten Ecken, Wechsel per Pfeil
+ * links/rechts (Carousel), zu jedem Bild eine Erklärkarte in der besonderen Farbe, die leicht ins Bild ragt.
+ * Alle Bilder stehen in einem Rahmen gleicher Größe (object-fit: contain). Bilder unter public/praxis/.
+ */
+import { KONTAKT_ANKER } from "../../lib/config";
+
+interface Props {
+  titel: string;
+  intro?: string;
+  beispiele: { bild: string; alt: string; titel: string; text: string }[];
+}
+const { titel, intro, beispiele } = Astro.props;
+const id = `pb-${Math.random().toString(36).slice(2, 7)}`;
+---
+
+<section class="pb section-light" aria-labelledby={`${id}-titel`} data-pb>
+  <div class="pb__inner">
+    <div class="pb__kopf" data-reveal>
+      <h2 id={`${id}-titel`} class="h2">{titel}</h2>
+      {intro && <p class="lead">{intro}</p>}
+    </div>
+
+    <div class="pb__rahmen" role="group" aria-roledescription="Karussell" aria-label={titel} data-reveal>
+      <div class="pb__buehne">
+        {
+          beispiele.map((b, i) => (
+            <article class:list={["pb__folie", { "is-aktiv": i === 0 }]} data-pb-folie aria-label={`${i + 1} von ${beispiele.length}: ${b.titel}`} aria-hidden={i === 0 ? undefined : "true"}>
+              <div class="pb__bild">
+                <img src={b.bild} alt={b.alt} loading={i === 0 ? "eager" : "lazy"} decoding="async" />
+              </div>
+              <div class="pb__karte">
+                <h3>{b.titel}</h3>
+                <p>{b.text}</p>
+                <a class="btn btn--sm" href={KONTAKT_ANKER} tabindex={i === 0 ? undefined : -1}>
+                  <span>Beratung anfragen</span>
+                </a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+
+      <button type="button" class="pb__pfeil pb__pfeil--zurueck" data-pb-zurueck aria-label="Vorheriges Beispiel">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </button>
+      <button type="button" class="pb__pfeil pb__pfeil--weiter" data-pb-weiter aria-label="Nächstes Beispiel">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </button>
+    </div>
+
+    <p class="pb__zaehler" aria-live="polite" data-pb-zaehler>1 von {beispiele.length}</p>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-pb]").forEach((root) => {
+    const folien = Array.from(root.querySelectorAll<HTMLElement>("[data-pb-folie]"));
+    const zaehler = root.querySelector<HTMLElement>("[data-pb-zaehler]");
+    let aktuell = 0;
+    const zeige = (n: number) => {
+      aktuell = (n + folien.length) % folien.length;
+      folien.forEach((f, i) => {
+        const an = i === aktuell;
+        f.classList.toggle("is-aktiv", an);
+        if (an) f.removeAttribute("aria-hidden");
+        else f.setAttribute("aria-hidden", "true");
+        f.querySelectorAll<HTMLElement>("a, button").forEach((el) => (el.tabIndex = an ? 0 : -1));
+      });
+      if (zaehler) zaehler.textContent = `${aktuell + 1} von ${folien.length}`;
+    };
+    root.querySelector("[data-pb-zurueck]")?.addEventListener("click", () => zeige(aktuell - 1));
+    root.querySelector("[data-pb-weiter]")?.addEventListener("click", () => zeige(aktuell + 1));
+    root.addEventListener("keydown", (e) => {
+      const ev = e as KeyboardEvent;
+      if (ev.key === "ArrowLeft") zeige(aktuell - 1);
+      if (ev.key === "ArrowRight") zeige(aktuell + 1);
+    });
+  });
+</script>
+
+<style>
+  .pb {
+    padding: 96px 32px 104px;
+    overflow-x: clip;
+  }
+
+  .pb__inner {
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+
+  .pb__kopf {
+    max-width: 640px;
+    margin: 0 auto 48px;
+    text-align: center;
+  }
+
+  .pb__kopf h2 {
+    margin-bottom: 14px;
+  }
+
+  .pb__rahmen {
+    position: relative;
+    max-width: 1040px;
+    margin: 0 auto;
+  }
+
+  .pb__buehne {
+    display: grid;
+  }
+
+  .pb__folie {
+    grid-area: 1 / 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(24px);
+    transition:
+      opacity 450ms var(--ease-out),
+      transform 450ms var(--ease-out),
+      visibility 0s linear 450ms;
+  }
+
+  .pb__folie.is-aktiv {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition-delay: 0s;
+  }
+
+  .pb__bild {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 16 / 9;
+    padding: 28px;
+    border-radius: 30px;
+    background: #ffffff;
+    box-shadow: 0 10px 40px -14px rgba(11, 46, 60, 0.22);
+  }
+
+  .pb__bild img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  /* Karte in der besonderen Farbe: ragt links unten leicht ins Bild */
+  .pb__karte {
+    position: relative;
+    z-index: 2;
+    width: min(460px, calc(100% - 48px));
+    margin: -56px 0 0 40px;
+    padding: 28px 30px 30px;
+    border-radius: 24px;
+    background:
+      radial-gradient(120% 90% at 90% 0%, rgba(79, 184, 166, 0.2), transparent 60%),
+      var(--tiefsee);
+    color: var(--on-dark);
+    box-shadow: 0 22px 44px -16px rgba(11, 46, 60, 0.6);
+  }
+
+  .pb__karte h3 {
+    margin-bottom: 10px;
+    font-size: 22px;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  .pb__karte p {
+    margin-bottom: 20px;
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--on-dark-72);
+  }
+
+  .pb__pfeil {
+    position: absolute;
+    top: calc(50% - 56px);
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: #ffffff;
+    color: var(--tiefsee);
+    box-shadow: 0 6px 20px rgba(11, 46, 60, 0.25);
+    cursor: pointer;
+    transition:
+      transform 160ms var(--ease-out),
+      background-color 160ms ease,
+      color 160ms ease;
+  }
+
+  .pb__pfeil svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .pb__pfeil--zurueck {
+    left: -24px;
+  }
+
+  .pb__pfeil--weiter {
+    right: -24px;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .pb__pfeil:hover {
+      background: var(--tiefsee);
+      color: #ffffff;
+    }
+  }
+
+  .pb__pfeil:active {
+    transform: scale(0.94);
+  }
+
+  .pb__zaehler {
+    margin-top: 22px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    color: var(--ink-68);
+  }
+
+  @media (max-width: 1140px) {
+    .pb__pfeil--zurueck {
+      left: 8px;
+    }
+
+    .pb__pfeil--weiter {
+      right: 8px;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .pb {
+      padding: 64px 20px 72px;
+    }
+
+    .pb__bild {
+      aspect-ratio: 4 / 3;
+      padding: 14px;
+      border-radius: 22px;
+    }
+
+    .pb__karte {
+      width: calc(100% - 24px);
+      margin: -32px 12px 0;
+      padding: 22px 22px 24px;
+    }
+
+    .pb__pfeil {
+      top: calc(50% - 90px);
+      width: 42px;
+      height: 42px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pb__folie {
+      transform: none;
+      transition: none;
+    }
+  }
+</style>

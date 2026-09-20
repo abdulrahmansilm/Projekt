@@ -13,7 +13,7 @@ interface Props {
 const { titel, intro, quelle, zahlen } = Astro.props;
 ---
 
-<section class="kz section-dark besondere-sektion" aria-labelledby="kz-titel">
+<section class="kz section-dark besondere-sektion" aria-labelledby="kz-titel" data-kz>
   <div class="kz__inner">
     <div class="kz__kopf" data-reveal>
       <h2 id="kz-titel" class="h2">{titel}</h2>
@@ -23,7 +23,7 @@ const { titel, intro, quelle, zahlen } = Astro.props;
       {
         zahlen.map((z, i) => (
           <li data-reveal style={`--reveal-index:${i}`}>
-            <span class="kz__wert text-verlauf-hell">{z.wert}</span>
+            <span class="kz__wert text-verlauf-hell" data-kz-wert>{z.wert}</span>
             <span class="kz__label">{z.label}</span>
           </li>
         ))
@@ -32,6 +32,51 @@ const { titel, intro, quelle, zahlen } = Astro.props;
     {quelle && <p class="kz__quelle">{quelle}</p>}
   </div>
 </section>
+
+<script>
+  /**
+   * Count-up: Sobald die Sektion im Viewport erscheint, zählen die Zahlen schnell bis zum Endwert hoch.
+   * Format wie im Text („3,4 Mrd.“, „87 %“): Zahl mit deutschem Dezimalkomma plus Suffix.
+   */
+  document.querySelectorAll<HTMLElement>("[data-kz]").forEach((root) => {
+    const felder = Array.from(root.querySelectorAll<HTMLElement>("[data-kz-wert]")).map((el) => {
+      const text = el.textContent?.trim() ?? "";
+      const m = /^([\d.,]+)(.*)$/.exec(text);
+      if (!m) return null;
+      const ziel = parseFloat(m[1].replace(/\./g, "").replace(",", "."));
+      const nachkomma = m[1].includes(",") ? m[1].split(",")[1].length : 0;
+      return { el, ziel, nachkomma, suffix: m[2], text };
+    });
+    const brauchbar = felder.filter((f): f is NonNullable<typeof f> => f !== null && Number.isFinite(f.ziel));
+    if (!brauchbar.length) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) return;
+
+    const format = (wert: number, nachkomma: number) => wert.toLocaleString("de-DE", { minimumFractionDigits: nachkomma, maximumFractionDigits: nachkomma });
+    brauchbar.forEach((f) => (f.el.textContent = format(0, f.nachkomma) + f.suffix));
+
+    const DAUER = 1400;
+    const start = () => {
+      const t0 = performance.now();
+      const schritt = (jetzt: number) => {
+        const p = Math.min(1, (jetzt - t0) / DAUER);
+        const eased = 1 - Math.pow(1 - p, 3);
+        brauchbar.forEach((f) => (f.el.textContent = format(f.ziel * eased, f.nachkomma) + f.suffix));
+        if (p < 1) requestAnimationFrame(schritt);
+        else brauchbar.forEach((f) => (f.el.textContent = f.text));
+      };
+      requestAnimationFrame(schritt);
+    };
+    const beobachter = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return;
+        beobachter.disconnect();
+        start();
+      },
+      { threshold: 0.35 }
+    );
+    beobachter.observe(root);
+  });
+</script>
 
 <style>
   .kz {

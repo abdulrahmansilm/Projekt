@@ -6,7 +6,7 @@
  * Verhalten (Dropdowns, Sticky, Mobile-Menü) in src/lib/navigation.ts.
  */
 import Logo from "../ui/Logo.astro";
-import { firma, navigation, leistungHref } from "../../lib/config";
+import { firma, navigation, leistungHref, NAV_ICONS } from "../../lib/config";
 
 interface Props {
   variant: "hero" | "sticky";
@@ -22,7 +22,7 @@ const istAktiv = (href: string) => aktuellerPfad.replace(/\/$/, "") === href.rep
 
 <div class:list={["kopf", `kopf--${variant}`, { "on-dark": variant === "hero" }]}>
   <a href="/" class="kopf__logo" aria-label="Selim-IT, zur Startseite">
-    <Logo variant={variant === "hero" ? "hell" : "dunkel"} class="kopf__logo-svg" />
+    <Logo variant={variant === "hero" ? "hell" : "dunkel"} class="kopf__logo-svg" wechsel />
   </a>
 
   <nav class="kopf__nav" aria-label={variant === "hero" ? "Hauptnavigation" : "Hauptnavigation (fixiert)"}>
@@ -64,8 +64,10 @@ const istAktiv = (href: string) => aktuellerPfad.replace(/\/$/, "") === href.rep
                           href={leistungHref(e.slug)}
                           aria-current={istAktiv(leistungHref(e.slug)) ? "page" : undefined}
                         >
+                          <span class="nav-panel__ico" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={NAV_ICONS[e.slug]} />
+                          </span>
                           <span class="nav-panel__titel">{e.label}</span>
-                          {e.kurz && <span class="nav-panel__kurz">{e.kurz}</span>}
                         </a>
                       </li>
                     ))}
@@ -223,7 +225,7 @@ const istAktiv = (href: string) => aktuellerPfad.replace(/\/$/, "") === href.rep
     top: calc(100% + 10px);
     left: 50%;
     z-index: 60;
-    min-width: 300px;
+    min-width: 280px;
     padding: 10px;
     border-radius: 16px;
     background: #ffffff;
@@ -279,9 +281,9 @@ const istAktiv = (href: string) => aktuellerPfad.replace(/\/$/, "") === href.rep
 
   .nav-panel__link {
     display: flex;
-    flex-direction: column;
-    gap: 2px;
-    padding: 11px 14px;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
     border-radius: 10px;
     text-decoration: none;
     transition: background-color 150ms ease;
@@ -304,10 +306,36 @@ const istAktiv = (href: string) => aktuellerPfad.replace(/\/$/, "") === href.rep
     color: var(--ink);
   }
 
-  .nav-panel__kurz {
-    font-size: 12.5px;
-    line-height: 1.4;
-    color: var(--ink-68);
+  .nav-panel__ico {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    flex: none;
+    border-radius: 10px;
+    background: rgba(79, 184, 166, 0.13);
+    color: var(--petrol);
+    transition:
+      background-color 180ms ease,
+      color 180ms ease;
+  }
+
+  .nav-panel__ico svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .nav-panel__link:hover .nav-panel__ico {
+      background: var(--verlauf);
+      color: #ffffff;
+    }
+  }
+
+  .nav-panel__link[aria-current="page"] .nav-panel__ico {
+    background: var(--verlauf);
+    color: #ffffff;
   }
 
   .nav-panel__bald {

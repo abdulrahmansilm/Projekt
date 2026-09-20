@@ -7,13 +7,24 @@
  * Verhalten: src/lib/kontaktWizard.ts
  */
 import { getEntry } from "astro:content";
-import { firma } from "../../lib/config";
+import { firma, navigation } from "../../lib/config";
 
 interface Props {
   vorauswahl?: { thema: string; option?: string };
+  /** Slug der aktuellen Leistungsseite: wird bei den Interessen vorausgewählt */
+  leistung?: string;
 }
 
-const { vorauswahl } = Astro.props;
+const { vorauswahl, leistung: aktuelleLeistung } = Astro.props;
+// Alle Leistungen aus der Navbar (ohne „bald verfügbar“ und ohne Unternehmensseiten) als anklickbare Optionen
+const interessen = navigation
+  .filter((k) => k.id !== "unternehmen")
+  .map((k) => ({
+    gruppe: k.label,
+    eintraege: k.href
+      ? [{ slug: "webseiten", label: k.label }]
+      : k.eintraege.filter((e) => !e.bald).map((e) => ({ slug: e.slug, label: e.label })),
+  }));
 const eintrag = await getEntry("seiten", "kontakt");
 if (!eintrag) throw new Error("src/content/seiten/kontakt.json fehlt");
 const k = eintrag.data as {
@@ -161,6 +172,26 @@ const dringendHinweis = k.schritt2.dringendHinweis.replace(/^Bei einem akuten Au
               ))
             }
           </div>
+        </fieldset>
+
+        <fieldset class="block">
+          <legend class="block__label">An welchen Leistungen haben Sie Interesse?</legend>
+          <p class="block__sub">Mehrfachauswahl möglich, alles ist optional.</p>
+          {
+            interessen.map((g) => (
+              <div class="interesse">
+                <p class="interesse__gruppe">{g.gruppe}</p>
+                <div class="optionen">
+                  {g.eintraege.map((e) => (
+                    <label class="option option--weiss">
+                      <input type="checkbox" name="leistung" value={e.slug} data-label={e.label} checked={e.slug === aktuelleLeistung} />
+                      <span>{e.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            ))
+          }
         </fieldset>
 
         <div class="block">
@@ -736,6 +767,20 @@ const dringendHinweis = k.schritt2.dringendHinweis.replace(/^Bei einem akuten Au
     font-family: var(--font-headline);
     font-size: 16px;
     font-weight: 600;
+  }
+
+  .interesse + .interesse {
+    margin-top: 14px;
+  }
+
+  .interesse__gruppe {
+    margin-bottom: 8px;
+    font-family: var(--font-headline);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--helltuerkis);
   }
 
   .block__sub {

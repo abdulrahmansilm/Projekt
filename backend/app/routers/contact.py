@@ -36,6 +36,7 @@ def _pruefe_spamschutz(daten: KontaktAnfrageEingabe) -> None:
 def _speichere(daten: KontaktAnfrageEingabe, db: Session) -> Anfrage:
     eintrag = Anfrage(
         themen=daten.themen,
+        leistungen=daten.leistungen,
         dringlichkeit=daten.dringlichkeit.value,
         groesse=daten.groesse,
         nachricht=daten.nachricht,

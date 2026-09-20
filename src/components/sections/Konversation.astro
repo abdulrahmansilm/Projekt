@@ -256,17 +256,29 @@ const { eyebrow, titelVor, akzent, titelNach, intro, schritte, abschluss } = Ast
     transition: background-color 200ms ease;
   }
 
+  .pk,
+  .abschluss {
+    transition:
+      transform 260ms var(--ease-out),
+      border-color 200ms ease,
+      background 260ms ease,
+      box-shadow 260ms ease;
+  }
+
   @media (hover: hover) and (pointer: fine) {
+    /* Deutliche Hervorhebung beim Drüberfahren: Anheben, türkiser Rahmenring, getönter Grund */
     .pk:hover,
     .abschluss:hover {
-      transform: translateY(-3px);
-      border-color: rgba(79, 184, 166, 0.35);
-      box-shadow: 0 12px 28px rgba(11, 46, 60, 0.11);
+      transform: translateY(-6px) scale(1.015);
+      border-color: var(--tuerkis);
+      background: linear-gradient(155deg, rgba(79, 184, 166, 0.2), rgba(79, 184, 166, 0.05)), #ffffff;
+      box-shadow:
+        0 0 0 3px rgba(79, 184, 166, 0.2),
+        0 22px 40px -12px rgba(11, 46, 60, 0.28);
     }
 
     .pk--kern:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 34px rgba(11, 46, 60, 0.15);
+      transform: translateY(-7px) scale(1.02);
     }
 
     .pk:hover .pk__ico,

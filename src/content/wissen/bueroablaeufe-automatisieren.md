@@ -14,7 +14,7 @@ leistungen: ["prozessautomatisierung"]
 faq:
   - frage: "Welche Prozesse lassen sich im Büro automatisieren?"
     antwort: "Gut geeignet sind regelmäßig wiederkehrende, regelbasierte und digital vorliegende Abläufe: Rechnungsablage, Datenübertragung zwischen Systemen, Terminbestätigungen, wiederkehrende Berichte und die Erstellung von Dokumenten aus Vorlagen."
-  - frage: "Ab wann lohnt sich Prozessautomatisierung?"
+  - frage: "Ab wann lohnt sich Automatisierung?"
     antwort: "Als Faustregel: Ein Vorgang, der täglich zehn Minuten kostet, summiert sich auf rund 40 Stunden im Jahr. Sobald die eingesparte Arbeitszeit den einmaligen Einrichtungsaufwand innerhalb von etwa einem Jahr übersteigt, rechnet sich die Automatisierung."
   - frage: "Welche Abläufe sollte man nicht automatisieren?"
     antwort: "Abläufe, die Einzelfallbewertung erfordern, sich häufig ändern, nur wenige Male im Jahr vorkommen oder von keinem Beteiligten eindeutig beschrieben werden können. Auch Prozesse in Systemen ohne Schnittstelle sind meist ungeeignet."

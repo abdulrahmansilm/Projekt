@@ -7,7 +7,7 @@
  */
 import { KONTAKT_ANKER } from "../../lib/config";
 
-type Eintrag = { text?: string; enthalten: boolean; notiz?: string; tipp?: string; info?: boolean; erbt?: string };
+type Eintrag = { text?: string; enthalten: boolean; notiz?: string; tipp?: string; info?: boolean; erbt?: string; hervor?: boolean };
 interface Props {
   titel: string;
   intro?: string;
@@ -32,6 +32,8 @@ interface Props {
 const { titel, intro, setup, pakete, disclaimer, vergleich } = Astro.props;
 const id = `ps-${Math.random().toString(36).slice(2, 7)}`;
 const euro = (n: number) => `${n.toLocaleString("de-DE")} €`;
+// Ersparnis bei jährlichem Vertrag: höchster prozentualer Vorteil über alle Pakete (nur ehrliche Werte zeigen)
+const maxSparen = Math.round(Math.max(...pakete.map((p) => ((p.monatlich - p.jaehrlich) / p.monatlich) * 100)));
 let tippZaehler = 0;
 const tippId = () => `${id}-tipp-${++tippZaehler}`;
 ---
@@ -80,11 +82,12 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
 
     <div class="zahlweise">
       <fieldset class="umschalter">
-        <legend class="sr-only">Zahlweise</legend>
+        <legend class="sr-only">Vertragslaufzeit</legend>
         <span class="umschalter__daumen" aria-hidden="true"></span>
         <label><input type="radio" name={`${id}-zahlweise`} value="monatlich" checked /><span>Monatlich</span></label>
         <label><input type="radio" name={`${id}-zahlweise`} value="jaehrlich" /><span>Jährlich</span></label>
       </fieldset>
+      {maxSparen > 0 && <span class="zahlweise__hinweis">{maxSparen === 10 ? "10 %" : `bis zu ${maxSparen} %`} sparen bei jährlichem Vertrag</span>}
     </div>
 
     <ul class="karten" role="list" data-reveal-group>
@@ -130,7 +133,7 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
                         <span class="erbt__pill">{e.erbt}</span>
                       </li>
                     ) : (
-                      <li class:list={{ "ist-aus": !e.enthalten }}>
+                      <li class:list={{ "ist-aus": !e.enthalten, hervor: e.hervor }}>
                         {e.enthalten ? (
                           <svg viewBox="0 0 24 24" fill="none" stroke={`url(#${id}-grad)`} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <polyline points="20 6 9 17 4 12" />
@@ -453,8 +456,20 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
   /* ---------- Zahlweise ---------- */
   .zahlweise {
     display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
+    gap: 10px 16px;
     margin-bottom: 36px;
+  }
+
+  .zahlweise__hinweis {
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(79, 184, 166, 0.14);
+    color: var(--petrol);
+    font-size: 13px;
+    font-weight: 500;
   }
 
   .umschalter {
@@ -663,6 +678,15 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
     gap: 8px;
     font-size: 13.5px;
     line-height: 1.4;
+  }
+
+  /* Besonders hervorgehobene Leistungen (z. B. laufende Betreuung, Optimierung) */
+  .eintraege li.hervor {
+    padding: 7px 10px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(79, 184, 166, 0.18), rgba(27, 110, 122, 0.1));
+    box-shadow: inset 3px 0 0 var(--tuerkis);
+    font-weight: 600;
   }
 
   .eintraege li.ist-aus {

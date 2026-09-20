@@ -13,7 +13,7 @@ export const GET: APIRoute = async () => {
 
   z.push(`# ${firma.name}`, "");
   z.push(
-    `> IT-Dienstleister aus ${firma.adresse.stadt} für kleine und mittelständische Unternehmen: IT-Betreuung, Server, VPN, Hardware, Microsoft 365, Datensicherung, E-Mail-Sicherheit, KI-Telefonassistent, WhatsApp-Chatbot, Prozessautomatisierung und Webseiten. ${firma.einsatzgebiet}. Planbare Kosten, fester Ansprechpartner, eigene Infrastruktur in Deutschland.`,
+    `> IT-Dienstleister aus ${firma.adresse.stadt} für kleine und mittelständische Unternehmen: IT-Betreuung, Server, VPN, Hardware, Microsoft 365, Datensicherung, E-Mail-Sicherheit, KI-Telefonassistent, WhatsApp-Chatbot, Automatisierung und Webseiten. ${firma.einsatzgebiet}. Planbare Kosten, fester Ansprechpartner, eigene Infrastruktur in Deutschland.`,
     ""
   );
 

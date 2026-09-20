@@ -37,6 +37,7 @@ export function initKontaktWizard(root: HTMLElement) {
 
   // ---------------------------------------------------------------- Zustand lesen
   const themen = () => qa<HTMLInputElement>('input[name="thema"]:checked').map((i) => i.value);
+  const leistungen = () => qa<HTMLInputElement>('input[name="leistung"]:checked').map((i) => i.value);
   const radio = (name: string) => q<HTMLInputElement>(`input[name="${name}"]:checked`);
   const feld = (name: string) => (form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement | null)?.value.trim() ?? "";
 
@@ -54,7 +55,7 @@ export function initKontaktWizard(root: HTMLElement) {
   // ---------------------------------------------------------------- Prüfungen je Schritt
   function schritt2Fehler(): string | null {
     if (!radio("dringlichkeit")) return "Bitte geben Sie an, wie dringend Ihr Anliegen ist.";
-    if (!radio("groesse")) return "Bitte wählen Sie die Anzahl der Mitarbeitenden bzw. IT-Arbeitsplätze.";
+    if (!radio("groesse")) return "Bitte geben Sie an, wie viele Mitarbeitende Sie haben.";
     return null;
   }
 
@@ -131,6 +132,7 @@ export function initKontaktWizard(root: HTMLElement) {
     zeile("Bereich", themen().map(titel).join(", "));
     zeile("Dringlichkeit", radio("dringlichkeit")?.dataset.label ?? "");
     zeile("Unternehmensgröße", radio("groesse")?.value ?? "");
+    zeile("Interesse an", qa<HTMLInputElement>('input[name="leistung"]:checked').map((i) => i.dataset.label ?? i.value).join(", "));
     zeile("Ihr Anliegen", feld("nachricht"));
     const k = kontaktDaten();
     zeile("Kontakt", [`${k.vorname} ${k.nachname}`.trim(), k.unternehmen, k.email, k.telefon].filter(Boolean).join("\n"));
@@ -334,6 +336,7 @@ export function initKontaktWizard(root: HTMLElement) {
     const daten: Anfrage = {
       themen: themen(),
       dringlichkeit: (radio("dringlichkeit")?.value ?? "allgemein") as Anfrage["dringlichkeit"],
+      leistungen: leistungen(),
       groesse: radio("groesse")?.value ?? "",
       nachricht: feld("nachricht") || undefined,
       vorname: k.vorname,

@@ -264,20 +264,21 @@ const { titel, intro, karten } = Astro.props;
 
     .lk:hover .lk__titel {
       transform: translateY(0);
-      transition-duration: 450ms;
+      transition-duration: 700ms;
     }
 
+    /* Text blendet deutlich langsamer ein (vorher 300/450ms), erst nachdem der Titel oben angekommen ist */
     .lk:hover .lk__text,
     .lk:hover .lk__mehr {
       opacity: 1;
       transform: translateY(0);
       transition:
-        opacity 300ms ease 60ms,
-        transform 450ms var(--ease-out) 60ms;
+        opacity 1100ms ease 380ms,
+        transform 1100ms var(--ease-out) 380ms;
     }
 
     .lk:hover .lk__mehr {
-      transition-delay: 120ms;
+      transition-delay: 640ms;
     }
 
     .lk:hover .lk__plus {

@@ -33,13 +33,12 @@ const punkte = [
   },
 ];
 
-const highlights = ["Fester Ansprechpartner", "Automatisierte Backups", "Keine Ausfälle mehr"];
+const highlights = ["Feste Ansprechpartner", "IT-Strategieplanung", "Keine Ausfälle mehr"];
 ---
 
 <section class="praxis section-light" aria-labelledby="praxis-titel">
   <div class="container-site">
     <div class="praxis__kopf" data-reveal>
-      <span class="praxis__tag">Referenz</span>
       <h2 id="praxis-titel" class="h2">Ein Projekt aus der Praxis</h2>
     </div>
 
@@ -79,8 +78,17 @@ const highlights = ["Fester Ansprechpartner", "Automatisierte Backups", "Keine A
         <div class="bewertung__logo" aria-hidden="true">Logo<br />Jugend braucht Arbeit e.V.</div>
         <figcaption>
           <h3>Jugend braucht Arbeit e.V.</h3>
+          <div class="bewertung__sterne" role="img" aria-label="5 von 5 Sternen">
+            {
+              [0, 1, 2, 3, 4].map(() => (
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 2.6l2.85 5.93 6.5.86-4.76 4.5 1.2 6.44L12 17.1l-5.79 3.23 1.2-6.44-4.76-4.5 6.5-.86L12 2.6Z" />
+                </svg>
+              ))
+            }
+          </div>
           <blockquote>
-            <p>„Seit Selim-IT unsere IT übernommen hat, funktioniert sie einfach – wir müssen nicht mehr darüber nachdenken.“</p>
+            <p>„Seit Selim-IT unsere IT übernommen hat, funktioniert sie einfach: Wir müssen nicht mehr darüber nachdenken. Ausfälle gehören der Vergangenheit an, unsere Daten sind zuverlässig gesichert, und bei Fragen haben wir jederzeit einen festen Ansprechpartner, der unsere Umgebung kennt.“</p>
           </blockquote>
           <ul class="bewertung__highlights" role="list">
             {
@@ -260,6 +268,19 @@ const highlights = ["Fester Ansprechpartner", "Automatisierte Backups", "Keine A
     margin-bottom: 14px;
     font-size: 16.5px;
     line-height: 1.3;
+  }
+
+  /* Fünf Sterne im Stil der Google-Bewertungen */
+  .bewertung__sterne {
+    display: flex;
+    gap: 3px;
+    margin: -2px 0 14px;
+  }
+
+  .bewertung__sterne svg {
+    width: 22px;
+    height: 22px;
+    fill: #fbbc04;
   }
 
   .bewertung blockquote {

@@ -25,6 +25,18 @@
   ],
   "sektionen": [
     {
+      "typ": "bildText",
+      "bild": "/bildtext/ki-telefonassistent.svg",
+      "ctaText": "Beratung anfragen",
+      "titel": "Jeder Anruf wird angenommen, jederzeit",
+      "bildLabel": "KI-Telefonassistent nimmt Anrufe entgegen",
+      "absaetze": [
+        "100 % Erreichbarkeit: Der KI-Telefonassistent nimmt Anrufe rund um die Uhr an, auch nachts, am Wochenende und an Feiertagen.",
+        "Ihr Team wird enorm entlastet, weil Standardanliegen wie Terminwünsche, Öffnungszeiten oder Rückrufbitten ohne Zutun erledigt sind. Ihre Kundinnen und Kunden erleben keine Wartezeiten und keine Warteschleife.",
+        "Dazu kommen Kosteneffizienz und Skalierbarkeit: Der Assistent bearbeitet unzählige Anrufe gleichzeitig, ohne dass Sie zusätzliches Personal einstellen oder Spitzenzeiten fürchten müssen."
+      ]
+    },
+    {
       "typ": "toolGrid",
       "titel": "Lässt sich in Ihre Systeme einbinden",
       "intro": "Der KI-Telefonassistent arbeitet nicht isoliert, sondern direkt mit den Werkzeugen, die Sie bereits einsetzen.",
@@ -227,7 +239,6 @@
     },
     {
       "typ": "zeitstrahl",
-      "eyebrow": "Wie wir Kunden aufnehmen",
       "titel": "Wie wir Kunden aufnehmen",
       "intro": "Vom ersten Gespräch bis zum laufenden Betrieb begleiten wir jeden Schritt. Live geht der Assistent erst, wenn er mit echten Anrufen überzeugt.",
       "aktiv": 1,
@@ -262,7 +273,8 @@
           "titel": "Dauerhaft betreut",
           "text": "Laufende Betreuung und Optimierung."
         }
-      ]
+      ],
+      "bild": "/zeitstrahl/ki-telefonassistent.svg"
     },
     {
       "typ": "pricingSetup",
@@ -319,6 +331,11 @@
           ],
           "features": [
             {
+              "text": "Laufende Betreuung und Wartung",
+              "enthalten": true,
+              "hervor": true
+            },
+            {
               "text": "120+ Stimmen",
               "enthalten": true
             },
@@ -372,6 +389,16 @@
               "enthalten": true
             },
             {
+              "text": "Laufende Betreuung und Wartung",
+              "enthalten": true,
+              "hervor": true
+            },
+            {
+              "text": "Laufende Optimierung und Analyse",
+              "enthalten": true,
+              "hervor": true
+            },
+            {
               "text": "Dedizierter SIP-Trunk",
               "enthalten": true,
               "tipp": "Damit können eigene Nummern über die Telefonanlage verknüpft werden, ohne dabei Zusatzkosten zu erzeugen."
@@ -419,6 +446,16 @@
             {
               "erbt": "Team",
               "enthalten": true
+            },
+            {
+              "text": "Laufende Betreuung und Wartung",
+              "enthalten": true,
+              "hervor": true
+            },
+            {
+              "text": "Laufende Optimierung und Analyse",
+              "enthalten": true,
+              "hervor": true
             },
             {
               "text": "Eigene Stimme",
@@ -581,6 +618,28 @@
                 "–",
                 "5 €/Monat",
                 "5 €/Monat"
+              ]
+            }
+          ]
+        },
+        {
+          "titel": "Betreuung",
+          "icon": "<path d=\"M12 3l8 3.5V12c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6.5L12 3z\"></path><path d=\"M9 12l2 2 4-4\"></path>",
+          "zeilen": [
+            {
+              "label": "Laufende Betreuung und Wartung",
+              "werte": [
+                "✓",
+                "✓",
+                "✓"
+              ]
+            },
+            {
+              "label": "Laufende Optimierung und Analyse",
+              "werte": [
+                "–",
+                "✓",
+                "✓"
               ]
             }
           ]

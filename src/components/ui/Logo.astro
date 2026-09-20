@@ -10,15 +10,18 @@ interface Props {
   variant?: "hell" | "dunkel";
   class?: string;
   title?: string;
+  /** „IT“ wechselt dezent zu „KI“ (Navbar): das I gleitet nach rechts, T blendet aus, K blendet ein */
+  wechsel?: boolean;
 }
 
-const { variant = "hell", class: className = "", title } = Astro.props;
+const { variant = "hell", class: className = "", title, wechsel = false } = Astro.props;
 const gid = `logo-grad-${Math.random().toString(36).slice(2, 8)}`;
 const fill = variant === "hell" ? "#FFFFFF" : "#0B2E3C";
 ---
 
 <svg
-  class={className}
+  class:list={[className, { "logo--wechsel": wechsel }]}
+  data-logo-wechsel={wechsel ? "" : undefined}
   viewBox={WORTMARKE_VIEWBOX}
   xmlns="http://www.w3.org/2000/svg"
   role={title ? "img" : undefined}
@@ -36,13 +39,72 @@ const fill = variant === "hell" ? "#FFFFFF" : "#0B2E3C";
   <path fill={fill} d={P.e}></path>
   <path fill={fill} d={P.lim}></path>
   <path fill={`url(#${gid})`} d={P.punkt}></path>
-  <path fill={fill} d={P.i}></path>
-  <path fill={fill} d={P.t}></path>
+  <path class="lg-i" fill={fill} d={P.i}></path>
+  <path class="lg-t" fill={fill} d={P.t}></path>
+  {
+    wechsel && (
+      <path
+        class="lg-k"
+        fill="none"
+        stroke={fill}
+        stroke-width="11.74"
+        d="M585.76 105.42V173.33M591.6 140.5 620.4 108.4M598.2 136.8 628.4 172.2"
+      ></path>
+    )
+  }
 </svg>
 
 <style>
   svg {
     width: auto;
     aspect-ratio: 652.94 / 218.71;
+  }
+
+  .lg-i,
+  .lg-t,
+  .lg-k {
+    transform-box: fill-box;
+  }
+
+  .logo--wechsel .lg-i {
+    transition: transform 650ms var(--ease-in-out);
+  }
+
+  .logo--wechsel .lg-t {
+    transition:
+      opacity 300ms ease,
+      transform 400ms var(--ease-out);
+  }
+
+  .logo--wechsel .lg-k {
+    opacity: 0;
+    transform: translateY(-8px);
+    transition:
+      opacity 300ms ease,
+      transform 400ms var(--ease-out);
+  }
+
+  /* I gleitet auf den zweiten Platz, T macht Platz für das K */
+  .logo--wechsel.ist-ki .lg-i {
+    transform: translateX(61.5px);
+  }
+
+  .logo--wechsel.ist-ki .lg-t {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  .logo--wechsel.ist-ki .lg-k {
+    opacity: 1;
+    transform: none;
+    transition-delay: 220ms;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo--wechsel .lg-i,
+    .logo--wechsel .lg-t,
+    .logo--wechsel .lg-k {
+      transition: opacity 200ms ease;
+    }
   }
 </style>
