@@ -329,7 +329,7 @@ const leistungen = defineCollection({
       headline: z.string(),
       subline: z.string(),
       zitat: z.string().optional(),
-      cta: z.string().default("Anfragen"),
+      cta: z.string().default("Beratung vereinbaren"),
       visualLabel: z.string(),
     }),
     kontaktVorauswahl: z.object({ thema: z.string(), option: z.string().optional() }),
