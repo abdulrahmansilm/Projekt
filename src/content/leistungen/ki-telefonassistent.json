@@ -38,6 +38,19 @@
       ]
     },
     {
+      "typ": "siegel",
+      "punkte": [
+        {
+          "titel": "DSGVO-konform",
+          "icon": "<path d=\"M12 3l7.5 2.8v5.6c0 4.8-3.1 8.3-7.5 9.6-4.4-1.3-7.5-4.8-7.5-9.6V5.8L12 3Z\"></path><path d=\"M8.8 12.2l2.2 2.2 4.2-4.4\"></path>"
+        },
+        {
+          "titel": "EU-AI-Act-konform",
+          "icon": "<g fill=\"currentColor\" stroke=\"none\"><circle cx=\"12\" cy=\"3.8\" r=\"1.1\"></circle><circle cx=\"16.1\" cy=\"4.9\" r=\"1.1\"></circle><circle cx=\"19.1\" cy=\"7.9\" r=\"1.1\"></circle><circle cx=\"20.2\" cy=\"12\" r=\"1.1\"></circle><circle cx=\"19.1\" cy=\"16.1\" r=\"1.1\"></circle><circle cx=\"16.1\" cy=\"19.1\" r=\"1.1\"></circle><circle cx=\"12\" cy=\"20.2\" r=\"1.1\"></circle><circle cx=\"7.9\" cy=\"19.1\" r=\"1.1\"></circle><circle cx=\"4.9\" cy=\"16.1\" r=\"1.1\"></circle><circle cx=\"3.8\" cy=\"12\" r=\"1.1\"></circle><circle cx=\"4.9\" cy=\"7.9\" r=\"1.1\"></circle><circle cx=\"7.9\" cy=\"4.9\" r=\"1.1\"></circle></g><path d=\"M8.8 12.2l2.2 2.2 4.2-4.4\"></path>"
+        }
+      ]
+    },
+    {
       "typ": "toolGrid",
       "titel": "Lässt sich in Ihre Systeme einbinden",
       "intro": "Der KI-Telefonassistent arbeitet nicht isoliert, sondern direkt mit den Werkzeugen, die Sie bereits einsetzen.",
@@ -131,9 +144,9 @@
       ],
       "zeilen": [
         {
-          "label": "Kosten im 1. Jahr",
+          "label": "Kosten in einem Jahr",
           "links": "18.000–27.000 €",
-          "rechts": "ca. 1.800 €"
+          "rechts": "ab 1.430 €"
         },
         {
           "label": "Erreichbarkeit",
@@ -294,7 +307,6 @@
           "Analyse Ihrer Geschäftsprozesse",
           "Unternehmensspezifische Konfiguration",
           "Routing-Logik & Eskalationsregeln",
-          "Rechtskonforme Gesprächsführung",
           "Stimmauswahl & Feintuning",
           "Systemanbindung & technisches Setup",
           "Proof of Concept & Revisionen",
@@ -306,14 +318,15 @@
           "name": "Solo",
           "variante": "neutral",
           "tagline": "Geeignet für 1 bis 20 Anrufe/Tag",
-          "monatlich": 129,
-          "jaehrlich": 117,
-          "spart": 12,
+          "monatlich": 119,
+          "jaehrlich": 108,
+          "spart": 11,
           "cta": "Jetzt starten",
           "inkludiert": [
             {
               "text": "1.000 Minuten",
-              "enthalten": true
+              "enthalten": true,
+              "notiz": "entspricht ca. 12 Cent/Minute"
             },
             {
               "text": "keine gleichzeitigen Anrufe",
@@ -323,6 +336,10 @@
               "text": "1 Telefonnummer",
               "enthalten": true,
               "notiz": "weitere möglich"
+            },
+            {
+              "text": "∞ Assistenten",
+              "enthalten": true
             }
           ],
           "features": [
@@ -339,10 +356,6 @@
               "enthalten": true,
               "tipp": "Verbinden Sie Ihren Kalender direkt mit dem KI-Telefonassistenten. Der Assistent prüft Verfügbarkeiten, nimmt Termine an und trägt sie automatisch ein."
             }
-          ],
-          "betreuung": [
-            "Betreuung und Wartung",
-            "Fragen und Änderungswünsche"
           ]
         },
         {
@@ -350,14 +363,15 @@
           "variante": "beliebt",
           "badge": "Beliebt",
           "tagline": "Geeignet für 20 bis 100 Anrufe/Tag",
-          "monatlich": 389,
-          "jaehrlich": 351,
-          "spart": 38,
+          "monatlich": 359,
+          "jaehrlich": 324,
+          "spart": 35,
           "cta": "Jetzt starten",
           "inkludiert": [
             {
               "text": "3.600 Minuten",
-              "enthalten": true
+              "enthalten": true,
+              "notiz": "entspricht ca. 10 Cent/Minute"
             },
             {
               "text": "3 gleichzeitige Anrufe",
@@ -367,6 +381,10 @@
               "text": "3 Telefonnummern",
               "enthalten": true,
               "notiz": "weitere möglich"
+            },
+            {
+              "text": "∞ Assistenten",
+              "enthalten": true
             }
           ],
           "features": [
@@ -384,13 +402,6 @@
               "enthalten": true,
               "tipp": "Für jeden ausgehenden Anruf wird eine Minute vom enthaltenen Minutenkontingent abgezogen. Zusätzlich fallen Verbindungskosten für jede angefangene Minute an. Diese hängen von der Zielrufnummer und dem jeweiligen Land ab."
             }
-          ],
-          "betreuung": [
-            "Betreuung und Wartung",
-            "Fragen und Änderungswünsche",
-            "Laufende Optimierung anhand realer Gesprächsdaten",
-            "Anpassungen an neue Anforderungen",
-            "Persönlicher Ansprechpartner"
           ]
         },
         {
@@ -405,7 +416,8 @@
           "inkludiert": [
             {
               "text": "Ab 6.000 Minuten",
-              "enthalten": true
+              "enthalten": true,
+              "notiz": "bis zu 10 Cent/Minute"
             },
             {
               "text": "Individuelle gleichzeitige Anrufe",
@@ -413,6 +425,10 @@
             },
             {
               "text": "Individuelle Telefonnummern",
+              "enthalten": true
+            },
+            {
+              "text": "∞ Assistenten",
               "enthalten": true
             }
           ],
@@ -430,15 +446,7 @@
               "enthalten": true
             }
           ],
-          "badge": "Alles inklusive",
-          "betreuung": [
-            "Betreuung und Wartung",
-            "Fragen und Änderungswünsche",
-            "Laufende Optimierung anhand realer Gesprächsdaten",
-            "Anpassungen an neue Anforderungen",
-            "Persönlicher Ansprechpartner",
-            "Priority Support"
-          ]
+          "badge": "Alles inklusive"
         }
       ],
       "disclaimer": "Alle Preise verstehen sich netto, zuzüglich der gesetzlichen Umsatzsteuer.",
@@ -524,61 +532,21 @@
               ]
             }
           ]
-        },
-        {
-          "titel": "Betreuung",
-          "zeilen": [
-            {
-              "label": "Betreuung und Wartung",
-              "werte": [
-                "✓",
-                "✓",
-                "✓"
-              ]
-            },
-            {
-              "label": "Fragen und Änderungswünsche",
-              "werte": [
-                "✓",
-                "✓",
-                "✓"
-              ]
-            },
-            {
-              "label": "Laufende Optimierung",
-              "werte": [
-                "–",
-                "✓",
-                "✓"
-              ]
-            },
-            {
-              "label": "Anpassungen an neue Anforderungen",
-              "werte": [
-                "–",
-                "✓",
-                "✓"
-              ]
-            },
-            {
-              "label": "Persönlicher Ansprechpartner",
-              "werte": [
-                "–",
-                "✓",
-                "✓"
-              ]
-            },
-            {
-              "label": "Priority Support",
-              "werte": [
-                "–",
-                "–",
-                "✓"
-              ]
-            }
-          ]
         }
-      ]
+      ],
+      "betreuungPaket": {
+        "name": "Laufende Betreuung",
+        "tagline": "Damit Ihr KI-Telefonassistent dauerhaft zuverlässig läuft und mit Ihrem Unternehmen mitwächst.",
+        "preis": "99 €",
+        "features": [
+          "Betreuung und Wartung",
+          "Fragen und Änderungswünsche",
+          "Laufende Optimierung anhand realer Gesprächsdaten",
+          "Anpassungen an neue Anforderungen",
+          "Persönlicher Ansprechpartner",
+          "Performance-Monitoring"
+        ]
+      }
     },
     {
       "typ": "faq",

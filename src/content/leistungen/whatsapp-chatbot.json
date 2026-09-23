@@ -37,6 +37,19 @@
       ]
     },
     {
+      "typ": "siegel",
+      "punkte": [
+        {
+          "titel": "DSGVO-konform",
+          "icon": "<path d=\"M12 3l7.5 2.8v5.6c0 4.8-3.1 8.3-7.5 9.6-4.4-1.3-7.5-4.8-7.5-9.6V5.8L12 3Z\"></path><path d=\"M8.8 12.2l2.2 2.2 4.2-4.4\"></path>"
+        },
+        {
+          "titel": "EU-AI-Act-konform",
+          "icon": "<g fill=\"currentColor\" stroke=\"none\"><circle cx=\"12\" cy=\"3.8\" r=\"1.1\"></circle><circle cx=\"16.1\" cy=\"4.9\" r=\"1.1\"></circle><circle cx=\"19.1\" cy=\"7.9\" r=\"1.1\"></circle><circle cx=\"20.2\" cy=\"12\" r=\"1.1\"></circle><circle cx=\"19.1\" cy=\"16.1\" r=\"1.1\"></circle><circle cx=\"16.1\" cy=\"19.1\" r=\"1.1\"></circle><circle cx=\"12\" cy=\"20.2\" r=\"1.1\"></circle><circle cx=\"7.9\" cy=\"19.1\" r=\"1.1\"></circle><circle cx=\"4.9\" cy=\"16.1\" r=\"1.1\"></circle><circle cx=\"3.8\" cy=\"12\" r=\"1.1\"></circle><circle cx=\"4.9\" cy=\"7.9\" r=\"1.1\"></circle><circle cx=\"7.9\" cy=\"4.9\" r=\"1.1\"></circle></g><path d=\"M8.8 12.2l2.2 2.2 4.2-4.4\"></path>"
+        }
+      ]
+    },
+    {
       "typ": "toolGrid",
       "titel": "Lässt sich in Ihre Systeme einbinden",
       "intro": "Der WhatsApp-Chatbot arbeitet nicht isoliert, sondern direkt mit den Werkzeugen, die Sie bereits einsetzen.",
@@ -284,9 +297,9 @@
           "name": "Solo",
           "variante": "neutral",
           "tagline": "Geeignet für bis zu 100 Konversationen/Monat",
-          "monatlich": 109,
-          "jaehrlich": 99,
-          "spart": 10,
+          "monatlich": 69,
+          "jaehrlich": 63,
+          "spart": 6,
           "cta": "Jetzt starten",
           "inkludiert": [
             {
@@ -302,10 +315,6 @@
               "text": "∞ Chatbots",
               "enthalten": true
             }
-          ],
-          "betreuung": [
-            "Betreuung und Wartung",
-            "Fragen und Änderungswünsche"
           ]
         },
         {
@@ -313,9 +322,9 @@
           "variante": "beliebt",
           "badge": "Beliebt",
           "tagline": "Geeignet für bis zu 500 Konversationen/Monat",
-          "monatlich": 319,
-          "jaehrlich": 288,
-          "spart": 31,
+          "monatlich": 249,
+          "jaehrlich": 225,
+          "spart": 24,
           "cta": "Jetzt starten",
           "inkludiert": [
             {
@@ -331,13 +340,6 @@
               "text": "∞ Chatbots",
               "enthalten": true
             }
-          ],
-          "betreuung": [
-            "Betreuung und Wartung",
-            "Fragen und Änderungswünsche",
-            "Laufende Optimierung anhand realer Chatdaten",
-            "Anpassungen an neue Anforderungen",
-            "Persönlicher Ansprechpartner"
           ]
         },
         {
@@ -363,18 +365,23 @@
               "enthalten": true
             }
           ],
-          "badge": "Alles inklusive",
-          "betreuung": [
-            "Betreuung und Wartung",
-            "Fragen und Änderungswünsche",
-            "Laufende Optimierung anhand realer Chatdaten",
-            "Anpassungen an neue Anforderungen",
-            "Persönlicher Ansprechpartner",
-            "Priority Support"
-          ]
+          "badge": "Alles inklusive"
         }
       ],
-      "disclaimer": "Alle Preise verstehen sich netto, zuzüglich der gesetzlichen Umsatzsteuer."
+      "disclaimer": "Alle Preise verstehen sich netto, zuzüglich der gesetzlichen Umsatzsteuer.",
+      "betreuungPaket": {
+        "name": "Laufende Betreuung",
+        "tagline": "Damit Ihr WhatsApp-Chatbot dauerhaft zuverlässig läuft und mit Ihrem Unternehmen mitwächst.",
+        "preis": "79 €",
+        "features": [
+          "Betreuung und Wartung",
+          "Fragen und Änderungswünsche",
+          "Laufende Optimierung anhand realer Chatdaten",
+          "Anpassungen an neue Anforderungen",
+          "Persönlicher Ansprechpartner",
+          "Performance-Monitoring"
+        ]
+      }
     },
     {
       "typ": "faq",

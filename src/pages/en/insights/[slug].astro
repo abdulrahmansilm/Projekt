@@ -1,0 +1,16 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import WissenArtikel from "../../../views/WissenArtikel.astro";
+import { ARTIKEL_SLUG_EN } from "../../../i18n";
+
+export async function getStaticPaths() {
+  const artikel = await getCollection("wissenEn");
+  return artikel.map((a) => ({ params: { slug: ARTIKEL_SLUG_EN[a.id] ?? a.id }, props: { artikel: a } }));
+}
+
+interface Props {
+  artikel: CollectionEntry<"wissenEn">;
+}
+---
+
+<WissenArtikel artikel={Astro.props.artikel} />

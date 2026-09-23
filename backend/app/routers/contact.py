@@ -20,6 +20,7 @@ from ..schemas import (
     KontaktAntwort,
     TerminNachtragEingabe,
     Weg,
+    sprache_aus_herkunft,
 )
 
 router = APIRouter(prefix="/api", tags=["contact"])
@@ -66,7 +67,8 @@ def _speichere(daten: KontaktAnfrageEingabe, db: Session) -> Anfrage:
 def _betreff_intern(daten: KontaktAnfrageEingabe) -> str:
     praefix = "DRINGEND: " if daten.dringlichkeit is Dringlichkeit.dringend else ""
     art = "Terminbuchung" if daten.weg is Weg.termin else "Anfrage"
-    return f"{praefix}{art} von {daten.vorname} {daten.nachname} ({daten.themen_lesbar()})"
+    sprache = "[EN] " if daten.sprache == "en" else ""
+    return f"{praefix}{sprache}{art} von {daten.vorname} {daten.nachname} ({daten.themen_lesbar()})"
 
 
 @router.post("/contact", response_model=KontaktAntwort)
@@ -79,7 +81,9 @@ async def contact(daten: KontaktAnfrageEingabe, db: Session = Depends(get_db)) -
 
     await _fehlertolerant(
         eintrag.id, "Bestätigung an Kunde",
-        lambda: mail.sende_anfrage_bestaetigung_kunde(str(daten.email), daten.vorname, daten.themen_lesbar()),
+        lambda: mail.sende_anfrage_bestaetigung_kunde(
+            str(daten.email), daten.vorname, daten.themen_lesbar(daten.sprache), daten.sprache
+        ),
     )
     await _fehlertolerant(
         eintrag.id, "interne Benachrichtigung",
@@ -130,7 +134,9 @@ async def contact_booking(daten: KontaktAnfrageEingabe, db: Session = Depends(ge
     termin_lesbar = _termin_lesbar(start)
     await _fehlertolerant(
         eintrag.id, "Terminbestätigung an Kunde",
-        lambda: mail.sende_terminbestaetigung(str(daten.email), daten.vorname, termin_lesbar, talk_url),
+        lambda: mail.sende_terminbestaetigung(
+            str(daten.email), daten.vorname, _termin_lesbar(start, daten.sprache), talk_url, daten.sprache
+        ),
     )
     await _fehlertolerant(
         eintrag.id, "interne Benachrichtigung",
@@ -163,6 +169,8 @@ def _zusammenfassung_aus_eintrag(eintrag: Anfrage) -> str:
         f"Telefon: {eintrag.telefon or '-'}",
         f"Gesendet von: {eintrag.herkunft}",
     ]
+    if sprache_aus_herkunft(eintrag.herkunft) == "en":
+        zeilen.append("Sprache: Englisch (bitte auf Englisch antworten)")
     if eintrag.nachricht:
         zeilen += ["", "Nachricht:", eintrag.nachricht]
     return "\n".join(zeilen)
@@ -212,15 +220,18 @@ async def contact_termin(anfrage_id: str, daten: TerminNachtragEingabe, db: Sess
     db.commit()
 
     termin_lesbar = _termin_lesbar(start)
+    sprache = sprache_aus_herkunft(eintrag.herkunft)
     await _fehlertolerant(
         eintrag.id, "Terminbestätigung an Kunde",
-        lambda: mail.sende_terminbestaetigung(eintrag.email, eintrag.vorname, termin_lesbar, talk_url),
+        lambda: mail.sende_terminbestaetigung(
+            eintrag.email, eintrag.vorname, _termin_lesbar(start, sprache), talk_url, sprache
+        ),
     )
     await _fehlertolerant(
         eintrag.id, "interne Benachrichtigung",
         lambda: mail.sende_anfrage_benachrichtigung_intern(
             eintrag.id,
-            f"Termin zu Anfrage von {eintrag.vorname} {eintrag.nachname}",
+            f"{'[EN] ' if sprache == 'en' else ''}Termin zu Anfrage von {eintrag.vorname} {eintrag.nachname}",
             f"Termin: {termin_lesbar}\nVideo-Link: {talk_url or '-'}\n\n{zusammenfassung}",
         ),
     )
@@ -229,10 +240,22 @@ async def contact_termin(anfrage_id: str, daten: TerminNachtragEingabe, db: Sess
 
 
 _WOCHENTAGE = ("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag")
+_WOCHENTAGE_EN = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+_MONATE_EN = (
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December",
+)
 
 
-def _termin_lesbar(start: datetime) -> str:
-    """Deutsches Datumsformat unabhängig von der System-Locale des Containers."""
+def _termin_lesbar(start: datetime, sprache: str = "de") -> str:
+    """Datumsformat unabhängig von der System-Locale des Containers (deutsch bzw. amerikanisch-englisch)."""
     lokal = start.astimezone(TZ)
+    if sprache == "en":
+        stunde = lokal.hour % 12 or 12
+        tageszeit = "AM" if lokal.hour < 12 else "PM"
+        return (
+            f"{_WOCHENTAGE_EN[lokal.weekday()]}, {_MONATE_EN[lokal.month - 1]} {lokal.day}, {lokal.year} "
+            f"at {stunde}:{lokal:%M} {tageszeit} (German time)"
+        )
     return f"{_WOCHENTAGE[lokal.weekday()]}, {lokal:%d.%m.%Y} um {lokal:%H:%M} Uhr"
 

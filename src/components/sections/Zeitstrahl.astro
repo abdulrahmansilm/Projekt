@@ -5,7 +5,7 @@
  * Änderungen ggü. Referenz: Schrittliste für Screenreader lesbar (sr-only statt hidden), Verlauf Türkis → Petrol,
  * Bewegung 450ms ease-in-out, Textwechsel als kurzer Crossfade mit Blur, inaktive Nummern mit ausreichendem Kontrast.
  */
-import { KONTAKT_ANKER } from "../../lib/config";
+import { uebersetzer, kontaktAnker } from "../../i18n";
 
 interface Props {
   /** Illustration im Freiraum links neben dem Bogen (public/zeitstrahl/<slug>.svg) */
@@ -18,10 +18,12 @@ interface Props {
 }
 const { bild, eyebrow, titel, intro, aktiv = 1, schritte } = Astro.props;
 const start = Math.min(schritte.length, Math.max(1, aktiv));
+const t = uebersetzer(Astro);
+const KONTAKT_ANKER = kontaktAnker(t.lang);
 const id = `zt-${Math.random().toString(36).slice(2, 7)}`;
 ---
 
-<section class="zt" aria-labelledby={`${id}-titel`} data-zt data-aktiv={start}>
+<section class="zt" aria-labelledby={`${id}-titel`} data-zt data-aktiv={start} data-schritt-label={t("Schritt {n}: {titel}")}>
   <div class="zt__inner">
     <div class="zt__copy" data-reveal>
       {eyebrow && <p class="zt__eyebrow">{eyebrow}</p>}
@@ -49,7 +51,7 @@ const id = `zt-${Math.random().toString(36).slice(2, 7)}`;
           <div class="zt__text">
             <p class="zt__titel" data-zt-titel>{schritte[start - 1].titel}</p>
             <p class="zt__desc" data-zt-desc>{schritte[start - 1].text}</p>
-            <a class="btn btn--sm zt__cta" href={KONTAKT_ANKER} data-zt-cta hidden><span>Beratung vereinbaren</span></a>
+            <a class="btn btn--sm zt__cta" href={KONTAKT_ANKER} data-zt-cta hidden><span>{t("Beratung vereinbaren")}</span></a>
           </div>
         </div>
       </div>
@@ -61,7 +63,7 @@ const id = `zt-${Math.random().toString(36).slice(2, 7)}`;
       <div class="zt__text">
         <p class="zt__titel" data-zt-titel>{schritte[start - 1].titel}</p>
         <p class="zt__desc" data-zt-desc>{schritte[start - 1].text}</p>
-        <a class="btn btn--sm zt__cta" href={KONTAKT_ANKER} data-zt-cta hidden><span>Beratung vereinbaren</span></a>
+        <a class="btn btn--sm zt__cta" href={KONTAKT_ANKER} data-zt-cta hidden><span>{t("Beratung vereinbaren")}</span></a>
       </div>
     </div>
 
@@ -126,7 +128,7 @@ const id = `zt-${Math.random().toString(36).slice(2, 7)}`;
       btn.type = "button";
       btn.className = "zt__num";
       btn.textContent = s.nummer;
-      btn.setAttribute("aria-label", `Schritt ${s.nummer}: ${s.titel}`);
+      btn.setAttribute("aria-label", (root.dataset.schrittLabel ?? "{n}: {titel}").replace("{n}", s.nummer).replace("{titel}", s.titel));
       btn.addEventListener("click", () => setzeAktiv(i));
       if (scope) btn.setAttribute(scope, "");
       labels.appendChild(btn);
@@ -395,6 +397,8 @@ const id = `zt-${Math.random().toString(36).slice(2, 7)}`;
     line-height: 1.5;
     color: var(--ink-72);
     text-wrap: pretty;
+    /* Runde 9: einzelne Schritte listen Punkte per \n untereinander auf (z. B. Ampelfarben) */
+    white-space: pre-line;
   }
 
   @media (max-width: 1120px) {

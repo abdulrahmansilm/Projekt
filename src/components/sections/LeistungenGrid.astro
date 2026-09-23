@@ -6,12 +6,15 @@
  * gestrafft (Referenz 700ms → 450ms ease-out, 60ms Stagger), Verlassen spürbar schneller.
  * Touch-Geräte und schmale Viewports zeigen den Inhalt dauerhaft.
  */
+import { uebersetzer } from "../../i18n";
+
 interface Props {
   titel: string;
   intro: string;
   karten: { slug: string; titel: string; text: string; icon: string }[];
 }
 const { titel, intro, karten } = Astro.props;
+const t = uebersetzer(Astro);
 ---
 
 <section class="leistungen section-dark besondere-sektion" aria-labelledby="leistungen-titel">
@@ -24,7 +27,7 @@ const { titel, intro, karten } = Astro.props;
       {
         karten.map((k) => (
           <li data-reveal>
-            <a class="lk" href={`/leistungen/${k.slug}`}>
+            <a class="lk" href={t.pfad(`/leistungen/${k.slug}`)}>
               <span class="lk__media" aria-hidden="true">
                 <svg class="lk__icon" viewBox="0 0 24 24" fill="none" set:html={k.icon} />
               </span>
@@ -33,7 +36,7 @@ const { titel, intro, karten } = Astro.props;
               <span class="lk__inhalt">
                 <h3 class="lk__titel">{k.titel}</h3>
                 <span class="lk__text">{k.text}</span>
-                <span class="lk__mehr">Mehr lesen</span>
+                <span class="lk__mehr">{t("Mehr lesen")}</span>
               </span>
               <span class="lk__plus" aria-hidden="true" />
             </a>

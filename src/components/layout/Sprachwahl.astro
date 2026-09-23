@@ -1,0 +1,92 @@
+---
+/**
+ * Minimalistischer Sprachumschalter DE / EN (Runde 8). Verlinkt jeweils auf dieselbe Seite in der
+ * anderen Sprache; die aktive Sprache ist voll deckend und per aria-current markiert.
+ * Farbe kommt vom Kontext (hell auf dem Hero, dunkel im Sticky-Header bzw. im Menü).
+ */
+import { uebersetzer, pfadIn } from "../../i18n";
+
+interface Props {
+  dePfad: string;
+  /** größere Variante für das mobile Menü */
+  gross?: boolean;
+}
+const { dePfad, gross = false } = Astro.props;
+const t = uebersetzer(Astro);
+// Von der 404-Seite aus führt der Wechsel zur Startseite der anderen Sprache, nicht zu deren 404
+const ziel = dePfad === "/404" ? "/" : dePfad;
+const sprachen = [
+  { code: "de", kurz: "DE", name: "Deutsch", href: pfadIn(ziel, "de") },
+  { code: "en", kurz: "EN", name: "English", href: pfadIn(ziel, "en") },
+] as const;
+---
+
+<div class:list={["sw", { "sw--gross": gross }]} role="group" aria-label={t("Sprache wählen")}>
+  {
+    sprachen.map((s, i) => (
+      <>
+        {i > 0 && <span class="sw__trenner" aria-hidden="true" />}
+        <a
+          class="sw__link"
+          href={s.href}
+          hreflang={s.code}
+          lang={s.code}
+          aria-label={s.name}
+          aria-current={s.code === t.lang ? "true" : undefined}
+        >
+          {s.kurz}
+        </a>
+      </>
+    ))
+  }
+</div>
+
+<style>
+  .sw {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    flex: none;
+  }
+
+  .sw__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    min-height: 32px;
+    padding: 0 4px;
+    border-radius: 6px;
+    color: inherit;
+    font-family: var(--font-headline);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    opacity: 0.55;
+    transition: opacity 150ms ease;
+  }
+
+  .sw__link[aria-current="true"] {
+    opacity: 1;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .sw__link:hover {
+      opacity: 1;
+    }
+  }
+
+  .sw__trenner {
+    width: 1px;
+    height: 12px;
+    background: currentColor;
+    opacity: 0.3;
+  }
+
+  .sw--gross .sw__link {
+    min-width: 40px;
+    min-height: 44px;
+    font-size: 15px;
+  }
+</style>

@@ -5,7 +5,7 @@
  * Laufende Leitungen und Hub-Puls sind Dauerschleifen; bei prefers-reduced-motion aus.
  * Hub-Puls über opacity eines Pseudo-Elements statt animiertem box-shadow (GPU-freundlich).
  */
-import { KONTAKT_ANKER } from "../../lib/config";
+import { uebersetzer, kontaktAnker } from "../../i18n";
 
 interface Props {
   eyebrow?: string;
@@ -15,6 +15,8 @@ interface Props {
   knoten: { pos: "tl" | "tr" | "bl" | "br"; tag: string; titel: string; titelLang: string; kurz: string; lang: string; icon: string }[];
 }
 const { eyebrow, titel, intro, hub, knoten } = Astro.props;
+const t = uebersetzer(Astro);
+const KONTAKT_ANKER = kontaktAnker(t.lang);
 const pfade: Record<string, string> = {
   tl: "M170,90 Q 340,90 460,250",
   tr: "M750,90 Q 580,90 460,250",
@@ -93,7 +95,7 @@ const pfade: Record<string, string> = {
 
     <div class="es__cta" data-reveal>
       <a class="btn" href={KONTAKT_ANKER}>
-        <span>Beratung anfragen</span>
+        <span>{t("Beratung anfragen")}</span>
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
         </svg>

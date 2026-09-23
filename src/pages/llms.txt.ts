@@ -5,6 +5,7 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { SITE_URL, firma, navigation, leistungHref } from "../lib/config";
+import { lokalisiere, uebersetze, pfadIn } from "../i18n";
 
 export const GET: APIRoute = async () => {
   const leistungen = await getCollection("leistungen");
@@ -44,6 +45,22 @@ export const GET: APIRoute = async () => {
   z.push(`- [Kontakt](${SITE_URL}/#kontakt): Anfrage senden oder kostenloses Erstgespräch buchen.`);
   z.push(`- [Impressum](${SITE_URL}/impressum)`);
   z.push(`- [Datenschutz](${SITE_URL}/datenschutz)`);
+
+  // Runde 8: englische Fassung der Website
+  const en = (s: string) => uebersetze(s, "en");
+  const artikelEn = (await getCollection("wissenEn")).sort((a, b) => a.data.reihenfolge - b.data.reihenfolge);
+  z.push("", "## English version", "");
+  z.push(`- [Home](${SITE_URL}/en/): ${en(firma.claim)}`);
+  for (const kat of navigation.filter((k) => k.id !== "unternehmen")) {
+    for (const e of kat.eintraege.length ? kat.eintraege : [{ slug: "webseiten", label: kat.label }]) {
+      if ("bald" in e && e.bald) continue;
+      const l = leistungen.find((x) => x.id === e.slug);
+      const kurz = l ? lokalisiere(l.data, "en").kurz : "";
+      z.push(`- [${en(e.label)}](${SITE_URL}${leistungHref(e.slug, "en")})${kurz ? `: ${kurz}` : ""}`);
+    }
+  }
+  for (const a of artikelEn) z.push(`- [${a.data.titel}](${SITE_URL}${pfadIn(`/wissen/${a.id}`, "en")}): ${a.data.teaser}`);
+  z.push(`- [About us](${SITE_URL}/en/about)`, `- [Our mission](${SITE_URL}/en/mission)`, `- [Legal notice](${SITE_URL}/en/legal-notice)`, `- [Privacy policy](${SITE_URL}/en/privacy)`);
 
   return new Response(z.join("\n") + "\n", {
     headers: { "Content-Type": "text/plain; charset=utf-8" },

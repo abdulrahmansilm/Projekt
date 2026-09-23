@@ -5,7 +5,7 @@
  * (transform + opacity, einmalig). Unter dem Text steht immer ein Beratungs-Button.
  * Bild links / Text rechts ist der Standard, `bildRechts` dreht die Reihenfolge um.
  */
-import { KONTAKT_ANKER } from "../../lib/config";
+import { uebersetzer, kontaktAnker } from "../../i18n";
 
 interface Props {
   eyebrow?: string;
@@ -20,7 +20,8 @@ interface Props {
   /** Ziel des Buttons; Standard ist die Kontakt-Sektion der Seite (Runde 5: Über uns verlinkt stattdessen auf /leitbild) */
   ctaHref?: string;
 }
-const { titel, absaetze, bildLabel = "", bild, bildRechts = false, ctaText = "Beratung anfragen", ctaHref = KONTAKT_ANKER } = Astro.props;
+const t = uebersetzer(Astro);
+const { titel, absaetze, bildLabel = "", bild, bildRechts = false, ctaText = t("Beratung anfragen"), ctaHref = kontaktAnker(t.lang) } = Astro.props;
 const id = `bt-${Math.random().toString(36).slice(2, 7)}`;
 ---
 
@@ -41,7 +42,7 @@ const id = `bt-${Math.random().toString(36).slice(2, 7)}`;
         bild ? (
           <img src={bild} alt={bildLabel} width="560" height="560" loading="lazy" decoding="async" />
         ) : (
-          <span class="bt__platzhalter" role="img" aria-label={`${bildLabel}: Foto folgt`}>
+          <span class="bt__platzhalter" role="img" aria-label={t("{label}: Foto folgt", { label: bildLabel })}>
             {bildLabel}
           </span>
         )

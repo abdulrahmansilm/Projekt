@@ -3,10 +3,11 @@
  * Platzhalter-Firmendaten (Telefon, PLZ) werden bewusst NICHT ausgegeben, solange sie nicht final sind.
  */
 import { firma, SITE_URL } from "./config";
+import type { Sprache } from "../i18n";
 
 export const ORGANISATION_ID = `${SITE_URL}/#organisation`;
 
-export function organisationJsonLd() {
+export function organisationJsonLd(lang: Sprache = "de") {
   const adresse: Record<string, string> = {
     "@type": "PostalAddress",
     streetAddress: firma.adresse.strasse,
@@ -19,7 +20,8 @@ export function organisationJsonLd() {
     "@type": ["Organization", "LocalBusiness"],
     "@id": ORGANISATION_ID,
     name: firma.name,
-    url: SITE_URL,
+    url: lang === "en" ? `${SITE_URL}/en/` : SITE_URL,
+    knowsLanguage: ["de", "en"],
     logo: `${SITE_URL}/logo/logo-dunkel.png`,
     image: `${SITE_URL}/logo/logo-social.png`,
     foundingDate: String(firma.gruendungsjahr),
@@ -27,8 +29,8 @@ export function organisationJsonLd() {
     founder: { "@type": "Person", name: firma.inhaber },
     address: adresse,
     areaServed: [
-      { "@type": "Place", name: "Rhein-Main-Gebiet" },
-      { "@type": "Country", name: "Deutschland" },
+      { "@type": "Place", name: lang === "en" ? "Rhine-Main region" : "Rhein-Main-Gebiet" },
+      { "@type": "Country", name: lang === "en" ? "Germany" : "Deutschland" },
     ],
   };
   if (!firma.telefon.platzhalter) daten.telephone = firma.telefon.href.replace("tel:", "");
@@ -59,7 +61,7 @@ export function faqJsonLd(fragen: { frage: string; antwortText: string }[]) {
   };
 }
 
-export function serviceJsonLd(opts: { name: string; beschreibung: string; pfad: string; kategorie: string }) {
+export function serviceJsonLd(opts: { name: string; beschreibung: string; pfad: string; kategorie: string; lang?: Sprache }) {
   return {
     "@type": "Service",
     name: opts.name,
@@ -67,7 +69,8 @@ export function serviceJsonLd(opts: { name: string; beschreibung: string; pfad: 
     serviceType: opts.kategorie,
     url: `${SITE_URL}${opts.pfad}`,
     provider: { "@id": ORGANISATION_ID },
-    areaServed: { "@type": "Country", name: "Deutschland" },
+    areaServed: { "@type": "Country", name: opts.lang === "en" ? "Germany" : "Deutschland" },
+    inLanguage: opts.lang ?? "de",
   };
 }
 

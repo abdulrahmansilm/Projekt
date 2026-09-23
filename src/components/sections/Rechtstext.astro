@@ -3,21 +3,34 @@
  * Lesespalte für Rechts- und Textseiten (Impressum, Datenschutz, Barrierefreiheit).
  * Typografie wie der Artikeltext (Komponente 23), etwas kompakter.
  */
+import { uebersetzer } from "../../i18n";
+
 interface Props {
   /** Datum der letzten Aktualisierung, z. B. "16. September 2026" */
   stand?: string;
 }
 const { stand } = Astro.props;
+const t = uebersetzer(Astro);
 ---
 
 <section class="rt">
   <div class="rt__inner">
     <slot />
-    {stand && <p class="rt__stand">Stand: {stand}</p>}
+    {stand && <p class="rt__stand">{t("Stand:")} {stand}</p>}
   </div>
 </section>
 
 <style>
+  /* Hinweis auf der englischen Fassung: rechtlich maßgeblich ist die deutsche (Runde 8) */
+  .rt__inner :global(.rt__hinweis) {
+    margin-bottom: 36px;
+    padding: 14px 18px;
+    border-left: 3px solid var(--tuerkis);
+    border-radius: 0 12px 12px 0;
+    background: rgba(79, 184, 166, 0.1);
+    font-size: 15px;
+  }
+
   .rt {
     background: var(--nebel);
   }

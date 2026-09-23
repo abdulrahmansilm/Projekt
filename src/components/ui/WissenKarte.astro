@@ -1,9 +1,10 @@
 ---
 /** Artikel-Karte für Wissen-Teaser und Wissen-Übersicht (Komponenten 17 und 22). */
-import type { CollectionEntry } from "astro:content";
+import { uebersetzer } from "../../i18n";
+import type { Artikel } from "../../i18n/inhalte";
 
 interface Props {
-  artikel: CollectionEntry<"wissen">;
+  artikel: Artikel;
   ueberschrift?: "h2" | "h3";
   medienHoehe?: number;
 }
@@ -11,9 +12,10 @@ interface Props {
 const { artikel, ueberschrift = "h3", medienHoehe = 150 } = Astro.props;
 const Titel = ueberschrift;
 const d = artikel.data;
+const t = uebersetzer(Astro);
 ---
 
-<a class="wk" href={`/wissen/${artikel.id}`} style={`--medien-h:${medienHoehe}px`}>
+<a class="wk" href={t.pfad(`/wissen/${artikel.id}`)} style={`--medien-h:${medienHoehe}px`}>
   <span class="wk__media" aria-hidden="true">
     <img src={`/wissen/${artikel.id}.svg`} alt="" loading="lazy" width="500" height="500" />
   </span>
@@ -21,7 +23,7 @@ const d = artikel.data;
     <span class="wk__tag">{d.kategorie}</span>
     <Titel class="wk__titel">{d.titel}</Titel>
     <span class="wk__teaser">{d.teaser}</span>
-    <span class="wk__meta">{d.lesezeit} Min. Lesezeit</span>
+    <span class="wk__meta">{t("{n} Min. Lesezeit", { n: d.lesezeit })}</span>
   </span>
 </a>
 

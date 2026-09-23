@@ -62,7 +62,7 @@ cta:
 
 <h3>3. Konkret werden</h3>
 
-<p>Zahlen, Zeitangaben, Preise, Grenzwerte. „Ab 30 Euro pro Gerät und Monat“ ist zitierbar, „attraktive Konditionen“ ist es nicht. Wer Zahlen nennt, wird zur Quelle; wer Adjektive nennt, wird übergangen.</p>
+<p>Zahlen, Zeitangaben, Preise, Grenzwerte. „Ab 39 Euro pro Gerät und Monat“ ist zitierbar, „attraktive Konditionen“ ist es nicht. Wer Zahlen nennt, wird zur Quelle; wer Adjektive nennt, wird übergangen.</p>
 
 <h3>4. Eigene Daten und Erfahrungen einbringen</h3>
 

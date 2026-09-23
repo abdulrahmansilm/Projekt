@@ -5,7 +5,7 @@
  * Monatlich/Jährlich-Umschalter als echte Radiogruppe; Preise für beide Zahlweisen stehen im HTML
  * und werden per CSS umgeschaltet (funktioniert ohne JavaScript). Farben auf die Kernpalette abgebildet.
  */
-import { KONTAKT_ANKER } from "../../lib/config";
+import { uebersetzer, kontaktAnker, zahl } from "../../i18n";
 
 type Paket = {
   name: string;
@@ -57,24 +57,33 @@ interface Props {
 
 const { titel, intro, chips, jahresRabatt, einheit, geraetEinheit, pakete, vergleich, zusatz, slider } = Astro.props;
 const id = `preise-${Math.random().toString(36).slice(2, 7)}`;
-const euro = (n: number) => `${n.toLocaleString("de-DE", { maximumFractionDigits: 2 })} €`;
+const t = uebersetzer(Astro);
+const KONTAKT_ANKER = kontaktAnker(t.lang);
+const betrag = (n: number) => n.toLocaleString(t.lang === "en" ? "en-US" : "de-DE", { maximumFractionDigits: 2 });
+const euro = (n: number) => (t.lang === "en" ? `€${betrag(n)}` : `${betrag(n)} €`);
+/** Vorlagen für die Neuberechnung im Browser (Regler), in der Seitensprache */
+const vorlagen = {
+  grundpreis: t("+ {betrag} Grundpreis / Monat"),
+  proGeraet: t("pro Gerät / Monat"),
+  fuer: t("für {n} {einheit} / Monat"),
+  proEinheit: t("/ {einheit} / Monat"),
+};
 /** Runde 4: reduzierter Jahrespreis wird auf den nächsten vollen Euro aufgerundet */
 const jahr = (n: number) => Math.ceil(Math.round(n * (1 - (jahresRabatt ?? 0)) * 100) / 100);
 const mitToggle = typeof jahresRabatt === "number";
 /** Ersparnis steht seit 22.09.2026 direkt im Umschalt-Button statt als Satz daneben */
 const rabattProzent = Math.round((jahresRabatt ?? 0) * 100);
-const einmalig = einheit === "einmalig";
 const sliderModus = slider ? (pakete.some((p) => p.geraetPreis !== undefined) ? "geraet" : "menge") : null;
 const start = slider?.start ?? 1;
 const bruttoStart = (p: (typeof pakete)[number]) => (sliderModus === "geraet" ? (p.geraetPreis ?? 0) * start : sliderModus === "menge" ? p.preis * start : p.preis);
 const periodeStart = () => {
-  if (!slider) return einmalig ? "einmalig" : einheit;
-  if (sliderModus === "geraet") return start === 1 ? "pro Gerät / Monat" : `für ${start} ${slider.mehrzahl} / Monat`;
-  return start === 1 ? `/ ${slider.einzahl} / Monat` : `für ${start} ${slider.mehrzahl} / Monat`;
+  if (!slider) return einheit;
+  if (sliderModus === "geraet") return start === 1 ? vorlagen.proGeraet : t("für {n} {einheit} / Monat", { n: start, einheit: slider.mehrzahl });
+  return start === 1 ? t("/ {einheit} / Monat", { einheit: slider.einzahl }) : t("für {n} {einheit} / Monat", { n: start, einheit: slider.mehrzahl });
 };
 ---
 
-<section class:list={["preise", { "preise--toggle": mitToggle }]} id="preise" aria-labelledby={`${id}-titel`} data-preise data-rabatt={jahresRabatt ?? 0} data-modus={sliderModus ?? "keiner"}>
+<section class:list={["preise", { "preise--toggle": mitToggle }]} id="preise" aria-labelledby={`${id}-titel`} data-preise data-rabatt={jahresRabatt ?? 0} data-modus={sliderModus ?? "keiner"} data-lang={t.lang} data-vorlagen={JSON.stringify(vorlagen)}>
   <svg width="0" height="0" class="preise__defs" aria-hidden="true" focusable="false">
     <defs>
       <linearGradient id="preise-verlauf" x1="0" y1="0" x2="1" y2="1">
@@ -154,21 +163,21 @@ const periodeStart = () => {
       mitToggle && (
         <div class="zahlweise">
           <fieldset class="umschalter">
-            <legend class="sr-only">Vertragslaufzeit</legend>
+            <legend class="sr-only">{t("Vertragslaufzeit")}</legend>
             <span class="umschalter__daumen" aria-hidden="true" />
             <label>
               <input type="radio" name={`${id}-zahlweise`} value="monatlich" checked />
               <span>
-                Monatlich
+                {t("Monatlich")}
                 {/* unsichtbarer Platzhalter: hält beide Hälften exakt gleich breit */}
-                <span class="umschalter__rabatt umschalter__rabatt--platz" aria-hidden="true">−{rabattProzent} %</span>
+                <span class="umschalter__rabatt umschalter__rabatt--platz" aria-hidden="true">{t("−{n} %", { n: rabattProzent })}</span>
               </span>
             </label>
             <label>
               <input type="radio" name={`${id}-zahlweise`} value="jaehrlich" />
               <span>
-                Jährlich
-                <span class="umschalter__rabatt">−{rabattProzent} %</span>
+                {t("Jährlich")}
+                <span class="umschalter__rabatt">{t("−{n} %", { n: rabattProzent })}</span>
               </span>
             </label>
           </fieldset>
@@ -193,26 +202,26 @@ const periodeStart = () => {
               {sliderModus === "geraet" && p.geraetPreis !== undefined && (
                 <p class="karte__klein">
                   {/* Runde 4: Der Grundpreis ist ein Monatspreis und sinkt bei jährlicher Zahlung nicht */}
-                  <span data-out="klein-monat">+ {euro(p.preis)} Grundpreis / Monat</span>
+                  <span data-out="klein-monat">{t("+ {betrag} Grundpreis / Monat", { betrag: euro(p.preis) })}</span>
                 </p>
               )}
               {!slider && p.geraetPreis !== undefined && (
                 <p class="karte__geraet">
-                  <span class="preis--monat">+ {euro(p.geraetPreis).replace(" €", "")}</span>
-                  {mitToggle && <span class="preis--jahr">+ {euro(jahr(p.geraetPreis)).replace(" €", "")}</span>} {geraetEinheit}
+                  <span class="preis--monat">+ {zahl(p.geraetPreis, t.lang)}</span>
+                  {mitToggle && <span class="preis--jahr">+ {zahl(jahr(p.geraetPreis), t.lang)}</span>} {geraetEinheit}
                 </p>
               )}
             </div>
             <a
               class:list={["btn btn--sm btn--block karte__cta", { "btn--hell": p.variante === "premium" }]}
               href={KONTAKT_ANKER}
-              aria-label={`${p.cta}: Paket ${p.name}`}
+              aria-label={t("{cta}: Paket {paket}", { cta: p.cta, paket: p.name })}
             >
               <span>{p.cta}</span>
             </a>
             {p.reaktion && (
               <div class="reaktion">
-                <p class="reaktion__label">Reaktionszeit</p>
+                <p class="reaktion__label">{t("Reaktionszeit")}</p>
                 <p class="reaktion__wert">{p.reaktion.wert}</p>
                 <p class="reaktion__sub">{p.reaktion.sub}</p>
               </div>
@@ -242,20 +251,20 @@ const periodeStart = () => {
       }
     </ul>
 
-    <p class="netto">Alle Preise verstehen sich netto zuzüglich der gesetzlichen Umsatzsteuer.</p>
+    <p class="netto">{t("Alle Preise verstehen sich netto zuzüglich der gesetzlichen Umsatzsteuer.")}</p>
 
     {
       vergleich && (
         <details class="vergleich">
           <summary>
-            Vollständigen Funktionsvergleich anzeigen
+            {t("Vollständigen Funktionsvergleich anzeigen")}
             <svg class="vergleich__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <polyline points="6 9 12 15 18 9" />
             </svg>
           </summary>
           <div class="vergleich__scroll">
             <table>
-              <caption class="sr-only">Funktionsvergleich der Pakete</caption>
+              <caption class="sr-only">{t("Funktionsvergleich der Pakete")}</caption>
               <thead>
                 <tr>
                   <td />
@@ -280,12 +289,12 @@ const periodeStart = () => {
                             {w === "✓" ? (
                               <>
                                 <span class="wert-ja" aria-hidden="true">✓</span>
-                                <span class="sr-only">enthalten</span>
+                                <span class="sr-only">{t("enthalten")}</span>
                               </>
                             ) : w === "–" ? (
                               <>
                                 <span class="wert-nein" aria-hidden="true">–</span>
-                                <span class="sr-only">nicht enthalten</span>
+                                <span class="sr-only">{t("nicht enthalten")}</span>
                               </>
                             ) : (
                               w
@@ -330,7 +339,7 @@ const periodeStart = () => {
                   {z.notiz && <p class="karte__jahresnotiz karte__jahresnotiz--fest">{z.notiz}</p>}
                 </div>
                 <div class="karte__trenner" />
-                <p class="diff-titel">Enthaltene Leistungen</p>
+                <p class="diff-titel">{t("Enthaltene Leistungen")}</p>
                 <ul class="diffs" role="list">
                   {z.features.map((f) => (
                     <li>
@@ -366,8 +375,13 @@ const periodeStart = () => {
    * Modus "geraet": groß = Gerätepreis × Anzahl, klein = "+ Grundpreis".
    * Modus "menge":  groß = Paketpreis × Anzahl, klein = Preis pro Einheit.
    */
-  const euro = (n: number) => `${n.toLocaleString("de-DE", { maximumFractionDigits: 2 })} €`;
   document.querySelectorAll<HTMLElement>("[data-preise]").forEach((root) => {
+    const en = root.dataset.lang === "en";
+    const betrag = (n: number) => n.toLocaleString(en ? "en-US" : "de-DE", { maximumFractionDigits: 2 });
+    const euro = (n: number) => (en ? `€${betrag(n)}` : `${betrag(n)} €`);
+    const v = JSON.parse(root.dataset.vorlagen ?? "{}") as Record<string, string>;
+    const fuelle = (vorlage: string, werte: Record<string, string | number>) =>
+      Object.entries(werte).reduce((s, [k, w]) => s.replaceAll(`{${k}}`, String(w)), vorlage);
     const regler = root.querySelector<HTMLInputElement>("[data-slider]");
     const ausgabe = root.querySelector<HTMLOutputElement>("[data-slider-out]");
     if (!regler || !ausgabe) return;
@@ -394,10 +408,10 @@ const periodeStart = () => {
         setze(k, "gross-monat", euro(gross));
         setze(k, "gross-jahr", euro(jahr(gross)));
         if (modus === "geraet") {
-          setze(k, "klein-monat", `+ ${euro(preis)} Grundpreis / Monat`);
-          setze(k, "periode", n === 1 ? "pro Gerät / Monat" : `für ${n} ${mehrzahl} / Monat`);
+          setze(k, "klein-monat", fuelle(v.grundpreis, { betrag: euro(preis) }));
+          setze(k, "periode", n === 1 ? v.proGeraet : fuelle(v.fuer, { n, einheit: mehrzahl }));
         } else {
-          setze(k, "periode", n === 1 ? `/ ${einzahl} / Monat` : `für ${n} ${mehrzahl} / Monat`);
+          setze(k, "periode", n === 1 ? fuelle(v.proEinheit, { einheit: einzahl }) : fuelle(v.fuer, { n, einheit: mehrzahl }));
         }
       });
     };

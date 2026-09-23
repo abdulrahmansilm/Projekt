@@ -11,6 +11,8 @@
  * Oberhalb 1080px bleibt das zweispaltige Layout fest; der Stapel steht vor der ersten Auswahl per transform mittig
  * und gleitet bei Auswahl an seine Spaltenposition (transform statt animierter Grid-Spalten, emil-design-eng).
  */
+import { uebersetzer } from "../../i18n";
+
 interface Props {
   eyebrow?: string;
   titel: string;
@@ -19,6 +21,7 @@ interface Props {
   ebenen: { tag: string; titel: string; sub: string; text: string; stats: string[] }[];
 }
 const { eyebrow, titel, intro, hinweis, ebenen } = Astro.props;
+const t = uebersetzer(Astro);
 // Die oberste Karte im Stapel ("Ihre Website") ist optisch die erste, die man sieht: sie ist beim Laden bereits geöffnet.
 const startIndex = ebenen.length - 1;
 ---
@@ -51,12 +54,12 @@ const startIndex = ebenen.length - 1;
 
       <div class="rahmen" data-eb-rahmen>
         <div class="buehne-wrap" data-eb-wrap>
-          <ul class="buehne" role="list" aria-label="Ebenen einer betreuten Website">
+          <ul class="buehne" role="list" aria-label={t("Ebenen einer betreuten Website")}>
             {
               ebenen.map((e, i) => (
                 <li class:list={[`karte k${i + 1}`, { "is-gewaehlt": i === startIndex }]} data-eb-karte={i}>
                   <button type="button" class="karte__knopf" aria-pressed={i === startIndex ? "true" : "false"} aria-controls="eb-panel">
-                    <span class="schweben" style={`animation-delay:${i * 0.15}s`}>
+                    <span class="karte__inhalt">
                       <span class="karte__tag">{e.tag}</span>
                       <span class="karte__titel">{e.titel}</span>
                       <span class="karte__sub">{e.sub}</span>
@@ -68,7 +71,7 @@ const startIndex = ebenen.length - 1;
           </ul>
           <p class="hinweis" aria-hidden="true">
             <span class="hinweis__maus">{hinweis}</span>
-            <span class="hinweis__touch">{hinweis.replace("Klicken", "Tippen")}</span>
+            <span class="hinweis__touch">{hinweis.replace(t("Klicken"), t("Tippen"))}</span>
           </p>
         </div>
       </div>
@@ -77,20 +80,24 @@ const startIndex = ebenen.length - 1;
 </section>
 
 <script>
-  const BREITE = 660; // 580px Bühne + 24px/56px Innenabstand
-  const HOEHE = 588 + 76; // Bühne + Innenabstand + Platz für Hinweis und angehobene Karte
-
   document.querySelectorAll<HTMLElement>("[data-ebenen]").forEach((root) => {
     const layout = root.querySelector<HTMLElement>("[data-eb-layout]")!;
     const rahmen = root.querySelector<HTMLElement>("[data-eb-rahmen]")!;
+    const wrap = root.querySelector<HTMLElement>("[data-eb-wrap]")!;
     const karten = Array.from(root.querySelectorAll<HTMLElement>("[data-eb-karte]"));
     const inhalte = Array.from(root.querySelectorAll<HTMLElement>("[data-eb-inhalt]"));
 
-    // Skalierter Stapel, Höhe am tatsächlichen Maß statt an festen Negativwerten
+    // Skalierter Stapel, Höhe am tatsächlichen Maß statt an festen Negativwerten. BREITE/HOEHE werden aus
+    // der Bühne selbst gelesen (ihre Layout-Box bleibt von transform:scale unberührt), statt fest im Skript
+    // zu stehen: so kann Runde 9 per Media Query eine eigene, kleinere Bühnen-Größe fürs Handy definieren,
+    // ohne dass das Skript angepasst werden muss – vorher sank die Schrift auf Handybreite auf ~11px,
+    // weil BREITE fest bei 660px lag (Desktop-Maß) und der Skalierungsfaktor entsprechend klein wurde.
     const einpassen = () => {
-      const s = Math.min(1, rahmen.clientWidth / BREITE);
+      const breite = wrap.offsetWidth;
+      const hoehe = wrap.offsetHeight;
+      const s = Math.min(1, rahmen.clientWidth / breite);
       rahmen.style.setProperty("--s", s.toFixed(4));
-      rahmen.style.height = `${Math.round(HOEHE * s)}px`;
+      rahmen.style.height = `${Math.round(hoehe * s)}px`;
     };
     einpassen();
     if ("ResizeObserver" in window) new ResizeObserver(einpassen).observe(rahmen);
@@ -295,11 +302,15 @@ const startIndex = ebenen.length - 1;
     list-style: none;
   }
 
+  /* Runde 11: Die ganze Karte schwebt (vorher nur der Text im Inneren, die Fläche stand still).
+     Das Schweben liegt auf dem <li>, Hover/Auswahl auf dem Button: getrennte Elemente, deshalb
+     überschreiben sich die Transforms nie. Versatz je Ebene über .k1–.k6 (ohne Inline-Styles). */
   .karte {
     position: absolute;
     left: 120px;
     width: 380px;
     height: 190px;
+    animation: eb-schweben 3.6s ease-in-out infinite;
   }
 
   .karte__knopf {
@@ -326,10 +337,8 @@ const startIndex = ebenen.length - 1;
     outline-offset: 4px;
   }
 
-  /* Schweben auf innerem Wrapper, getrennt von Hover/Auswahl → Transforms überschreiben sich nie */
-  .schweben {
+  .karte__inhalt {
     display: block;
-    animation: eb-schweben 3.6s ease-in-out infinite;
   }
 
   @keyframes eb-schweben {
@@ -348,7 +357,7 @@ const startIndex = ebenen.length - 1;
       transform: rotate(-2deg) skewX(-2deg) scaleY(0.98) translate(-8px, -8px);
     }
 
-    .karte__knopf:hover .schweben {
+    .karte:hover {
       animation-play-state: paused;
     }
   }
@@ -358,7 +367,7 @@ const startIndex = ebenen.length - 1;
   }
 
   .karte.is-gewaehlt {
-    z-index: 50 !important;
+    animation-play-state: paused;
   }
 
   .karte.is-gewaehlt .karte__knopf {
@@ -367,10 +376,6 @@ const startIndex = ebenen.length - 1;
     box-shadow:
       0 0 0 2px #7fd9c4,
       0 26px 44px -10px rgba(0, 0, 0, 0.55);
-  }
-
-  .karte.is-gewaehlt .schweben {
-    animation-play-state: paused;
   }
 
   .karte__tag {
@@ -403,6 +408,7 @@ const startIndex = ebenen.length - 1;
   .k1 {
     top: 330px;
     z-index: 1;
+    animation-delay: 0s;
   }
 
   .k1 .karte__knopf {
@@ -412,6 +418,7 @@ const startIndex = ebenen.length - 1;
   .k2 {
     top: 266px;
     z-index: 2;
+    animation-delay: 0.15s;
   }
 
   .k2 .karte__knopf {
@@ -421,6 +428,7 @@ const startIndex = ebenen.length - 1;
   .k3 {
     top: 202px;
     z-index: 3;
+    animation-delay: 0.3s;
   }
 
   .k3 .karte__knopf {
@@ -430,6 +438,7 @@ const startIndex = ebenen.length - 1;
   .k4 {
     top: 138px;
     z-index: 4;
+    animation-delay: 0.45s;
   }
 
   .k4 .karte__knopf {
@@ -439,6 +448,7 @@ const startIndex = ebenen.length - 1;
   .k5 {
     top: 74px;
     z-index: 5;
+    animation-delay: 0.6s;
   }
 
   .k5 .karte__knopf {
@@ -448,6 +458,7 @@ const startIndex = ebenen.length - 1;
   .k6 {
     top: 10px;
     z-index: 6;
+    animation-delay: 0.75s;
   }
 
   .k6 .karte__knopf {
@@ -589,12 +600,130 @@ const startIndex = ebenen.length - 1;
     }
 
     .panel h3 {
-      font-size: 22px;
+      font-size: 20px;
+      font-size: clamp(18px, calc((100vw - 112px) / 14.6), 22px);
+      overflow-wrap: break-word;
+      -webkit-hyphens: auto;
+      hyphens: auto;
+    }
+
+    /* Runde 11: Auf dem Handy wird der Stapel nicht mehr herunterskaliert, sondern in echter Größe
+       gebaut (Bühne = volle Breite, einpassen() ergibt damit Faktor 1). Jede Karte zeigt nur ihren
+       unteren Streifen, weil die Karte darüber den Rest verdeckt: Ebene und Titel stehen deshalb unten
+       in der Karte, der Untertitel entfällt (er steht im Kasten darunter). Der Titel passt sich per
+       Container-Einheit der Kartenbreite an und kann die Karte nie mehr verlassen. */
+    .buehne-wrap {
+      left: 0;
+      width: 100%;
+      height: auto;
+      margin-left: 0;
+      padding: 30px 0 22px;
+    }
+
+    .buehne {
+      --eb-karte: 96px;
+      --eb-schritt: 58px;
+      container-type: inline-size;
+      width: 100%;
+      height: calc(5 * var(--eb-schritt) + var(--eb-karte));
+    }
+
+    .karte {
+      left: 26px;
+      right: 18px;
+      width: auto;
+      height: var(--eb-karte);
+    }
+
+    .k6 {
+      top: 0;
+    }
+
+    .k5 {
+      top: var(--eb-schritt);
+    }
+
+    .k4 {
+      top: calc(2 * var(--eb-schritt));
+    }
+
+    .k3 {
+      top: calc(3 * var(--eb-schritt));
+    }
+
+    .k2 {
+      top: calc(4 * var(--eb-schritt));
+    }
+
+    .k1 {
+      top: calc(5 * var(--eb-schritt));
+    }
+
+    .karte__knopf {
+      position: relative;
+      padding: 0;
+      border-radius: 14px;
+    }
+
+    .karte__inhalt {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 11px;
+    }
+
+    .karte__tag {
+      margin-bottom: 5px;
+      padding: 2px 8px;
+      border-radius: 8px;
+      font-size: 10px;
+      line-height: 1.45;
+    }
+
+    .karte__titel {
+      margin: 0;
+      overflow: hidden;
+      font-size: 16px;
+      font-size: clamp(13px, calc((100cqi - 76px) / 14.6), 19px);
+      line-height: 1.2;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .karte__sub {
+      display: none;
+    }
+
+    /* Die oberste Karte ist als einzige ganz sichtbar: dort hat der Untertitel Platz */
+    .k6 .karte__sub {
+      display: block;
+      margin-top: 3px;
+      overflow: hidden;
+      font-size: 12.5px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    /* Auswahl: Die Karte bleibt in der Stapelreihenfolge (sonst verdeckt sie den Titel der Ebene
+       darüber), leuchtet auf und rückt ein Stück heraus. Alle Karten schweben weiter. */
+    .karte.is-gewaehlt {
+      animation-play-state: running;
+    }
+
+    .karte.is-gewaehlt .karte__knopf {
+      transform: rotate(-4deg) skewX(-4deg) scaleY(0.97) translateX(-14px);
+    }
+  }
+
+  /* Die gewählte Karte kommt nur dort nach vorn, wo sie ganz sichtbar werden kann (Desktop/Tablet) */
+  @media (min-width: 561px) {
+    .karte.is-gewaehlt {
+      z-index: 50;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .schweben,
+    .karte,
     .hinweis,
     .panel__inhalt.is-neu {
       animation: none;

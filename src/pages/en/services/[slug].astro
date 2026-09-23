@@ -1,0 +1,16 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import Leistung from "../../../views/Leistung.astro";
+import { LEISTUNG_SLUG_EN } from "../../../i18n";
+
+export async function getStaticPaths() {
+  const leistungen = await getCollection("leistungen");
+  return leistungen.map((leistung) => ({ params: { slug: LEISTUNG_SLUG_EN[leistung.id] ?? leistung.id }, props: { leistung } }));
+}
+
+interface Props {
+  leistung: CollectionEntry<"leistungen">;
+}
+---
+
+<Leistung leistung={Astro.props.leistung} />

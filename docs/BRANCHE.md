@@ -126,9 +126,9 @@ Jede Leistung erhält eine eigene Unterseite nach dem generischen Template (sieh
 - **pricing:** Interaktive Referenzimplementierung wie bei IT-Betreuung (Cowork-Projekt → `claude/components/pricing-server-betreuung.html`): Monatlich/Jährlich-Toggle (10 % Jährlich-Rabatt), gemeinsame „Grundüberwachung"-Chip-Leiste, 3 Karten mit Hover-Effekt und „Alles aus X, außerdem:"-Darstellung für Standard/Premium, ausklappbare Vergleichstabelle. 3 Pakete pro Server/Monat:
   | Paket | Preis/Server/Monat | Reaktionszeit | Support-Kanal |
   |---|---|---|---|
-  | Basis | 50 € | 24 Std. | Ticket-System |
-  | Standard (BELIEBT) | 90 € | 8 Std. | Ticket-System + Hotline |
-  | Premium (invertiert) | 110 € | 2 Std. | Ticket-System + Hotline + fester Ansprechpartner |
+  | Basis | 79 € | 24 Std. | Ticket-System |
+  | Standard (BELIEBT) | 109 € | 8 Std. | Ticket-System + Hotline |
+  | Premium (invertiert) | 149 € | 2 Std. | Ticket-System + Hotline + fester Ansprechpartner |
 
   Feature-Matrix: Alle – 24/7-Monitoring, Patch-/Update-Management, Backup-Prüfung, Remote-Störungsbeseitigung. Standard „Alles aus Basis, außerdem:" – erweiterte Security-Maßnahmen, regelmäßige Systemprüfung, Hotline-Support. Premium „Alles aus Standard, außerdem:" – Störungsbeseitigung vor Ort, umfangreiche Security-Maßnahmen, Kapazitätsplanung, fester Ansprechpartner.
 - **addon (Zusatzleistung, eigene Sektion unterhalb der Vergleichstabelle):** „Server-Backup" – Badge „Beliebt", Icon Schild im Deutschland-Flaggen-Verlauf (schwarz/rot/gold, eigenständig, nicht Teil der Türkis/Petrol-Regel), Preis **„Ab XX € / Server / Monat" – Platzhalter, noch nicht final bestätigt**, enthält: Einrichten der automatischen Sicherung, Prüfen des Backups in festen Abständen, Wiederherstellungstest im Ernstfall, Sicherung von Datenbanken.

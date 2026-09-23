@@ -18,12 +18,14 @@ import SiteNav from "../components/layout/SiteNav.astro";
 import MobileMenu from "../components/layout/MobileMenu.astro";
 import Footer from "../components/layout/Footer.astro";
 import MobileFloatingCTA from "../components/layout/MobileFloatingCTA.astro";
-import { SITE_URL, firma, KONTAKT_ANKER } from "../lib/config";
+import { SITE_URL, firma } from "../lib/config";
 import { organisationJsonLd } from "../lib/seo";
+import { uebersetzer, kontaktAnker, pfadIn, dePfadVon } from "../i18n";
 
 interface Props {
   title: string;
   description: string;
+  /** Deutscher Pfad der Seite (Identität in beiden Sprachen); der englische wird daraus abgeleitet */
   pfad?: string;
   ogTyp?: "website" | "article";
   noindex?: boolean;
@@ -34,19 +36,23 @@ interface Props {
 }
 
 const { title, description, ogTyp = "website", noindex = false, jsonLd = [], mitKontaktformular = false } = Astro.props;
+const t = uebersetzer(Astro);
+const anker = kontaktAnker(t.lang);
 /** Seiten ohne Wizard (Impressum, Datenschutz, Wissen, 404) springen zur CTA-Sektion der Startseite */
-const kontaktHref = mitKontaktformular ? KONTAKT_ANKER : `/${KONTAKT_ANKER}`;
-const pfad = Astro.props.pfad ?? Astro.url.pathname;
+const kontaktHref = mitKontaktformular ? anker : `${t.pfad("/")}${anker}`;
+const dePfad = Astro.props.pfad ?? dePfadVon(Astro.url.pathname);
+const pfad = pfadIn(dePfad, t.lang);
 const canonical = new URL(pfad, SITE_URL).toString();
+const alternativen = { de: new URL(dePfad, SITE_URL).toString(), en: new URL(pfadIn(dePfad, "en"), SITE_URL).toString() };
 const vollerTitel = title.includes(firma.name) ? title : `${title} | ${firma.name}`;
 const graph = {
   "@context": "https://schema.org",
-  "@graph": [organisationJsonLd(), ...jsonLd],
+  "@graph": [organisationJsonLd(t.lang), ...jsonLd],
 };
 ---
 
 <!doctype html>
-<html lang="de">
+<html lang={t.lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -54,6 +60,15 @@ const graph = {
     <title>{vollerTitel}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {
+      !noindex && (
+        <>
+          <link rel="alternate" hreflang="de" href={alternativen.de} />
+          <link rel="alternate" hreflang="en" href={alternativen.en} />
+          <link rel="alternate" hreflang="x-default" href={alternativen.de} />
+        </>
+      )
+    }
     {noindex && <meta name="robots" content="noindex, follow" />}
     <meta name="theme-color" content="#0B2E3C" />
     <link rel="icon" href="/favicon.ico" sizes="48x48" />
@@ -72,7 +87,8 @@ const graph = {
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content={firma.name} />
-    <meta property="og:locale" content="de_DE" />
+    <meta property="og:locale" content={t.lang === "en" ? "en_US" : "de_DE"} />
+    <meta property="og:locale:alternate" content={t.lang === "en" ? "de_DE" : "en_US"} />
     <meta property="og:image" content={`${SITE_URL}/logo/logo-social.png`} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={vollerTitel} />
@@ -81,20 +97,20 @@ const graph = {
     <script is:inline type="application/ld+json" set:html={JSON.stringify(graph)} />
   </head>
   <body>
-    <a class="skip-link" href="#main">Zum Inhalt springen</a>
+    <a class="skip-link" href="#main">{t("Zum Inhalt springen")}</a>
     <Ladescreen />
 
     <div class="sticky-kopf" data-sticky-header inert aria-hidden="true">
       <div class="sticky-kopf__inner">
-        <SiteNav variant="sticky" aktuellerPfad={pfad} kontaktHref={kontaktHref} />
+        <SiteNav variant="sticky" aktuellerPfad={pfad} dePfad={dePfad} kontaktHref={kontaktHref} />
       </div>
     </div>
-    <MobileMenu kontaktHref={kontaktHref} />
+    <MobileMenu kontaktHref={kontaktHref} dePfad={dePfad} />
 
     <!-- Kopfzeile liegt im DOM vor <main>, visuell auf dem dunklen Hero-Verlauf (Komponente 9) -->
     <div class="seiten-kopf-wrap">
       <header class="seiten-kopf">
-        <SiteNav variant="hero" aktuellerPfad={pfad} kontaktHref={kontaktHref} />
+        <SiteNav variant="hero" aktuellerPfad={pfad} dePfad={dePfad} kontaktHref={kontaktHref} />
       </header>
     </div>
 

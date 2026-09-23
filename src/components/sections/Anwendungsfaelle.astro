@@ -8,6 +8,8 @@
  * beim Zurückdrehen kurz ein leeres Viereck. Ersetzt durch einen weichen Wechsel aus Opacity und Scale –
  * nur zusammengesetzte Eigenschaften, damit der Wechsel jederzeit flüssig bleibt und sich unterbrechen lässt.
  */
+import { uebersetzer } from "../../i18n";
+
 interface Props {
   eyebrow?: string;
   titel: string;
@@ -15,7 +17,9 @@ interface Props {
   karten: { nummer: string; icon: string; titel: string; text: string }[];
 }
 const { eyebrow, titel, intro, karten } = Astro.props;
-const introText = intro?.replace("Tippen oder darüberfahren für Details.", "").trim();
+const t = uebersetzer(Astro);
+const hinweisText = t("Tippen oder darüberfahren für Details.");
+const introText = intro?.replace(hinweisText, "").trim();
 ---
 
 <section class="af section-dark besondere-sektion" aria-labelledby="af-titel">
@@ -26,7 +30,7 @@ const introText = intro?.replace("Tippen oder darüberfahren für Details.", "")
       {
         intro && (
           <p class="lead">
-            {introText} <span class="af__hinweis">Tippen oder darüberfahren für Details.</span>
+            {introText} <span class="af__hinweis">{hinweisText}</span>
           </p>
         )
       }

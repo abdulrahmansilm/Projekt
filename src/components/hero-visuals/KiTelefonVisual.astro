@@ -9,33 +9,38 @@
 import fs from "node:fs";
 import path from "node:path";
 import HeroStage from "./HeroStage.astro";
+import { uebersetzer } from "../../i18n";
+
+const t = uebersetzer(Astro);
 
 const AUDIO_PFAD = "/audio/ki-telefonassistent-beispiel.mp3";
 const audioVorhanden = fs.existsSync(path.join(process.cwd(), "public", AUDIO_PFAD));
+/** Texte für das Player-Skript */
+const texte = { von: t("{a} von {b}"), abspielen: t("Beispielgespräch abspielen"), pausieren: t("Beispielgespräch pausieren") };
 
 // Deterministische Balkenhöhen (kein Audio-Sampling nötig), 1:1 aus der Referenz
 const muster = [0.4, 0.65, 0.5, 0.85, 0.6, 0.3, 0.55, 0.9, 0.7, 0.45, 0.6, 0.35, 0.8, 0.5, 0.65, 0.95, 0.55, 0.4, 0.7, 0.5, 0.3, 0.6, 0.85, 0.45, 0.65, 0.5, 0.75, 0.35, 0.6, 0.9, 0.5, 0.4, 0.7, 0.55, 0.8, 0.45, 0.6, 0.35, 0.5, 0.65];
 
 const transkript = [
-  { wer: "KI-Assistent", text: "Guten Tag, hier ist der digitale Assistent. Womit kann ich Ihnen helfen?" },
-  { wer: "Anrufer", text: "Ich möchte gerne einen Termin vereinbaren." },
-  { wer: "KI-Assistent", text: "Sehr gerne. Welcher Tag und welche Uhrzeit würden Ihnen passen?" },
-  { wer: "Anrufer", text: "Nächsten Dienstag am Vormittag, wenn möglich." },
-  { wer: "KI-Assistent", text: "Das passt. Ich trage Dienstag, 10:00 Uhr für Sie ein und sende Ihnen eine Bestätigung." },
+  { wer: t("KI-Assistent"), text: t("Guten Tag, hier ist der digitale Assistent. Womit kann ich Ihnen helfen?") },
+  { wer: t("Anrufer"), text: t("Ich möchte gerne einen Termin vereinbaren.") },
+  { wer: t("KI-Assistent"), text: t("Sehr gerne. Welcher Tag und welche Uhrzeit würden Ihnen passen?") },
+  { wer: t("Anrufer"), text: t("Nächsten Dienstag am Vormittag, wenn möglich.") },
+  { wer: t("KI-Assistent"), text: t("Das passt. Ich trage Dienstag, 10:00 Uhr für Sie ein und sende Ihnen eine Bestätigung.") },
 ];
 ---
 
 <HeroStage breite={400}>
   <div class="ki">
-    <div class:list={["player", { "player--ohne-audio": !audioVorhanden }]} data-player>
-      <p class="player__titel" id="ki-player-titel">Jetzt anhören</p>
+    <div class:list={["player", { "player--ohne-audio": !audioVorhanden }]} data-player data-texte={JSON.stringify(texte)}>
+      <p class="player__titel" id="ki-player-titel">{t("Jetzt anhören")}</p>
 
       <div class="player__steuerung">
         <button
           type="button"
           class="play"
           data-play
-          aria-label={audioVorhanden ? "Beispielgespräch abspielen" : "Hörbeispiel folgt in Kürze"}
+          aria-label={audioVorhanden ? t("Beispielgespräch abspielen") : t("Hörbeispiel folgt in Kürze")}
           aria-disabled={audioVorhanden ? undefined : "true"}
         >
           <span class="play__glanz" aria-hidden="true"></span>
@@ -54,7 +59,7 @@ const transkript = [
           aria-valuemin="0"
           aria-valuemax="60"
           aria-valuenow="0"
-          aria-valuetext="0:00 von 1:00"
+          aria-valuetext={t("{a} von {b}", { a: "0:00", b: "1:00" })}
           aria-disabled={audioVorhanden ? undefined : "true"}
           data-welle
         >
@@ -67,7 +72,7 @@ const transkript = [
         <span data-zeit-gesamt>1:00</span>
       </div>
 
-      {!audioVorhanden && <p class="player__hinweis">Hörbeispiel folgt in Kürze. Das Gespräch können Sie im Transkript nachlesen.</p>}
+      {!audioVorhanden && <p class="player__hinweis">{t("Hörbeispiel folgt in Kürze. Das Gespräch können Sie im Transkript nachlesen.")}</p>}
 
       {audioVorhanden && <audio preload="metadata" src={AUDIO_PFAD} data-audio />}
 
@@ -77,9 +82,9 @@ const transkript = [
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
-          Transkript
+          {t("Transkript")}
         </summary>
-        <div class="transkript__text" tabindex="0" role="region" aria-label="Transkript des Beispielgesprächs">
+        <div class="transkript__text" tabindex="0" role="region" aria-label={t("Transkript des Beispielgesprächs")}>
           {
             transkript.map((z) => (
               <p>
@@ -107,6 +112,7 @@ const transkript = [
     const aktuell = player.querySelector<HTMLElement>("[data-zeit-aktuell]")!;
     const gesamt = player.querySelector<HTMLElement>("[data-zeit-gesamt]")!;
     if (!audio) return;
+    const T = JSON.parse(player.dataset.texte ?? "{}") as Record<string, string>;
 
     const STANDARD = 60;
     const dauer = () => (audio.duration && isFinite(audio.duration) ? audio.duration : STANDARD);
@@ -120,7 +126,7 @@ const transkript = [
       });
       aktuell.textContent = format(audio.currentTime);
       welle.setAttribute("aria-valuenow", String(Math.round(audio.currentTime)));
-      welle.setAttribute("aria-valuetext", `${format(audio.currentTime)} von ${format(dauer())}`);
+      welle.setAttribute("aria-valuetext", T.von.replace("{a}", format(audio.currentTime)).replace("{b}", format(dauer())));
     };
 
     audio.addEventListener("loadedmetadata", () => {
@@ -131,11 +137,11 @@ const transkript = [
     audio.addEventListener("timeupdate", zeichne);
     audio.addEventListener("play", () => {
       player.classList.add("is-spielt");
-      play.setAttribute("aria-label", "Beispielgespräch pausieren");
+      play.setAttribute("aria-label", T.pausieren);
     });
     const pausiert = () => {
       player.classList.remove("is-spielt");
-      play.setAttribute("aria-label", "Beispielgespräch abspielen");
+      play.setAttribute("aria-label", T.abspielen);
       zeichne();
     };
     audio.addEventListener("pause", pausiert);

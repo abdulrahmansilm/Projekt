@@ -5,11 +5,14 @@
  * Navigation über Schritt-Reiter (kein Autoplay, keine Pfeile): Der Wechsel passiert nur auf Klick oder per Tastatur.
  * Bilder unter public/hww/schritt-N.svg.
  */
+import { uebersetzer } from "../../i18n";
+
+const t = uebersetzer(Astro);
 const schritte = [
-  { titel: "Kennenlernen", text: "Ein unverbindliches Gespräch, in dem Sie Ihre Situation schildern. Wir hören zu und sprechen Schwachstellen offen an." },
-  { titel: "Analyse", text: "Wir prüfen Hardware, Software, Sicherheit und Prozesse und zeigen konkret, wo Handlungsbedarf besteht." },
-  { titel: "Umsetzung", text: "Wir setzen die passende Lösung um, mit möglichst wenig Unterbrechung Ihres Tagesgeschäfts." },
-  { titel: "Betreuung", text: "Danach bleiben wir Ihr fester Ansprechpartner. Eine Nummer, ein Name, keine wechselnden Zuständigkeiten." },
+  { titel: t("Kennenlernen"), text: t("Ein unverbindliches Gespräch, in dem Sie Ihre Situation schildern. Wir hören zu und sprechen eventuelle Schwachstellen offen an.") },
+  { titel: t("Analyse"), text: t("Wir prüfen Hardware, Software, Sicherheit und Prozesse und zeigen konkret, wo Handlungsbedarf besteht.") },
+  { titel: t("Umsetzung"), text: t("Wir setzen die passende Lösung um, mit möglichst wenig Unterbrechung Ihres Tagesgeschäfts.") },
+  { titel: t("Betreuung"), text: t("Danach bleiben wir Ihr fester Ansprechpartner. Eine Nummer, ein Name, keine wechselnden Zuständigkeiten.") },
 ];
 const id = `hww-${Math.random().toString(36).slice(2, 7)}`;
 ---
@@ -17,8 +20,8 @@ const id = `hww-${Math.random().toString(36).slice(2, 7)}`;
 <section class="hww2 section-dark besondere-sektion" aria-labelledby={`${id}-titel`} data-hww>
   <div class="hww2__inner">
     <div class="hww2-head" data-reveal>
-      <h2 id={`${id}-titel`} class="h2">So arbeiten wir</h2>
-      <p class="lead">Vier klare Schritte, ein fester Ansprechpartner: von der ersten Frage bis zur laufenden Betreuung.</p>
+      <h2 id={`${id}-titel`} class="h2">{t("So arbeiten wir")}</h2>
+      <p class="lead">{t("Vier klare Schritte, ein fester Ansprechpartner: von der ersten Frage bis zur laufenden Betreuung.")}</p>
     </div>
 
     <div class="hww2-grid">

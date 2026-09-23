@@ -5,6 +5,8 @@
  * und werden im Frontend sichtbar als Platzhalter gekennzeichnet. Vor Go-Live ergänzen.
  */
 
+import { pfadIn } from "../i18n/routen";
+
 export const SITE_URL = "https://selim-it.de";
 
 export const firma = {
@@ -13,7 +15,7 @@ export const firma = {
   rechtsform: "Einzelunternehmen",
   domain: "selim-it.de",
   gruendungsjahr: 2026,
-  claim: "Betrieb, Sicherheit und Digitalisierung, alles aus einer Hand betreut.",
+  claim: "Betrieb, Sicherheit und Digitalisierung: alles aus einer Hand.",
   adresse: {
     strasse: "Westendstraße 100",
     plz: { wert: "60324", platzhalter: false },
@@ -107,8 +109,8 @@ export const navigation: NavKategorie[] = [
   },
 ];
 
-export function leistungHref(slug: string): string {
-  return slug.startsWith("/") ? slug : `/leistungen/${slug}`;
+export function leistungHref(slug: string, lang: "de" | "en" = "de"): string {
+  return pfadIn(slug.startsWith("/") ? slug : `/leistungen/${slug}`, lang);
 }
 
 export const rechtsLinks = [

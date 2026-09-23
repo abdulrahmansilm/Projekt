@@ -535,3 +535,31 @@ Kurzfassung der Punkte, die den Stand gegenüber den Runden 1 und 2 verändern. 
 - **KI-Telefon / WhatsApp**: Kasten „Laufende Betreuung“ je Paket, Vererbung wie bei IT-Betreuung, Tooltip als Portal unter `<body>` (vorher falsch positioniert, weil Karten ein transform tragen).
 - **Neue Seite `/leitbild`** (Navbar → Unternehmen), **Über uns** neu aufgebaut, **Wissen** mit Hero-Bild.
 - Weitere Punkte: siehe Code und Zusammenfassung Runde 4.
+
+---
+
+## Änderungen Runde 8 (23.09.2026)
+
+### KI-Telefonassistent und WhatsApp-Chatbot
+
+- **Siegel-Band** nach dem ersten Bild-&-Text-Abschnitt: „DSGVO-konform“ und „EU-AI-Act-konform“ (Sektionstyp `siegel`, Komponente `Siegel.astro`).
+- **Preise**: KI-Telefon 119 / 359 / 599 € mit Minutenpreis in Cent neben dem Kontingent; WhatsApp 69 / 249 / 499 €. „∞ Assistenten“ bzw. „∞ Chatbots“ in allen Paketen.
+- **Laufende Betreuung** ist kein Kasten in den Paketkarten mehr, sondern ein eigenes Paket neben der Einrichtung (`pricingSetup.betreuungPaket`): KI-Telefon 99 €, WhatsApp 79 € netto/Monat, sechs Leistungen mit Häkchen.
+- **Einrichtung**: „Rechtskonforme Gesprächsführung“ entfällt beim KI-Telefon, „netto“ steht unter dem Preis.
+
+### Formular
+
+- Freitext „Erzählen Sie uns kurz mehr“ ist wieder **optional** (Frontend-Validierung und Backend: `nachricht` darf fehlen, leere Werte werden zu `None`).
+
+### Englische Version
+
+- Deutsch bleibt Ausgangssprache; Englisch liegt unter `/en/` mit englischen Slugs (`src/i18n/routen.ts`, z. B. `/en/services/managed-it`, `/en/insights/…`, `/en/about`, `/en/mission`, `/en/legal-notice`, `/en/privacy`).
+- **Übersetzung**: ein Wörterbuch `src/i18n/en.json` (deutsch → englisch). Komponenten nutzen `t("…")`, Content-JSON läuft durch `lokalisiere()`. Preise, Icons und Struktur existieren nur einmal im deutschen Content – eine Preisänderung gilt automatisch für beide Sprachen. Reine Zahlenangaben werden automatisch ins englische Format gesetzt (`499 €` → `€499`, `87 %` → `87%`). Feldbezogene Übersetzungen über `"feld:Text"` (z. B. `mehrzahl:Server`).
+- **Wissen-Artikel** liegen als eigene Collection `wissenEn` (`src/content/wissen-en/`, gleiche Ids wie die deutschen).
+- **Impressum/Datenschutz** haben eigene englische Fassungen mit Hinweis, dass die deutsche Fassung verbindlich ist.
+- **Sprachumschalter** DE | EN in Navbar und mobilem Menü, verlinkt jeweils auf dieselbe Seite in der anderen Sprache. `hreflang` (de/en/x-default), `og:locale` und `<html lang>` werden pro Seite gesetzt.
+- Amerikanisches Englisch, sinngemäß statt wörtlich übersetzt; dieselben Copy-Regeln wie im Deutschen (keine Gedankenstriche als Stilmittel, keine KI-Floskeln).
+- **Build-Prüfung** `npm run i18n:pruefen` (läuft nach jedem Build): bricht ab, wenn auf einer englischen Seite deutscher Text steht, z. B. weil ein neuer Text noch nicht im Wörterbuch ist.
+- **Neue Texte**: deutschen Text wie gewohnt schreiben, englische Übersetzung in `src/i18n/en.json` ergänzen.
+- **Bestätigungsmails**: Anfragen von `/en/…` bekommen Anfrage- und Terminbestätigung auf Englisch; die interne Mail ist mit `[EN]` markiert (siehe `backend/README.md`).
+- **Caddy**: nicht gefundene `/en/…`-Pfade zeigen die englische 404-Seite; `try_files` prüft zusätzlich `{path}/`, damit Verzeichnisse ohne abschließenden Schrägstrich ihre `index.html` liefern.

@@ -1,0 +1,120 @@
+---
+/**
+ * Privacy Policy – englische Fassung der Datenschutzerklärung (Runde 8).
+ * Nur zur Information; rechtlich maßgeblich ist die deutsche Fassung (Hinweis auf der Seite).
+ * Gleiche Inhalte und offene Platzhalter wie src/views/Datenschutz.astro – bei Änderungen beide anpassen.
+ *
+ * HINWEIS – KEINE GEWÄHR, KEINE RECHTSBERATUNG: vor Veröffentlichung fachkundig prüfen lassen.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/sections/Hero.astro";
+import Rechtstext from "../components/sections/Rechtstext.astro";
+import { firma } from "../lib/config";
+---
+
+<BaseLayout
+  title="Privacy Policy"
+  description="Privacy policy of Selim-IT: what data is processed when you visit this website, send an enquiry or book an appointment, and what rights you have."
+  pfad="/datenschutz"
+>
+  <Hero
+    kompakt
+    headline="Privacy Policy"
+    subline="What data we process when you use this website or get in touch with us, and what rights you have."
+  />
+
+  <Rechtstext stand="September 16, 2026">
+    <p class="rt__hinweis">
+      This English version is provided for convenience only. The <a href="/datenschutz" hreflang="de" lang="de">German version</a>
+      is legally binding.
+    </p>
+
+    <h2>1. Controller</h2>
+    <p>The controller responsible for data processing on this website is:</p>
+    <address class="rt__karte">
+      {firma.name}, owner {firma.inhaber}<br />
+      {firma.adresse.strasse},{" "}
+      <span class:list={{ platzhalter: firma.adresse.plz.platzhalter }}>{firma.adresse.plz.platzhalter ? "[postal code to follow]" : firma.adresse.plz.wert}</span>
+      {" "}{firma.adresse.stadt}, Germany<br />
+      Email: <a href={`mailto:${firma.email.adresse}`}>{firma.email.adresse}</a><br />
+      Phone:{" "}
+      {firma.telefon.platzhalter ? <span class="platzhalter">[phone number to follow]</span> : <a href={firma.telefon.href}>{firma.telefon.anzeige}</a>}
+    </address>
+
+    <h2>2. Hosting and server log files</h2>
+    <p>
+      This website runs on our own infrastructure in Germany. When you visit the website, the server automatically stores
+      information transmitted by your browser: IP address, date and time of the request, the page requested, the referrer URL,
+      and your browser type and operating system.
+    </p>
+    <p>
+      We use this data to operate the website securely and reliably and to defend against attacks. The legal basis is our
+      legitimate interest under Art. 6(1)(f) GDPR. The log files are deleted automatically after{" "}
+      <span class="platzhalter">[retention period to be defined]</span>. All data is transmitted in encrypted form only
+      (HTTPS/TLS).
+    </p>
+
+    <h2>3. Fonts</h2>
+    <p>All fonts are served directly from our own server. No connection is made to third-party servers (such as Google Fonts).</p>
+
+    <h2>4. Cookie-free audience measurement</h2>
+    <p>
+      We use self-hosted, cookie-free analytics software (<span class="platzhalter">[Umami or Plausible, to be decided]</span>).
+      No cookies are set, no individual usage profiles are created and IP addresses are not stored. The legal basis is our
+      legitimate interest in statistical analysis to improve our services (Art. 6(1)(f) GDPR). No consent is required for this,
+      as no cookies are set and no information is stored on your device.
+    </p>
+
+    <h2>5. Enquiry form</h2>
+    <p>
+      If you contact us via the enquiry form, we process the information you provide: the topics and details you select,
+      urgency, company size, your message, your first and last name, optionally your company and phone number, and your email
+      address. This information is stored in a dedicated database on our infrastructure in Germany and also sent to us by
+      email so that we can handle your enquiry and refer back to it if we have any questions.
+    </p>
+    <p>
+      The legal basis is Art. 6(1)(b) GDPR where your enquiry relates to a contract or pre-contractual measures, and otherwise
+      our legitimate interest in responding to enquiries (Art. 6(1)(f) GDPR). We do not pass this data on without your consent.
+      It is deleted as soon as it is no longer needed to handle your enquiry, and at the latest after{" "}
+      <span class="platzhalter">[storage period to be defined]</span>, unless statutory retention obligations apply.
+    </p>
+    <p>
+      To protect against automated spam, we use an invisible check field and Altcha, a self-hosted spam protection that works
+      without cookies or external services. Your browser solves a small computational task; no personal data is transferred to
+      third parties for this purpose. The legal basis is our legitimate interest in preventing misuse (Art. 6(1)(f) GDPR).
+    </p>
+
+    <h2>6. Appointment booking (free initial consultation)</h2>
+    <p>
+      If you book an initial consultation via the form, we process your details and the selected time slot to coordinate the
+      appointment in a self-hosted Nextcloud calendar (CalDAV). For the video call, a room is created automatically in our
+      self-hosted Nextcloud Talk. We do not use external providers such as Google Calendar, Zoom or Microsoft Teams, and no data
+      is transferred to third countries. The legal basis is Art. 6(1)(b) GDPR.
+    </p>
+
+    <h2>7. Email communication</h2>
+    <p>
+      We send confirmation and reply emails through our own mail server, without an external mailing service. If you write to
+      us by email, we process your details in order to deal with your request (Art. 6(1)(b) or (f) GDPR).
+    </p>
+
+    <h2>8. Your rights</h2>
+    <p>You have the right at any time to:</p>
+    <ul>
+      <li>access the data we hold about you (Art. 15 GDPR)</li>
+      <li>have inaccurate data corrected (Art. 16 GDPR)</li>
+      <li>have your data erased (Art. 17 GDPR)</li>
+      <li>restrict processing (Art. 18 GDPR)</li>
+      <li>data portability (Art. 20 GDPR)</li>
+      <li>object to processing based on legitimate interests (Art. 21 GDPR)</li>
+    </ul>
+    <p>To exercise these rights, simply contact us using the details above.</p>
+
+    <h2>9. Right to lodge a complaint with a supervisory authority</h2>
+    <p>You have the right to lodge a complaint with a data protection supervisory authority. The authority responsible for us is:</p>
+    <address class="rt__karte">
+      The Hessian Commissioner for Data Protection and Freedom of Information (HBDI)<br />
+      P.O. Box 3163, 65021 Wiesbaden, Germany
+    </address>
+  </Rechtstext>
+</BaseLayout>

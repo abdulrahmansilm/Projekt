@@ -4,7 +4,7 @@
  * links/rechts (Carousel), zu jedem Bild eine Erklärkarte in der besonderen Farbe, die leicht ins Bild ragt.
  * Alle Bilder stehen in einem Rahmen gleicher Größe (object-fit: contain). Bilder unter public/praxis/.
  */
-import { KONTAKT_ANKER } from "../../lib/config";
+import { uebersetzer, kontaktAnker } from "../../i18n";
 
 interface Props {
   titel: string;
@@ -13,20 +13,22 @@ interface Props {
 }
 const { titel, intro, beispiele } = Astro.props;
 const id = `pb-${Math.random().toString(36).slice(2, 7)}`;
+const t = uebersetzer(Astro);
+const KONTAKT_ANKER = kontaktAnker(t.lang);
 ---
 
-<section class="pb section-light" aria-labelledby={`${id}-titel`} data-pb>
+<section class="pb section-light" aria-labelledby={`${id}-titel`} data-pb data-zaehler-vorlage={t("{a} von {b}")}>
   <div class="pb__inner">
     <div class="pb__kopf" data-reveal>
       <h2 id={`${id}-titel`} class="h2">{titel}</h2>
       {intro && <p class="lead">{intro}</p>}
     </div>
 
-    <div class="pb__rahmen" role="group" aria-roledescription="Karussell" aria-label={titel} data-reveal>
+    <div class="pb__rahmen" role="group" aria-roledescription={t("Karussell")} aria-label={titel} data-reveal>
       <div class="pb__buehne">
         {
           beispiele.map((b, i) => (
-            <article class:list={["pb__folie", { "is-aktiv": i === 0 }]} data-pb-folie aria-label={`${i + 1} von ${beispiele.length}: ${b.titel}`} aria-hidden={i === 0 ? undefined : "true"}>
+            <article class:list={["pb__folie", { "is-aktiv": i === 0 }]} data-pb-folie aria-label={`${t("{a} von {b}", { a: i + 1, b: beispiele.length })}: ${b.titel}`} aria-hidden={i === 0 ? undefined : "true"}>
               <div class="pb__bild">
                 <img src={b.bild} alt={b.alt} loading={i === 0 ? "eager" : "lazy"} decoding="async" />
               </div>
@@ -34,7 +36,7 @@ const id = `pb-${Math.random().toString(36).slice(2, 7)}`;
                 <h3>{b.titel}</h3>
                 <p>{b.text}</p>
                 <a class="btn btn--sm" href={KONTAKT_ANKER} tabindex={i === 0 ? undefined : -1}>
-                  <span>Beratung anfragen</span>
+                  <span>{t("Beratung anfragen")}</span>
                 </a>
               </div>
             </article>
@@ -42,15 +44,15 @@ const id = `pb-${Math.random().toString(36).slice(2, 7)}`;
         }
       </div>
 
-      <button type="button" class="pb__pfeil pb__pfeil--zurueck" data-pb-zurueck aria-label="Vorheriges Beispiel">
+      <button type="button" class="pb__pfeil pb__pfeil--zurueck" data-pb-zurueck aria-label={t("Vorheriges Beispiel")}>
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
       </button>
-      <button type="button" class="pb__pfeil pb__pfeil--weiter" data-pb-weiter aria-label="Nächstes Beispiel">
+      <button type="button" class="pb__pfeil pb__pfeil--weiter" data-pb-weiter aria-label={t("Nächstes Beispiel")}>
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
       </button>
     </div>
 
-    <p class="pb__zaehler" aria-live="polite" data-pb-zaehler>1 von {beispiele.length}</p>
+    <p class="pb__zaehler" aria-live="polite" data-pb-zaehler>{t("{a} von {b}", { a: 1, b: beispiele.length })}</p>
   </div>
 </section>
 
@@ -68,7 +70,7 @@ const id = `pb-${Math.random().toString(36).slice(2, 7)}`;
         else f.setAttribute("aria-hidden", "true");
         f.querySelectorAll<HTMLElement>("a, button").forEach((el) => (el.tabIndex = an ? 0 : -1));
       });
-      if (zaehler) zaehler.textContent = `${aktuell + 1} von ${folien.length}`;
+      if (zaehler) zaehler.textContent = (root.dataset.zaehlerVorlage ?? "{a} / {b}").replace("{a}", String(aktuell + 1)).replace("{b}", String(folien.length));
     };
     root.querySelector("[data-pb-zurueck]")?.addEventListener("click", () => zeige(aktuell - 1));
     root.querySelector("[data-pb-weiter]")?.addEventListener("click", () => zeige(aktuell + 1));
@@ -259,13 +261,17 @@ const id = `pb-${Math.random().toString(36).slice(2, 7)}`;
     }
 
     .pb__karte {
+      /* Runde 9: auf Mobile ragt die Karte nicht mehr ins Bild (überdeckte sonst Teile davon) */
       width: calc(100% - 24px);
-      margin: -32px 12px 0;
+      margin: 16px 12px 0;
       padding: 22px 22px 24px;
     }
 
+    /* Runde 9: fest statt prozentual positioniert, da die Karte jetzt unterhalb des Bildes im
+       normalen Fluss steht (kein Überlappen mehr) und dadurch die Gesamthöhe je nach Kartenlänge
+       schwankt; 50 % der Gesamthöhe würde die Pfeile inzwischen in die Karte statt aufs Bild setzen. */
     .pb__pfeil {
-      top: calc(50% - 90px);
+      top: 40px;
       width: 42px;
       height: 42px;
     }

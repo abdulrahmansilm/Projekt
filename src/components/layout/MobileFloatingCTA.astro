@@ -4,6 +4,9 @@
  * Nur mobil (<768px), erscheint nach dem Hero. Einblenden 220ms ease-out, Ausblenden 160ms.
  */
 import { firma } from "../../lib/config";
+import { uebersetzer } from "../../i18n";
+
+const t = uebersetzer(Astro);
 ---
 
 <a class="floating-cta" href={firma.telefon.href} data-floating-cta aria-hidden="true" tabindex="-1">
@@ -14,13 +17,13 @@ import { firma } from "../../lib/config";
       stroke-width="1.8"
       stroke-linejoin="round"></path>
   </svg>
-  <span>Jetzt anrufen</span>
+  <span>{t("Jetzt anrufen")}</span>
 </a>
 
 <script>
   const cta = document.querySelector<HTMLElement>("[data-floating-cta]");
   const hero = document.querySelector<HTMLElement>("[data-hero]");
-  const kontakt = document.getElementById("kontakt");
+  const kontakt = document.querySelector<HTMLElement>("[data-kw]");
   if (cta) {
     let nachHero = !hero;
     let kontaktSichtbar = false;

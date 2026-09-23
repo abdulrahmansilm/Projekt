@@ -7,12 +7,14 @@
  */
 import Logo from "../ui/Logo.astro";
 import { firma, navigation, leistungHref, rechtsLinks } from "../../lib/config";
+import { uebersetzer } from "../../i18n";
 
 interface Props {
   /** „#kontakt“ auf Seiten mit Anfrage-Wizard, sonst „/#kontakt“ */
   kontaktHref?: string;
 }
 const { kontaktHref = "/#kontakt" } = Astro.props;
+const t = uebersetzer(Astro);
 
 const it = navigation.find((k) => k.id === "it-infrastruktur")!;
 const ki = navigation.find((k) => k.id === "ki-kommunikation")!;
@@ -25,12 +27,12 @@ const jahr = new Date().getFullYear();
   <div class="fuss__inner">
     <div class="fuss__oben">
       <div class="fuss__marke">
-        <a href="/" class="fuss__logo" aria-label="Selim-IT, zur Startseite">
+        <a href={t.pfad("/")} class="fuss__logo" aria-label={t("Selim-IT, zur Startseite")}>
           <Logo variant="hell" class="fuss__logo-svg" />
         </a>
-        <p class="fuss__claim">{firma.claim}</p>
+        <p class="fuss__claim">{t(firma.claim)}</p>
         <a class="btn fuss__termin" href={kontaktHref}>
-          <span>Beratung vereinbaren</span>
+          <span>{t("Beratung vereinbaren")}</span>
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
@@ -38,7 +40,7 @@ const jahr = new Date().getFullYear();
         <address class="fuss__kontakt">
           {firma.adresse.strasse}<br />
           <span class:list={{ platzhalter: firma.adresse.plz.platzhalter }}>{firma.adresse.plz.wert}</span>
-          {" "}{firma.adresse.stadt}<br />
+          {" "}{t(firma.adresse.stadt)}<br />
           <a href={firma.telefon.href}>
             <span class:list={{ platzhalter: firma.telefon.platzhalter }}>{firma.telefon.anzeige}</span>
           </a><br />
@@ -51,38 +53,38 @@ const jahr = new Date().getFullYear();
               d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4v11.5H3V9.75Zm6.5 0h3.83v1.57h.06c.53-1 1.84-2.07 3.79-2.07 4.05 0 4.8 2.66 4.8 6.13v5.87h-4v-5.2c0-1.24-.02-2.83-1.73-2.83-1.73 0-2 1.35-2 2.74v5.29h-4V9.75Z"
             ></path>
           </svg>
-          <span>Folgen Sie uns auf LinkedIn<span class="sr-only"> (öffnet in neuem Tab)</span></span>
+          <span>{t("Folgen Sie uns auf LinkedIn")}<span class="sr-only"> {t("(öffnet in neuem Tab)")}</span></span>
         </a>
 
       </div>
 
       <nav class="fuss__spalte" aria-labelledby="fuss-it">
-        <h2 id="fuss-it" class="fuss__titel">{it.label}</h2>
+        <h2 id="fuss-it" class="fuss__titel">{t(it.label)}</h2>
         <ul role="list">
           {it.eintraege.map((e) => (
             <li>
-              <a href={leistungHref(e.slug)}>{e.label}</a>
+              <a href={leistungHref(e.slug, t.lang)}>{t(e.label)}</a>
             </li>
           ))}
         </ul>
       </nav>
 
       <nav class="fuss__spalte" aria-labelledby="fuss-ki">
-        <h2 id="fuss-ki" class="fuss__titel">{ki.label}</h2>
+        <h2 id="fuss-ki" class="fuss__titel">{t(ki.label)}</h2>
         <ul role="list">
           {ki.eintraege
             .filter((e) => !e.bald)
             .map((e) => (
               <li>
-                <a href={leistungHref(e.slug)}>{e.label}</a>
+                <a href={leistungHref(e.slug, t.lang)}>{t(e.label)}</a>
               </li>
             ))}
           <li class="fuss__bald">
-            <span class="fuss__bald-tag">Bald verfügbar</span>
+            <span class="fuss__bald-tag">{t("Bald verfügbar")}</span>
             {ki.eintraege
               .filter((e) => e.bald)
               .map((e) => (
-                <span class="fuss__bald-name">{e.label}</span>
+                <span class="fuss__bald-name">{t(e.label)}</span>
               ))}
           </li>
         </ul>
@@ -90,28 +92,28 @@ const jahr = new Date().getFullYear();
 
       <div class="fuss__spalte">
         <nav aria-labelledby="fuss-web">
-          <h2 id="fuss-web" class="fuss__titel">{web.label}</h2>
+          <h2 id="fuss-web" class="fuss__titel">{t(web.label)}</h2>
           <ul role="list">
-            <li><a href={web.href}>{web.label}</a></li>
+            <li><a href={t.pfad(web.href!)}>{t(web.label)}</a></li>
           </ul>
         </nav>
         <nav aria-labelledby="fuss-unternehmen">
-          <h2 id="fuss-unternehmen" class="fuss__titel fuss__titel--abstand">{unternehmen.label}</h2>
+          <h2 id="fuss-unternehmen" class="fuss__titel fuss__titel--abstand">{t(unternehmen.label)}</h2>
           <ul role="list">
             {unternehmen.eintraege.map((e) => (
               <li>
-                <a href={leistungHref(e.slug)}>{e.label}</a>
+                <a href={leistungHref(e.slug, t.lang)}>{t(e.label)}</a>
               </li>
             ))}
-            <li><a href={kontaktHref}>Kontakt</a></li>
+            <li><a href={kontaktHref}>{t("Kontakt")}</a></li>
           </ul>
         </nav>
       </div>
     </div>
 
     <div class="fuss__unten">
-      <nav class="fuss__recht" aria-label="Rechtliches">
-        {rechtsLinks.map((l) => <a href={l.href}>{l.label}</a>)}
+      <nav class="fuss__recht" aria-label={t("Rechtliches")}>
+        {rechtsLinks.map((l) => <a href={t.pfad(l.href)}>{t(l.label)}</a>)}
       </nav>
       <span class="fuss__copy">&copy; {jahr} {firma.name}</span>
     </div>

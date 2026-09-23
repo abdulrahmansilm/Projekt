@@ -7,15 +7,20 @@
  */
 import Logo from "../ui/Logo.astro";
 import { firma, navigation, leistungHref, NAV_ICONS, type NavKategorie } from "../../lib/config";
+import { uebersetzer } from "../../i18n";
+import Sprachwahl from "./Sprachwahl.astro";
 
 interface Props {
   variant: "hero" | "sticky";
   aktuellerPfad?: string;
+  /** deutscher Pfad der Seite, für den Sprachumschalter */
+  dePfad: string;
   /** "#kontakt" auf Seiten mit Anfrage-Wizard, sonst "/kontakt" */
   kontaktHref: string;
 }
 
-const { variant, aktuellerPfad = "", kontaktHref } = Astro.props;
+const { variant, aktuellerPfad = "", dePfad, kontaktHref } = Astro.props;
+const t = uebersetzer(Astro);
 const suffix = variant;
 const istAktiv = (href: string) => aktuellerPfad.replace(/\/$/, "") === href.replace(/\/$/, "");
 
@@ -30,11 +35,11 @@ function spaltenVon(kat: NavKategorie) {
 ---
 
 <div class:list={["kopf", `kopf--${variant}`, { "on-dark": variant === "hero" }]}>
-  <a href="/" class="kopf__logo" aria-label="Selim-IT, zur Startseite">
+  <a href={t.pfad("/")} class="kopf__logo" aria-label={t("Selim-IT, zur Startseite")}>
     <Logo variant={variant === "hero" ? "hell" : "dunkel"} class="kopf__logo-svg" wechsel />
   </a>
 
-  <nav class="kopf__nav" aria-label={variant === "hero" ? "Hauptnavigation" : "Hauptnavigation (fixiert)"}>
+  <nav class="kopf__nav" aria-label={variant === "hero" ? t("Hauptnavigation") : t("Hauptnavigation (fixiert)")}>
     <ul class="nav-liste" role="list">
       {
         navigation.map((kat) =>
@@ -42,10 +47,10 @@ function spaltenVon(kat: NavKategorie) {
             <li class="nav-eintrag">
               <a
                 class="nav-link"
-                href={kat.href}
-                aria-current={istAktiv(kat.href) ? "page" : undefined}
+                href={t.pfad(kat.href)}
+                aria-current={istAktiv(t.pfad(kat.href)) ? "page" : undefined}
               >
-                {kat.label}
+                {t(kat.label)}
               </a>
             </li>
           ) : (
@@ -57,7 +62,7 @@ function spaltenVon(kat: NavKategorie) {
                 aria-controls={`dd-${kat.id}-${suffix}`}
                 data-dropdown-trigger
               >
-                {kat.label}
+                {t(kat.label)}
                 <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                   <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
@@ -69,7 +74,7 @@ function spaltenVon(kat: NavKategorie) {
               >
                 {spaltenVon(kat).map((spalte) => (
                   <div class="nav-panel__spalte">
-                    {spalte.titel && <p class="nav-panel__kopf">{spalte.titel}</p>}
+                    {spalte.titel && <p class="nav-panel__kopf">{t(spalte.titel)}</p>}
                     <ul class="nav-panel__liste" role="list">
                       {spalte.eintraege.map((e) =>
                         e.bald ? (
@@ -78,21 +83,21 @@ function spaltenVon(kat: NavKategorie) {
                               <span class="nav-panel__ico" aria-hidden="true">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={piktogramm(e.slug)} />
                               </span>
-                              <span class="nav-panel__titel">{e.label}</span>
-                              <span class="nav-panel__bald-tag">bald verfügbar</span>
+                              <span class="nav-panel__titel">{t(e.label)}</span>
+                              <span class="nav-panel__bald-tag">{t("bald verfügbar")}</span>
                             </span>
                           </li>
                         ) : (
                           <li>
                             <a
                               class="nav-panel__link"
-                              href={leistungHref(e.slug)}
-                              aria-current={istAktiv(leistungHref(e.slug)) ? "page" : undefined}
+                              href={leistungHref(e.slug, t.lang)}
+                              aria-current={istAktiv(leistungHref(e.slug, t.lang)) ? "page" : undefined}
                             >
                               <span class:list={["nav-panel__ico", { "nav-panel__ico--gross": e.slug === "datensicherung" }]} aria-hidden="true">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={piktogramm(e.slug)} />
                               </span>
-                              <span class="nav-panel__titel">{e.label}</span>
+                              <span class="nav-panel__titel">{t(e.label)}</span>
                             </a>
                           </li>
                         )
@@ -109,6 +114,7 @@ function spaltenVon(kat: NavKategorie) {
   </nav>
 
   <div class="kopf__aktionen">
+    <Sprachwahl dePfad={dePfad} />
     <a class="kopf__telefon" href={firma.telefon.href}>
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path
@@ -119,11 +125,11 @@ function spaltenVon(kat: NavKategorie) {
       </svg>
       <span class:list={{ platzhalter: firma.telefon.platzhalter }}>{firma.telefon.anzeige}</span>
     </a>
-    <a class="btn btn--sm kopf__cta" href={kontaktHref}><span>Beratung vereinbaren</span></a>
+    <a class="btn btn--sm kopf__cta" href={kontaktHref}><span>{t("Beratung vereinbaren")}</span></a>
     <button
       type="button"
       class="kopf__burger"
-      aria-label="Menü öffnen"
+      aria-label={t("Menü öffnen")}
       aria-expanded="false"
       aria-controls="mobile-menu"
       data-menu-open

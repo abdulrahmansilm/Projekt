@@ -31,6 +31,11 @@ Ohne echte SMTP-/CalDAV-/Nextcloud-Talk-Zugangsdaten laufen `/api/contact` und `
 - `nachricht` ist jetzt Pflicht (Frontend und `schemas.py`).
 - Neue Leistungs-Werte `branding` und `hosting`: Zusatzoptionen, wenn „Webentwicklung“ als Anliegen gewählt ist.
 
+## Änderungen Runde 8
+
+- `nachricht` ist wieder optional (Frontend und `schemas.py`); leere oder nur aus Leerzeichen bestehende Werte von `nachricht`, `unternehmen` und `telefon` werden zu `None`.
+- Anfragen von der englischen Seite kommen mit denselben Feldwerten an (die Auswahlwerte bleiben deutsch, nur die Anzeige ist übersetzt). Die Sprache ergibt sich aus `herkunft` (Pfad unter `/en`): Der Kunde bekommt Anfrage- und Terminbestätigung dann auf Englisch (Datum im US-Format mit „German time“), die interne Mail trägt `[EN]` im Betreff und den Hinweis „Sprache: Englisch (bitte auf Englisch antworten)“.
+
 ## Sicherheit
 
 Stand 22.09.2026 (siehe `app/main.py`):

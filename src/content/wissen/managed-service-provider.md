@@ -15,7 +15,7 @@ faq:
   - frage: "Was bedeutet MSP in der IT?"
     antwort: "MSP steht für Managed Service Provider. Das ist ein IT-Dienstleister, der die IT eines Unternehmens dauerhaft betreut und dafür eine feste monatliche Pauschale berechnet, statt jede Leistung einzeln nach Aufwand abzurechnen."
   - frage: "Was kostet ein Managed Service Provider?"
-    antwort: "Üblich ist eine Abrechnung pro Gerät und Monat. Bei Selim-IT beginnt die Betreuung bei 30 Euro pro Gerät und Monat inklusive Monitoring, Störungsbeseitigung, Patch-Management, Virenschutz, Datensicherung und Ticket-Support."
+    antwort: "Üblich ist eine Abrechnung pro Gerät und Monat. Bei Selim-IT beginnt die Betreuung bei 39 Euro pro Gerät und Monat inklusive Monitoring, Störungsbeseitigung, Patch-Management, Virenschutz, Datensicherung und Ticket-Support."
   - frage: "Was ist der Unterschied zwischen MSP und IT-Systemhaus?"
     antwort: "Ein IT-Systemhaus wird bei Bedarf gerufen und rechnet nach Aufwand ab. Ein MSP betreut die IT dauerhaft gegen eine Pauschale und hat dadurch ein wirtschaftliches Interesse daran, Störungen von vornherein zu vermeiden."
   - frage: "Ab welcher Unternehmensgröße lohnt sich ein MSP?"
@@ -53,7 +53,7 @@ cta:
 <p>Darüber hinaus bieten viele MSP Zusatzleistungen an: Beschaffung und Einrichtung von Hardware, Microsoft-365-Verwaltung, E-Mail-Sicherheit, VPN-Zugänge fürs Homeoffice, Server-Betreuung.</p>
 
 ## Was ein MSP kostet
-<p>Üblich ist die Abrechnung pro Gerät und Monat, seltener pro Nutzer. Der Preis hängt daran, was im Paket enthalten ist und wie schnell reagiert wird. Bei Selim-IT startet die Betreuung bei 30 € pro Gerät und Monat; darin enthalten ist die Grundsicherung mit Monitoring, Störungsbeseitigung, Wartung, Ticket-Support, Patch-Management, Virenschutz, laufender Dokumentation und monatlichem Report.</p>
+<p>Üblich ist die Abrechnung pro Gerät und Monat, seltener pro Nutzer. Der Preis hängt daran, was im Paket enthalten ist und wie schnell reagiert wird. Bei Selim-IT startet die Betreuung bei 39 € pro Gerät und Monat; darin enthalten ist die Grundsicherung mit Monitoring, Störungsbeseitigung, Wartung, Ticket-Support, Patch-Management, Virenschutz, laufender Dokumentation und monatlichem Report.</p>
 
 <p>Für einen Betrieb mit zehn Arbeitsplätzen liegt man damit bei überschaubaren dreistelligen Beträgen im Monat, planbar, ohne Überraschungen, und deutlich unter den Kosten einer eigenen Teilzeitstelle für IT.</p>
 

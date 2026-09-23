@@ -1,0 +1,79 @@
+---
+/**
+ * Startseite (Neuordnung 17.09.2026):
+ * Hero → IT & KI aus einer Hand → Ihre Vorteile → Starke Partner → Unsere Leistungen (besondere Sektion)
+ * → Branchen-Laufband → So arbeiten wir → Ein Projekt aus der Praxis → FAQ → CTA + Kontaktformular → Wissen → Footer
+ * Runde 8: gemeinsame Vorlage für / und /en/.
+ */
+import { getEntry } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/sections/Hero.astro";
+import HeroBildVisual from "../components/hero-visuals/HeroBildVisual.astro";
+import Siegel from "../components/sections/Siegel.astro";
+import BildText from "../components/sections/BildText.astro";
+import Branchen from "../components/sections/Branchen.astro";
+import Vorteile from "../components/sections/Vorteile.astro";
+import LeistungenGrid from "../components/sections/LeistungenGrid.astro";
+import HowWeWork from "../components/sections/HowWeWork.astro";
+import Praxisbeispiel from "../components/sections/Praxisbeispiel.astro";
+import StarkePartner from "../components/sections/StarkePartner.astro";
+import FaqSection from "../components/sections/FaqSection.astro";
+import KontaktWizard from "../components/kontakt/KontaktWizard.astro";
+import WissenTeaser from "../components/sections/WissenTeaser.astro";
+import { faqJsonLd, nurText } from "../lib/seo";
+import { uebersetzer, lokalisiere } from "../i18n";
+
+const t = uebersetzer(Astro);
+const eintrag = await getEntry("seiten", "startseite");
+if (!eintrag) throw new Error("src/content/seiten/startseite.json fehlt");
+const s = lokalisiere(eintrag.data, t.lang) as Record<string, any>;
+---
+
+<BaseLayout
+  title={s.seo.titel}
+  description={s.seo.beschreibung}
+  pfad="/"
+  mitKontaktformular
+  jsonLd={[faqJsonLd(s.faq.fragen.slice(0, 6).map((f: { frage: string; antwort: string }) => ({ frage: f.frage, antwortText: nurText(f.antwort) })))]}
+>
+  <Hero headline={s.hero.headline} subline={s.hero.subline} cta={{ text: s.hero.cta }} visualLabel={s.hero.visualLabel}>
+    <HeroBildVisual slug="startseite" slot="visual" />
+  </Hero>
+
+  <BildText
+    titel={t("IT und KI aus einer Hand")}
+    absaetze={[
+      t("IT- und KI-Betreuung, Sicherheit und Digitalisierung werden in der Regel durch unterschiedliche Anbieter verwaltet. Wir bieten Ihnen das Gesamtpaket: klassische IT-Betreuung und moderne KI-Assistenz."),
+      t("Dazu gehört auch Ihre Webentwicklung: Wir bauen Ihre Website nach Ihren Wünschen, verbinden sie mit Ihrem System und betreuen sie stetig, genauso wie Ihre IT."),
+      t("Ihr Ansprechpartner kennt Ihre gesamte Umgebung und sorgt dafür, dass neue Technik nahtlos in die bestehende Infrastruktur eingefügt wird."),
+    ]}
+    bild="/bildtext/startseite.svg"
+    bildLabel={t("IT und KI aus einer Hand")}
+    ctaText={t("Beratung vereinbaren")}
+  />
+
+  <BildText
+    titel={t("Erst verstehen, dann umsetzen")}
+    absaetze={[
+      t("Jedes Unternehmen arbeitet anders. Deshalb beginnt unsere Zusammenarbeit nicht mit Standard-Konzepten, sondern mit einer tiefgehenden System- und Workflow-Analyse."),
+      t("Wir identifizieren IT-gestützte Engpässe, die Ihre täglichen Abläufe ausbremsen, decken versteckte Sicherheitsrisiken auf und dokumentieren den echten Bedarf Ihrer Mitarbeiter."),
+      t("Als Ergebnis erhalten Sie eine glasklare Auswertung des Ist-Zustands. Sie sehen sofort schwarz auf weiß, mit welchen konkreten Schritten wir Ihre IT-Infrastruktur stabil, sicher und zukunftsfähig aufstellen."),
+    ]}
+    bild="/bildtext/startseite-2.svg"
+    bildLabel={t("System- und Workflow-Analyse")}
+    bildRechts
+    ctaText={t("Beratung vereinbaren")}
+  />
+
+  <Siegel punkte={s.siegel.punkte} />
+
+  <Vorteile {...s.vorteile} />
+  <StarkePartner {...s.partner} />
+  <LeistungenGrid {...s.leistungen} />
+  <Branchen {...s.branchen} />
+  <HowWeWork />
+  <Praxisbeispiel />
+  <FaqSection titel={s.faq.titel} intro={s.faq.intro} fragen={s.faq.fragen} />
+  <KontaktWizard />
+  <WissenTeaser titel={s.wissen.titel} intro={s.wissen.intro} artikel={s.wissen.artikel} />
+</BaseLayout>

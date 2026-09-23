@@ -1,0 +1,107 @@
+---
+/**
+ * Schmale, breite Leiste mit Konformitäts-Punkten (Runde 8: „DSGVO-konform“, „EU-AI-Act-konform“),
+ * direkt nach der ersten Bild-&-Text-Sektion von KI-Telefonassistent und WhatsApp-Chatbot.
+ * In der besonderen Farbe, damit sie sich zwischen den hellen Sektionen als Vertrauensband abhebt.
+ */
+interface Props {
+  punkte: { titel: string; icon: string }[];
+}
+const { punkte } = Astro.props;
+---
+
+<section class="sg" aria-label={punkte.map((p) => p.titel).join(", ")}>
+  <ul class="sg__band" role="list" data-reveal>
+    {
+      punkte.map((p) => (
+        <li class="sg__punkt">
+          <span class="sg__ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" set:html={p.icon} />
+          </span>
+          <span class="sg__text">{p.titel}</span>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .sg {
+    padding: 8px 32px;
+    background: var(--nebel);
+  }
+
+  .sg__band {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 18px 28px;
+    border-radius: 18px;
+    background:
+      radial-gradient(90% 180% at 50% 0%, rgba(79, 184, 166, 0.2), transparent 65%),
+      var(--tiefsee);
+    list-style: none;
+  }
+
+  .sg__punkt {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 4px 36px;
+  }
+
+  /* feine Trennlinie zwischen den Punkten */
+  .sg__punkt + .sg__punkt {
+    border-left: 1px solid rgba(240, 244, 243, 0.16);
+  }
+
+  .sg__ico {
+    display: flex;
+    width: 26px;
+    height: 26px;
+    flex: none;
+    color: var(--helltuerkis);
+  }
+
+  .sg__ico svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .sg__text {
+    font-family: var(--font-headline);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: #ffffff;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 560px) {
+    .sg {
+      padding: 8px 20px;
+    }
+
+    .sg__band {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 18px 22px;
+    }
+
+    .sg__punkt {
+      padding: 0;
+    }
+
+    .sg__punkt + .sg__punkt {
+      border-left: 0;
+    }
+
+    .sg__text {
+      white-space: normal;
+    }
+  }
+</style>

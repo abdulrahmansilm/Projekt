@@ -1,0 +1,84 @@
+---
+/** Fehlerseite 404: kompakter Hero mit Wegen zurück zu den wichtigsten Seiten. */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/sections/Hero.astro";
+import { navigation, leistungHref } from "../lib/config";
+import { uebersetzer, kontaktAnker } from "../i18n";
+
+const t = uebersetzer(Astro);
+
+const it = navigation.find((k) => k.id === "it-infrastruktur")!;
+const ki = navigation.find((k) => k.id === "ki-kommunikation")!;
+const ziele = [
+  { label: t("Startseite"), href: t.pfad("/") },
+  { label: t(it.eintraege[0].label), href: leistungHref(it.eintraege[0].slug, t.lang) },
+  { label: t(ki.eintraege[0].label), href: leistungHref(ki.eintraege[0].slug, t.lang) },
+  { label: t("Webentwicklung"), href: t.pfad("/leistungen/webseiten") },
+  { label: t("Wissen"), href: t.pfad("/wissen") },
+  { label: t("Kontakt"), href: `${t.pfad("/")}${kontaktAnker(t.lang)}` },
+];
+---
+
+<BaseLayout title={t("Seite nicht gefunden")} description={t("Diese Seite existiert nicht oder wurde verschoben.")} pfad="/404" noindex>
+  <Hero
+    kompakt
+    headline={t("Seite nicht gefunden")}
+    subline={t("Diese Seite existiert nicht oder wurde verschoben. Vielleicht hilft Ihnen einer dieser Wege weiter.")}
+  >
+    <nav slot="nach-text" class="wege" aria-label={t("Wege zurück")}>
+      <ul role="list">
+        {
+          ziele.map((z, i) => (
+            <li>
+              <a class:list={[i === 0 ? "btn btn--sm" : "weg"]} href={z.href}>
+                <span>{z.label}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </Hero>
+</BaseLayout>
+
+<style>
+  .wege ul {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin: 28px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .weg {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 8px 16px;
+    border: 1px solid var(--line-dark);
+    border-radius: 999px;
+    color: var(--on-dark);
+    font-size: 14.5px;
+    text-decoration: none;
+    transition:
+      background-color 160ms ease,
+      transform 160ms var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .weg:hover {
+      background: rgba(240, 244, 243, 0.08);
+    }
+  }
+
+  .weg:active {
+    transform: scale(0.97);
+  }
+
+  .weg:focus-visible {
+    outline: 2px solid var(--helltuerkis);
+    outline-offset: 3px;
+  }
+</style>

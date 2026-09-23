@@ -8,6 +8,7 @@
  */
 import { getEntry } from "astro:content";
 import { navigation } from "../../lib/config";
+import { uebersetzer, lokalisiere, kontaktAnker } from "../../i18n";
 
 interface Props {
   vorauswahl?: { thema: string; option?: string };
@@ -16,6 +17,7 @@ interface Props {
 }
 
 const { vorauswahl, leistung: aktuelleLeistung } = Astro.props;
+const t = uebersetzer(Astro);
 // Alle Leistungen aus der Navbar (ohne „bald verfügbar“ und ohne Unternehmensseiten) als anklickbare Optionen.
 // Die Gruppen-Id entspricht der Themen-Id aus Schritt 1; im Schritt „Details“ werden nur die Gruppen gezeigt,
 // die vorher unter „Anliegen“ gewählt wurden (Anforderung 22.09.2026).
@@ -23,8 +25,8 @@ const interessen = navigation
   .filter((k) => k.id === "it-infrastruktur" || k.id === "ki-kommunikation")
   .map((k) => ({
     id: k.id,
-    gruppe: k.label,
-    eintraege: k.eintraege.filter((e) => !e.bald).map((e) => ({ slug: e.slug, label: e.label })),
+    gruppe: t(k.label),
+    eintraege: k.eintraege.filter((e) => !e.bald).map((e) => ({ slug: e.slug, label: t(e.label) })),
   }));
 /** Runde 4: Bei „Webentwicklung“ stehen stattdessen diese Zusatzoptionen zur Wahl */
 const webOptionen = [
@@ -33,7 +35,7 @@ const webOptionen = [
 ];
 const eintrag = await getEntry("seiten", "kontakt");
 if (!eintrag) throw new Error("src/content/seiten/kontakt.json fehlt");
-const k = eintrag.data as {
+const k = lokalisiere(eintrag.data, t.lang) as {
   titel: string;
   intro: string;
   schritte: string[];
@@ -58,14 +60,46 @@ const k = eintrag.data as {
   dringlichkeit: { wert: string; stufe: string }[];
   groessen: string[];
 };
+
+/** Texte für src/lib/kontaktWizard.ts (Fehler, Zusammenfassung, Status) in der Seitensprache */
+const texte = {
+  fehlerDringlichkeit: t("Bitte geben Sie an, wie dringend Ihr Anliegen ist."),
+  fehlerGroesse: t("Bitte geben Sie an, wie viele Mitarbeitende Sie haben."),
+  fehlerBereich: t("Bitte wählen Sie mindestens einen Bereich aus."),
+  fehlerVorname: t("Bitte geben Sie Ihren Vornamen an."),
+  fehlerNachname: t("Bitte geben Sie Ihren Nachnamen an."),
+  fehlerEmail: t("Bitte geben Sie eine gültige E-Mail-Adresse an."),
+  zBereich: t("Bereich"),
+  zDringlichkeit: t("Dringlichkeit"),
+  zGroesse: t("Unternehmensgröße"),
+  zInteresse: t("Interesse an"),
+  zAnliegen: t("Ihr Anliegen"),
+  zKontakt: t("Kontakt"),
+  schrittVon: t("Schritt {n} von {gesamt}"),
+  terminNichtErreichbar: t("Die Terminauswahl ist gerade nicht erreichbar. Senden Sie Ihre Anfrage einfach ab, wir schlagen Ihnen passende Termine vor."),
+  keineTermine: t("Aktuell sind keine freien Termine verfügbar. Senden Sie Ihre Anfrage, wir melden uns mit Vorschlägen."),
+  freieTermine: t("{n} freie Termine"),
+  uhrzeit: t("{zeit} Uhr"),
+  wirdGesendet: t("Wird gesendet …"),
+  nichtGesendet: t("Die Anfrage konnte nicht gesendet werden."),
+  geradeNichtGesendet: t("Die Anfrage konnte gerade nicht gesendet werden."),
+  erneutVersuchen: t("Bitte versuchen Sie es erneut oder rufen Sie uns direkt an."),
+  wirdGebucht: t("Wird gebucht …"),
+  nichtGebucht: t("Der Termin konnte nicht gebucht werden."),
+  geradeNichtGebucht: t("Der Termin konnte gerade nicht gebucht werden."),
+  wunschtermin: t("Ihr Wunschtermin: {termin} Uhr. Die Bestätigung mit allen Zugangsdaten erhalten Sie per E-Mail."),
+  danke: t("Vielen Dank, Ihre Anfrage wurde gesendet."),
+};
 ---
 
 <section
-  id="kontakt"
+  id={kontaktAnker(t.lang).slice(1)}
   class="kw section-dark besondere-sektion"
   aria-labelledby="kontakt-titel"
   data-kw
   data-vorauswahl={vorauswahl ? JSON.stringify(vorauswahl) : undefined}
+  data-lang={t.lang}
+  data-texte={JSON.stringify(texte)}
 >
   <div class="kw__inner">
     <div class="kw__kopf">
@@ -79,7 +113,7 @@ const k = eintrag.data as {
       </div>
     </div>
 
-    <ol class="kw__fortschritt" aria-label="Fortschritt der Anfrage" data-kw-fortschritt>
+    <ol class="kw__fortschritt" aria-label={t("Fortschritt der Anfrage")} data-kw-fortschritt>
       {
         k.schritte.map((label, i) => (
           <li class:list={["pschritt", { "is-aktiv": i === 0 }]} data-schritt={i + 1}>
@@ -88,7 +122,7 @@ const k = eintrag.data as {
                 {i + 1}
               </span>
               <span class="pschritt__label">
-                <span class="sr-only">Schritt {i + 1} von {k.schritte.length}: </span>
+                <span class="sr-only">{t("Schritt {n} von {gesamt}", { n: i + 1, gesamt: k.schritte.length })}: </span>
                 {label}
               </span>
             </button>
@@ -110,16 +144,16 @@ const k = eintrag.data as {
         <p class="panel__hinweis" id="kw-hinweis-1">{k.schritt1.hinweis}</p>
         <div class="karten">
           {
-            k.themen.map((t) => (
+            k.themen.map((th) => (
               <label class="karte">
-                <input type="checkbox" name="thema" value={t.id} aria-describedby={`kw-thema-${t.id}-d`} />
+                <input type="checkbox" name="thema" value={th.id} aria-describedby={`kw-thema-${th.id}-d`} />
                 <span class="karte__ico" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" set:html={t.icon} />
+                  <svg viewBox="0 0 24 24" fill="none" set:html={th.icon} />
                 </span>
                 <span class="karte__text">
-                  <span class="karte__titel">{t.titel}</span>
-                  <span class="karte__desc" id={`kw-thema-${t.id}-d`}>
-                    {t.beschreibung}
+                  <span class="karte__titel">{th.titel}</span>
+                  <span class="karte__desc" id={`kw-thema-${th.id}-d`}>
+                    {th.beschreibung}
                   </span>
                 </span>
                 <span class="karte__check" aria-hidden="true">
@@ -131,7 +165,7 @@ const k = eintrag.data as {
             ))
           }
         </div>
-        <p class="kw__fehler" data-kw-fehler="1" hidden>Bitte wählen Sie mindestens einen Bereich aus.</p>
+        <p class="kw__fehler" data-kw-fehler="1" hidden>{t("Bitte wählen Sie mindestens einen Bereich aus.")}</p>
       </fieldset>
 
       <!-- ============ Schritt 2 ============ -->
@@ -162,8 +196,8 @@ const k = eintrag.data as {
             {
               k.groessen.map((g) => (
                 <label class="option option--weiss">
-                  <input type="radio" name="groesse" value={g} />
-                  <span>{g}</span>
+                  <input type="radio" name="groesse" value={g} data-label={t(g)} />
+                  <span>{t(g)}</span>
                 </label>
               ))
             }
@@ -171,7 +205,7 @@ const k = eintrag.data as {
         </fieldset>
 
         <fieldset class="block" data-kw-interessen-block hidden>
-          <legend class="block__label">An welchen Leistungen haben Sie Interesse?</legend>
+          <legend class="block__label">{t("An welchen Leistungen haben Sie Interesse?")}</legend>
           {
             interessen.map((g) => (
               <div class="interesse" data-kw-interesse={g.id} hidden>
@@ -190,7 +224,7 @@ const k = eintrag.data as {
         </fieldset>
 
         <fieldset class="block" data-kw-web-block hidden>
-          <legend class="block__label">Welche Zusatzoptionen interessieren Sie?</legend>
+          <legend class="block__label">{t("Welche Zusatzoptionen interessieren Sie?")}</legend>
           <div class="optionen">
             {
               webOptionen.map((e) => (
@@ -205,15 +239,13 @@ const k = eintrag.data as {
 
         <div class="block">
           <label class="block__label" for="kw-freitext">
-            {k.schritt2.freitextLabel} <span class="feld__pflicht">(Pflichtfeld)</span>
+            {k.schritt2.freitextLabel} <span class="feld__optional">{t("(optional)")}</span>
           </label>
           <textarea
             id="kw-freitext"
             name="nachricht"
             rows="5"
             maxlength="4000"
-            required
-            aria-required="true"
             placeholder={k.schritt2.freitextPlatzhalter}></textarea>
         </div>
         <p class="kw__fehler" data-kw-fehler="2" hidden></p>
@@ -225,26 +257,26 @@ const k = eintrag.data as {
         <p class="panel__hinweis">{k.schritt3.hinweis}</p>
         <div class="felder">
           <div class="feld">
-            <label for="kw-vorname">Vorname <span class="feld__pflicht">(Pflichtfeld)</span></label>
+            <label for="kw-vorname">{t("Vorname")} <span class="feld__pflicht">{t("(Pflichtfeld)")}</span></label>
             <input id="kw-vorname" name="vorname" type="text" autocomplete="given-name" required aria-describedby="kw-vorname-fehler" />
             <p class="feld__fehler" id="kw-vorname-fehler" hidden></p>
           </div>
           <div class="feld">
-            <label for="kw-nachname">Nachname <span class="feld__pflicht">(Pflichtfeld)</span></label>
+            <label for="kw-nachname">{t("Nachname")} <span class="feld__pflicht">{t("(Pflichtfeld)")}</span></label>
             <input id="kw-nachname" name="nachname" type="text" autocomplete="family-name" required aria-describedby="kw-nachname-fehler" />
             <p class="feld__fehler" id="kw-nachname-fehler" hidden></p>
           </div>
           <div class="feld feld--voll">
-            <label for="kw-unternehmen">Unternehmen <span class="feld__optional">(optional)</span></label>
+            <label for="kw-unternehmen">{t("Unternehmen")} <span class="feld__optional">{t("(optional)")}</span></label>
             <input id="kw-unternehmen" name="unternehmen" type="text" autocomplete="organization" />
           </div>
           <div class="feld">
-            <label for="kw-email">E-Mail <span class="feld__pflicht">(Pflichtfeld)</span></label>
+            <label for="kw-email">{t("E-Mail")} <span class="feld__pflicht">{t("(Pflichtfeld)")}</span></label>
             <input id="kw-email" name="email" type="email" autocomplete="email" required aria-describedby="kw-email-fehler" />
             <p class="feld__fehler" id="kw-email-fehler" hidden></p>
           </div>
           <div class="feld">
-            <label for="kw-telefon">Telefon <span class="feld__optional">(empfohlen für Rückfragen)</span></label>
+            <label for="kw-telefon">{t("Telefon")} <span class="feld__optional">{t("(empfohlen für Rückfragen)")}</span></label>
             <input id="kw-telefon" name="telefon" type="tel" autocomplete="tel" />
           </div>
         </div>
@@ -253,7 +285,7 @@ const k = eintrag.data as {
             <path d="M12 3.2 19 5.8v5.4c0 4.7-3 8.2-7 9.6-4-1.4-7-4.9-7-9.6V5.8l7-2.6Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path>
             <path d="M9 11.8 11.2 14l4-4.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
-          <span>Ihre Angaben behandeln wir vertraulich und datenschutzkonform.</span>
+          <span>{t("Ihre Angaben behandeln wir vertraulich und datenschutzkonform.")}</span>
         </p>
       </div>
 
@@ -308,12 +340,12 @@ const k = eintrag.data as {
 
           <div class="kalender" id="kw-kalender" data-kw-kalender hidden>
             <fieldset class="kalender__slots">
-              <legend class="block__label">Freie Termine (30 Minuten, per Video oder Telefon)</legend>
-              <p class="kalender__status" data-kw-slot-status>Verfügbare Termine werden geladen …</p>
+              <legend class="block__label">{t("Freie Termine (30 Minuten, per Video oder Telefon)")}</legend>
+              <p class="kalender__status" data-kw-slot-status>{t("Verfügbare Termine werden geladen …")}</p>
               <div class="kalender__liste" data-kw-slots></div>
             </fieldset>
             <button type="button" class="btn" data-kw-buchen hidden>
-              <span>Termin verbindlich anfragen</span>
+              <span>{t("Termin verbindlich anfragen")}</span>
             </button>
             <p class="kw__fehler" data-kw-terminfehler hidden></p>
           </div>
@@ -325,10 +357,10 @@ const k = eintrag.data as {
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M19 12H5M11 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
-          Zurück
+          {t("Zurück")}
         </button>
         <button type="button" class="btn" data-kw-weiter aria-disabled="true">
-          <span>Weiter</span>
+          <span>{t("Weiter")}</span>
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>

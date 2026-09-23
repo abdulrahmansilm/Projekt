@@ -5,7 +5,7 @@
  * Tooltips: per Hover UND Fokus, Escape schließt; erster Tooltip mit kurzer Verzögerung, benachbarte sofort
  * (emil-design-eng). Skaliert vom Auslöser aus (transform-origin unten mittig).
  */
-import { KONTAKT_ANKER } from "../../lib/config";
+import { uebersetzer, euro as euroIn, kontaktAnker } from "../../i18n";
 
 type Eintrag = { text?: string; enthalten: boolean; notiz?: string; tipp?: string; info?: boolean; erbt?: string; hervor?: boolean };
 interface Props {
@@ -25,22 +25,23 @@ interface Props {
     inkludiert: Eintrag[];
     /** Runde 7: optional, der WhatsApp-Chatbot zeigt keinen Features-Block mehr */
     features?: Eintrag[];
-    /** Runde 4: Leistungen im Kasten „Laufende Betreuung“ */
-    betreuung?: string[];
   }[];
+  /** Runde 8: eigenständiges Paket „Laufende Betreuung“ neben der Einrichtung */
+  betreuungPaket?: { name: string; tagline: string; preis: string; features: string[] };
   disclaimer: string;
   /** Piktogramme in den Gruppenköpfen entfallen seit 22.09.2026 */
   vergleich?: { titel: string; icon?: string; zeilen: { label: string; tipp?: string; werte: string[] }[] }[];
 }
 
-const { titel, intro, setup, pakete, disclaimer, vergleich } = Astro.props;
+const { titel, intro, setup, pakete, betreuungPaket, disclaimer, vergleich } = Astro.props;
 const id = `ps-${Math.random().toString(36).slice(2, 7)}`;
-// Zeilen je Karte für das Subgrid (Runde 5): Name, Tagline, Preis, Periode, CTA, [Betreuung], Trenner,
-// Inkludiert-Label + Liste, [Features-Label + Liste]. Fehlt ein Block in der Sektion, schrumpft der Zähler mit.
-const zeigeBetreuung = pakete.some((p) => p.betreuung?.length);
+// Zeilen je Karte für das Subgrid (Runde 5): Name, Tagline, Preis, Periode, CTA, Trenner,
+// Inkludiert-Label + Liste, [Features-Label + Liste]. Fehlt der Features-Block, schrumpft der Zähler mit.
 const zeigeFeatures = pakete.some((p) => p.features?.length);
-const kartenZeilen = 8 + (zeigeBetreuung ? 1 : 0) + (zeigeFeatures ? 2 : 0);
-const euro = (n: number) => `${n.toLocaleString("de-DE")} €`;
+const kartenZeilen = 8 + (zeigeFeatures ? 2 : 0);
+const t = uebersetzer(Astro);
+const euro = (n: number) => euroIn(n, t.lang);
+const KONTAKT_ANKER = kontaktAnker(t.lang);
 // Ersparnis bei jährlichem Vertrag: höchster prozentualer Vorteil über alle Pakete (nur ehrliche Werte zeigen)
 const maxSparen = Math.round(Math.max(...pakete.map((p) => ((p.monatlich - p.jaehrlich) / p.monatlich) * 100)));
 let tippZaehler = 0;
@@ -63,49 +64,82 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
       {intro && <p class="lead">{intro}</p>}
     </div>
 
-    <div class="setup" data-reveal>
-      <span class="setup__badge">Einmalig</span>
-      <div class="setup__oben">
-        <div>
-          <h3 class="setup__name">{setup.name}</h3>
-          <p class="setup__tagline">{setup.tagline}</p>
+    {/* Runde 8: Einrichtung (einmalig) und Laufende Betreuung (monatlich) nebeneinander, darunter die Abo-Pakete */}
+    <div class:list={["zusatzpakete", { "zusatzpakete--paar": !!betreuungPaket }]} data-reveal-group>
+      <div class="setup" data-reveal>
+        <span class="setup__badge">{t("Einmalig")}</span>
+        <div class="setup__oben">
+          <div>
+            <h3 class="setup__name">{setup.name}</h3>
+            <p class="setup__tagline">{setup.tagline}</p>
+          </div>
+          <div class="setup__preis">
+            <p class="setup__preis-zeile"><span class="setup__ab">{t("Ab")}</span> <span class="setup__betrag">{setup.preis}</span></p>
+            <p class="setup__einheit">{t("netto, einmalig")}</p>
+          </div>
         </div>
-        <div class="setup__preis">
-          <p class="setup__preis-zeile"><span class="setup__ab">Ab</span> <span class="setup__betrag">{setup.preis}</span></p>
-          <p class="setup__einheit">einmalig</p>
-        </div>
+        <ul class="setup__features" role="list">
+          {
+            setup.features.map((f) => (
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke={`url(#${id}-grad)`} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                <span>{f}</span>
+              </li>
+            ))
+          }
+        </ul>
       </div>
-      <ul class="setup__features" role="list">
-        {
-          setup.features.map((f) => (
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke={`url(#${id}-grad)`} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-              <span>{f}</span>
-            </li>
-          ))
-        }
-      </ul>
+
+      {
+        betreuungPaket && (
+          <div class="setup setup--betreuung" data-reveal>
+            <span class="setup__badge">{t("Monatlich")}</span>
+            <div class="setup__oben">
+              <div>
+                <h3 class="setup__name">{betreuungPaket.name}</h3>
+                <p class="setup__tagline">{betreuungPaket.tagline}</p>
+              </div>
+              <div class="setup__preis">
+                <p class="setup__preis-zeile">
+                  <span class="setup__betrag">{betreuungPaket.preis}</span>
+                </p>
+                <p class="setup__einheit">{t("netto / Monat")}</p>
+              </div>
+            </div>
+            <ul class="setup__features" role="list">
+              {betreuungPaket.features.map((f) => (
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke={`url(#${id}-grad)`} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  <span>{f}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
     </div>
 
     <div class="zahlweise">
       <fieldset class="umschalter">
-        <legend class="sr-only">Vertragslaufzeit</legend>
+        <legend class="sr-only">{t("Vertragslaufzeit")}</legend>
         <span class="umschalter__daumen" aria-hidden="true"></span>
         <label>
           <input type="radio" name={`${id}-zahlweise`} value="monatlich" checked />
           <span>
-            Monatlich
+            {t("Monatlich")}
             {/* unsichtbarer Platzhalter: hält beide Hälften exakt gleich breit */}
-            {maxSparen > 0 && <span class="umschalter__rabatt umschalter__rabatt--platz" aria-hidden="true">−{maxSparen} %</span>}
+            {maxSparen > 0 && <span class="umschalter__rabatt umschalter__rabatt--platz" aria-hidden="true">{t("−{n} %", { n: maxSparen })}</span>}
           </span>
         </label>
         <label>
           <input type="radio" name={`${id}-zahlweise`} value="jaehrlich" />
           <span>
-            Jährlich
-            {maxSparen > 0 && <span class="umschalter__rabatt">−{maxSparen} %</span>}
+            {t("Jährlich")}
+            {maxSparen > 0 && <span class="umschalter__rabatt">{t("−{n} %", { n: maxSparen })}</span>}
           </span>
         </label>
       </fieldset>
@@ -122,50 +156,34 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
               {p.prefix && <span class="karte__prefix">{p.prefix}</span>}
               <span class="preis preis--monat">{euro(p.monatlich)}</span>
               <span class="preis preis--jahr">{euro(p.jaehrlich)}</span>
-              <span class="spar preis--jahr">Sie sparen {euro(p.spart)}</span>
+              <span class="spar preis--jahr">{t("Sie sparen {betrag}", { betrag: euro(p.spart) })}</span>
             </p>
             <p class="karte__periode">
-              <span class="preis--monat">pro Monat</span>
-              <span class="preis--jahr">pro Monat, jährlich abgerechnet</span>
+              <span class="preis--monat">{t("pro Monat")}</span>
+              <span class="preis--jahr">{t("pro Monat, jährlich abgerechnet")}</span>
             </p>
             <a
               class:list={["btn btn--sm btn--block karte__cta", { "btn--hell": p.variante === "premium" }]}
               href={KONTAKT_ANKER}
-              aria-label={`${p.cta}: Paket ${p.name}`}
+              aria-label={t("{cta}: Paket {paket}", { cta: p.cta, paket: p.name })}
             >
               <span>{p.cta}</span>
             </a>
-            {p.betreuung && p.betreuung.length > 0 && (
-              <div class="betreuung">
-                <p class="betreuung__label">Laufende Betreuung</p>
-                <ul class="betreuung__liste" role="list">
-                  {p.betreuung.map((b) => (
-                    <li>
-                      {/* Runde 7: Häkchen statt Headset-Piktogramm */}
-                      <svg viewBox="0 0 24 24" fill="none" stroke={`url(#${id}-grad)`} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                      <span>{b}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
             <div class="karte__trenner" />
             {[
-              { label: "Inkludiert", liste: p.inkludiert },
-              ...(p.features?.length ? [{ label: "Features", liste: p.features }] : []),
+              { art: "inkludiert", label: t("Inkludiert"), liste: p.inkludiert },
+              ...(p.features?.length ? [{ art: "features", label: t("Features"), liste: p.features }] : []),
             ].map((gruppe) => (
               <>
                 <p class="gruppe-label">{gruppe.label}</p>
-                <ul class:list={["eintraege", { "eintraege--features": gruppe.label === "Features" }]} role="list">
+                <ul class:list={["eintraege", { "eintraege--features": gruppe.art === "features" }]} role="list">
                   {gruppe.liste.map((e, nr) =>
                     e.erbt ? (
                       <li class="erbt">
                         <span class="plus" aria-hidden="true">
                           +
                         </span>
-                        <span>{nr === gruppe.liste.length - 1 ? `Alles aus ${e.erbt}` : `Alles aus ${e.erbt}, außerdem:`}</span>
+                        <span>{nr === gruppe.liste.length - 1 ? t("Alles aus {paket}", { paket: e.erbt }) : t("Alles aus {paket}, außerdem:", { paket: e.erbt })}</span>
                       </li>
                     ) : (
                       <li class:list={{ "ist-aus": !e.enthalten, hervor: e.hervor }}>
@@ -180,7 +198,7 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
                           </svg>
                         )}
                         <span>
-                          {!e.enthalten && <span class="sr-only">Nicht enthalten: </span>}
+                          {!e.enthalten && <span class="sr-only">{t("Nicht enthalten:")} </span>}
                           {e.text}
                           {e.notiz && <span class="notiz">{e.notiz}</span>}
                           {e.tipp &&
@@ -188,7 +206,7 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
                               const tid = tippId();
                               return (
                                 <span class="tipp" data-tipp>
-                                  <button type="button" class="tipp__knopf" aria-describedby={tid} aria-label={`Info zu ${e.text}`}>
+                                  <button type="button" class="tipp__knopf" aria-describedby={tid} aria-label={t("Info zu {thema}", { thema: e.text ?? "" })}>
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                       <circle cx="12" cy="12" r="9" />
                                       <line x1="12" y1="11" x2="12" y2="16" />
@@ -227,7 +245,7 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
       vergleich && (
         <details class="vergleich">
           <summary>
-            Vollständigen Funktionsvergleich anzeigen
+            {t("Vollständigen Funktionsvergleich anzeigen")}
             <svg class="vergleich__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <polyline points="6 9 12 15 18 9" />
             </svg>
@@ -258,7 +276,7 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
                                   const tid = tippId();
                                   return (
                                     <span class="tipp" data-tipp>
-                                      <button type="button" class="tipp__knopf" aria-describedby={tid} aria-label={`Info zu ${z.label}`}>
+                                      <button type="button" class="tipp__knopf" aria-describedby={tid} aria-label={t("Info zu {thema}", { thema: z.label })}>
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                           <circle cx="12" cy="12" r="9" />
                                           <line x1="12" y1="11" x2="12" y2="16" />
@@ -278,12 +296,12 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
                               {w === "✓" ? (
                                 <>
                                   <span class="wert-ja" aria-hidden="true">✓</span>
-                                  <span class="sr-only">enthalten</span>
+                                  <span class="sr-only">{t("enthalten")}</span>
                                 </>
                               ) : w === "–" ? (
                                 <>
                                   <span class="wert-nein" aria-hidden="true">–</span>
-                                  <span class="sr-only">nicht enthalten</span>
+                                  <span class="sr-only">{t("nicht enthalten")}</span>
                                 </>
                               ) : (
                                 w
@@ -409,14 +427,43 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
     margin-bottom: 10px;
   }
 
-  /* ---------- Einrichtung ---------- */
+  /* ---------- Einrichtung + Laufende Betreuung ---------- */
+  .zusatzpakete {
+    margin-bottom: 24px;
+  }
+
+  /* Runde 8: beide Pakete nebeneinander, gleich hoch; Punkte einspaltig, Preis bleibt rechts oben */
+  .zusatzpakete--paar {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .zusatzpakete--paar .setup__oben {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .zusatzpakete--paar .setup__features {
+    grid-template-columns: 1fr;
+  }
+
   .setup {
     position: relative;
-    margin-bottom: 24px;
     padding: 28px 30px;
     border: 1.5px dashed var(--tuerkis);
     border-radius: 18px;
     background: #ffffff;
+  }
+
+  /* Monatliches Paket: durchgezogener Rahmen statt gestrichelt, einheitliche Fläche (Runde 10: ohne Verlauf) */
+  .setup--betreuung {
+    border-style: solid;
+    background: #ffffff;
+  }
+
+  .setup--betreuung .setup__badge {
+    background: var(--verlauf);
   }
 
   .setup__badge {
@@ -865,61 +912,6 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
     color: var(--tiefsee);
   }
 
-  /* Kasten „Laufende Betreuung“ im Design des Reaktionszeit-Kastens (Runde 4) */
-  .betreuung {
-    margin-bottom: 18px;
-    padding: 13px 15px 14px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, rgba(79, 184, 166, 0.12), var(--nebel));
-  }
-
-  .karte--premium .betreuung {
-    background: rgba(255, 255, 255, 0.08);
-  }
-
-  .betreuung__label {
-    margin-bottom: 10px;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--petrol);
-  }
-
-  .karte--premium .betreuung__label {
-    color: var(--helltuerkis);
-  }
-
-  .betreuung__liste {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .betreuung__liste li {
-    display: flex;
-    align-items: flex-start;
-    gap: 9px;
-    font-size: 13px;
-    font-weight: 600;
-    line-height: 1.4;
-  }
-
-  .betreuung__liste svg {
-    width: 16px;
-    height: 16px;
-    flex: none;
-    margin-top: 1px;
-    color: var(--petrol);
-  }
-
-  .karte--premium .betreuung__liste svg {
-    color: var(--helltuerkis);
-  }
-
   .erbt__pill {
     padding: 2px 10px;
     border: 1px solid rgba(11, 46, 60, 0.1);
@@ -1187,11 +1179,20 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
       grid-template-columns: 1fr;
       gap: 28px;
     }
+
+    .zusatzpakete--paar {
+      grid-template-columns: 1fr;
+    }
   }
 
   @media (max-width: 700px) {
     .setup__features {
       grid-template-columns: 1fr;
+    }
+
+    .setup__oben,
+    .zusatzpakete--paar .setup__oben {
+      display: flex;
     }
 
     .setup__preis {

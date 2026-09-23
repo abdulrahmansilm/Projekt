@@ -18,6 +18,20 @@ THEMEN: dict[str, str] = {
     "allgemein": "Allgemeine Beratung",
 }
 
+# Runde 8: Anfragen von der englischen Seite (Pfad /en/…) bekommen englische Kunden-Mails
+THEMEN_EN: dict[str, str] = {
+    "it-infrastruktur": "IT & Infrastructure",
+    "ki-kommunikation": "AI & Communication",
+    "webseiten": "Web Development",
+    "allgemein": "General consultation",
+}
+
+
+def sprache_aus_herkunft(herkunft: str) -> str:
+    """'en' für Seiten unter /en, sonst 'de' (gleiche Regel wie spracheAus() in src/i18n/index.ts)."""
+    return "en" if herkunft == "/en" or herkunft.startswith("/en/") else "de"
+
+
 # Leistungen der Navbar (Slug -> Anzeigename), Interessen sind optional
 LEISTUNGEN: dict[str, str] = {
     "it-betreuung": "IT-Betreuung",
@@ -64,8 +78,8 @@ class KontaktAnfrageEingabe(BaseModel):
     leistungen: list[str] = Field(default_factory=list, max_length=len(LEISTUNGEN))
     dringlichkeit: Dringlichkeit
     groesse: str
-    # Runde 4: Pflichtfeld im Wizard
-    nachricht: str = Field(min_length=1, max_length=4000)
+    # Runde 8: wieder optional (Pflichtfeld aus Runde 4 zurückgenommen)
+    nachricht: str | None = Field(default=None, max_length=4000)
 
     vorname: str = Field(min_length=1, max_length=100)
     nachname: str = Field(min_length=1, max_length=100)
@@ -107,7 +121,7 @@ class KontaktAnfrageEingabe(BaseModel):
             raise ValueError("Unbekannte Unternehmensgröße.")
         return v
 
-    @field_validator("unternehmen", "telefon")
+    @field_validator("nachricht", "unternehmen", "telefon")
     @classmethod
     def leer_zu_none(cls, v: str | None) -> str | None:
         return v or None
@@ -138,8 +152,13 @@ class KontaktAnfrageEingabe(BaseModel):
         jetzt_ms = int(datetime.now(timezone.utc).timestamp() * 1000)
         return jetzt_ms - self.formular_geladen_um < MINDEST_AUSFUELLZEIT_MS
 
-    def themen_lesbar(self) -> str:
-        return ", ".join(THEMEN[t] for t in self.themen)
+    @property
+    def sprache(self) -> str:
+        return sprache_aus_herkunft(self.herkunft)
+
+    def themen_lesbar(self, sprache: str = "de") -> str:
+        namen = THEMEN_EN if sprache == "en" else THEMEN
+        return ", ".join(namen[t] for t in self.themen)
 
     def leistungen_lesbar(self) -> str:
         return ", ".join(LEISTUNGEN[x] for x in self.leistungen) or "-"
@@ -156,6 +175,8 @@ class KontaktAnfrageEingabe(BaseModel):
             f"Telefon: {self.telefon or '-'}",
             f"Gesendet von: {self.herkunft}",
         ]
+        if self.sprache == "en":
+            zeilen.append("Sprache: Englisch (bitte auf Englisch antworten)")
         if self.nachricht:
             zeilen += ["", "Nachricht:", self.nachricht]
         return "\n".join(zeilen)

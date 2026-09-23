@@ -5,6 +5,7 @@
  * Der i-Punkt trägt immer den Verlauf.
  */
 import { WORTMARKE_PFADE as P, WORTMARKE_VIEWBOX } from "../../lib/brand";
+import { sprache } from "../../i18n";
 
 interface Props {
   variant?: "hell" | "dunkel";
@@ -17,6 +18,15 @@ interface Props {
 const { variant = "hell", class: className = "", title, wechsel = false } = Astro.props;
 const gid = `logo-grad-${Math.random().toString(36).slice(2, 8)}`;
 const fill = variant === "hell" ? "#FFFFFF" : "#0B2E3C";
+/**
+ * Zweiter Buchstabe beim Wechsel: „K“ (KI) auf deutschen Seiten, „A“ (AI) auf englischen (Runde 8).
+ * Beide als gefüllte Glyphe mit der Strichstärke von I und T (11,74), gleiche Höhe und Grundlinie.
+ */
+const WECHSEL_GLYPHE = {
+  de: "M579.89 173.33V105.42H591.63V173.33ZM591.63 131 612.09 105.42H627.14L591.63 149.81ZM591.63 149.81 599.32 140.2 621.41 173.33H607.31Z",
+  en: "M579.5 173.33 598 105.42H609L627.5 173.33H615.33L610.88 157H596.12L591.67 173.33ZM603.5 129.9 608.02 146.5H598.98Z",
+};
+const glyphe = WECHSEL_GLYPHE[sprache(Astro)];
 ---
 
 <svg
@@ -43,11 +53,7 @@ const fill = variant === "hell" ? "#FFFFFF" : "#0B2E3C";
   <path class="lg-t" fill={fill} d={P.t}></path>
   {
     wechsel && (
-      <path
-        class="lg-k"
-        fill={fill}
-        d="M579.89 173.33V105.42H591.63V173.33ZM591.63 131 612.09 105.42H627.14L591.63 149.81ZM591.63 149.81 599.32 140.2 621.41 173.33H607.31Z"
-      ></path>
+      <path class="lg-k" fill={fill} fill-rule="evenodd" d={glyphe}></path>
     )
   }
 </svg>

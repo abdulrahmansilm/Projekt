@@ -6,7 +6,7 @@
  * Loslassen (change) über eine Live-Region angesagt, nicht bei jeder Bewegung.
  * Keine Zahlen-Animation: Werte ändern sich bei jeder Slider-Bewegung (emil-design-eng: häufig → nicht animieren).
  */
-import { KONTAKT_ANKER } from "../../lib/config";
+import { uebersetzer, kontaktAnker, euro } from "../../i18n";
 
 interface Props {
   eyebrow?: string;
@@ -15,16 +15,20 @@ interface Props {
   hinweis: string;
 }
 const { eyebrow, titel, intro, hinweis } = Astro.props;
+const t = uebersetzer(Astro);
+const KONTAKT_ANKER = kontaktAnker(t.lang);
+/** Texte für das Rechner-Skript (Live-Ansage) */
+const texte = { ansage: t("Eingesparte Zeit {stunden} Stunden pro Monat, Ersparnis {betrag} pro Monat."), minus: t("minus ") };
 
 const felder = [
-  { id: "anrufe", label: "Anrufe pro Tag", min: 1, max: 100, step: 1, wert: 25, einheit: "" },
-  { id: "minuten", label: "Minuten pro Anruf", min: 1, max: 15, step: 1, wert: 4, einheit: "" },
-  { id: "anteil", label: "Anteil, den die KI übernimmt", min: 10, max: 100, step: 5, wert: 80, einheit: " %" },
-  { id: "lohn", label: "Stundenlohn", min: 12, max: 60, step: 1, wert: 23, einheit: " €" },
+  { id: "anrufe", label: t("Anrufe pro Tag"), min: 1, max: 100, step: 1, wert: 25, einheit: "" },
+  { id: "minuten", label: t("Minuten pro Anruf"), min: 1, max: 15, step: 1, wert: 4, einheit: "" },
+  { id: "anteil", label: t("Anteil, den die KI übernimmt"), min: 10, max: 100, step: 5, wert: 80, einheit: t.lang === "en" ? "%" : " %" },
+  { id: "lohn", label: t("Stundenlohn"), min: 12, max: 60, step: 1, wert: 23, einheit: t.lang === "en" ? "" : " €", praefix: t.lang === "en" ? "€" : "" },
 ];
 ---
 
-<section class="er" aria-labelledby="er-titel" data-rechner>
+<section class="er" aria-labelledby="er-titel" data-rechner data-lang={t.lang} data-texte={JSON.stringify(texte)}>
   <div class="er__inner">
     <div class="er__kopf" data-reveal>
       {eyebrow && <p class="eyebrow">{eyebrow}</p>}
@@ -34,14 +38,14 @@ const felder = [
 
     <div class="rechner" data-reveal>
       <div class="eingaben" role="group" aria-labelledby="er-angaben">
-        <h3 id="er-angaben">Ihre Angaben</h3>
+        <h3 id="er-angaben">{t("Ihre Angaben")}</h3>
         {
           felder.map((f) => (
             <div class="feld">
               <div class="feld__kopf">
                 <label for={`er-${f.id}`}>{f.label}</label>
                 <output class="feld__wert" for={`er-${f.id}`} data-anzeige={f.id}>
-                  {f.wert}
+                  {f.praefix}{f.wert}
                   {f.einheit}
                 </output>
               </div>
@@ -54,14 +58,15 @@ const felder = [
                 step={f.step}
                 value={f.wert}
                 data-einheit={f.einheit}
-                aria-valuetext={`${f.wert}${f.einheit}`}
+                data-praefix={f.praefix}
+                aria-valuetext={`${f.praefix ?? ""}${f.wert}${f.einheit}`}
                 style={`--fuell:${((f.wert - f.min) / (f.max - f.min)) * 100}%`}
               />
             </div>
           ))
         }
         <div class="schalter-zeile">
-          <label for="er-vollkosten">Arbeitgeber-Vollkosten einrechnen</label>
+          <label for="er-vollkosten">{t("Arbeitgeber-Vollkosten einrechnen")}</label>
           <span class="schalter">
             <input type="checkbox" role="switch" id="er-vollkosten" name="vollkosten" checked />
             <span class="schalter__spur" aria-hidden="true"></span>
@@ -71,27 +76,27 @@ const felder = [
       </div>
 
       <div class="ergebnis on-dark">
-        <p class="ergebnis__label">Ihre Ersparnis</p>
+        <p class="ergebnis__label">{t("Ihre Ersparnis")}</p>
         <div class="stat">
-          <p class="stat__k">Eingesparte Zeit pro Monat</p>
-          <p class="stat__v"><span data-r="stunden">28</span> <span class="stat__einheit">Std.</span></p>
+          <p class="stat__k">{t("Eingesparte Zeit pro Monat")}</p>
+          <p class="stat__v"><span data-r="stunden">28</span> <span class="stat__einheit">{t("Std.")}</span></p>
         </div>
         <div class="paar">
           <div>
-            <p class="stat__k">Heutige Kosten</p>
-            <p class="paar__v" data-r="heute">837 €</p>
+            <p class="stat__k">{t("Heutige Kosten")}</p>
+            <p class="paar__v" data-r="heute">{euro(837, t.lang)}</p>
           </div>
           <div>
-            <p class="stat__k">Kosten mit Assistent</p>
-            <p class="paar__v" data-r="mit">389 €</p>
+            <p class="stat__k">{t("Kosten mit Assistent")}</p>
+            <p class="paar__v" data-r="mit">{euro(359, t.lang)}</p>
           </div>
         </div>
         <div class="ersparnis">
-          <p class="stat__k">Ersparnis pro Monat</p>
-          <p class="ersparnis__v" data-r="ersparnis">+478 €</p>
+          <p class="stat__k">{t("Ersparnis pro Monat")}</p>
+          <p class="ersparnis__v" data-r="ersparnis">+{euro(478, t.lang)}</p>
           <!-- Runde 5: Beratung in derselben Spalte wie „Ersparnis pro Monat“, direkt darunter -->
           <a class="btn btn--sm ergebnis__cta" href={KONTAKT_ANKER}>
-            <span>Beratung vereinbaren</span>
+            <span>{t("Beratung vereinbaren")}</span>
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
             </svg>
@@ -109,10 +114,11 @@ const felder = [
   const ARBEITSTAGE_PRO_MONAT = 21;
   const ARBEITGEBER_FAKTOR = 1.3;
   // Preisstaffel nach Anrufen/Tag, identisch zum Pricing der Seite
-  const kiKosten = (anrufeProTag: number) => (anrufeProTag <= 20 ? 129 : anrufeProTag <= 80 ? 389 : 599);
-  const euro = (n: number) => `${Math.round(n).toLocaleString("de-DE")} €`;
-
+  const kiKosten = (anrufeProTag: number) => (anrufeProTag <= 20 ? 119 : anrufeProTag <= 80 ? 359 : 599);
   document.querySelectorAll<HTMLElement>("[data-rechner]").forEach((root) => {
+    const en = root.dataset.lang === "en";
+    const T = JSON.parse(root.dataset.texte ?? "{}") as Record<string, string>;
+    const euro = (n: number) => (en ? `€${Math.round(n).toLocaleString("en-US")}` : `${Math.round(n).toLocaleString("de-DE")} €`);
     const regler = (name: string) => root.querySelector<HTMLInputElement>(`input[name="${name}"]`)!;
     const vollkosten = root.querySelector<HTMLInputElement>('input[name="vollkosten"]')!;
     const r = (k: string) => root.querySelector<HTMLElement>(`[data-r="${k}"]`)!;
@@ -125,7 +131,7 @@ const felder = [
       const lohn = Number(regler("lohn").value);
 
       for (const input of root.querySelectorAll<HTMLInputElement>('input[type="range"]')) {
-        const text = `${input.value}${input.dataset.einheit ?? ""}`;
+        const text = `${input.dataset.praefix ?? ""}${input.value}${input.dataset.einheit ?? ""}`;
         root.querySelector(`[data-anzeige="${input.name}"]`)!.textContent = text;
         input.setAttribute("aria-valuetext", text);
         const fuell = ((Number(input.value) - Number(input.min)) / (Number(input.max) - Number(input.min))) * 100;
@@ -150,7 +156,9 @@ const felder = [
     root.addEventListener("change", () => {
       const { stunden, ersparnis } = berechne();
       if (ansage)
-        ansage.textContent = `Eingesparte Zeit ${Math.round(stunden)} Stunden pro Monat, Ersparnis ${ersparnis >= 0 ? "" : "minus "}${euro(Math.abs(ersparnis))} pro Monat.`;
+        ansage.textContent = T.ansage
+          .replace("{stunden}", String(Math.round(stunden)))
+          .replace("{betrag}", `${ersparnis >= 0 ? "" : T.minus}${euro(Math.abs(ersparnis))}`);
     });
     berechne();
   });

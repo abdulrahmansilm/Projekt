@@ -36,6 +36,23 @@
       "ctaText": "Beratung vereinbaren"
     },
     {
+      "typ": "siegel",
+      "punkte": [
+        {
+          "titel": "Deutsches Rechenzentrum",
+          "icon": "<g stroke=\"none\"><rect x=\"3\" y=\"5.5\" width=\"18\" height=\"4.4\" fill=\"#111111\"></rect><rect x=\"3\" y=\"9.9\" width=\"18\" height=\"4.4\" fill=\"#DD0000\"></rect><rect x=\"3\" y=\"14.3\" width=\"18\" height=\"4.4\" fill=\"#FFCE00\"></rect></g><rect x=\"3\" y=\"5.5\" width=\"18\" height=\"13.2\" rx=\"1.5\" stroke-opacity=\"0.55\"></rect>"
+        },
+        {
+          "titel": "DSGVO-konform",
+          "icon": "<path d=\"M12 3l7.5 2.8v5.6c0 4.8-3.1 8.3-7.5 9.6-4.4-1.3-7.5-4.8-7.5-9.6V5.8L12 3Z\"></path><path d=\"M8.8 12.2l2.2 2.2 4.2-4.4\"></path>"
+        },
+        {
+          "titel": "Verschlüsselt",
+          "icon": "<rect x=\"5\" y=\"10.5\" width=\"14\" height=\"9.5\" rx=\"2\"></rect><path d=\"M8 10.5V8a4 4 0 0 1 8 0v2.5\"></path><path d=\"M12 14.2v2.6\"></path>"
+        }
+      ]
+    },
+    {
       "typ": "problemLoesung",
       "eyebrow": "Reaktiv oder proaktiv",
       "titel": "Die meisten Angriffe kommen per E-Mail.",

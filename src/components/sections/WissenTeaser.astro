@@ -4,7 +4,8 @@
  * Identische Komponente auf Startseite und allen Leistungsseiten, nur die Artikelauswahl unterscheidet sich.
  * Die Auswahl je Leistungsseite steht in src/content/leistungen/<slug>.json → wissenArtikel.
  */
-import { getCollection } from "astro:content";
+import { uebersetzer } from "../../i18n";
+import { artikelListe } from "../../i18n/inhalte";
 import WissenKarte from "../ui/WissenKarte.astro";
 
 interface Props {
@@ -13,13 +14,14 @@ interface Props {
   artikel: string[];
 }
 
+const t = uebersetzer(Astro);
 const {
-  titel = "Wissen",
-  intro = "Antworten auf die Fragen, die uns im Alltag am häufigsten gestellt werden: verständlich erklärt und ohne unnötige Fachbegriffe.",
+  titel = t("Wissen"),
+  intro = t("Antworten auf die Fragen, die uns im Alltag am häufigsten gestellt werden: verständlich erklärt und ohne unnötige Fachbegriffe."),
   artikel,
 } = Astro.props;
 
-const alle = await getCollection("wissen");
+const alle = await artikelListe(t.lang);
 const auswahl = artikel.map((slug) => alle.find((a) => a.id === slug)).filter((a) => a !== undefined);
 ---
 
@@ -30,8 +32,8 @@ const auswahl = artikel.map((slug) => alle.find((a) => a.id === slug)).filter((a
         <h2 id="wissen-teaser-titel" class="h2">{titel}</h2>
         <p class="lead">{intro}</p>
       </div>
-      <a class="wt__link" href="/wissen">
-        <span>Alle Beiträge</span>
+      <a class="wt__link" href={t.pfad("/wissen")}>
+        <span>{t("Alle Beiträge")}</span>
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
@@ -49,8 +51,8 @@ const auswahl = artikel.map((slug) => alle.find((a) => a.id === slug)).filter((a
     </ul>
 
     <div class="wt__fuss">
-      <a class="btn" href="/wissen">
-        <span>Alle Beiträge ansehen</span>
+      <a class="btn" href={t.pfad("/wissen")}>
+        <span>{t("Alle Beiträge ansehen")}</span>
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>

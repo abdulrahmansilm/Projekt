@@ -33,7 +33,16 @@
 		@html path *.html /
 		header @html Cache-Control "no-cache"
 
-		try_files {path} /404.html
+		# Englische Seiten (Runde 8) bekommen die englische 404-Seite
+		@englischFehlt {
+			path /en /en/*
+			not file {path} {path}/
+		}
+		rewrite @englischFehlt /en/404/index.html
+
+		# {path}/ liefert die index.html eines Verzeichnisses: Links stehen ohne Schrägstrich am Ende
+		# (/leistungen/it-betreuung), und der file-Matcher erkennt Verzeichnisse nur mit "/".
+		try_files {path} {path}/ /404.html
 		file_server
 	}
 

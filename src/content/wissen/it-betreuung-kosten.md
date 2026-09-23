@@ -13,7 +13,7 @@ reihenfolge: 1
 leistungen: ["it-betreuung"]
 faq:
   - frage: "Was kostet IT-Betreuung pro Monat?"
-    antwort: "IT-Betreuung kostet in Deutschland üblicherweise zwischen 25 und 80 Euro pro Gerät und Monat. Bei Selim-IT beginnt die Betreuung bei 30 Euro pro Gerät und Monat inklusive Monitoring, Störungsbeseitigung, Patch-Management, Virenschutz, Dokumentation und monatlichem Report."
+    antwort: "IT-Betreuung kostet in Deutschland üblicherweise zwischen 25 und 80 Euro pro Gerät und Monat. Bei Selim-IT beginnt die Betreuung bei 39 Euro pro Gerät und Monat inklusive Monitoring, Störungsbeseitigung, Patch-Management, Virenschutz, Dokumentation und monatlichem Report."
   - frage: "Was kostet IT-Support pro Stunde?"
     antwort: "Stundensätze für IT-Support liegen in Deutschland üblicherweise zwischen 90 und 150 Euro. Für laufende Betreuung ist die Stundenabrechnung meist unwirtschaftlich, weil Vorsorge und Überwachung dabei entfallen."
   - frage: "Was ist in einem IT-Betreuungspaket enthalten?"
@@ -81,7 +81,7 @@ cta:
 <p>Für die eigene Kalkulation hilft eine schlichte Frage: Was kostet uns ein Tag Stillstand? Liegt die Antwort deutlich über dem Monatspreis der Betreuung, ist die schnellere Reaktionszeit die günstigere Wahl.</p>
 
 ## Rechenbeispiel für einen Betrieb mit zehn Arbeitsplätzen
-<p>Zehn Arbeitsplätze, ein Server, Microsoft 365, keine besonderen Compliance-Anforderungen. Bei 30 Euro pro Gerät und Monat liegt die Grundbetreuung der Arbeitsplätze bei 300 Euro monatlich. Der Server wird üblicherweise separat und höher bepreist, da er mehr Aufwand verursacht. Dazu kommen Lizenzen und gegebenenfalls Backup-Speicher.</p>
+<p>Zehn Arbeitsplätze, ein Server, Microsoft 365, keine besonderen Compliance-Anforderungen. Bei 39 Euro pro Gerät und Monat liegt die Grundbetreuung der Arbeitsplätze bei 390 Euro monatlich. Der Server wird üblicherweise separat und höher bepreist, da er mehr Aufwand verursacht. Dazu kommen Lizenzen und gegebenenfalls Backup-Speicher.</p>
 
 <p>Zum Vergleich: Eine Teilzeitkraft mit halbwegs belastbaren IT-Kenntnissen kostet ein Vielfaches, ohne Vertretung im Urlaub, ohne Spezialwissen für Themen außerhalb ihres Schwerpunkts und ohne Überwachung außerhalb der Arbeitszeit.</p>
 

@@ -10,7 +10,7 @@
   },
   "hero": {
     "headline": "Sicherer Fernzugriff auf Ihr Firmennetzwerk",
-    "subline": "Verschlüsselte VPN-Verbindungen zwischen allen Standorten: ein gemeinsames Netzwerk statt getrennter Inseln. Aus Frankfurt für das Rhein-Main-Gebiet.",
+    "subline": "Deutschlandweite laufende Verwaltung, Wartung und Support und Remote-Betreuung für Ihren Fernzugriff. Vor-Ort-Betreuung auf Wunsch für Frankfurt und Rhein-Main-Gebiet.",
     "zitat": "Ein Standort, der nicht sicher angebunden ist, ist ein Netzwerk mit einem offenen Fenster.",
     "cta": "Beratung vereinbaren",
     "visualLabel": "Verschlüsselter VPN-Tunnel zwischen „Überall“ und dem Firmennetzwerk mit Datenpunkten in beide Richtungen"
@@ -34,6 +34,19 @@
         "Sobald Mitarbeitende von zu Hause, unterwegs oder von einem zweiten Standort auf Firmendaten zugreifen, laufen diese Daten über fremde Netze: Hotel-WLAN, Heimrouter, öffentliche Leitungen. Ohne Schutz können sie dort mitgelesen oder manipuliert werden.",
         "Ein VPN baut einen verschlüsselten Tunnel zwischen Endgerät und Firmennetzwerk auf. Nur berechtigte Personen kommen hinein, und alles, was hindurchläuft, ist für Dritte unlesbar. Dazu kommt eine zentrale Kontrolle, wer wann worauf zugreifen darf.",
         "So arbeiten Ihre Teams flexibel und sicher, ohne dass Sensibles offen durchs Netz läuft."
+      ]
+    },
+    {
+      "typ": "siegel",
+      "punkte": [
+        {
+          "titel": "DSGVO-konform",
+          "icon": "<path d=\"M12 3l7.5 2.8v5.6c0 4.8-3.1 8.3-7.5 9.6-4.4-1.3-7.5-4.8-7.5-9.6V5.8L12 3Z\"></path><path d=\"M8.8 12.2l2.2 2.2 4.2-4.4\"></path>"
+        },
+        {
+          "titel": "Verschlüsselt",
+          "icon": "<rect x=\"5\" y=\"10.5\" width=\"14\" height=\"9.5\" rx=\"2\"></rect><path d=\"M8 10.5V8a4 4 0 0 1 8 0v2.5\"></path><path d=\"M12 14.2v2.6\"></path>"
+        }
       ]
     },
     {

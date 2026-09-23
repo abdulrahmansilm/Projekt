@@ -135,10 +135,10 @@ const pricingSetup = z.object({
       inkludiert: z.array(setupEintrag),
       /** Runde 7: optional, der WhatsApp-Chatbot zeigt keinen Features-Block mehr */
       features: z.array(setupEintrag).optional(),
-      /** Runde 4: eigener Kasten „Laufende Betreuung“ */
-      betreuung: z.array(z.string()).optional(),
     })
   ),
+  /** Runde 8: eigenständiges Paket „Laufende Betreuung“ neben der Einrichtung (ersetzt den Kasten in den Paketen) */
+  betreuungPaket: z.object({ name: z.string(), tagline: z.string(), preis: z.string(), features: z.array(z.string()) }).optional(),
   disclaimer: z.string(),
   vergleich: z
     .array(
@@ -288,6 +288,12 @@ const kennzahlen = z.object({
   zahlen: z.array(z.object({ wert: z.string(), label: z.string() })),
 });
 
+/** Runde 8: schmale Leiste mit Konformitäts-Punkten (DSGVO, EU AI Act) */
+const siegel = z.object({
+  typ: z.literal("siegel"),
+  punkte: z.array(z.object({ titel: z.string(), icon: z.string() })),
+});
+
 const kontakt = z.object({ typ: z.literal("kontakt") });
 const wissenTeaser = z.object({ typ: z.literal("wissenTeaser") });
 
@@ -312,6 +318,7 @@ export const sektion = z.discriminatedUnion("typ", [
   ebenen,
   kennzahlen,
   praxisbeispiele,
+  siegel,
   kontakt,
   wissenTeaser,
 ]);
@@ -343,24 +350,35 @@ const seiten = defineCollection({
   schema: z.record(z.string(), z.any()),
 });
 
-const wissen = defineCollection({
-  loader: glob({ pattern: "*.md", base: "./src/content/wissen" }),
-  schema: z.object({
-    titel: z.string(),
-    seoTitel: z.string(),
-    beschreibung: z.string(),
-    teaser: z.string(),
-    standfirst: z.string(),
-    kategorie: z.string(),
-    lesezeit: z.number(),
-    datum: z.coerce.date(),
-    icon: z.string(),
-    featured: z.boolean().default(false),
-    reihenfolge: z.number(),
-    leistungen: z.array(z.string()).default([]),
-    faq: z.array(z.object({ frage: z.string(), antwort: z.string() })),
-    cta: z.object({ titel: z.string(), text: z.string(), link: z.string() }),
-  }),
+const wissenSchema = z.object({
+  titel: z.string(),
+  seoTitel: z.string(),
+  beschreibung: z.string(),
+  teaser: z.string(),
+  standfirst: z.string(),
+  kategorie: z.string(),
+  lesezeit: z.number(),
+  datum: z.coerce.date(),
+  icon: z.string(),
+  featured: z.boolean().default(false),
+  reihenfolge: z.number(),
+  leistungen: z.array(z.string()).default([]),
+  faq: z.array(z.object({ frage: z.string(), antwort: z.string() })),
+  cta: z.object({ titel: z.string(), text: z.string(), link: z.string() }),
 });
 
-export const collections = { leistungen, seiten, wissen };
+const wissen = defineCollection({
+  loader: glob({ pattern: "*.md", base: "./src/content/wissen" }),
+  schema: wissenSchema,
+});
+
+/**
+ * Runde 8: englische Fassungen der Fachartikel. Dateiname = Id des deutschen Artikels,
+ * die englische URL kommt aus src/i18n/routen.ts (ARTIKEL_SLUG_EN).
+ */
+const wissenEn = defineCollection({
+  loader: glob({ pattern: "*.md", base: "./src/content/wissen-en" }),
+  schema: wissenSchema,
+});
+
+export const collections = { leistungen, seiten, wissen, wissenEn };

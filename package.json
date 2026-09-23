@@ -8,8 +8,9 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && npm run csp:pruefen",
+    "build": "astro build && npm run csp:pruefen && npm run i18n:pruefen",
     "csp:pruefen": "node scripts/csp-pruefen.mjs",
+    "i18n:pruefen": "node scripts/i18n-pruefen.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },

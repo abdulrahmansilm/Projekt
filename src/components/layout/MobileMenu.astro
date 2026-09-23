@@ -6,36 +6,40 @@
  */
 import Logo from "../ui/Logo.astro";
 import { firma, navigation, leistungHref } from "../../lib/config";
+import { uebersetzer } from "../../i18n";
+import Sprachwahl from "./Sprachwahl.astro";
 
 interface Props {
   kontaktHref: string;
+  dePfad: string;
 }
 
-const { kontaktHref } = Astro.props;
+const { kontaktHref, dePfad } = Astro.props;
+const t = uebersetzer(Astro);
 ---
 
 <div class="mm on-dark" id="mobile-menu" data-mobile-menu hidden>
   <div class="mm__backdrop" data-menu-close></div>
-  <div class="mm__sheet" role="dialog" aria-modal="true" aria-label="Menü">
+  <div class="mm__sheet" role="dialog" aria-modal="true" aria-label={t("Menü")}>
     <div class="mm__kopf">
-      <a href="/" class="mm__logo" aria-label="Selim-IT, zur Startseite">
+      <a href={t.pfad("/")} class="mm__logo" aria-label={t("Selim-IT, zur Startseite")}>
         <Logo variant="hell" class="mm__logo-svg" wechsel />
       </a>
-      <button type="button" class="mm__schliessen" aria-label="Menü schließen" data-menu-close>
+      <button type="button" class="mm__schliessen" aria-label={t("Menü schließen")} data-menu-close>
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
         </svg>
       </button>
     </div>
 
-    <nav class="mm__nav" aria-label="Mobile Navigation">
+    <nav class="mm__nav" aria-label={t("Mobile Navigation")}>
       <ul class="mm__liste" role="list">
         {
           navigation.map((kat) =>
             kat.href ? (
               <li class="mm__gruppe">
-                <a class="mm__gruppe-link" href={kat.href}>
-                  {kat.label}
+                <a class="mm__gruppe-link" href={t.pfad(kat.href)}>
+                  {t(kat.label)}
                 </a>
               </li>
             ) : (
@@ -47,7 +51,7 @@ const { kontaktHref } = Astro.props;
                   aria-controls={`mm-${kat.id}`}
                   data-mm-trigger
                 >
-                  {kat.label}
+                  {t(kat.label)}
                   <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                     <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                   </svg>
@@ -56,18 +60,18 @@ const { kontaktHref } = Astro.props;
                   <div class="mm__unter-inner">
                     {(kat.spalten ?? [""]).map((titel, i) => (
                       <>
-                        {titel && <p class="mm__spalte">{titel}</p>}
+                        {titel && <p class="mm__spalte">{t(titel)}</p>}
                         <ul role="list">
                           {kat.eintraege
                             .filter((e) => (e.spalte ?? 0) === i)
                             .map((e) =>
                               e.bald ? (
                                 <li class="mm__bald">
-                                  {e.label} <span>bald verfügbar</span>
+                                  {t(e.label)} <span>{t("bald verfügbar")}</span>
                                 </li>
                               ) : (
                                 <li>
-                                  <a href={leistungHref(e.slug)}>{e.label}</a>
+                                  <a href={leistungHref(e.slug, t.lang)}>{t(e.label)}</a>
                                 </li>
                               )
                             )}
@@ -84,7 +88,8 @@ const { kontaktHref } = Astro.props;
     </nav>
 
     <div class="mm__fuss">
-      <a class="btn btn--block" href={kontaktHref} data-menu-close-link><span>Beratung vereinbaren</span></a>
+      <div class="mm__sprache"><Sprachwahl dePfad={dePfad} gross /></div>
+      <a class="btn btn--block" href={kontaktHref} data-menu-close-link><span>{t("Beratung vereinbaren")}</span></a>
       <a class="mm__telefon" href={firma.telefon.href}>
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path
@@ -93,7 +98,7 @@ const { kontaktHref } = Astro.props;
             stroke-width="1.6"
             stroke-linejoin="round"></path>
         </svg>
-        Anrufen: <span class:list={{ platzhalter: firma.telefon.platzhalter }}>{firma.telefon.anzeige}</span>
+        {t("Anrufen:")} <span class:list={{ platzhalter: firma.telefon.platzhalter }}>{firma.telefon.anzeige}</span>
       </a>
     </div>
   </div>
@@ -297,6 +302,12 @@ const { kontaktHref } = Astro.props;
     gap: 12px;
     margin-top: auto;
     padding: 24px 20px 32px;
+  }
+
+  .mm__sprache {
+    display: flex;
+    justify-content: center;
+    color: #ffffff;
   }
 
   .mm__telefon {

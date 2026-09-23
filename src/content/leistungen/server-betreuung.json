@@ -5,12 +5,12 @@
   "reihenfolge": 2,
   "kurz": "Überwachung, Wartung und Absicherung Ihrer Server, bevor Auffälligkeiten zum Ausfall werden.",
   "seo": {
-    "titel": "Server-Betreuung: Monitoring, Patches und Backups ab 50 € pro Server",
+    "titel": "Server-Betreuung: Monitoring, Patches und Backups ab 79 € pro Server",
     "beschreibung": "Server-Betreuung mit 24/7-Monitoring, geplanten Wartungsfenstern und geprüften Backups nach der 3-2-1-Regel. Für Windows Server und Linux, physisch, virtuell oder in der Cloud."
   },
   "hero": {
     "headline": "Ihr Server, {{dauerhaft im Blick|in sicheren Händen|proaktiv abgesichert|ausfallsicher optimiert|unsere Sorge}}",
-    "subline": "24/7-Monitoring und Patches im festen Wartungsfenster, bevor aus einer Auffälligkeit ein Ausfall wird. Aus Frankfurt für das Rhein-Main-Gebiet.",
+    "subline": "Deutschlandweite laufende Verwaltung, Wartung und Support und Remote-Betreuung für Ihre Server. Vor-Ort-Betreuung auf Wunsch für Frankfurt und Rhein-Main-Gebiet.",
     "zitat": "Ein Server, der nur mitläuft, ist der teuerste Ausfall im ganzen Netz.",
     "cta": "Beratung vereinbaren",
     "visualLabel": "Server-Übersicht mit vier live überwachten Servern, eingespielten Updates und automatischem Backup"
@@ -31,15 +31,14 @@
       "titel": "Server sind das Rückgrat Ihres Betriebs",
       "bildLabel": "Serverbetreuung",
       "absaetze": [
-        "Auf Ihren Servern liegen Kundendaten, Warenwirtschaft, Buchhaltung und die Dateien, mit denen Ihr Team täglich arbeitet. Fällt ein Server aus oder werden Daten unbrauchbar, steht im schlimmsten Fall der gesamte Betrieb still.",
-        "Deshalb müssen Server kontinuierlich gesichert, aktuell gehalten und professionell betreut werden. Regelmäßige Updates schließen Sicherheitslücken, geprüfte Backups schützen vor Datenverlust, und laufende Überwachung erkennt Probleme, bevor sie zum Ausfall werden.",
+        "Server sind das Rückgrat Ihres Betriebs: Deshalb müssen Server kontinuierlich gesichert, aktuell gehalten und professionell betreut werden. Regelmäßige Updates schließen Sicherheitslücken, geprüfte Backups schützen vor Datenverlust und laufende Überwachung erkennt Probleme, bevor sie zum Ausfall werden.",
         "Genau das übernehmen wir für Sie, damit Ihre Server einfach laufen und Sie sich nicht darum kümmern müssen."
       ]
     },
     {
       "typ": "problemLoesung",
       "eyebrow": "Reaktiv oder proaktiv",
-      "titel": "Kein Ausfall-Feuerwehreinsatz.",
+      "titel": "Kein Ausfall, kein Feuerwehreinsatz.",
       "akzent": "Wir überwachen, bevor es kritisch wird.",
       "intro": "Die meisten Server werden erst überwacht, nachdem etwas ausgefallen ist. Proaktive Server-Betreuung dreht das um: Monitoring, Backups und Patch-Management laufen dauerhaft im Hintergrund, damit Ausfälle, Datenverlust und Sicherheitslücken erst gar nicht entstehen.",
       "karten": [
@@ -48,7 +47,7 @@
           "icon": "<defs><linearGradient id=\"pl-server-betreuung-0-i1-5\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <path d=\"M12 3 L21 19 H3 Z\" stroke=\"url(#pl-server-betreuung-0-i1-5)\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path> <path d=\"M12 9.5 V13.5\" stroke=\"url(#pl-server-betreuung-0-i1-5)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path> <circle cx=\"12\" cy=\"16\" r=\"1\" fill=\"#7FD9C4\"></circle>",
           "ohne": "Der Server fällt aus, die Anwendung steht. Erst dann merkt jemand, dass etwas nicht stimmt.",
           "mitStark": "Wir sehen die Warnsignale vorher.",
-          "mitText": "CPU, Speicher, Festplatte und Dienste werden rund um die Uhr überwacht: Auffälligkeiten melden sich bei uns, bevor der Server steht."
+          "mitText": "CPU, Speicher, Festplatte und Dienste werden rund um die Uhr überwacht. Wir sehen die Auffälligkeiten, bevor alles stehen bleibt."
         },
         {
           "titel": "Backup & Datensicherheit",
@@ -62,14 +61,14 @@
           "icon": "<defs><linearGradient id=\"pl-server-betreuung-2-i3-7\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <path d=\"M12 3 L19 5.6 V11 C19 16 15.8 19.6 12 21 C8.2 19.6 5 16 5 11 V5.6 L12 3 Z\" stroke=\"url(#pl-server-betreuung-2-i3-7)\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path> <path d=\"M8.8 11.6 L11 13.8 L15.4 9\" stroke=\"url(#pl-server-betreuung-2-i3-7)\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
           "ohne": "Updates werden aufgeschoben, aus Angst etwas zu zerschießen: Schwachstellen bleiben so länger offen als nötig.",
           "mitStark": "Geplante Wartungsfenster.",
-          "mitText": "Sicherheitsupdates werden regelmäßig eingespielt und vorab geprüft, außerhalb Ihrer Betriebszeiten, dokumentiert nachvollziehbar."
+          "mitText": "Sicherheitsupdates werden regelmäßig eingespielt und vorab geprüft, außerhalb Ihrer Betriebszeiten, nachvollziehbar dokumentiert."
         },
         {
           "titel": "Performance & Kapazität",
           "icon": "<defs><linearGradient id=\"pl-server-betreuung-3-i4-8\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <path d=\"M4 20 V13 M9.5 20 V9 M15 20 V15 M20 20 V6\" stroke=\"url(#pl-server-betreuung-3-i4-8)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path> <path d=\"M14.5 6.5 H20 V12\" stroke=\"url(#pl-server-betreuung-3-i4-8)\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
-          "ohne": "Der Server wird langsamer, bis Mitarbeiter oder Kunden es merken. An Kapazität denkt niemand, bevor es eng wird.",
-          "mitStark": "Kapazität im Blick, bevor es eng wird.",
-          "mitText": "Auslastungstrends bei CPU, RAM und Storage werden verfolgt, damit Sie rechtzeitig aufrüsten, nicht erst, wenn nichts mehr geht."
+          "ohne": "Der Server wird langsamer, bis Mitarbeiter oder Anwender es bemerken. An Kapazität denkt niemand, erst wenn es zu spät ist.",
+          "mitStark": "Auch das haben wir im Blick.",
+          "mitText": "Auslastungstrends bei CPU, RAM und Storage werden verfolgt, damit Sie rechtzeitig aufrüsten können, nicht erst, wenn nichts mehr geht."
         }
       ],
       "labelOhne": "Reaktive IT-Hilfe",
@@ -383,6 +382,22 @@
               "text": "Mehr zur Datensicherung",
               "href": "/leistungen/datensicherung"
             }
+          },
+          {
+            "icon": "<rect x=\"6\" y=\"6\" width=\"12\" height=\"12\" rx=\"2\"></rect><path d=\"M9.5 2.5v3.5M14.5 2.5v3.5M9.5 18v3.5M14.5 18v3.5M2.5 9.5H6M2.5 14.5H6M18 9.5h3.5M18 14.5h3.5\"></path>",
+            "name": "Server beschaffen",
+            "claim": "Neue Server ausgewählt, beschafft und direkt bei Ihnen eingerichtet.",
+            "features": [
+              "Beraten: Wir klären, welche Leistung und welchen Speicher Ihr Server wirklich braucht.",
+              "Beschaffen: Wir bestellen das passende Modell direkt beim Distributor und kümmern uns um Lieferung und Garantie.",
+              "Einrichten: Wir installieren Betriebssystem und Sicherheitseinstellungen schon vor der Lieferung.",
+              "Installation vor Ort: Wir bauen den Server bei Ihnen ein, binden ihn ins Netzwerk ein und übergeben ihn nach einem Test."
+            ],
+            "cta": "Jetzt anfragen",
+            "link": {
+              "text": "Mehr zur Hardware-Beschaffung",
+              "href": "/leistungen/hardware-beschaffung"
+            }
           }
         ]
       },
@@ -391,7 +406,7 @@
         "einzahl": "Server",
         "mehrzahl": "Server",
         "min": 1,
-        "max": 30,
+        "max": 15,
         "start": 1
       }
     },
@@ -402,7 +417,7 @@
       "fragen": [
         {
           "frage": "Was kostet die Betreuung eines Servers?",
-          "antwort": "Ab 50 € pro Server und Monat. Enthalten sind 24/7-Monitoring, Patch-Management, Backup-Überwachung, Störungsbeseitigung und laufende Dokumentation. Der genaue Preis richtet sich nach Anzahl und Art Ihrer Server sowie dem gewählten Paket."
+          "antwort": "Ab 79 € pro Server und Monat. Enthalten sind 24/7-Monitoring, Patch-Management, Backup-Überwachung, Störungsbeseitigung und laufende Dokumentation. Der genaue Preis richtet sich nach Anzahl und Art Ihrer Server sowie dem gewählten Paket."
         },
         {
           "frage": "Welche Server betreuen Sie?",

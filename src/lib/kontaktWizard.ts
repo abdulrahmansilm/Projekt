@@ -18,6 +18,12 @@ export function initKontaktWizard(root: HTMLElement) {
   const qa = <T extends Element = HTMLElement>(sel: string) => Array.from(root.querySelectorAll<T>(sel));
 
   const geladenUm = Date.now();
+  /** Texte in der Seitensprache (Runde 8), gerendert von KontaktWizard.astro */
+  const T = JSON.parse(root.dataset.texte ?? "{}") as Record<string, string>;
+  const en = root.dataset.lang === "en";
+  const locale = en ? "en-US" : "de-DE";
+  const fuelle = (vorlage: string, werte: Record<string, string | number>) =>
+    Object.entries(werte).reduce((s, [k, w]) => s.replaceAll(`{${k}}`, String(w)), vorlage);
   const live = q("[data-kw-live]");
   const weiter = q<HTMLButtonElement>("[data-kw-weiter]")!;
   const zurueck = q<HTMLButtonElement>("[data-kw-zurueck]")!;
@@ -83,10 +89,8 @@ export function initKontaktWizard(root: HTMLElement) {
 
   // ---------------------------------------------------------------- Prüfungen je Schritt
   function schritt2Fehler(): string | null {
-    if (!radio("dringlichkeit")) return "Bitte geben Sie an, wie dringend Ihr Anliegen ist.";
-    if (!radio("groesse")) return "Bitte geben Sie an, wie viele Mitarbeitende Sie haben.";
-    // Runde 4: Freitext ist Pflicht
-    if (!feld("nachricht")) return "Bitte beschreiben Sie Ihr Anliegen kurz in ein paar Sätzen.";
+    if (!radio("dringlichkeit")) return T.fehlerDringlichkeit;
+    if (!radio("groesse")) return T.fehlerGroesse;
     return null;
   }
 
@@ -113,7 +117,7 @@ export function initKontaktWizard(root: HTMLElement) {
     for (const name of ["vorname", "nachname", "email"] as const) {
       const input = q<HTMLInputElement>(`#kw-${name}`)!;
       const text = q(`#kw-${name}-fehler`)!;
-      const meldung = fehler[name];
+      const meldung = fehler[name] ? T[`fehler${name.charAt(0).toUpperCase()}${name.slice(1)}`] : undefined;
       if (meldung && anzeigen) {
         input.setAttribute("aria-invalid", "true");
         text.textContent = meldung;
@@ -160,13 +164,13 @@ export function initKontaktWizard(root: HTMLElement) {
     const titel = (id: string) =>
       q(`input[name="thema"][value="${id}"]`)?.closest("label")?.querySelector(".karte__titel")?.textContent?.trim() ?? id;
 
-    zeile("Bereich", themen().map(titel).join(", "));
-    zeile("Dringlichkeit", radio("dringlichkeit")?.dataset.label ?? "");
-    zeile("Unternehmensgröße", radio("groesse")?.value ?? "");
-    zeile("Interesse an", qa<HTMLInputElement>('input[name="leistung"]:checked').map((i) => i.dataset.label ?? i.value).join(", "));
-    zeile("Ihr Anliegen", feld("nachricht"));
+    zeile(T.zBereich, themen().map(titel).join(", "));
+    zeile(T.zDringlichkeit, radio("dringlichkeit")?.dataset.label ?? "");
+    zeile(T.zGroesse, radio("groesse")?.dataset.label ?? radio("groesse")?.value ?? "");
+    zeile(T.zInteresse, qa<HTMLInputElement>('input[name="leistung"]:checked').map((i) => i.dataset.label ?? i.value).join(", "));
+    zeile(T.zAnliegen, feld("nachricht"));
     const k = kontaktDaten();
-    zeile("Kontakt", [`${k.vorname} ${k.nachname}`.trim(), k.unternehmen, k.email, k.telefon].filter(Boolean).join("\n"));
+    zeile(T.zKontakt, [`${k.vorname} ${k.nachname}`.trim(), k.unternehmen, k.email, k.telefon].filter(Boolean).join("\n"));
   }
 
   function gehe(n: number) {
@@ -181,7 +185,7 @@ export function initKontaktWizard(root: HTMLElement) {
       ladeAltcha();
     }
     aktualisiereNav();
-    ansagen(`Schritt ${n} von ${GESAMT}`);
+    ansagen(fuelle(T.schrittVon, { n, gesamt: GESAMT }));
 
     const titel = panels[n - 1].querySelector<HTMLElement>(".panel__titel");
     titel?.focus({ preventScroll: true });
@@ -225,7 +229,7 @@ export function initKontaktWizard(root: HTMLElement) {
   weiter.addEventListener("click", () => {
     if (schritt === 1 && !themen().length) {
       q('[data-kw-fehler="1"]')!.hidden = false;
-      ansagen("Bitte wählen Sie mindestens einen Bereich aus.");
+      ansagen(T.fehlerBereich);
       return;
     }
     if (schritt === 2) {
@@ -265,11 +269,11 @@ export function initKontaktWizard(root: HTMLElement) {
     if (!container) return;
     try {
       await import("altcha");
-      await import("altcha/i18n/de");
+      if (!en) await import("altcha/i18n/de");
       const widget = document.createElement("altcha-widget");
       widget.setAttribute("challenge", `${API}/altcha-challenge`);
       widget.setAttribute("name", "altcha");
-      widget.setAttribute("language", "de");
+      widget.setAttribute("language", en ? "en" : "de");
       widget.setAttribute("auto", "onload");
       widget.setAttribute("display", "standard");
       container.append(widget);
@@ -303,20 +307,19 @@ export function initKontaktWizard(root: HTMLElement) {
       const { slots } = (await antwort.json()) as { slots: Slot[] };
       zeigeSlots(slots);
     } catch {
-      slotStatus.textContent =
-        "Die Terminauswahl ist gerade nicht erreichbar. Senden Sie Ihre Anfrage einfach ab, wir schlagen Ihnen passende Termine vor.";
+      slotStatus.textContent = T.terminNichtErreichbar;
     }
   });
 
   function zeigeSlots(slots: Slot[]) {
     if (!slots.length) {
-      slotStatus.textContent = "Aktuell sind keine freien Termine verfügbar. Senden Sie Ihre Anfrage, wir melden uns mit Vorschlägen.";
+      slotStatus.textContent = T.keineTermine;
       return;
     }
-    slotStatus.textContent = `${slots.length} freie Termine`;
+    slotStatus.textContent = fuelle(T.freieTermine, { n: slots.length });
     const nachTag = new Map<string, Slot[]>();
     for (const s of slots) {
-      const tag = new Date(s.start).toLocaleDateString("de-DE", { weekday: "long", day: "2-digit", month: "long" });
+      const tag = new Date(s.start).toLocaleDateString(locale, { weekday: "long", day: "2-digit", month: "long" });
       nachTag.set(tag, [...(nachTag.get(tag) ?? []), s]);
     }
     for (const [tag, liste] of nachTag) {
@@ -339,7 +342,7 @@ export function initKontaktWizard(root: HTMLElement) {
           buchenBtn.hidden = false;
         });
         const span = document.createElement("span");
-        span.textContent = new Date(s.start).toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" }) + " Uhr";
+        span.textContent = fuelle(T.uhrzeit, { zeit: new Date(s.start).toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" }) });
         label.append(input, span);
         optionen.append(label);
       }
@@ -361,7 +364,7 @@ export function initKontaktWizard(root: HTMLElement) {
     sendeBtn.setAttribute("aria-disabled", "true");
     const beschriftung = sendeBtn.querySelector("span");
     const vorher = beschriftung?.textContent ?? "";
-    if (beschriftung) beschriftung.textContent = "Wird gesendet …";
+    if (beschriftung) beschriftung.textContent = T.wirdGesendet;
 
     const k = kontaktDaten();
     const daten: Anfrage = {
@@ -369,7 +372,7 @@ export function initKontaktWizard(root: HTMLElement) {
       dringlichkeit: (radio("dringlichkeit")?.value ?? "allgemein") as Anfrage["dringlichkeit"],
       leistungen: leistungen(),
       groesse: radio("groesse")?.value ?? "",
-      nachricht: feld("nachricht"),
+      nachricht: feld("nachricht") || undefined,
       vorname: k.vorname,
       nachname: k.nachname,
       unternehmen: k.unternehmen || undefined,
@@ -390,8 +393,9 @@ export function initKontaktWizard(root: HTMLElement) {
       });
       const json = (await antwort.json().catch(() => ({}))) as { detail?: unknown; id?: string };
       if (!antwort.ok) {
-        const detail = typeof json.detail === "string" ? json.detail : null;
-        throw new Error(detail ?? "Die Anfrage konnte nicht gesendet werden.");
+        // Fehlertexte des Backends sind deutsch; auf englischen Seiten die allgemeine Meldung zeigen
+        const detail = typeof json.detail === "string" && !en ? json.detail : null;
+        throw new Error(detail ?? T.nichtGesendet);
       }
       anfrageId = json.id ?? null;
       zeigeDanke();
@@ -399,8 +403,8 @@ export function initKontaktWizard(root: HTMLElement) {
       const text =
         fehler instanceof Error && fehler.message && !fehler.message.includes("fetch")
           ? fehler.message
-          : "Die Anfrage konnte gerade nicht gesendet werden.";
-      sendeFehler.textContent = `${text} Bitte versuchen Sie es erneut oder rufen Sie uns direkt an.`;
+          : T.geradeNichtGesendet;
+      sendeFehler.textContent = `${text} ${T.erneutVersuchen}`;
       sendeFehler.hidden = false;
       ansagen(sendeFehler.textContent);
     } finally {
@@ -420,10 +424,10 @@ export function initKontaktWizard(root: HTMLElement) {
     buchenBtn.setAttribute("aria-disabled", "true");
     const beschriftung = buchenBtn.querySelector("span");
     const vorher = beschriftung?.textContent ?? "";
-    if (beschriftung) beschriftung.textContent = "Wird gebucht …";
+    if (beschriftung) beschriftung.textContent = T.wirdGebucht;
     try {
       if (!anfrageId) await sende();
-      if (!anfrageId) throw new Error("Die Anfrage konnte nicht gesendet werden.");
+      if (!anfrageId) throw new Error(T.nichtGesendet);
       const antwort = await fetch(`${API}/contact/${encodeURIComponent(anfrageId)}/termin`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
@@ -431,13 +435,13 @@ export function initKontaktWizard(root: HTMLElement) {
       });
       const json = (await antwort.json().catch(() => ({}))) as { detail?: unknown };
       if (!antwort.ok) {
-        const detail = typeof json.detail === "string" ? json.detail : null;
-        throw new Error(detail ?? "Der Termin konnte nicht gebucht werden.");
+        const detail = typeof json.detail === "string" && !en ? json.detail : null;
+        throw new Error(detail ?? T.nichtGebucht);
       }
       zeigeTermin(gewaehlterSlot);
     } catch (fehler) {
-      const text = fehler instanceof Error && fehler.message && !fehler.message.includes("fetch") ? fehler.message : "Der Termin konnte gerade nicht gebucht werden.";
-      terminFehler.textContent = `${text} Bitte versuchen Sie es erneut oder rufen Sie uns direkt an.`;
+      const text = fehler instanceof Error && fehler.message && !fehler.message.includes("fetch") ? fehler.message : T.geradeNichtGebucht;
+      terminFehler.textContent = `${text} ${T.erneutVersuchen}`;
       terminFehler.hidden = false;
       ansagen(terminFehler.textContent);
     } finally {
@@ -449,7 +453,7 @@ export function initKontaktWizard(root: HTMLElement) {
   function zeigeTermin(slot: string) {
     terminAngebot.hidden = true;
     const t = q("[data-kw-danke-termin]")!;
-    t.textContent = `Ihr Wunschtermin: ${new Date(slot).toLocaleString("de-DE", { dateStyle: "full", timeStyle: "short" })} Uhr. Die Bestätigung mit allen Zugangsdaten erhalten Sie per E-Mail.`;
+    t.textContent = fuelle(T.wunschtermin, { termin: new Date(slot).toLocaleString(locale, { dateStyle: "full", timeStyle: "short" }) });
     t.hidden = false;
     ansagen(t.textContent);
   }
@@ -465,7 +469,7 @@ export function initKontaktWizard(root: HTMLElement) {
       li.querySelector("button")!.disabled = true;
     });
     danke.querySelector<HTMLElement>("h3")?.focus();
-    ansagen("Vielen Dank, Ihre Anfrage wurde gesendet.");
+    ansagen(T.danke);
   }
 
   sendeBtn.addEventListener("click", () => sende());

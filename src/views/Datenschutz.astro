@@ -1,0 +1,125 @@
+---
+/**
+ * Datenschutzerklärung (DSGVO), Grundlage: docs/ANFORDERUNGEN.md → Rechtliches / DSGVO-Checkliste.
+ *
+ * HINWEIS – KEINE GEWÄHR, KEINE RECHTSBERATUNG: Unverbindliche Platzhalter-Vorlage.
+ * Vor Veröffentlichung von einer fachkundigen Person (Rechtsanwalt/Datenschutzbeauftragter) prüfen lassen.
+ * Offene Punkte: PLZ/Telefon/E-Mail (src/lib/config.ts), konkrete Logfile-Aufbewahrungsdauer,
+ * Speicherdauer der Anfragen, endgültige Wahl des Analyse-Werkzeugs (Umami oder Plausible).
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/sections/Hero.astro";
+import Rechtstext from "../components/sections/Rechtstext.astro";
+import { firma, aufsichtsbehoerde } from "../lib/config";
+---
+
+<BaseLayout
+  title="Datenschutzerklärung"
+  description="Datenschutzerklärung von Selim-IT: welche Daten beim Besuch der Website, bei Anfragen und Terminbuchungen verarbeitet werden und welche Rechte Sie haben."
+  pfad="/datenschutz"
+>
+  <Hero
+    kompakt
+    headline="Datenschutzerklärung"
+    subline="Welche Daten wir verarbeiten, wenn Sie diese Website nutzen oder uns kontaktieren, und welche Rechte Sie haben."
+  />
+
+  <Rechtstext stand="16. September 2026">
+    <h2>1. Verantwortlicher</h2>
+    <p>Verantwortlich für die Datenverarbeitung auf dieser Website ist:</p>
+    <address class="rt__karte">
+      {firma.name}, Inhaber {firma.inhaber}<br />
+      {firma.adresse.strasse},{" "}
+      <span class:list={{ platzhalter: firma.adresse.plz.platzhalter }}>{firma.adresse.plz.platzhalter ? "[PLZ folgt]" : firma.adresse.plz.wert}</span>
+      {" "}{firma.adresse.stadt}<br />
+      E-Mail: <a href={`mailto:${firma.email.adresse}`}>{firma.email.adresse}</a><br />
+      Telefon:{" "}
+      {firma.telefon.platzhalter ? <span class="platzhalter">[Telefonnummer folgt]</span> : <a href={firma.telefon.href}>{firma.telefon.anzeige}</a>}
+    </address>
+
+    <h2>2. Hosting und Server-Logfiles</h2>
+    <p>
+      Diese Website wird auf eigener Infrastruktur in Deutschland betrieben. Beim Aufruf der Website speichert der Server
+      automatisch Informationen, die Ihr Browser übermittelt: IP-Adresse, Datum und Uhrzeit der Anfrage, aufgerufene
+      Seite, Referrer-URL sowie Browsertyp und Betriebssystem.
+    </p>
+    <p>
+      Diese Daten dienen dem sicheren und störungsfreien Betrieb der Website sowie der Abwehr von Angriffen. Rechtsgrundlage
+      ist unser berechtigtes Interesse nach Art. 6 Abs. 1 lit. f DSGVO. Die Logfiles werden nach{" "}
+      <span class="platzhalter">[Aufbewahrungsdauer festlegen]</span> automatisch gelöscht. Die Übertragung erfolgt
+      ausschließlich verschlüsselt (HTTPS/TLS).
+    </p>
+
+    <h2>3. Schriftarten</h2>
+    <p>
+      Alle Schriftarten werden direkt von unserem Server ausgeliefert. Es findet keine Verbindung zu Servern Dritter (zum
+      Beispiel Google Fonts) statt.
+    </p>
+
+    <h2>4. Cookiefreie Reichweitenmessung</h2>
+    <p>
+      Wir setzen eine selbst betriebene, cookiefreie Analyse-Software ein (<span class="platzhalter">[Umami oder Plausible, festlegen]</span>).
+      Es werden keine Cookies gesetzt, keine individuellen Nutzungsprofile erstellt und IP-Adressen nicht gespeichert.
+      Rechtsgrundlage ist unser berechtigtes Interesse an der statistischen Auswertung zur Verbesserung unseres Angebots
+      (Art. 6 Abs. 1 lit. f DSGVO). Eine Einwilligung ist hierfür nicht erforderlich, da weder Cookies gesetzt noch
+      Informationen auf Ihrem Endgerät gespeichert werden.
+    </p>
+
+    <h2>5. Anfrageformular</h2>
+    <p>
+      Wenn Sie uns über das Anfrageformular kontaktieren, verarbeiten wir die von Ihnen gemachten Angaben: gewählte Themen und
+      Details, Dringlichkeit, Unternehmensgröße, Ihre Nachricht, Vor- und Nachname, optional Unternehmen und Telefonnummer
+      sowie Ihre E-Mail-Adresse. Die Angaben werden in einer eigenen Datenbank auf unserer Infrastruktur in Deutschland
+      gespeichert und uns zusätzlich per E-Mail zugestellt, damit wir Ihre Anfrage bearbeiten und bei Rückfragen
+      nachschlagen können.
+    </p>
+    <p>
+      Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, soweit Ihre Anfrage auf einen Vertrag oder vorvertragliche Maßnahmen
+      abzielt, im Übrigen unser berechtigtes Interesse an der Bearbeitung von Anfragen (Art. 6 Abs. 1 lit. f DSGVO). Wir
+      geben diese Daten nicht ohne Ihre Einwilligung weiter. Sie werden gelöscht, sobald sie für die Bearbeitung nicht mehr
+      erforderlich sind, spätestens nach <span class="platzhalter">[Speicherdauer festlegen]</span>, sofern keine
+      gesetzlichen Aufbewahrungspflichten entgegenstehen.
+    </p>
+    <p>
+      Zum Schutz vor automatisierten Spam-Anfragen nutzen wir ein unsichtbares Prüffeld sowie Altcha, einen selbst
+      betriebenen Spam-Schutz ohne Cookies und ohne Einbindung externer Dienste. Dabei löst Ihr Browser eine kleine
+      Rechenaufgabe; personenbezogene Daten werden hierfür nicht an Dritte übertragen. Rechtsgrundlage ist unser berechtigtes
+      Interesse an der Abwehr von Missbrauch (Art. 6 Abs. 1 lit. f DSGVO).
+    </p>
+
+    <h2>6. Terminbuchung (kostenloses Erstgespräch)</h2>
+    <p>
+      Wenn Sie über das Formular ein Erstgespräch buchen, verarbeiten wir Ihre Angaben und den gewählten Termin zur
+      Terminkoordination in einem selbst betriebenen Nextcloud-Kalender (CalDAV). Für das Videogespräch wird automatisch ein
+      Raum in unserem selbst betriebenen Nextcloud Talk erzeugt. Es kommen keine externen Anbieter wie Google Calendar, Zoom
+      oder Microsoft Teams zum Einsatz, eine Übermittlung in Drittländer findet nicht statt. Rechtsgrundlage ist Art. 6 Abs.
+      1 lit. b DSGVO.
+    </p>
+
+    <h2>7. E-Mail-Kommunikation</h2>
+    <p>
+      Bestätigungs- und Antwort-E-Mails versenden wir über unseren eigenen Mailserver, ohne externen Versanddienstleister.
+      Wenn Sie uns per E-Mail schreiben, verarbeiten wir Ihre Angaben zur Bearbeitung Ihres Anliegens (Art. 6 Abs. 1 lit. b
+      bzw. lit. f DSGVO).
+    </p>
+
+    <h2>8. Ihre Rechte</h2>
+    <p>Sie haben jederzeit das Recht auf:</p>
+    <ul>
+      <li>Auskunft über Ihre gespeicherten Daten (Art. 15 DSGVO)</li>
+      <li>Berichtigung unrichtiger Daten (Art. 16 DSGVO)</li>
+      <li>Löschung (Art. 17 DSGVO)</li>
+      <li>Einschränkung der Verarbeitung (Art. 18 DSGVO)</li>
+      <li>Datenübertragbarkeit (Art. 20 DSGVO)</li>
+      <li>Widerspruch gegen Verarbeitungen auf Grundlage berechtigter Interessen (Art. 21 DSGVO)</li>
+    </ul>
+    <p>Wenden Sie sich dazu formlos an die oben genannten Kontaktdaten.</p>
+
+    <h2>9. Beschwerderecht bei der Aufsichtsbehörde</h2>
+    <p>Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu beschweren. Für uns zuständig ist:</p>
+    <address class="rt__karte">
+      {aufsichtsbehoerde.name}<br />
+      {aufsichtsbehoerde.adresse}
+    </address>
+  </Rechtstext>
+</BaseLayout>

@@ -4,7 +4,7 @@
  * Hintergrund: referenz/global/hero-hintergrund.html (atmender 135°-Verlauf, ~22s, ohne Randkontur).
  * Die Kopfzeile liegt im BaseLayout (DOM vor <main>) und wird hier nur räumlich eingeplant.
  */
-import { KONTAKT_ANKER } from "../../lib/config";
+import { uebersetzer, kontaktAnker } from "../../i18n";
 
 interface Props {
   headline: string;
@@ -20,10 +20,12 @@ interface Props {
   klein?: boolean;
 }
 
+const t = uebersetzer(Astro);
+const KONTAKT_ANKER = kontaktAnker(t.lang);
 const {
   headline,
   subline,
-  cta = { text: "Beratung vereinbaren", href: KONTAKT_ANKER },
+  cta = { text: t("Beratung vereinbaren"), href: KONTAKT_ANKER },
   sekundaer,
   kompakt = false,
   visualLabel,

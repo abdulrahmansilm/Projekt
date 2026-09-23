@@ -37,7 +37,7 @@
   },
   "leistungen": {
     "titel": "Unsere Leistungen",
-    "intro": "Betrieb, Sicherheit und Digitalisierung: alles aus einer Hand betreut.",
+    "intro": "Betrieb, Sicherheit und Digitalisierung: alles aus einer Hand.",
     "karten": [
       {
         "slug": "it-betreuung",
@@ -103,7 +103,7 @@
       {
         "piktogramm": "<path d=\"M22,22 L22,0 A22,22 0 0,1 44,22 Z\"></path>",
         "titel": "Kennenlernen",
-        "text": "Ein unverbindliches Gespräch, in dem Sie Ihre Situation schildern. Wir hören zu und sprechen Schwachstellen offen an."
+        "text": "Ein unverbindliches Gespräch, in dem Sie Ihre Situation schildern. Wir hören zu und sprechen eventuelle Schwachstellen offen an."
       },
       {
         "piktogramm": "<path d=\"M22,22 L22,0 A22,22 0 0,1 22,44 Z\"></path>",
@@ -146,9 +146,9 @@
     ],
     "kunde": {
       "name": "Jugend braucht Arbeit e.V.",
-      "zitat": "Seit Selim-IT unsere IT übernommen hat, funktioniert sie einfach – wir müssen nicht mehr darüber nachdenken.",
+      "zitat": "Wir haben in Selim IT einen zuverlässigen Partner für unsere Hardware- und Software-Bedürfnisse gefunden. Unsere Software-Ausstattung wird gut verwaltet, sie ist stets auf dem neuesten Stand. Unsere Datensicherung verläuft ohne Probleme. Im Notfall ist immer ein Ansprechpartner persönlich verfügbar.",
       "person": "Mara Plumari",
-      "rolle": "Vorstand · Frankfurt"
+      "rolle": "Jugend braucht Arbeit e.V."
     },
     "flowLabel": "Was wir umgesetzt haben",
     "schritte": [
@@ -184,7 +184,7 @@
     "fragen": [
       {
         "frage": "Was kostet IT-Betreuung für ein kleines Unternehmen?",
-        "antwort": "Ab 30 € pro Gerät und Monat. Enthalten ist die Grundsicherung mit 24/7-Monitoring, Störungsbeseitigung, Remote-Wartungsarbeiten, Ticket-Support, Patch-Management, Virenschutz, laufender Dokumentation und monatlichem Report. <p class=\"faq-cta\"><a class=\"btn btn--sm\" href=\"/leistungen/it-betreuung\"><span>Zur IT-Betreuung</span></a></p>"
+        "antwort": "Ab 39 € pro Gerät und Monat. Enthalten ist die Grundsicherung mit 24/7-Monitoring, Störungsbeseitigung, Remote-Wartungsarbeiten, Ticket-Support, Patch-Management, Virenschutz, laufender Dokumentation und monatlichem Report. <p class=\"faq-cta\"><a class=\"btn btn--sm\" href=\"/leistungen/it-betreuung\"><span>Zur IT-Betreuung</span></a></p>"
       },
       {
         "frage": "Welche Leistungen bieten Sie an?",
@@ -292,6 +292,22 @@
           "label": "Kundenservice & Callcenter"
         }
       ]
+    ]
+  },
+  "siegel": {
+    "punkte": [
+      {
+        "titel": "Deutsches Rechenzentrum",
+        "icon": "<g stroke=\"none\"><rect x=\"3\" y=\"5.5\" width=\"18\" height=\"4.4\" fill=\"#111111\"></rect><rect x=\"3\" y=\"9.9\" width=\"18\" height=\"4.4\" fill=\"#DD0000\"></rect><rect x=\"3\" y=\"14.3\" width=\"18\" height=\"4.4\" fill=\"#FFCE00\"></rect></g><rect x=\"3\" y=\"5.5\" width=\"18\" height=\"13.2\" rx=\"1.5\" stroke-opacity=\"0.55\"></rect>"
+      },
+      {
+        "titel": "DSGVO-konform",
+        "icon": "<path d=\"M12 3l7.5 2.8v5.6c0 4.8-3.1 8.3-7.5 9.6-4.4-1.3-7.5-4.8-7.5-9.6V5.8L12 3Z\"></path><path d=\"M8.8 12.2l2.2 2.2 4.2-4.4\"></path>"
+      },
+      {
+        "titel": "EU-AI-Act-konform",
+        "icon": "<g fill=\"currentColor\" stroke=\"none\"><circle cx=\"12\" cy=\"3.8\" r=\"1.1\"></circle><circle cx=\"16.1\" cy=\"4.9\" r=\"1.1\"></circle><circle cx=\"19.1\" cy=\"7.9\" r=\"1.1\"></circle><circle cx=\"20.2\" cy=\"12\" r=\"1.1\"></circle><circle cx=\"19.1\" cy=\"16.1\" r=\"1.1\"></circle><circle cx=\"16.1\" cy=\"19.1\" r=\"1.1\"></circle><circle cx=\"12\" cy=\"20.2\" r=\"1.1\"></circle><circle cx=\"7.9\" cy=\"19.1\" r=\"1.1\"></circle><circle cx=\"4.9\" cy=\"16.1\" r=\"1.1\"></circle><circle cx=\"3.8\" cy=\"12\" r=\"1.1\"></circle><circle cx=\"4.9\" cy=\"7.9\" r=\"1.1\"></circle><circle cx=\"7.9\" cy=\"4.9\" r=\"1.1\"></circle></g><path d=\"M8.8 12.2l2.2 2.2 4.2-4.4\"></path>"
+      }
     ]
   }
 }
