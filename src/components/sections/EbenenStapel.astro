@@ -131,8 +131,9 @@ const startIndex = ebenen.length - 1;
     padding: 96px 32px 110px;
   }
 
+  /* Runde 4: Komposition wieder mittig – Kasten und Ebenen standen zu weit links */
   .eb__inner {
-    max-width: 1240px;
+    max-width: 1100px;
     margin: 0 auto;
   }
 
@@ -152,11 +153,14 @@ const startIndex = ebenen.length - 1;
   }
 
   /* ============ Layout ============ */
+  /* Erklärungs-Kasten näher an den Karten (Anforderung 22.09.2026) */
   .eb__layout {
     display: grid;
-    grid-template-columns: 480px 1fr;
-    gap: 48px;
+    grid-template-columns: 430px 1fr;
+    gap: 32px;
     align-items: center;
+    /* Runde 5: Kasten und Ebenen etwas weiter nach rechts, Richtung Mitte (nicht exakt zentriert) */
+    margin-left: 56px;
   }
 
   /* ============ Erklärungs-Panel ============ */
@@ -276,7 +280,7 @@ const startIndex = ebenen.length - 1;
     left: 50%;
     width: 660px;
     height: 664px;
-    margin-left: -330px;
+    margin-left: -300px;
     padding: 24px 24px 24px 56px;
     transform: scale(var(--s));
     transform-origin: top center;
@@ -525,6 +529,7 @@ const startIndex = ebenen.length - 1;
     .eb__layout.is-aktiv {
       grid-template-columns: minmax(0, 1fr);
       gap: 24px;
+      margin-left: 0;
     }
 
     .rahmen,

@@ -31,8 +31,7 @@ cta:
 
 <p>Die gute Nachricht vorweg: GEO ist keine neue Disziplin, die alles Bisherige entwertet. Die Überschneidung mit gutem SEO liegt bei etwa 80 Prozent. Die restlichen 20 Prozent entscheiden allerdings darüber, ob Sie zitiert werden oder nur gelesen.</p>
 
-<h2>Warum sich das gerade jetzt ändert</h2>
-
+## Warum sich das gerade jetzt ändert
 <p>Google beantwortet immer mehr Suchanfragen direkt in den AI Overviews, der Nutzer bekommt eine zusammengefasste Antwort mit Quellenangaben und klickt oft gar nicht weiter. Bei informationsorientierten Suchanfragen sind die Klickraten dadurch spürbar zurückgegangen.</p>
 
 <p>Gleichzeitig recherchieren Menschen zunehmend direkt in Chat-Systemen. Wer einen IT-Dienstleister im Rhein-Main-Gebiet sucht, fragt heute möglicherweise nicht mehr Google, sondern tippt die Frage in ChatGPT. Die Antwort nennt drei Namen. Ob Ihrer dabei ist, entscheidet über den Erstkontakt.</p>
@@ -41,8 +40,7 @@ cta:
 <p><strong>Der wichtigste Unterschied:</strong> Bei Google zählte die Platzierung. Bei KI-Antworten zählt die Zitierbarkeit. Ein Text kann auf Platz acht stehen und trotzdem zitiert werden, wenn er die Frage präziser beantwortet als die Seiten davor. Untersuchungen zeigen, dass ein erheblicher Teil der in AI Overviews zitierten Seiten nicht aus den ersten fünf Positionen stammt.</p>
 </div>
 
-<h2>Was KI-Systeme zitieren und was nicht</h2>
-
+## Was KI-Systeme zitieren und was nicht
 <p>KI-Systeme extrahieren Textblöcke, die für sich allein stehen können. Ein Abschnitt wird dann zitiert, wenn er drei Bedingungen erfüllt:</p>
 
 <ol>
@@ -53,8 +51,7 @@ cta:
 
 <p>Nicht zitiert wird dagegen der klassische Aufbau vieler Unternehmenstexte: eine ausschweifende Einleitung, dann drei Absätze Kontext, und irgendwo im letzten Drittel die eigentliche Aussage. Für Suchmaschinen war das ausreichend, für KI-Extraktion ist es unbrauchbar.</p>
 
-<h2>Die sieben Maßnahmen, die wirken</h2>
-
+## Die sieben Maßnahmen, die wirken
 <h3>1. Mit der Antwort beginnen</h3>
 
 <p>Jede Seite und jeder größere Abschnitt beginnt mit der direkten Antwort auf die Frage, die im Titel steht. Der Kontext folgt danach. Das ist die wirksamste Einzelmaßnahme und diejenige, die den Schreibenden am schwersten fällt.</p>
@@ -83,8 +80,7 @@ cta:
 
 <p>KI-Systeme gleichen Quellen gegeneinander ab. Wer in Branchenverzeichnissen, Fachbeiträgen, Lokalpresse und Bewertungsportalen auftaucht, gilt als bestätigte Größe. Eine Webseite allein, ohne jede Erwähnung anderswo, wirkt auf diese Systeme wie eine unbelegte Behauptung.</p>
 
-<h2>Was ausdrücklich nicht funktioniert</h2>
-
+## Was ausdrücklich nicht funktioniert
 <p><strong>Auf FAQ-Auszeichnung als Wundermittel setzen.</strong> Google hat die aufklappbaren FAQ-Ergebnisse in der Suche inzwischen vollständig eingestellt. Die Auszeichnung selbst bleibt sinnvoll als Verständnishilfe, sie ist aber kein Auslöser für Zitierung.</p>
 
 <p><strong>Eine Datei wie llms.txt hinterlegen und hoffen.</strong> Google hat ausdrücklich klargestellt, dass solche Dateien keine Sonderbehandlung erhalten.</p>
@@ -93,8 +89,7 @@ cta:
 
 <p><strong>Texte mit Schlüsselwörtern füllen.</strong> Das hat schon bei Google nicht mehr funktioniert und wirkt bei sprachverarbeitenden Systemen erst recht nicht.</p>
 
-<h2>Wie Sie messen, ob es wirkt</h2>
-
+## Wie Sie messen, ob es wirkt
 <p>Die klassischen Kennzahlen reichen nicht mehr aus. Ergänzen Sie:</p>
 
 <ul>
@@ -103,8 +98,7 @@ cta:
 <li><strong>Search Console beobachten.</strong> Rückläufige Klickraten bei stabilen Einblendungen sind ein typisches Zeichen dafür, dass die Antwort bereits in der Suche gegeben wird.</li>
 </ul>
 
-<h2>Was das für kleinere Betriebe bedeutet</h2>
-
+## Was das für kleinere Betriebe bedeutet
 <p>Eine gute Nachricht zum Schluss: Für kleine und mittlere Unternehmen ist die Lage günstiger als bei klassischem SEO. Bei allgemeinen Suchbegriffen konkurrieren Sie mit Konzernbudgets. Bei konkreten, spezifischen Fragen: „Was kostet IT-Betreuung für eine Kanzlei mit zwölf Arbeitsplätzen?“, gewinnt derjenige, der präzise und ehrlich antwortet.</p>
 
 <p>Und diese präzise Antwort kann ein kleiner Betrieb oft besser geben als ein Konzern, weil er den Fall tatsächlich kennt.</p>

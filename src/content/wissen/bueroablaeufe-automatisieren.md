@@ -29,8 +29,7 @@ cta:
 
 <p>Schlecht automatisierbar ist alles, was Einzelfallbewertung braucht, sich häufig ändert oder nur wenige Male im Jahr vorkommt. Der Aufwand für Einrichtung und Pflege holt den Nutzen dann nie ein.</p>
 
-<h2>Der Test in drei Fragen</h2>
-
+## Der Test in drei Fragen
 <p>Bevor Sie über Technik nachdenken, prüfen Sie einen Ablauf mit diesen drei Fragen:</p>
 
 <ol>
@@ -43,8 +42,7 @@ cta:
 <p><strong>Rechnen Sie einmal nach:</strong> Ein Vorgang, der täglich zehn Minuten kostet, summiert sich auf rund 40 Stunden im Jahr. Bei einem internen Stundensatz von 40 Euro sind das 1.600 Euro jährlich, für einen einzigen Handgriff. Genau das ist meist der Punkt, an dem Automatisierung wirtschaftlich wird.</p>
 </div>
 
-<h2>Die lohnendsten Kandidaten im Büroalltag</h2>
-
+## Die lohnendsten Kandidaten im Büroalltag
 <h3>Rechnungseingang und Ablage</h3>
 
 <p>Rechnungen kommen per Mail, werden geöffnet, umbenannt, in den richtigen Ordner geschoben, in die Buchhaltung weitergeleitet. Fünf Handgriffe, mehrfach täglich. Automatisiert erkennt das System die Rechnung, liest Lieferant und Datum aus, benennt die Datei nach einem festen Schema und legt sie am richtigen Ort ab.</p>
@@ -67,8 +65,7 @@ cta:
 
 <p>Angebote, Verträge, Arbeitsscheine, Bestätigungen, überall dort, wo ein Dokument aus vorhandenen Daten und einer festen Vorlage entsteht. Spart Zeit und verhindert die Variante, bei der im Angebot noch der Name des vorherigen Kunden steht.</p>
 
-<h2>Wo Automatisierung nicht funktioniert</h2>
-
+## Wo Automatisierung nicht funktioniert
 <p>Ehrlichkeit an dieser Stelle spart Geld:</p>
 
 <ul>
@@ -78,8 +75,7 @@ cta:
 <li><strong>Prozesse in Systemen ohne Schnittstelle.</strong> Es gibt Umwege über Bildschirmsteuerung, aber die sind fehleranfällig und brechen bei jedem Update. Manchmal ist der Wechsel des Systems die bessere Antwort.</li>
 </ul>
 
-<h2>Wie ein Automatisierungsprojekt abläuft</h2>
-
+## Wie ein Automatisierungsprojekt abläuft
 <ol>
 <li><strong>Ablauf aufnehmen.</strong> Jemand schaut zu und schreibt mit, was tatsächlich passiert, nicht, was im Handbuch steht. Diese beiden Dinge unterscheiden sich fast immer.</li>
 <li><strong>Sonderfälle sammeln.</strong> Was passiert bei einer Gutschrift? Bei einer Rechnung ohne Bestellnummer? Bei einem unbekannten Lieferanten? Die Sonderfälle bestimmen den Aufwand, nicht der Normalfall.</li>
@@ -90,8 +86,7 @@ cta:
 
 <p>Der zweite Punkt ist der, an dem Projekte scheitern. Wer nur den Normalfall automatisiert und die Sonderfälle ignoriert, baut ein System, das ständig Handbetrieb erfordert und damit nichts spart.</p>
 
-<h2>Zwei Regeln aus der Praxis</h2>
-
+## Zwei Regeln aus der Praxis
 <p><strong>Klein anfangen.</strong> Ein Ablauf, sauber automatisiert und im Betrieb bewährt, ist mehr wert als ein großes Projekt, das alles gleichzeitig lösen soll. Der erste Ablauf bringt außerdem die Erkenntnisse, die den zweiten deutlich schneller machen.</p>
 
 <p><strong>Nichts automatisieren, was abgeschafft gehört.</strong> Manchmal zeigt die Prozessaufnahme, dass ein Schritt nur existiert, weil er immer existiert hat. Ein überflüssiger Schritt wird durch Automatisierung nicht sinnvoller: nur schneller überflüssig.</p>

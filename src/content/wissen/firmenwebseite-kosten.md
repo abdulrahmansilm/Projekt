@@ -29,8 +29,7 @@ cta:
 
 <p>Die interessantere Zahl ist aber nicht der Anschaffungspreis, sondern die Summe über fünf Jahre. Und da verschieben sich die Verhältnisse deutlich.</p>
 
-<h2>Die drei Wege im Vergleich</h2>
-
+## Die drei Wege im Vergleich
 <h3>Baukasten</h3>
 
 <p>Sie mieten eine Plattform, wählen eine Vorlage, füllen Texte und Bilder ein. Alles aus einer Hand: Hosting, Zertifikat, Updates, Vorlagen.</p>
@@ -59,8 +58,7 @@ cta:
 <p><strong>Rechnen Sie über fünf Jahre:</strong> Ein Baukasten mit 30 Euro monatlich kostet über fünf Jahre 1.800 Euro, plus Ihre eigene Arbeitszeit für die Pflege. Eine einmalig bezahlte Seite mit geringen laufenden Kosten kann in derselben Zeit günstiger sein und ist dabei schneller und besser auffindbar.</p>
 </div>
 
-<h2>Die laufenden Kosten, die gern vergessen werden</h2>
-
+## Die laufenden Kosten, die gern vergessen werden
 <div class="tabelle-scroll" tabindex="0" role="region" aria-label="Tabelle"><table>
 <tr><th scope="col">Posten</th><th scope="col">Anmerkung</th></tr>
 <tr><td>Domain</td><td>Jährlich, geringer Betrag; sollte auf Ihren Namen registriert sein, nicht auf den der Agentur</td></tr>
@@ -71,8 +69,7 @@ cta:
 <tr><td>Rechtliche Anpassungen</td><td>Impressum, Datenschutzerklärung, Cookie-Hinweis, ändern sich mit der Rechtslage</td></tr>
 </table></div>
 
-<h2>Was den Preis nach oben treibt</h2>
-
+## Was den Preis nach oben treibt
 <ul>
 <li><strong>Anzahl der Seiten.</strong> Zehn Leistungsseiten sind Faktor zehn gegenüber einer.</li>
 <li><strong>Texte.</strong> Wer keine Inhalte liefert, muss sie schreiben lassen. Das ist regelmäßig ein größerer Posten als die Technik.</li>
@@ -82,8 +79,7 @@ cta:
 <li><strong>Abstimmungsschleifen.</strong> Der stille Kostentreiber. Wer im Vorfeld klärt, wer entscheidet, spart am meisten.</li>
 </ul>
 
-<h2>Woran Sie sinnvoll sparen können</h2>
-
+## Woran Sie sinnvoll sparen können
 <p><strong>Klein starten.</strong> Fünf gute Seiten schlagen zwanzig halbfertige. Erweitern lässt sich später.</p>
 
 <p><strong>Texte selbst schreiben.</strong> Sie kennen Ihre Kunden und deren Fragen besser als jeder Texter. Ein Dienstleister kann redigieren und für Suchmaschinen strukturieren, das ist deutlich günstiger als Schreiben von null.</p>
@@ -92,8 +88,7 @@ cta:
 
 <p><strong>Auf Funktionen verzichten, die niemand nutzt.</strong> Chat-Fenster, aufwendige Bildergalerien, animierte Zähler, schön anzusehen, selten wirksam, immer zu warten.</p>
 
-<h2>Woran Sie nicht sparen sollten</h2>
-
+## Woran Sie nicht sparen sollten
 <p><strong>Ladegeschwindigkeit.</strong> Google indexiert die mobile Version und bewertet Ladezeiten. Eine langsame Seite verliert Besucher und Platzierungen gleichzeitig.</p>
 
 <p><strong>Rechtliche Pflichtangaben.</strong> Fehlendes oder fehlerhaftes Impressum und mangelhafte Datenschutzerklärung sind ein echtes Abmahnrisiko.</p>
@@ -102,8 +97,7 @@ cta:
 
 <p><strong>Zugang zu den eigenen Zugängen.</strong> Domain, Hosting, Redaktionssystem: alles sollte auf Sie registriert sein und Ihnen zugänglich. Klingt selbstverständlich, ist es in der Praxis oft nicht.</p>
 
-<h2>Fünf Fragen an jeden Anbieter</h2>
-
+## Fünf Fragen an jeden Anbieter
 <ol>
 <li>Wem gehören Domain, Quellcode und Inhalte nach Projektende?</li>
 <li>Was genau ist in der laufenden Betreuung enthalten, was kostet extra?</li>

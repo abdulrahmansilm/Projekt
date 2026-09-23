@@ -26,6 +26,10 @@ class Settings(BaseSettings):
 
     site_url: str = "https://selim-it.de"
     cors_origins: str = "https://selim-it.de"
+    #: Hosts, die das Backend bedient (Komma-getrennt). Schützt vor Host-Header-Spoofing.
+    allowed_hosts: str = "selim-it.de,www.selim-it.de,localhost,127.0.0.1,backend"
+    #: nur lokal aktivieren: schaltet die API-Dokumentation unter /api/docs frei
+    debug: bool = False
 
 
 settings = Settings()

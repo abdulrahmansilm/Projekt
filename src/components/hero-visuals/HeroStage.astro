@@ -14,12 +14,10 @@ interface Props {
 }
 
 const { breite, hoehe, max = 1, class: className = "" } = Astro.props;
-const id = `stage-${Math.random().toString(36).slice(2, 8)}`;
 ---
 
 <div
   class:list={["hero-stage", className]}
-  id={id}
   data-stage-breite={breite}
   data-stage-hoehe={hoehe}
   data-stage-max={max}
@@ -29,27 +27,32 @@ const id = `stage-${Math.random().toString(36).slice(2, 8)}`;
     <slot />
   </div>
 </div>
-<script is:inline define:vars={{ id }}>
+{/* Läuft synchron vor dem ersten Paint (kein Layout-Shift). Bewusst ohne erzeugte Id, damit der
+   Skript-Text auf allen Seiten identisch ist und sein CSP-Hash stabil bleibt (astro.config.mjs).
+   Wird dieser Block geändert, muss der Hash dort ebenfalls neu gesetzt werden. */}
+<script is:inline>
   (function () {
-    var el = document.getElementById(id);
-    if (!el) return;
-    var inner = el.firstElementChild;
-    var w = Number(el.dataset.stageBreite);
-    var hFest = Number(el.dataset.stageHoehe) || 0;
-    var max = Number(el.dataset.stageMax) || 1;
-    function fit() {
-      var verfuegbar = el.parentElement ? el.parentElement.clientWidth : el.clientWidth;
-      var s = Math.min(max, verfuegbar / w);
-      var h = hFest || inner.offsetHeight;
-      el.style.setProperty("--s", s.toFixed(4));
-      el.style.height = Math.round(h * s) + "px";
-    }
-    fit();
-    if ("ResizeObserver" in window) {
-      var ro = new ResizeObserver(fit);
-      if (el.parentElement) ro.observe(el.parentElement);
-      ro.observe(inner);
-    }
+    document.querySelectorAll("[data-stage-breite]").forEach(function (el) {
+      if (el.dataset.stageBereit) return;
+      el.dataset.stageBereit = "1";
+      var inner = el.firstElementChild;
+      var w = Number(el.dataset.stageBreite);
+      var hFest = Number(el.dataset.stageHoehe) || 0;
+      var max = Number(el.dataset.stageMax) || 1;
+      function fit() {
+        var verfuegbar = el.parentElement ? el.parentElement.clientWidth : el.clientWidth;
+        var s = Math.min(max, verfuegbar / w);
+        var h = hFest || inner.offsetHeight;
+        el.style.setProperty("--s", s.toFixed(4));
+        el.style.height = Math.round(h * s) + "px";
+      }
+      fit();
+      if ("ResizeObserver" in window) {
+        var ro = new ResizeObserver(fit);
+        if (el.parentElement) ro.observe(el.parentElement);
+        ro.observe(inner);
+      }
+    });
   })();
 </script>
 

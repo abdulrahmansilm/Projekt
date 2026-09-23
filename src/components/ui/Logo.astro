@@ -45,10 +45,8 @@ const fill = variant === "hell" ? "#FFFFFF" : "#0B2E3C";
     wechsel && (
       <path
         class="lg-k"
-        fill="none"
-        stroke={fill}
-        stroke-width="11.74"
-        d="M585.76 105.42V173.33M591.6 140.5 620.4 108.4M598.2 136.8 628.4 172.2"
+        fill={fill}
+        d="M579.89 173.33V105.42H591.63V173.33ZM591.63 131 612.09 105.42H627.14L591.63 149.81ZM591.63 149.81 599.32 140.2 621.41 173.33H607.31Z"
       ></path>
     )
   }
@@ -84,9 +82,11 @@ const fill = variant === "hell" ? "#FFFFFF" : "#0B2E3C";
       transform 400ms var(--ease-out);
   }
 
-  /* I gleitet auf den zweiten Platz, T macht Platz für das K */
+  /* I gleitet auf den zweiten Platz, T macht Platz für das K.
+     Runde 4: Das K ist jetzt eine gefüllte Glyphe mit derselben Strichstärke wie I und T (11,74)
+     statt einer Kontur – dadurch wirken K und I gleich kräftig, ohne das I zu verzerren. */
   .logo--wechsel.ist-ki .lg-i {
-    transform: translateX(61.5px);
+    transform: translateX(55.5px);
   }
 
   .logo--wechsel.ist-ki .lg-t {

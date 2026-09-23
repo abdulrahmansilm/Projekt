@@ -1,12 +1,18 @@
 ---
 /**
  * Footer (docs/DESIGNSYSTEM.md → Komponente 18, referenz/global/footer.html).
- * Spalten spiegeln die Navbar-Kategorien. Block „Unternehmen“ an die finale Navbar angeglichen
- * (Über uns, Wissen + Kontakt), Rechtslinks gemäß docs/ANFORDERUNGEN.md (Impressum, Datenschutz, Barrierefreiheit).
- * Bewusst ohne Social-Media-Icons.
+ * Spalten spiegeln die Navbar-Kategorien. Stand 22.09.2026: weißer Seitenrand und rundum abgerundete Ecken
+ * wie beim Hero, Verlauf von dunkel (links) nach hell (rechts unten), Rechtslinks ohne „Barrierefreiheit“,
+ * LinkedIn ohne Kreis und Button „Beratung vereinbaren“ direkt unter Logo und Slogan (Runde 4).
  */
 import Logo from "../ui/Logo.astro";
 import { firma, navigation, leistungHref, rechtsLinks } from "../../lib/config";
+
+interface Props {
+  /** „#kontakt“ auf Seiten mit Anfrage-Wizard, sonst „/#kontakt“ */
+  kontaktHref?: string;
+}
+const { kontaktHref = "/#kontakt" } = Astro.props;
 
 const it = navigation.find((k) => k.id === "it-infrastruktur")!;
 const ki = navigation.find((k) => k.id === "ki-kommunikation")!;
@@ -23,6 +29,12 @@ const jahr = new Date().getFullYear();
           <Logo variant="hell" class="fuss__logo-svg" />
         </a>
         <p class="fuss__claim">{firma.claim}</p>
+        <a class="btn fuss__termin" href={kontaktHref}>
+          <span>Beratung vereinbaren</span>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </a>
         <address class="fuss__kontakt">
           {firma.adresse.strasse}<br />
           <span class:list={{ platzhalter: firma.adresse.plz.platzhalter }}>{firma.adresse.plz.wert}</span>
@@ -39,8 +51,9 @@ const jahr = new Date().getFullYear();
               d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4v11.5H3V9.75Zm6.5 0h3.83v1.57h.06c.53-1 1.84-2.07 3.79-2.07 4.05 0 4.8 2.66 4.8 6.13v5.87h-4v-5.2c0-1.24-.02-2.83-1.73-2.83-1.73 0-2 1.35-2 2.74v5.29h-4V9.75Z"
             ></path>
           </svg>
-          <span>Selim-IT auf LinkedIn<span class="sr-only"> (öffnet in neuem Tab)</span></span>
+          <span>Folgen Sie uns auf LinkedIn<span class="sr-only"> (öffnet in neuem Tab)</span></span>
         </a>
+
       </div>
 
       <nav class="fuss__spalte" aria-labelledby="fuss-it">
@@ -90,7 +103,7 @@ const jahr = new Date().getFullYear();
                 <a href={leistungHref(e.slug)}>{e.label}</a>
               </li>
             ))}
-            <li><a href="/kontakt">Kontakt</a></li>
+            <li><a href={kontaktHref}>Kontakt</a></li>
           </ul>
         </nav>
       </div>
@@ -106,9 +119,15 @@ const jahr = new Date().getFullYear();
 </footer>
 
 <style>
+  /* Weißer Seitenrand und rundum abgerundete Ecken wie beim Hero (Anforderung 22.09.2026).
+     Verlauf: linke Ecke dunkel, rechte Ecke unten hell. */
   .fuss {
+    --fuss-rand: 22px;
+    margin: 0 var(--fuss-rand) var(--fuss-rand);
     padding: 72px 32px 0;
-    background: linear-gradient(150deg, #1b6e7a 0%, #0b2e3c 65%);
+    border-radius: 28px;
+    overflow: hidden;
+    background: linear-gradient(108deg, #0b2e3c 0%, #0b2e3c 42%, #14515e 76%, #1b6e7a 100%);
     color: var(--on-dark);
   }
 
@@ -142,38 +161,40 @@ const jahr = new Date().getFullYear();
     color: rgba(240, 244, 243, 0.75);
   }
 
+  /* LinkedIn ohne Kreis/Rahmen (Anforderung 22.09.2026) */
   .fuss .fuss__linkedin {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: 9px;
     margin-top: 18px;
-    padding: 9px 16px 9px 12px;
-    border: 1px solid rgba(240, 244, 243, 0.28);
-    border-radius: 999px;
-    color: #ffffff;
-    font-size: 14px;
+    padding: 4px 0;
+    color: rgba(240, 244, 243, 0.88);
+    font-size: 14.5px;
     font-weight: 500;
-    transition:
-      background-color 180ms ease,
-      border-color 180ms ease,
-      transform 160ms var(--ease-out);
+    transition: color 160ms ease;
   }
 
   .fuss__linkedin svg {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     flex: none;
+    color: var(--helltuerkis);
+    transition: transform 200ms var(--ease-out);
   }
 
   @media (hover: hover) and (pointer: fine) {
     .fuss .fuss__linkedin:hover {
-      background: rgba(240, 244, 243, 0.1);
-      border-color: rgba(240, 244, 243, 0.55);
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .fuss .fuss__linkedin:hover svg {
+      transform: scale(1.12);
     }
   }
 
-  .fuss__linkedin:active {
-    transform: scale(0.97);
+  .fuss__termin {
+    margin: 0 0 26px;
   }
 
   .fuss__kontakt {
@@ -183,14 +204,15 @@ const jahr = new Date().getFullYear();
     color: rgba(240, 244, 243, 0.88);
   }
 
-  .fuss a {
+  /* Der CTA-Knopf ist ausgenommen: sein Text bleibt immer weiß (docs/DESIGNSYSTEM.md → CTA-Buttons) */
+  .fuss a:not(.btn) {
     color: rgba(240, 244, 243, 0.82);
     text-decoration: none;
     transition: color 150ms ease;
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .fuss a:hover {
+    .fuss a:not(.btn):hover {
       color: #ffffff;
       text-decoration: underline;
       text-underline-offset: 3px;
@@ -268,22 +290,32 @@ const jahr = new Date().getFullYear();
     gap: 8px 24px;
   }
 
-  .fuss__recht a,
   .fuss__copy {
     font-size: 13.5px;
     color: rgba(240, 244, 243, 0.72);
   }
 
+  /* Impressum und Datenschutz ohne Rahmen (Anforderung Runde 4) */
   .fuss__recht a {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: rgba(240, 244, 243, 0.8);
   }
 
   @media (max-width: 940px) {
     .fuss__oben {
       grid-template-columns: 1fr 1fr;
       gap: 36px;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .fuss {
+      --fuss-rand: 10px;
+      border-radius: 20px;
     }
   }
 

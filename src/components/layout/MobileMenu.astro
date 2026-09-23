@@ -54,19 +54,26 @@ const { kontaktHref } = Astro.props;
                 </button>
                 <div class="mm__unter" id={`mm-${kat.id}`}>
                   <div class="mm__unter-inner">
-                    <ul role="list">
-                      {kat.eintraege.map((e) =>
-                        e.bald ? (
-                          <li class="mm__bald">
-                            {e.label} <span>bald</span>
-                          </li>
-                        ) : (
-                          <li>
-                            <a href={leistungHref(e.slug)}>{e.label}</a>
-                          </li>
-                        )
-                      )}
-                    </ul>
+                    {(kat.spalten ?? [""]).map((titel, i) => (
+                      <>
+                        {titel && <p class="mm__spalte">{titel}</p>}
+                        <ul role="list">
+                          {kat.eintraege
+                            .filter((e) => (e.spalte ?? 0) === i)
+                            .map((e) =>
+                              e.bald ? (
+                                <li class="mm__bald">
+                                  {e.label} <span>bald verfügbar</span>
+                                </li>
+                              ) : (
+                                <li>
+                                  <a href={leistungHref(e.slug)}>{e.label}</a>
+                                </li>
+                              )
+                            )}
+                        </ul>
+                      </>
+                    ))}
                   </div>
                 </div>
               </li>
@@ -97,6 +104,20 @@ const { kontaktHref } = Astro.props;
     position: fixed;
     inset: 0;
     z-index: 1500;
+  }
+
+  .mm__spalte {
+    margin: 14px 0 4px;
+    font-family: var(--font-headline);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--helltuerkis);
+  }
+
+  .mm__spalte:first-child {
+    margin-top: 4px;
   }
 
   .mm__backdrop {

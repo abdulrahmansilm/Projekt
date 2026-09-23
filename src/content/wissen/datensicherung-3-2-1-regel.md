@@ -31,8 +31,7 @@ cta:
 
 <p>Die Regel ist alt und wird trotzdem regelmäßig gebrochen, meist an derselben Stelle: bei der Kopie an einem anderen Ort.</p>
 
-<h2>Was die drei Zahlen bedeuten</h2>
-
+## Was die drei Zahlen bedeuten
 <h3>Drei Kopien</h3>
 
 <p>Gemeint sind die Originaldaten plus zwei Sicherungen. Nicht zwei Sicherungen desselben Datenstands, die morgens und abends auf dieselbe Platte laufen, sondern zwei voneinander unabhängige Kopien. Der Grund ist schlichte Wahrscheinlichkeit: Dass ein Speichermedium ausfällt, ist normal. Dass zwei gleichzeitig ausfallen, ist selten.</p>
@@ -49,16 +48,14 @@ cta:
 <p><strong>Der häufigste Fehler in kleinen Betrieben:</strong> eine externe Festplatte, die permanent am Server hängt. Verschlüsselt Ransomware den Server, verschlüsselt sie die Platte gleich mit. Eine dauerhaft verbundene Sicherung ist im Ransomware-Fall keine Sicherung.</p>
 </div>
 
-<h2>Warum die Regel um eine Null erweitert wurde</h2>
-
+## Warum die Regel um eine Null erweitert wurde
 <p>In den letzten Jahren hat sich eine Erweiterung durchgesetzt: <strong>3-2-1-1-0</strong>. Die zusätzliche Eins steht für eine Kopie, die unveränderlich ist, also nachträglich nicht überschrieben oder gelöscht werden kann, auch nicht von jemandem mit Administratorrechten. Fachbegriff: Immutable Backup oder Air-Gap.</p>
 
 <p>Der Hintergrund ist unangenehm konkret: Moderne Ransomware sucht gezielt nach Sicherungen und löscht sie, bevor sie die eigentlichen Daten verschlüsselt. Wer den Angreifer aussperren will, braucht eine Kopie, die technisch nicht löschbar ist.</p>
 
 <p>Die Null steht für <strong>null Fehler bei der Wiederherstellung</strong>, geprüft durch regelmäßige Tests. Und das ist der Punkt, an dem die meisten Sicherungskonzepte in der Praxis auffliegen.</p>
 
-<h2>Der Test, den fast niemand macht</h2>
-
+## Der Test, den fast niemand macht
 <p>Eine Sicherung, die noch nie zurückgespielt wurde, ist eine Vermutung. Typische Fehler, die erst beim Test auffallen:</p>
 
 <ul>
@@ -70,8 +67,7 @@ cta:
 
 <p>Sinnvoller Rhythmus: einmal im Quartal eine echte Wiederherstellung, mindestens stichprobenhaft. Einmal im Jahr ein vollständiger Test mit Zeitmessung. Beides schriftlich festhalten, im Schadensfall ist das gegenüber Versicherung und Aufsichtsbehörden Gold wert.</p>
 
-<h2>Zwei Kennzahlen, die Sie festlegen sollten</h2>
-
+## Zwei Kennzahlen, die Sie festlegen sollten
 <div class="tabelle-scroll" tabindex="0" role="region" aria-label="Tabelle"><table>
 <tr><th scope="col">Kennzahl</th><th scope="col">Was sie bedeutet</th><th scope="col">Beispiel</th></tr>
 <tr><td>RPO (Recovery Point Objective)</td><td>Wie viel Datenverlust ist maximal verkraftbar?</td><td>4 Stunden = Sicherung mindestens alle 4 Stunden</td></tr>
@@ -80,8 +76,7 @@ cta:
 
 <p>Diese beiden Zahlen bestimmen fast alles Weitere: wie oft gesichert wird, welche Technik nötig ist und was das Ganze kostet. Sie sollten von der Geschäftsführung kommen, nicht von der IT, es ist eine betriebswirtschaftliche Entscheidung, keine technische.</p>
 
-<h2>Was in der Praxis funktioniert</h2>
-
+## Was in der Praxis funktioniert
 <p>Ein bewährter Aufbau für einen mittelständischen Betrieb:</p>
 
 <ol>
@@ -92,14 +87,12 @@ cta:
 
 <p>Wichtig für Microsoft-365-Nutzer: Microsoft sichert Ihre Daten nicht in dem Sinne, wie viele es annehmen. Der Konzern sorgt für die Verfügbarkeit der Plattform, nicht für die Wiederherstellung eines Postfachs, das vor acht Monaten gelöscht wurde. Eine eigene Sicherung von Exchange, SharePoint und OneDrive ist deshalb kein Luxus, sondern gehört dazu.</p>
 
-<h2>Was der Gesetzgeber verlangt</h2>
-
+## Was der Gesetzgeber verlangt
 <p>Die DSGVO fordert in Artikel 32 ausdrücklich die Fähigkeit, „die Verfügbarkeit der personenbezogenen Daten und den Zugang zu ihnen bei einem physischen oder technischen Zwischenfall rasch wiederherzustellen“. Ebenso verlangt sie ein Verfahren zur regelmäßigen Überprüfung der Wirksamkeit, also genau die Wiederherstellungstests.</p>
 
 <p>Für Betriebe im Anwendungsbereich von NIS-2 kommt Backup-Management als eine der zehn Pflichtmaßnahmen hinzu. Und die handelsrechtlichen Aufbewahrungsfristen von sechs beziehungsweise zehn Jahren gelten für digitale Unterlagen genauso wie für Papier.</p>
 
-<h2>Fünf Fragen für die eigene Standortbestimmung</h2>
-
+## Fünf Fragen für die eigene Standortbestimmung
 <ol>
 <li>Wissen Sie ohne nachzusehen, ob die Sicherung letzte Nacht durchgelaufen ist?</li>
 <li>Liegt eine Kopie außer Haus, die nicht dauerhaft mit dem Netzwerk verbunden ist?</li>

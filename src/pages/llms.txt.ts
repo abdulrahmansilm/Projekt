@@ -40,10 +40,10 @@ export const GET: APIRoute = async () => {
 
   z.push("## Unternehmen");
   z.push(`- [Über uns](${SITE_URL}/ueber-uns): Wer wir sind und wie wir arbeiten.`);
-  z.push(`- [Kontakt](${SITE_URL}/kontakt): Anfrage senden oder kostenloses Erstgespräch buchen.`);
+  z.push(`- [Unser Leitbild](${SITE_URL}/leitbild): Wofür wir stehen und wohin wir mit unseren Kunden wollen.`);
+  z.push(`- [Kontakt](${SITE_URL}/#kontakt): Anfrage senden oder kostenloses Erstgespräch buchen.`);
   z.push(`- [Impressum](${SITE_URL}/impressum)`);
   z.push(`- [Datenschutz](${SITE_URL}/datenschutz)`);
-  z.push(`- [Erklärung zur Barrierefreiheit](${SITE_URL}/barrierefreiheit)`);
 
   return new Response(z.join("\n") + "\n", {
     headers: { "Content-Type": "text/plain; charset=utf-8" },

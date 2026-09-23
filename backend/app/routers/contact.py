@@ -1,6 +1,6 @@
 import logging
 from collections.abc import Awaitable, Callable
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
@@ -11,7 +11,16 @@ from ..caldav_client import TZ, buche_termin, slot_ist_noch_frei
 from ..database import get_db
 from ..models import Anfrage
 from ..nextcloud_talk import erstelle_talk_raum
-from ..schemas import Dringlichkeit, KontaktAnfrageEingabe, KontaktAntwort, Weg
+from ..schemas import (
+    DRINGLICHKEIT_LABEL,
+    LEISTUNGEN,
+    THEMEN,
+    Dringlichkeit,
+    KontaktAnfrageEingabe,
+    KontaktAntwort,
+    TerminNachtragEingabe,
+    Weg,
+)
 
 router = APIRouter(prefix="/api", tags=["contact"])
 logger = logging.getLogger(__name__)
@@ -127,6 +136,92 @@ async def contact_booking(daten: KontaktAnfrageEingabe, db: Session = Depends(ge
         eintrag.id, "interne Benachrichtigung",
         lambda: mail.sende_anfrage_benachrichtigung_intern(
             eintrag.id, _betreff_intern(daten), f"Termin: {termin_lesbar}\nVideo-Link: {talk_url or '-'}\n\n{daten.zusammenfassung()}"
+        ),
+    )
+
+    return KontaktAntwort(ok=True, id=eintrag.id, nextcloud_talk_url=talk_url)
+
+
+#: Frist, innerhalb der ein Termin nachträglich an eine Anfrage gehängt werden darf
+NACHTRAG_FRIST = timedelta(hours=6)
+
+
+def _zusammenfassung_aus_eintrag(eintrag: Anfrage) -> str:
+    """Zusammenfassung für die Mails aus dem gespeicherten Datensatz (ohne erneute Formulareingabe)."""
+    themen = ", ".join(THEMEN.get(t, t) for t in (eintrag.themen or []))
+    leistungen = ", ".join(LEISTUNGEN.get(x, x) for x in (eintrag.leistungen or [])) or "-"
+    dringlichkeit = DRINGLICHKEIT_LABEL.get(Dringlichkeit(eintrag.dringlichkeit), eintrag.dringlichkeit)
+    zeilen = [
+        f"Bereiche: {themen}",
+        f"Interesse an: {leistungen}",
+        f"Dringlichkeit: {dringlichkeit}",
+        f"Mitarbeitende: {eintrag.groesse}",
+        "",
+        f"Name: {eintrag.vorname} {eintrag.nachname}",
+        f"Unternehmen: {eintrag.unternehmen or '-'}",
+        f"E-Mail: {eintrag.email}",
+        f"Telefon: {eintrag.telefon or '-'}",
+        f"Gesendet von: {eintrag.herkunft}",
+    ]
+    if eintrag.nachricht:
+        zeilen += ["", "Nachricht:", eintrag.nachricht]
+    return "\n".join(zeilen)
+
+
+@router.post("/contact/{anfrage_id}/termin", response_model=KontaktAntwort)
+async def contact_termin(anfrage_id: str, daten: TerminNachtragEingabe, db: Session = Depends(get_db)) -> KontaktAntwort:
+    """Hängt einen Termin an eine bereits gesendete Anfrage.
+
+    Schnittstelle für die Kalenderanbindung (docs/ANFORDERUNGEN.md, 22.09.2026): Der Kalenderzugriff steckt
+    vollständig in caldav_client.py und kann dort gegen einen anderen Anbieter getauscht werden.
+    """
+    eintrag = db.get(Anfrage, anfrage_id)
+    if eintrag is None:
+        raise HTTPException(status_code=404, detail="Anfrage nicht gefunden.")
+    if eintrag.termin_start is not None:
+        raise HTTPException(status_code=409, detail="Für diese Anfrage ist bereits ein Termin hinterlegt.")
+    erstellt = eintrag.erstellt_am
+    if erstellt.tzinfo is None:
+        erstellt = erstellt.replace(tzinfo=timezone.utc)
+    if datetime.now(timezone.utc) - erstellt > NACHTRAG_FRIST:
+        raise HTTPException(status_code=410, detail="Der Zeitraum für die Terminauswahl ist abgelaufen.")
+
+    try:
+        frei = slot_ist_noch_frei(daten.termin_slot)
+    except Exception as exc:
+        logger.exception("Kalenderabfrage fehlgeschlagen: %s", exc)
+        raise HTTPException(status_code=502, detail="Der Kalender ist aktuell nicht erreichbar.") from exc
+    if not frei:
+        raise HTTPException(status_code=409, detail="Der gewählte Termin ist inzwischen belegt. Bitte wählen Sie einen anderen Termin.")
+
+    zusammenfassung = _zusammenfassung_aus_eintrag(eintrag)
+    titel = f"Erstgespräch: {eintrag.vorname} {eintrag.nachname}"
+    if eintrag.unternehmen:
+        titel += f" ({eintrag.unternehmen})"
+    try:
+        buche_termin(daten.termin_slot, titel, zusammenfassung)
+    except Exception as exc:
+        logger.exception("Terminbuchung im Kalender fehlgeschlagen (Anfrage %s): %s", eintrag.id, exc)
+        raise HTTPException(status_code=502, detail="Der Kalender ist aktuell nicht erreichbar.") from exc
+
+    talk_url = await erstelle_talk_raum(titel)
+    start = datetime.fromisoformat(daten.termin_slot)
+    eintrag.termin_start = start
+    eintrag.nextcloud_talk_url = talk_url
+    eintrag.weg = Weg.termin.value
+    db.commit()
+
+    termin_lesbar = _termin_lesbar(start)
+    await _fehlertolerant(
+        eintrag.id, "Terminbestätigung an Kunde",
+        lambda: mail.sende_terminbestaetigung(eintrag.email, eintrag.vorname, termin_lesbar, talk_url),
+    )
+    await _fehlertolerant(
+        eintrag.id, "interne Benachrichtigung",
+        lambda: mail.sende_anfrage_benachrichtigung_intern(
+            eintrag.id,
+            f"Termin zu Anfrage von {eintrag.vorname} {eintrag.nachname}",
+            f"Termin: {termin_lesbar}\nVideo-Link: {talk_url or '-'}\n\n{zusammenfassung}",
         ),
     )
 

@@ -31,14 +31,12 @@ cta:
 
 <p>Er ersetzt keine Fachberatung und kein Verkaufsgespräch. Er sorgt dafür, dass kein Anruf ins Leere läuft.</p>
 
-<h2>Das Problem, das er löst</h2>
-
+## Das Problem, das er löst
 <p>In den meisten kleineren Betrieben klingelt das Telefon dann, wenn alle beschäftigt sind. Der Anruf geht auf die Mailbox, der Anrufer legt auf und ruft beim Nächsten an. Wer schon einmal versucht hat, einen Handwerker zu erreichen, kennt beide Seiten dieses Problems.</p>
 
 <p>Ein unbeantworteter Anruf ist nicht nur eine verpasste Nachricht, sondern häufig ein verlorener Auftrag. Genau hier setzt der Assistent an: Er nimmt ab, klärt worum es geht, notiert Rückrufwunsch und Erreichbarkeit und Sie bekommen statt einer stummen Mailbox eine strukturierte Notiz.</p>
 
-<h2>Was ein KI-Telefonassistent gut kann</h2>
-
+## Was ein KI-Telefonassistent gut kann
 <ul>
 <li><strong>Anliegen aufnehmen und weiterleiten.</strong> Name, Rückrufnummer, Anliegen, Dringlichkeit, sauber erfasst und direkt im richtigen Postfach.</li>
 <li><strong>Immer gleiche Fragen beantworten.</strong> Öffnungszeiten, Anfahrt, Zuständigkeiten, Bearbeitungsstände. Diese Anrufe binden erstaunlich viel Zeit.</li>
@@ -48,8 +46,7 @@ cta:
 <li><strong>Spitzen abfangen.</strong> Wenn mehrere gleichzeitig anrufen, wartet niemand in der Schleife.</li>
 </ul>
 
-<h2>Wo die Grenzen liegen</h2>
-
+## Wo die Grenzen liegen
 <p>Diese Punkte gehören ins Gespräch, bevor jemand zu viel erwartet:</p>
 
 <p><strong>Komplexe Fachberatung.</strong> Wer wissen will, welche von drei technischen Varianten für seinen Sonderfall passt, braucht einen Menschen. Der Assistent kann das Anliegen aufnehmen, nicht beantworten.</p>
@@ -64,8 +61,7 @@ cta:
 <p><strong>Die Faustregel:</strong> Ein KI-Telefonassistent ist gut darin, Anliegen aufzunehmen und zu ordnen. Er ist schlecht darin, sie abschließend zu lösen. Wer ihn als besseren Empfang versteht und nicht als Ersatz für Fachpersonal, wird zufrieden sein.</p>
 </div>
 
-<h2>Für welche Betriebe es sich lohnt</h2>
-
+## Für welche Betriebe es sich lohnt
 <p>Besonders sinnvoll, wenn mehrere dieser Punkte zutreffen:</p>
 
 <ul>
@@ -78,8 +74,7 @@ cta:
 
 <p>Weniger sinnvoll bei sehr geringem Anrufaufkommen, bei überwiegend komplexen Erstgesprächen oder wenn ohnehin durchgehend jemand ans Telefon geht.</p>
 
-<h2>Datenschutz: was zu beachten ist</h2>
-
+## Datenschutz: was zu beachten ist
 <p>Telefonate mit einem KI-System verarbeiten personenbezogene Daten, teilweise auch aufgezeichnet oder transkribiert. Drei Punkte sind Pflicht:</p>
 
 <ol>
@@ -88,8 +83,7 @@ cta:
 <li><strong>Löschkonzept.</strong> Wie lange werden Aufzeichnungen und Transkripte aufbewahrt? Diese Frage sollte beantwortet sein, bevor das System live geht, nicht danach.</li>
 </ol>
 
-<h2>Wie die Einrichtung abläuft</h2>
-
+## Wie die Einrichtung abläuft
 <p>Der technische Aufwand ist überschaubar, der inhaltliche entscheidet über das Ergebnis:</p>
 
 <ol>
@@ -102,6 +96,5 @@ cta:
 
 <p>Der erste Punkt wird oft übersprungen und ist der wichtigste. Ein Assistent, der auf Vermutungen über Anrufgründe aufgebaut wurde, geht an der Realität vorbei.</p>
 
-<h2>Was es kostet</h2>
-
+## Was es kostet
 <p>Die Preise setzen sich üblicherweise aus einer Grundgebühr und einem nutzungsabhängigen Anteil nach Gesprächsminuten zusammen, dazu kommt die einmalige Einrichtung. Der Vergleichsmaßstab ist selten eine Empfangskraft, sondern die verlorenen Aufträge durch unbeantwortete Anrufe. Wer einschätzen kann, wie viele Anrufe pro Woche ins Leere laufen und was ein durchschnittlicher Auftrag wert ist, hat die Rechnung schnell aufgemacht.</p>

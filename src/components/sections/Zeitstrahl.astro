@@ -27,7 +27,6 @@ const id = `zt-${Math.random().toString(36).slice(2, 7)}`;
       {eyebrow && <p class="zt__eyebrow">{eyebrow}</p>}
       <h2 id={`${id}-titel`} class="zt__h2">{titel}</h2>
       {intro && <p class="zt__lead">{intro}</p>}
-      <p class="zt__zaehler" aria-hidden="true" data-zt-zaehler></p>
     </div>
 
     <div class="zt__buehne-wrap" data-zt-wrap>
@@ -98,7 +97,6 @@ const id = `zt-${Math.random().toString(36).slice(2, 7)}`;
     const punkteG = root.querySelector<SVGGElement>("[data-zt-punkte]")!;
     const labels = root.querySelector<HTMLElement>("[data-zt-labels]")!;
     const panels = Array.from(root.querySelectorAll<HTMLElement>("[data-zt-panel]"));
-    const elZaehler = root.querySelector<HTMLElement>("[data-zt-zaehler]");
     const mobil = window.matchMedia("(max-width: 640px)");
     const grad = punkteG.dataset.grad ?? "#1B6E7A";
     const scope = Array.from(root.attributes).find((a) => a.name.startsWith("data-astro-cid-"))?.name;
@@ -167,8 +165,8 @@ const id = `zt-${Math.random().toString(36).slice(2, 7)}`;
         // Crossfade mit leichtem Blur verbindet alten und neuen Zustand (emil-design-eng)
         if (wechsel && panel.offsetParent !== null) {
           const mobilPanel = panel.classList.contains("zt__panel--mobil");
-          const basis = mobilPanel ? "none" : "translateY(-50%)";
-          const start = mobilPanel ? "translateY(6px)" : "translateY(calc(-50% + 6px))";
+          const basis = mobilPanel ? "none" : "translateY(var(--zt-panel-y))";
+          const start = mobilPanel ? "translateY(6px)" : "translateY(calc(var(--zt-panel-y) + 6px))";
           panel.animate(
             reduziert
               ? [{ opacity: 0.4 }, { opacity: 1 }]
@@ -180,7 +178,6 @@ const id = `zt-${Math.random().toString(36).slice(2, 7)}`;
           );
         }
       }
-      if (elZaehler) elZaehler.textContent = `Schritt ${schritte[aktiv].nummer} von ${schritte[letzter].nummer}`;
       erstesMal = false;
     }
 
@@ -203,7 +200,7 @@ const id = `zt-${Math.random().toString(36).slice(2, 7)}`;
     // Klick auf eine leere Fläche der Sektion: sanft zurück zu Schritt 1
     root.addEventListener("click", (e) => {
       const ziel = e.target as Element;
-      if (ziel.closest("button, a, circle, .zt__panel, .zt__zaehler, .zt__lead, .zt__h2")) return;
+      if (ziel.closest("button, a, circle, .zt__panel, .zt__lead, .zt__h2")) return;
       if (window.getSelection()?.toString()) return;
       if (aktiv !== 0) setzeAktiv(0);
     });
@@ -272,23 +269,6 @@ const id = `zt-${Math.random().toString(36).slice(2, 7)}`;
     font-size: 19px;
     line-height: 1.55;
     color: var(--ink-72);
-  }
-
-  .zt__zaehler {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 6px;
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--ink-68);
-  }
-
-  .zt__zaehler::before {
-    content: "";
-    width: 26px;
-    height: 2px;
-    background: var(--verlauf);
   }
 
   .zt__buehne-wrap {
@@ -368,7 +348,10 @@ const id = `zt-${Math.random().toString(36).slice(2, 7)}`;
     pointer-events: none;
   }
 
+  /* Runde 4: Nicht mehr der ganze Textblock wird auf den Marker zentriert, sondern die große Zahl.
+     So bleibt die Zahl auf Höhe des Markers, auch wenn die Beschreibung länger wird; der Text wächst nach unten. */
   .zt__panel {
+    --zt-panel-y: -38px;
     position: absolute;
     top: 350px;
     left: 372px;
@@ -376,7 +359,7 @@ const id = `zt-${Math.random().toString(36).slice(2, 7)}`;
     align-items: flex-start;
     gap: 26px;
     width: 470px;
-    transform: translateY(-50%);
+    transform: translateY(var(--zt-panel-y));
   }
 
   .zt__grosszahl {

@@ -1,8 +1,11 @@
 ---
 /**
  * „Für wen sich das eignet“: zwei gegenläufige Branchen-Laufbänder (referenz/ki-telefonassistent/branchen.html).
- * In docs/ANFORDERUNGEN.md als offene dritte Sonder-Sektion vermerkt; die Referenz liegt inzwischen vor.
- * Konstante Bewegung (linear), Pause bei Hover/Fokus und per Knopf (WCAG 2.2.2), reduzierte Bewegung → statische Liste.
+ * Nahtloser Endlos-Loop: die Spur besteht aus zwei identischen Gruppen; jede Gruppe trägt ihren eigenen
+ * Abstand am Ende (padding-right = gap), damit translateX(-50%) exakt eine Gruppenbreite entspricht und
+ * nie eine Lücke sichtbar wird. Die Chips stehen pro Gruppe doppelt, damit eine Gruppe auch auf sehr
+ * breiten Bildschirmen (2560 px) breiter ist als das Fenster (Runde 4). Bewegung ist konstant und hält nie an (Anforderung 22.09.2026);
+ * reduzierte Bewegung → statische Liste.
  */
 interface Props {
   eyebrow?: string;
@@ -26,24 +29,20 @@ const { eyebrow, titel, intro, reihen } = Astro.props;
     {
       reihen.map((reihe, i) => (
         <div class="bahn">
-          <ul class:list={["spur", { "spur--rueckwaerts": i % 2 === 1 }]} role="list">
-            {reihe.map((b) => (
-              <li class="chip">
-                <span class="chip__ico" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" set:html={b.icon} />
-                </span>
-                <span>{b.label}</span>
-              </li>
+          <div class:list={["spur", { "spur--rueckwaerts": i % 2 === 1 }]}>
+            {[0, 1].map((kopie) => (
+              <ul class:list={["gruppe", { "gruppe--kopie": kopie === 1 }]} role="list" aria-hidden={kopie === 1 ? "true" : undefined}>
+                {[...reihe, ...reihe].map((b, n) => (
+                  <li class="chip" aria-hidden={n >= reihe.length ? "true" : undefined}>
+                    <span class="chip__ico" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" set:html={b.icon} />
+                    </span>
+                    <span>{b.label}</span>
+                  </li>
+                ))}
+              </ul>
             ))}
-            {reihe.map((b) => (
-              <li class="chip chip--kopie" aria-hidden="true">
-                <span class="chip__ico">
-                  <svg viewBox="0 0 24 24" fill="none" set:html={b.icon} />
-                </span>
-                <span>{b.label}</span>
-              </li>
-            ))}
-          </ul>
+          </div>
         </div>
       ))
     }
@@ -94,22 +93,27 @@ const { eyebrow, titel, intro, reihen } = Astro.props;
   }
 
   .spur {
+    --spur-gap: 12px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 0;
     width: max-content;
+    animation: br-links 84s linear infinite;
+    will-change: transform;
+  }
+
+  /* Jede Gruppe trägt ihren Abstand selbst → beide Gruppen sind exakt gleich breit */
+  .gruppe {
+    display: flex;
+    align-items: center;
+    gap: var(--spur-gap);
     margin: 0;
-    padding: 0 6px 0 0;
+    padding-right: var(--spur-gap);
     list-style: none;
-    animation: br-links 42s linear infinite;
   }
 
   .spur--rueckwaerts {
     animation-name: br-rechts;
-  }
-
-  .bahn:hover .spur {
-    animation-play-state: paused;
   }
 
   @keyframes br-links {
@@ -183,11 +187,14 @@ const { eyebrow, titel, intro, reihen } = Astro.props;
 
   @media (prefers-reduced-motion: reduce) {
     .spur {
+      width: auto;
+      animation: none;
+    }
+
+    .gruppe {
       flex-wrap: wrap;
       justify-content: center;
-      width: auto;
       padding: 0 20px;
-      animation: none;
     }
 
     .bahn {
@@ -195,7 +202,8 @@ const { eyebrow, titel, intro, reihen } = Astro.props;
       mask-image: none;
     }
 
-    .chip--kopie {
+    .gruppe--kopie,
+    .chip[aria-hidden="true"] {
       display: none;
     }
   }

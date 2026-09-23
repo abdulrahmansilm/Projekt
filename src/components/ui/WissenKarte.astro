@@ -69,10 +69,13 @@ const d = artikel.data;
     background: linear-gradient(150deg, #1b6e7a 0%, #0b2e3c 100%);
   }
 
+  /* Bild vollständig zeigen statt beschneiden (Anforderung 22.09.2026) */
   .wk__media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    width: auto;
+    height: auto;
+    max-width: 62%;
+    max-height: 78%;
+    object-fit: contain;
   }
 
   .wk__body {

@@ -7,7 +7,7 @@
  * Verhalten: src/lib/kontaktWizard.ts
  */
 import { getEntry } from "astro:content";
-import { firma, navigation } from "../../lib/config";
+import { navigation } from "../../lib/config";
 
 interface Props {
   vorauswahl?: { thema: string; option?: string };
@@ -16,15 +16,21 @@ interface Props {
 }
 
 const { vorauswahl, leistung: aktuelleLeistung } = Astro.props;
-// Alle Leistungen aus der Navbar (ohne „bald verfügbar“ und ohne Unternehmensseiten) als anklickbare Optionen
+// Alle Leistungen aus der Navbar (ohne „bald verfügbar“ und ohne Unternehmensseiten) als anklickbare Optionen.
+// Die Gruppen-Id entspricht der Themen-Id aus Schritt 1; im Schritt „Details“ werden nur die Gruppen gezeigt,
+// die vorher unter „Anliegen“ gewählt wurden (Anforderung 22.09.2026).
 const interessen = navigation
-  .filter((k) => k.id !== "unternehmen")
+  .filter((k) => k.id === "it-infrastruktur" || k.id === "ki-kommunikation")
   .map((k) => ({
+    id: k.id,
     gruppe: k.label,
-    eintraege: k.href
-      ? [{ slug: "webseiten", label: k.label }]
-      : k.eintraege.filter((e) => !e.bald).map((e) => ({ slug: e.slug, label: e.label })),
+    eintraege: k.eintraege.filter((e) => !e.bald).map((e) => ({ slug: e.slug, label: e.label })),
   }));
+/** Runde 4: Bei „Webentwicklung“ stehen stattdessen diese Zusatzoptionen zur Wahl */
+const webOptionen = [
+  { slug: "branding", label: "Branding" },
+  { slug: "hosting", label: "Hosting" },
+];
 const eintrag = await getEntry("seiten", "kontakt");
 if (!eintrag) throw new Error("src/content/seiten/kontakt.json fehlt");
 const k = eintrag.data as {
@@ -36,17 +42,14 @@ const k = eintrag.data as {
     titel: string;
     hinweis: string;
     dringlichkeitLabel: string;
-    dringendHinweis: string;
     groesseLabel: string;
     freitextLabel: string;
-    freitextHinweis: string;
     freitextPlatzhalter: string;
   };
   schritt3: { titel: string; hinweis: string };
   schritt4: {
     titel: string;
     hinweis: string;
-    wegeLabel: string;
     senden: { titel: string; text: string; button: string };
     termin: { titel: string; text: string; button: string };
   };
@@ -55,8 +58,6 @@ const k = eintrag.data as {
   dringlichkeit: { wert: string; stufe: string }[];
   groessen: string[];
 };
-
-const dringendHinweis = k.schritt2.dringendHinweis.replace(/^Bei einem akuten Ausfall:\s*/, "");
 ---
 
 <section
@@ -153,11 +154,6 @@ const dringendHinweis = k.schritt2.dringendHinweis.replace(/^Bei einem akuten Au
               ))
             }
           </div>
-          <div class="dringend" data-kw-dringend hidden>
-            <strong>Bei einem akuten Ausfall:</strong>
-            {dringendHinweis}
-            <a href={firma.telefon.href}>Jetzt anrufen</a>
-          </div>
         </fieldset>
 
         <fieldset class="block">
@@ -174,12 +170,11 @@ const dringendHinweis = k.schritt2.dringendHinweis.replace(/^Bei einem akuten Au
           </div>
         </fieldset>
 
-        <fieldset class="block">
+        <fieldset class="block" data-kw-interessen-block hidden>
           <legend class="block__label">An welchen Leistungen haben Sie Interesse?</legend>
-          <p class="block__sub">Mehrfachauswahl möglich, alles ist optional.</p>
           {
             interessen.map((g) => (
-              <div class="interesse">
+              <div class="interesse" data-kw-interesse={g.id} hidden>
                 <p class="interesse__gruppe">{g.gruppe}</p>
                 <div class="optionen">
                   {g.eintraege.map((e) => (
@@ -194,15 +189,31 @@ const dringendHinweis = k.schritt2.dringendHinweis.replace(/^Bei einem akuten Au
           }
         </fieldset>
 
+        <fieldset class="block" data-kw-web-block hidden>
+          <legend class="block__label">Welche Zusatzoptionen interessieren Sie?</legend>
+          <div class="optionen">
+            {
+              webOptionen.map((e) => (
+                <label class="option option--weiss">
+                  <input type="checkbox" name="leistung" value={e.slug} data-label={e.label} />
+                  <span>{e.label}</span>
+                </label>
+              ))
+            }
+          </div>
+        </fieldset>
+
         <div class="block">
-          <label class="block__label" for="kw-freitext">{k.schritt2.freitextLabel}</label>
-          <p class="block__sub" id="kw-freitext-hinweis">{k.schritt2.freitextHinweis}</p>
+          <label class="block__label" for="kw-freitext">
+            {k.schritt2.freitextLabel} <span class="feld__pflicht">(Pflichtfeld)</span>
+          </label>
           <textarea
             id="kw-freitext"
             name="nachricht"
             rows="5"
             maxlength="4000"
-            aria-describedby="kw-freitext-hinweis"
+            required
+            aria-required="true"
             placeholder={k.schritt2.freitextPlatzhalter}></textarea>
         </div>
         <p class="kw__fehler" data-kw-fehler="2" hidden></p>
@@ -238,8 +249,11 @@ const dringendHinweis = k.schritt2.dringendHinweis.replace(/^Bei einem akuten Au
           </div>
         </div>
         <p class="kw__datenschutz">
-          Wir verarbeiten Ihre Angaben ausschließlich zur Bearbeitung Ihrer Anfrage. Details finden Sie in der
-          <a href="/datenschutz">Datenschutzerklärung</a>.
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 3.2 19 5.8v5.4c0 4.7-3 8.2-7 9.6-4-1.4-7-4.9-7-9.6V5.8l7-2.6Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path>
+            <path d="M9 11.8 11.2 14l4-4.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          <span>Ihre Angaben behandeln wir vertraulich und datenschutzkonform.</span>
         </p>
       </div>
 
@@ -250,48 +264,13 @@ const dringendHinweis = k.schritt2.dringendHinweis.replace(/^Bei einem akuten Au
           <p class="panel__hinweis">{k.schritt4.hinweis}</p>
           <dl class="zusammenfassung" data-kw-zusammenfassung></dl>
 
-          <p class="block__label">{k.schritt4.wegeLabel}</p>
-          <div class="wege">
-            <div class="weg weg--primaer">
-              <span class="weg__ico" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <rect x="2.5" y="5" width="19" height="14" rx="2.2" stroke="currentColor" stroke-width="1.7" />
-                  <path d="M3.5 6.5L12 13l8.5-6.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-              </span>
-              <h4>{k.schritt4.senden.titel}</h4>
-              <p>{k.schritt4.senden.text}</p>
-              <button type="button" class="btn btn--block" data-kw-senden>
-                <span>{k.schritt4.senden.button}</span>
-              </button>
-            </div>
-            <div class="weg">
-              <span class="weg__ico" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <rect x="3" y="5" width="18" height="16" rx="2.2" stroke="currentColor" stroke-width="1.7" />
-                  <path d="M3 10h18" stroke="currentColor" stroke-width="1.7" />
-                  <path d="M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
-                  <path d="M9.5 15.3l1.8 1.8 3.5-3.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-              </span>
-              <h4>{k.schritt4.termin.titel}</h4>
-              <p>{k.schritt4.termin.text}</p>
-              <button type="button" class="btn-outline btn--block" aria-expanded="false" aria-controls="kw-kalender" data-kw-termin>
-                {k.schritt4.termin.button}
-              </button>
-            </div>
-          </div>
-
-          <div class="kalender" id="kw-kalender" data-kw-kalender hidden>
-            <fieldset class="kalender__slots">
-              <legend class="block__label">Wählen Sie einen Termin (30 Minuten, per Video über Nextcloud Talk)</legend>
-              <p class="kalender__status" data-kw-slot-status>Verfügbare Termine werden geladen …</p>
-              <div class="kalender__liste" data-kw-slots></div>
-            </fieldset>
-            <button type="button" class="btn" data-kw-buchen hidden>
-              <span>Termin verbindlich anfragen</span>
-            </button>
-          </div>
+          <p class="senden__text">{k.schritt4.senden.text}</p>
+          <button type="button" class="btn senden__btn" data-kw-senden>
+            <span>{k.schritt4.senden.button}</span>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </button>
 
           <div class="kw__spamschutz" data-kw-altcha></div>
           <p class="kw__fehler" data-kw-sendefehler hidden></p>
@@ -306,6 +285,38 @@ const dringendHinweis = k.schritt2.dringendHinweis.replace(/^Bei einem akuten Au
           <h3 tabindex="-1">{k.danke.titel}</h3>
           <p>{k.danke.text}</p>
           <p class="danke__termin" data-kw-danke-termin hidden></p>
+        </div>
+
+        <!-- Runde 5: Terminkasten ist in Schritt 4 immer sichtbar und von Anfang an nutzbar (Runde-4-Sperre bis zum Absenden zurückgenommen) -->
+        <div class="termin" data-kw-termin-angebot>
+          <span class="termin__ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <rect x="3" y="5" width="18" height="16" rx="2.2" stroke="currentColor" stroke-width="1.7"></rect>
+              <path d="M3 10h18" stroke="currentColor" stroke-width="1.7"></path>
+              <path d="M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path>
+              <path d="M9.5 15.3l1.8 1.8 3.5-3.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </span>
+          <h4>{k.schritt4.termin.titel}</h4>
+          <p>{k.schritt4.termin.text}</p>
+          <button type="button" class="btn termin__btn" aria-expanded="false" aria-controls="kw-kalender" data-kw-termin>
+            <span>{k.schritt4.termin.button}</span>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </button>
+
+          <div class="kalender" id="kw-kalender" data-kw-kalender hidden>
+            <fieldset class="kalender__slots">
+              <legend class="block__label">Freie Termine (30 Minuten, per Video oder Telefon)</legend>
+              <p class="kalender__status" data-kw-slot-status>Verfügbare Termine werden geladen …</p>
+              <div class="kalender__liste" data-kw-slots></div>
+            </fieldset>
+            <button type="button" class="btn" data-kw-buchen hidden>
+              <span>Termin verbindlich anfragen</span>
+            </button>
+            <p class="kw__fehler" data-kw-terminfehler hidden></p>
+          </div>
         </div>
       </div>
 
@@ -333,8 +344,10 @@ const dringendHinweis = k.schritt2.dringendHinweis.replace(/^Bei einem akuten Au
 </script>
 
 <style>
+  /* Runde 4: Sprungziel exakt an die Oberkante der Sektion (12px Luft). Das globale scroll-padding
+     (Header-Höhe + 16px) wird hier bewusst aufgehoben – der Header blendet beim Runterscrollen ohnehin aus. */
   .kw {
-    scroll-margin-top: 72px;
+    scroll-margin-top: calc(12px - var(--header-h) - 16px);
   }
 
   .kw__inner {
@@ -789,22 +802,6 @@ const dringendHinweis = k.schritt2.dringendHinweis.replace(/^Bei einem akuten Au
     color: var(--on-dark-72);
   }
 
-  .dringend {
-    margin-top: 16px;
-    padding: 14px 18px;
-    border-left: 3px solid #e0685a;
-    border-radius: 0 10px 10px 0;
-    background: rgba(192, 57, 43, 0.14);
-    font-size: 13.5px;
-    line-height: 1.55;
-  }
-
-  .dringend a {
-    margin-left: 4px;
-    color: #ffffff;
-    font-weight: 600;
-  }
-
   textarea,
   .feld input {
     width: 100%;
@@ -879,15 +876,20 @@ const dringendHinweis = k.schritt2.dringendHinweis.replace(/^Bei einem akuten Au
   }
 
   .kw__datenschutz {
+    display: flex;
+    align-items: center;
+    gap: 9px;
     margin-top: 20px;
-    font-size: 13px;
+    font-size: 13.5px;
     line-height: 1.55;
     color: var(--on-dark-72);
   }
 
-  .kw__datenschutz a {
+  .kw__datenschutz svg {
+    width: 19px;
+    height: 19px;
+    flex: none;
     color: var(--helltuerkis);
-    font-weight: 500;
   }
 
   /* Zusammenfassung + Wege (Schritt 4) */
@@ -925,63 +927,80 @@ const dringendHinweis = k.schritt2.dringendHinweis.replace(/^Bei einem akuten Au
     overflow-wrap: anywhere;
   }
 
-  .wege {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
+  .senden__text {
+    margin-bottom: 18px;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--on-dark-72);
   }
 
-  .weg {
-    display: flex;
-    flex-direction: column;
-    padding: 26px 24px;
-    border-radius: 16px;
-    background: rgba(240, 244, 243, 0.05);
-    border: 1px solid rgba(240, 244, 243, 0.1);
+  /* Terminangebot nach dem Absenden (Anforderung 22.09.2026) */
+  .termin {
+    margin-top: 28px;
+    padding: 28px 26px 26px;
+    border: 1px solid rgba(79, 184, 166, 0.3);
+    border-radius: 18px;
+    background: linear-gradient(150deg, rgba(79, 184, 166, 0.14), rgba(79, 184, 166, 0.04));
+    text-align: center;
   }
 
-  .weg__ico {
-    display: flex;
+  .termin {
+    transition:
+      background-color 300ms ease,
+      border-color 300ms ease;
+  }
+
+  .termin > * {
+    transition: opacity 300ms ease;
+  }
+
+  .termin__ico {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
-    margin-bottom: 16px;
-    border-radius: 12px;
-    background: rgba(79, 184, 166, 0.18);
-    color: var(--helltuerkis);
-  }
-
-  .weg--primaer .weg__ico {
+    width: 46px;
+    height: 46px;
+    margin-bottom: 14px;
+    border-radius: 14px;
     background: var(--verlauf);
     color: #ffffff;
   }
 
-  .weg__ico svg {
-    width: 22px;
-    height: 22px;
+  .termin__ico svg {
+    width: 23px;
+    height: 23px;
   }
 
-  .weg h4 {
+  .termin h4 {
     margin-bottom: 8px;
-    font-size: 17px;
+    font-size: 18px;
     font-weight: 600;
+    color: #ffffff;
   }
 
-  .weg p {
-    flex: 1;
-    margin-bottom: 18px;
-    font-size: 13.5px;
-    line-height: 1.55;
+  .termin > p {
+    max-width: 420px;
+    margin: 0 auto 20px;
+    font-size: 14px;
+    line-height: 1.6;
     color: var(--on-dark-72);
+  }
+
+  .termin__btn svg {
+    transition: transform 220ms var(--ease-out);
+  }
+
+  .termin__btn[aria-expanded="true"] svg {
+    transform: rotate(180deg);
   }
 
   .kalender {
     margin-top: 24px;
     padding: 26px;
     border-radius: 16px;
-    background: rgba(240, 244, 243, 0.05);
-    border: 1px solid rgba(240, 244, 243, 0.1);
+    background: rgba(11, 46, 60, 0.35);
+    border: 1px solid rgba(240, 244, 243, 0.12);
+    text-align: left;
   }
 
   .kalender__slots {
@@ -1125,8 +1144,7 @@ const dringendHinweis = k.schritt2.dringendHinweis.replace(/^Bei einem akuten Au
     }
 
     .karten,
-    .felder,
-    .wege {
+    .felder {
       grid-template-columns: 1fr;
     }
 

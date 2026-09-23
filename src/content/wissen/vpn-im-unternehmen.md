@@ -29,8 +29,7 @@ cta:
 
 <p>Wenn Ihr Betrieb ausschließlich mit Cloud-Diensten arbeitet (Microsoft 365, webbasierte Fachanwendungen, Cloud-Ablagen) brauchen Sie in der Regel kein VPN. Diese Dienste sind bereits verschlüsselt erreichbar und sichern den Zugang über Anmeldung und Multi-Faktor-Authentifizierung.</p>
 
-<h2>Was ein VPN leistet</h2>
-
+## Was ein VPN leistet
 <p>Drei Dinge, sauber getrennt:</p>
 
 <ul>
@@ -39,8 +38,7 @@ cta:
 <li><strong>Eine Firmen-IP-Adresse</strong> für das entfernte Gerät, was für manche Fachanwendungen mit IP-Beschränkung relevant ist.</li>
 </ul>
 
-<h2>Was ein VPN ausdrücklich nicht leistet</h2>
-
+## Was ein VPN ausdrücklich nicht leistet
 <p>Hier entstehen die meisten Missverständnisse:</p>
 
 <p><strong>Ein VPN macht ein infiziertes Gerät nicht sauber.</strong> Im Gegenteil, es verbindet ein möglicherweise kompromittiertes Notebook direkt mit dem Firmennetz. Ohne Endpoint-Schutz und Geräteverwaltung wird das VPN dann zur Einladung.</p>
@@ -53,8 +51,7 @@ cta:
 <p><strong>Die wichtigste Regel:</strong> Ein VPN ist nur so sicher wie das Gerät an seinem Ende. Ein privates Notebook ohne Verschlüsselung, ohne aktuelle Updates und mit installierter Software unbekannter Herkunft gehört nicht in einen Tunnel ins Firmennetz.</p>
 </div>
 
-<h2>Die drei üblichen Varianten</h2>
-
+## Die drei üblichen Varianten
 <div class="tabelle-scroll" tabindex="0" role="region" aria-label="Tabelle"><table>
 <tr><th scope="col">Variante</th><th scope="col">Wofür</th><th scope="col">Anmerkung</th></tr>
 <tr><td>Client-to-Site</td><td>Einzelne Mitarbeitende von unterwegs oder aus dem Homeoffice</td><td>Der Standardfall; Software auf jedem Gerät</td></tr>
@@ -62,16 +59,14 @@ cta:
 <tr><td>Zero Trust / ZTNA</td><td>Zugriff auf einzelne Anwendungen statt aufs ganze Netz</td><td>Der modernere Ansatz, siehe unten</td></tr>
 </table></div>
 
-<h2>Die Alternative: Zugriff auf Anwendungen statt aufs Netzwerk</h2>
-
+## Die Alternative: Zugriff auf Anwendungen statt aufs Netzwerk
 <p>Der konzeptionelle Nachteil klassischer VPN: Wer drin ist, ist im ganzen Netz. Ein übernommenes Konto oder ein infiziertes Gerät hat damit denselben Bewegungsspielraum wie ein Rechner im Büro.</p>
 
 <p>Neuere Ansätze (häufig als Zero Trust Network Access bezeichnet) drehen das um: Nicht das Netzwerk wird freigegeben, sondern einzelne Anwendungen. Geprüft wird bei jedem Zugriff, wer zugreift, mit welchem Gerät und in welchem Zustand dieses Gerät ist. Ein nicht verwaltetes Privatgerät bekommt dann eben keinen Zugang zur Buchhaltung, auch wenn Benutzername und Passwort stimmen.</p>
 
 <p>Für Betriebe mit wenigen internen Anwendungen ist das oft die sinnvollere Lösung, weniger Angriffsfläche und für die Nutzer meist bequemer, weil kein Tunnel manuell aufgebaut werden muss.</p>
 
-<h2>Wenn Sie ein VPN einrichten: worauf es ankommt</h2>
-
+## Wenn Sie ein VPN einrichten: worauf es ankommt
 <ol>
 <li><strong>Multi-Faktor-Authentifizierung</strong> für den VPN-Zugang. Ein VPN, das mit Benutzername und Passwort allein aufgeht, ist ein offenes Tor mit Vorhang.</li>
 <li><strong>Nur verwaltete Geräte zulassen.</strong> Firmengeräte mit Verschlüsselung, aktuellem Betriebssystem und Endpoint-Schutz: keine privaten Rechner.</li>
@@ -80,8 +75,7 @@ cta:
 <li><strong>Protokollierung aktivieren.</strong> Wer war wann verbunden? Im Ernstfall die entscheidende Frage.</li>
 </ol>
 
-<h2>Die Entscheidungshilfe in vier Fragen</h2>
-
+## Die Entscheidungshilfe in vier Fragen
 <p>Beantworten Sie diese vier Fragen, und die Antwort ergibt sich meist von selbst:</p>
 
 <ol>

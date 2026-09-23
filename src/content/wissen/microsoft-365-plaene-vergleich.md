@@ -29,8 +29,7 @@ cta:
 
 <p>Zum 1. Juli 2026 hat Microsoft die Preise angehoben: Business Basic stieg um rund 17 Prozent, Business Standard um rund 12 Prozent, Business Premium blieb unverändert. Bestandskunden zahlen bis zur nächsten Vertragsverlängerung noch die alten Preise. Der Effekt: Der Preisabstand zwischen Standard und Premium ist kleiner geworden, was die Rechnung zugunsten von Premium verschiebt.</p>
 
-<h2>Was alle drei Pläne gemeinsam haben</h2>
-
+## Was alle drei Pläne gemeinsam haben
 <ul>
 <li>Exchange-Postfach mit eigener Domain</li>
 <li>Microsoft Teams</li>
@@ -42,8 +41,7 @@ cta:
 
 <p>Wer also nur E-Mail, Teams und Dateiablage braucht, ist mit Basic vollständig versorgt. Das betrifft in vielen Betrieben mehr Personen, als zunächst gedacht.</p>
 
-<h2>Die entscheidenden Unterschiede</h2>
-
+## Die entscheidenden Unterschiede
 <div class="tabelle-scroll" tabindex="0" role="region" aria-label="Tabelle"><table>
 <tr><th scope="col"></th><th scope="col">Basic</th><th scope="col">Standard</th><th scope="col">Premium</th></tr>
 <tr><td>Office im Browser</td><td>ja</td><td>ja</td><td>ja</td></tr>
@@ -80,14 +78,12 @@ cta:
 <p><strong>Die Rechnung, die viele übersehen:</strong> Wer Standard nutzt und separat Virenschutz, Geräteverwaltung und E-Mail-Sicherheit einkauft, landet oft in der Nähe des Premium-Preises, bei mehr Verwaltungsaufwand und mehreren Anbietern. Vor der nächsten Verlängerung lohnt sich diese Gegenüberstellung.</p>
 </div>
 
-<h2>Der Fehler, den fast jeder Betrieb macht</h2>
-
+## Der Fehler, den fast jeder Betrieb macht
 <p>Alle Mitarbeitenden bekommen denselben Plan. Das ist bequem und fast immer zu teuer oder zu unsicher, meist beides gleichzeitig, an unterschiedlichen Stellen.</p>
 
 <p>Sinnvoll ist eine Mischung: Basic für Personen, die nur E-Mail und Teams brauchen. Standard fürs Büro. Premium für alle, die mit sensiblen Daten arbeiten, mobil unterwegs sind oder erhöhte Rechte haben: Geschäftsführung, Buchhaltung, Außendienst, IT-Zuständige.</p>
 
-<h2>Vier Stellschrauben, die sofort Geld sparen</h2>
-
+## Vier Stellschrauben, die sofort Geld sparen
 <ol>
 <li><strong>Ausgeschiedene Mitarbeiter deaktivieren.</strong> In fast jedem Tenant laufen Lizenzen für Personen, die längst nicht mehr im Haus sind.</li>
 <li><strong>Freigegebene Postfächer statt Einzellizenzen.</strong> Für Adressen wie info@, buchhaltung@ oder bewerbung@ braucht es keine eigene Lizenz, freigegebene Postfächer sind kostenfrei.</li>
@@ -95,8 +91,7 @@ cta:
 <li><strong>Plan an die tatsächliche Nutzung anpassen.</strong> Der erwähnte Nutzungsbericht zeigt, wer die Desktop-Programme wirklich öffnet.</li>
 </ol>
 
-<h2>Was Sie zusätzlich brauchen, egal welcher Plan</h2>
-
+## Was Sie zusätzlich brauchen, egal welcher Plan
 <p>Zwei Dinge, die in keinem der drei Pläne ausreichend abgedeckt sind:</p>
 
 <p><strong>Eine eigene Datensicherung.</strong> Microsoft garantiert die Verfügbarkeit der Plattform, nicht die Wiederherstellung von Inhalten, die vor Monaten gelöscht wurden. Für Exchange, SharePoint und OneDrive braucht es eine separate Sicherung.</p>

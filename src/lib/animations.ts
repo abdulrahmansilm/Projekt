@@ -42,60 +42,32 @@ export function bewegungErlaubt(): boolean {
 }
 
 /**
- * Typewriter-Wechselwort im Hero (siehe Hero.astro): löscht das Wort Buchstabe für Buchstabe und schreibt das nächste.
- * Die Höhe der Headline wird auf das höchste Wort festgelegt, damit der Text darunter nicht springt.
- * Bei prefers-reduced-motion bleibt das erste Wort stehen.
+ * Wechselwort im Hero (siehe Hero.astro, Runde 4). Alle Wörter liegen übereinander, das aktive ist sichtbar.
+ * Beim Wechsel gleitet das alte Wort nach oben weg, das neue von unten herein (reine CSS-Transition auf
+ * Klassen, jederzeit unterbrechbar). Keine Messung, keine Breitenänderung → keine Layout-Verschiebung.
+ * Bei reduzierter Bewegung wird nur überblendet. Pausiert, solange der Tab nicht sichtbar ist.
  */
-export function initTypewriter() {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  document.querySelectorAll<HTMLElement>("[data-typewriter]").forEach((el) => {
-    const woerter = (el.dataset.typewriter ?? "").split("|").filter(Boolean);
-    const text = el.querySelector<HTMLElement>(".tw__text");
-    if (woerter.length < 2 || !text) return;
-    const h1 = el.closest<HTMLElement>("h1");
-    let aktuell = woerter[0];
-    const warte = (ms: number) => new Promise((r) => window.setTimeout(r, ms));
+// Runde 5: Wechsel läuft etwas langsamer ab (vorher 3200ms Standzeit)
+const WW_STANDZEIT_MS = 4400;
+const WW_AUFRAEUMEN_MS = 750;
 
-    const hoeheFestlegen = () => {
-      if (!h1) return;
-      h1.style.minHeight = "";
-      let max = h1.offsetHeight;
-      for (const w of woerter) {
-        text.textContent = w;
-        max = Math.max(max, h1.offsetHeight);
-      }
-      text.textContent = aktuell;
-      h1.style.minHeight = `${max}px`;
+export function initWortwechsel() {
+  document.querySelectorAll<HTMLElement>("[data-wortwechsel]").forEach((el) => {
+    const woerter = Array.from(el.querySelectorAll<HTMLElement>(".ww__wort"));
+    if (woerter.length < 2) return;
+    let index = 0;
+
+    const wechsel = () => {
+      if (document.hidden) return;
+      const alt = woerter[index];
+      index = (index + 1) % woerter.length;
+      const neu = woerter[index];
+      alt.classList.remove("ist-aktiv");
+      alt.classList.add("ist-weg");
+      neu.classList.remove("ist-weg");
+      neu.classList.add("ist-aktiv");
+      window.setTimeout(() => alt.classList.remove("ist-weg"), WW_AUFRAEUMEN_MS);
     };
-    hoeheFestlegen();
-    document.fonts?.ready.then(hoeheFestlegen);
-    let resizeTimer: number | undefined;
-    window.addEventListener("resize", () => {
-      window.clearTimeout(resizeTimer);
-      resizeTimer = window.setTimeout(hoeheFestlegen, 200);
-    });
-
-    (async () => {
-      let i = 0;
-      await warte(2600);
-      for (;;) {
-        if (document.hidden) {
-          await warte(500);
-          continue;
-        }
-        for (let n = aktuell.length; n >= 0; n--) {
-          text.textContent = aktuell.slice(0, n);
-          await warte(55);
-        }
-        await warte(280);
-        i = (i + 1) % woerter.length;
-        aktuell = woerter[i];
-        for (let n = 1; n <= aktuell.length; n++) {
-          text.textContent = aktuell.slice(0, n);
-          await warte(85);
-        }
-        await warte(2400);
-      }
-    })();
+    window.setInterval(wechsel, WW_STANDZEIT_MS);
   });
 }

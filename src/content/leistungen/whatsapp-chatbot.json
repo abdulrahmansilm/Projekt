@@ -10,7 +10,7 @@
   },
   "hero": {
     "headline": "WhatsApp-Chatbot für Ihr Unternehmen",
-    "subline": "Beantwortet Fragen, bucht Termine, nimmt Anfragen auf, leitet weiter und vieles mehr, rund um die Uhr erreichbar.",
+    "subline": "Beantwortet Fragen, bucht Termine, nimmt Anfragen auf und leitet weiter, rund um die Uhr erreichbar. Aus Frankfurt für ganz Deutschland.",
     "zitat": "Eine Nachricht, die erst morgen beantwortet wird, hat den Kunden heute schon verloren.",
     "cta": "Anfragen",
     "visualLabel": "Chat-Fenster, in dem ein Kunde einen Termin anfragt und der Chatbot nach passenden Tagen fragt"
@@ -34,6 +34,33 @@
         "Der WhatsApp-Chatbot verbindet die Lieblings-App Ihrer Kunden direkt mit der internen Software Ihres Unternehmens. Nachrichten landen dort, wo sie bearbeitet werden, und Antworten kommen aus Ihren Systemen.",
         "Er ist rund um die Uhr erreichbar, auch wenn im Büro niemand aufs Handy schauen kann. Das spart Personalaufwand, weil Routinefragen ohne Ihr Team beantwortet werden, und verhindert Ausfälle im Tagesgeschäft, weil niemand mehr aus der Arbeit gerissen wird.",
         "Der Chatbot fragt vorab effizient alle nötigen Informationen ab, sodass Ihr Team bei Rückfragen sofort loslegen kann, und trägt Reservierungen und Termine automatisch in Ihren Kalender ein."
+      ]
+    },
+    {
+      "typ": "toolGrid",
+      "titel": "Lässt sich in Ihre Systeme einbinden",
+      "intro": "Der WhatsApp-Chatbot arbeitet nicht isoliert, sondern direkt mit den Werkzeugen, die Sie bereits einsetzen.",
+      "karten": [
+        {
+          "icon": "<rect x=\"3\" y=\"5\" width=\"18\" height=\"16\" rx=\"2.2\"></rect><path d=\"M3 10h18\"></path><path d=\"M8 3v4M16 3v4\"></path>",
+          "titel": "Kalender-Tools",
+          "text": "Alle gängigen Kalender lassen sich anbinden, von Outlook und Google bis Calendly: Der Chatbot prüft freie Zeiten und bucht Termine direkt im Chat."
+        },
+        {
+          "icon": "<rect x=\"3\" y=\"4\" width=\"18\" height=\"12\" rx=\"2\"></rect><path d=\"M8 20h8M12 16v4\"></path>",
+          "titel": "CRM-Systeme",
+          "text": "Anbindung an Salesforce, HubSpot und weitere CRM-Systeme: Kundendaten und Leads landen automatisch dort, wo Ihr Team sie braucht."
+        },
+        {
+          "icon": "<path d=\"M4 5.5h16a1.5 1.5 0 0 1 1.5 1.5v8.5a1.5 1.5 0 0 1-1.5 1.5H10l-5 4v-4H4A1.5 1.5 0 0 1 2.5 15.5V7A1.5 1.5 0 0 1 4 5.5Z\"></path>",
+          "titel": "Produktivitäts-Tools",
+          "text": "Slack, Trello, Notion und ähnliche Tools: Anliegen werden dokumentiert und an die richtige Stelle weitergeleitet."
+        },
+        {
+          "icon": "<ellipse cx=\"12\" cy=\"6\" rx=\"8\" ry=\"3\"></ellipse><path d=\"M4 6v12c0 1.66 3.58 3 8 3s8-1.34 8-3V6\"></path><path d=\"M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3\"></path>",
+          "titel": "Eigene Datenbanken & Systeme",
+          "text": "Anbindung an interne Systeme und sogar an Ihre eigene Website, damit der Chatbot seine Informationen direkt aus Ihren Quellen zieht."
+        }
       ]
     },
     {
@@ -135,27 +162,27 @@
         {
           "nummer": "01",
           "titel": "Erstgespräch",
-          "text": "Wir klären Ihre typischen Anfragen und Anforderungen."
+          "text": "Wir sehen uns an, welche Fragen bei Ihnen immer wieder hereinkommen: Öffnungszeiten, Verfügbarkeiten, Preise, Terminwünsche oder Statusabfragen. Daraus wird die Liste der Anliegen, die der Chatbot selbst beantworten soll."
         },
         {
           "nummer": "02",
           "titel": "Analyse & Konzept",
-          "text": "Wir entwerfen die passenden Gesprächsabläufe."
+          "text": "Wir entwerfen die Gesprächsabläufe: Welche Rückfrage folgt auf welche Antwort, wann wird ein Termin angeboten und ab wann übernimmt ein Mensch. Sie sehen den Ablauf vorher als Entwurf und können ihn kommentieren."
         },
         {
           "nummer": "03",
           "titel": "Einrichtung & Individualisierung",
-          "text": "Der Chatbot wird auf Ihr Unternehmen zugeschnitten."
+          "text": "Wir richten den Chatbot auf Ihrem WhatsApp-Business-Konto ein, hinterlegen Ihre Texte, Ihren Tonfall und Ihre Fachbegriffe und binden auf Wunsch Kalender, CRM oder Warenwirtschaft an."
         },
         {
           "nummer": "04",
           "titel": "Test & Optimierung",
-          "text": "Testphase mit echten Anfragen."
+          "text": "In der Testphase läuft der Chatbot mit echten Anfragen, zunächst begleitet. Wir prüfen, wo er danebenliegt, ergänzen fehlende Antworten und passen die Übergabe an Ihr Team an, bevor er vollständig übernimmt."
         },
         {
           "nummer": "05",
           "titel": "Laufende Betreuung",
-          "text": "Wir betreuen den Chatbot dauerhaft weiter."
+          "text": "Danach bleibt der Chatbot in Betreuung: Wir werten echte Konversationen aus, erweitern seine Antworten, passen ihn an neue Anforderungen an und stehen für Änderungswünsche als fester Ansprechpartner bereit."
         }
       ],
       "bild": "/zeitstrahl/whatsapp-chatbot.svg"
@@ -168,20 +195,20 @@
       "reihen": [
         [
           {
-            "icon": "<path d=\"M14.5 3.5 L20.5 9.5 L18.3 11.7 L12.3 5.7 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M15.5 8.5 L4.5 19.5 L2.5 21.5 L4.5 19.5 L3 17 L5.5 14.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
-            "label": "Handwerk & Bau"
+            "icon": "<path d=\"M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.5-3.5a5.8 5.8 0 0 1-7.7 7.7l-6.7 6.7a2 2 0 0 1-2.9-2.9l6.7-6.7a5.8 5.8 0 0 1 7.7-7.7l-3.5 3.5Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"></path>",
+            "label": "Handwerk & Baugewerbe"
           },
           {
             "icon": "<path d=\"M12 4 V20 M8 20 H16\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><path d=\"M3 8.5 H8.5 L5.75 14.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.5\" stroke-linejoin=\"round\"></path><path d=\"M15.5 8.5 H21 L18.25 14.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.5\" stroke-linejoin=\"round\"></path>",
-            "label": "Recht & Beratung"
+            "label": "Kanzleien & Beratung"
           },
           {
-            "icon": "<path d=\"M4 16 V12 L6 7 H18 L20 12 V16\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M4 16 H20 V18.5 H17 V16 M7 18.5 V16\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><circle cx=\"7.5\" cy=\"13\" r=\"1.3\" fill=\"#1B6E7A\"></circle><circle cx=\"16.5\" cy=\"13\" r=\"1.3\" fill=\"#1B6E7A\"></circle>",
-            "label": "Automobil"
+            "icon": "<path d=\"M3.5 16.2v-3.3a1.6 1.6 0 0 1 1.1-1.5l1.3-.4 1.7-3.3A2 2 0 0 1 9.4 6.6h5.2a2 2 0 0 1 1.8 1.1l1.7 3.3 1.3.4a1.6 1.6 0 0 1 1.1 1.5v3.3a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M6 11.2h12\" stroke=\"#1B6E7A\" stroke-width=\"1.5\" stroke-linecap=\"round\"></path><circle cx=\"7.6\" cy=\"14\" r=\"1.1\" fill=\"#1B6E7A\"></circle><circle cx=\"16.4\" cy=\"14\" r=\"1.1\" fill=\"#1B6E7A\"></circle><path d=\"M6 17.2v1.6M18 17.2v1.6\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path>",
+            "label": "Autohäuser & Werkstätten"
           },
           {
             "icon": "<path d=\"M12 20.5 C12 20.5 4 15.5 4 9.7 C4 6.8 6.2 4.5 9 4.5 C10.5 4.5 11.6 5.2 12 6.3 C12.4 5.2 13.5 4.5 15 4.5 C17.8 4.5 20 6.8 20 9.7 C20 15.5 12 20.5 12 20.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path>",
-            "label": "Gesundheit"
+            "label": "Praxen & Gesundheitswesen"
           },
           {
             "icon": "<path d=\"M4 20 V9.5 L12 4 L20 9.5 V20\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M9.5 20 V14 H14.5 V20\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path>",
@@ -189,7 +216,7 @@
           },
           {
             "icon": "<path d=\"M6.5 9.5 V14.5 M17.5 9.5 V14.5\" stroke=\"#1B6E7A\" stroke-width=\"1.8\" stroke-linecap=\"round\"></path><path d=\"M4 11 V13 M20 11 V13\" stroke=\"#1B6E7A\" stroke-width=\"1.8\" stroke-linecap=\"round\"></path><path d=\"M6.5 12 H17.5\" stroke=\"#1B6E7A\" stroke-width=\"1.8\" stroke-linecap=\"round\"></path>",
-            "label": "Fitness & Sport"
+            "label": "Fitness- & Sportstudios"
           },
           {
             "icon": "<path d=\"M12 3.5 L19.5 6.5 V11.5 C19.5 16.5 16.3 19.8 12 21 C7.7 19.8 4.5 16.5 4.5 11.5 V6.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M9 11.5 L11 13.5 L15.5 9\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
@@ -198,12 +225,16 @@
         ],
         [
           {
-            "icon": "<path d=\"M6 3.5 V10.5 M4.5 3.5 V7.5 M7.5 3.5 V7.5 M6 10.5 V20.5\" stroke=\"#1B6E7A\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M17 3.5 C14.5 3.5 14.5 6.5 14.5 8.5 C14.5 10 15.5 11 17 11 V20.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
-            "label": "Gastronomie & Hotellerie"
+            "icon": "<path d=\"M5.5 3v4.6a2.1 2.1 0 0 0 4.2 0V3\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M7.6 3v3.6M7.6 9.7V21\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><path d=\"M16.6 3.3c-1.8 0-3.2 1.8-3.2 4s1.4 3.9 3.2 3.9 3.2-1.7 3.2-3.9-1.4-4-3.2-4Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M16.6 11.2V21\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path>",
+            "label": "Gastronomie & Cafés"
+          },
+          {
+            "icon": "<path d=\"M3.2 5.5v14\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><path d=\"M3.2 10.8h13.4a4.2 4.2 0 0 1 4.2 4.2v4.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M3.2 16.4h17.6\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><circle cx=\"7.4\" cy=\"13.6\" r=\"1.6\" stroke=\"#1B6E7A\" stroke-width=\"1.5\"></circle>",
+            "label": "Hotels & Pensionen"
           },
           {
             "icon": "<path d=\"M6 8 H18 L19 20.5 H5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M9 8 V6.5 C9 4.6 10.3 3.5 12 3.5 C13.7 3.5 15 4.6 15 6.5 V8\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path>",
-            "label": "Handel"
+            "label": "Einzel- & Großhandel"
           },
           {
             "icon": "<rect x=\"2.5\" y=\"9\" width=\"12\" height=\"8\" rx=\"1.3\" stroke=\"#1B6E7A\" stroke-width=\"1.6\"></rect><path d=\"M14.5 11.5 H18 L21 14.5 V17 H14.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><circle cx=\"7\" cy=\"18.5\" r=\"1.6\" stroke=\"#1B6E7A\" stroke-width=\"1.5\"></circle><circle cx=\"18\" cy=\"18.5\" r=\"1.6\" stroke=\"#1B6E7A\" stroke-width=\"1.5\"></circle>",
@@ -211,11 +242,11 @@
           },
           {
             "icon": "<path d=\"M12 5 L22 9.5 L12 14 L2 9.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M6 11.5 V16 C6 17.5 8.7 19 12 19 C15.3 19 18 17.5 18 16 V11.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path>",
-            "label": "Bildung"
+            "label": "Schulen & Bildungsträger"
           },
           {
-            "icon": "<circle cx=\"12\" cy=\"12\" r=\"8.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\"></circle><path d=\"M3.5 12 H20.5 M12 3.5 C14.5 6.5 14.5 17.5 12 20.5 C9.5 17.5 9.5 6.5 12 3.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.5\"></path>",
-            "label": "Tourismus"
+            "icon": "<path d=\"M10.3 3.4a1.7 1.7 0 0 1 3.4 0v5l7 4v2.2l-7-2v3.8l2.2 1.6v1.7L12 18.6l-3.9 1.1v-1.7l2.2-1.6v-3.8l-7 2v-2.2l7-4v-5Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path>",
+            "label": "Tourismus & Reise"
           },
           {
             "icon": "<rect x=\"7\" y=\"7\" width=\"10\" height=\"10\" rx=\"1.6\" stroke=\"#1B6E7A\" stroke-width=\"1.6\"></rect><path d=\"M12 3.5 V7 M12 17 V20.5 M3.5 12 H7 M17 12 H20.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path>",
@@ -253,9 +284,9 @@
           "name": "Solo",
           "variante": "neutral",
           "tagline": "Geeignet für bis zu 100 Konversationen/Monat",
-          "monatlich": 69,
-          "jaehrlich": 58,
-          "spart": 11,
+          "monatlich": 109,
+          "jaehrlich": 99,
+          "spart": 10,
           "cta": "Jetzt starten",
           "inkludiert": [
             {
@@ -265,33 +296,16 @@
             {
               "text": "1 WhatsApp-Nummer",
               "enthalten": true,
-              "notiz": "jede weitere 19 €/Monat"
+              "notiz": "weitere möglich"
             },
             {
               "text": "∞ Chatbots",
               "enthalten": true
-            },
-            {
-              "text": "1 User",
-              "enthalten": true
             }
           ],
-          "features": [
-            {
-              "text": "Laufende Betreuung und Wartung",
-              "enthalten": true,
-              "hervor": true
-            },
-            {
-              "text": "Chat-Übergabe an Menschen",
-              "enthalten": true,
-              "info": true
-            },
-            {
-              "text": "Automatischer Terminplaner",
-              "enthalten": true,
-              "info": true
-            }
+          "betreuung": [
+            "Betreuung und Wartung",
+            "Fragen und Änderungswünsche"
           ]
         },
         {
@@ -299,9 +313,9 @@
           "variante": "beliebt",
           "badge": "Beliebt",
           "tagline": "Geeignet für bis zu 500 Konversationen/Monat",
-          "monatlich": 249,
-          "jaehrlich": 208,
-          "spart": 41,
+          "monatlich": 319,
+          "jaehrlich": 288,
+          "spart": 31,
           "cta": "Jetzt starten",
           "inkludiert": [
             {
@@ -311,46 +325,28 @@
             {
               "text": "3 WhatsApp-Nummern",
               "enthalten": true,
-              "notiz": "jede weitere 19 €/Monat"
+              "notiz": "weitere möglich"
             },
             {
               "text": "∞ Chatbots",
               "enthalten": true
-            },
-            {
-              "text": "∞ User",
-              "enthalten": true
             }
           ],
-          "features": [
-            {
-              "erbt": "Solo",
-              "enthalten": true
-            },
-            {
-              "text": "Laufende Betreuung und Wartung",
-              "enthalten": true,
-              "hervor": true
-            },
-            {
-              "text": "Laufende Optimierung und Analyse",
-              "enthalten": true,
-              "hervor": true
-            },
-            {
-              "text": "Unterstützung bei der Einrichtung",
-              "enthalten": true,
-              "info": true
-            }
+          "betreuung": [
+            "Betreuung und Wartung",
+            "Fragen und Änderungswünsche",
+            "Laufende Optimierung anhand realer Chatdaten",
+            "Anpassungen an neue Anforderungen",
+            "Persönlicher Ansprechpartner"
           ]
         },
         {
           "name": "Scale",
-          "variante": "neutral",
+          "variante": "premium",
           "tagline": "Geeignet ab 1.000 Konversationen/Monat",
           "monatlich": 499,
-          "jaehrlich": 424,
-          "spart": 75,
+          "jaehrlich": 450,
+          "spart": 49,
           "prefix": "ab",
           "cta": "Plan erstellen",
           "inkludiert": [
@@ -365,44 +361,25 @@
             {
               "text": "∞ Chatbots",
               "enthalten": true
-            },
-            {
-              "text": "∞ User",
-              "enthalten": true
             }
           ],
-          "features": [
-            {
-              "erbt": "Team",
-              "enthalten": true
-            },
-            {
-              "text": "Laufende Betreuung und Wartung",
-              "enthalten": true,
-              "hervor": true
-            },
-            {
-              "text": "Laufende Optimierung und Analyse",
-              "enthalten": true,
-              "hervor": true
-            },
-            {
-              "text": "Keine Datenspeicherung",
-              "enthalten": true
-            },
-            {
-              "text": "Individueller SLA",
-              "enthalten": true
-            }
+          "badge": "Alles inklusive",
+          "betreuung": [
+            "Betreuung und Wartung",
+            "Fragen und Änderungswünsche",
+            "Laufende Optimierung anhand realer Chatdaten",
+            "Anpassungen an neue Anforderungen",
+            "Persönlicher Ansprechpartner",
+            "Priority Support"
           ]
         }
       ],
-      "disclaimer": "Alle Preise verstehen sich netto, zzgl. gesetzlicher MwSt."
+      "disclaimer": "Alle Preise verstehen sich netto, zuzüglich der gesetzlichen Umsatzsteuer."
     },
     {
       "typ": "faq",
       "titel": "Häufige Fragen zum WhatsApp-Chatbot",
-      "intro": "Was Sie vor der Zusammenarbeit wissen sollten: kurz und ohne Kleingedrucktes.",
+      "intro": "Was Sie vor der Zusammenarbeit wissen sollten.",
       "fragen": [
         {
           "frage": "Was kostet der WhatsApp-Chatbot?",

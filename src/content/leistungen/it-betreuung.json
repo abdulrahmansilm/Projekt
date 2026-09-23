@@ -10,7 +10,7 @@
   },
   "hero": {
     "headline": "{{Zuverlässige|Professionelle|Kompetente|Persönliche|Effiziente|Entlastende|Reaktionsschnelle}} IT-Betreuung für Ihr Unternehmen",
-    "subline": "Laufende Überwachung und Support bundesweit, im Rhein-Main-Gebiet auch vor Ort.",
+    "subline": "Laufende Überwachung, Wartung und Support für Ihre gesamte IT, vor Ort und remote. Aus Frankfurt für das Rhein-Main-Gebiet.",
     "zitat": "Der teuerste IT-Ausfall ist der, der lange vorher sichtbar war, nur hat niemand hingesehen.",
     "cta": "Anfragen",
     "visualLabel": "Dashboard „Ihre Geräte im Blick“ mit vier geschützten Arbeitsplätzen, gelöstem Ticket und erreichbarer Support-Hotline"
@@ -24,6 +24,33 @@
     "nis2-betroffene-unternehmen"
   ],
   "sektionen": [
+    {
+      "typ": "bildText",
+      "bild": "/bildtext/it-betreuung-2.svg",
+      "bildRechts": false,
+      "bildLabel": "Updates und Wartung im laufenden Betrieb",
+      "ctaText": "Beratung vereinbaren",
+      "titel": "Warum Updates und Wartung keine Nebensache sind",
+      "absaetze": [
+        "Prävention statt Krisenmanagement: Ein Großteil aller Störungen kündigt sich an. Wer Updates und Wartung planmäßig erledigt, verhindert Ausfälle, statt sie hinterher teuer zu reparieren.",
+        "Schutz vor Cyberangriffen: Angreifer nutzen fast immer bekannte Lücken, für die längst ein Patch existiert. Jede Woche ohne Update ist eine Woche mit offener Tür.",
+        "Rechtssicherheit und DSGVO: Sie sind verpflichtet, Ihre Systeme auf einem aktuellen Stand zu halten. Wir dokumentieren jeden Patch, damit Sie im Ernstfall nachweisen können, dass Sie Ihrer Sorgfaltspflicht nachgekommen sind.",
+        "Maximale Performance: Aktuelle Systeme laufen schneller und stabiler. Ihr Team verliert keine Zeit mehr mit hängenden Programmen und Neustarts."
+      ]
+    },
+    {
+      "typ": "bildText",
+      "bild": "/bildtext/it-betreuung-3.svg",
+      "bildRechts": true,
+      "bildLabel": "IT-Support im 1st- und 2nd-Level",
+      "ctaText": "Beratung vereinbaren",
+      "titel": "IT-Support, der Ihr Team wirklich entlastet",
+      "absaetze": [
+        "1st-Level-Support: Passwort vergessen, Drucker streikt, Outlook synchronisiert nicht. Solche Alltagsprobleme lösen wir schnell per Fernwartung, meist noch während des ersten Anrufs.",
+        "2nd-Level-Support: Wenn es tiefer geht, etwa bei Serverfehlern, Netzwerkproblemen oder Störungen in Fachanwendungen, kümmern sich unsere Techniker gezielt um die Ursache, statt nur Symptome zu beheben.",
+        "Unterstützung für Ihr Team: Wir richten neue Arbeitsplätze ein, begleiten Software-Umstellungen und beantworten Fragen im Alltag. Ihre Mitarbeitenden haben einen festen Ansprechpartner, der Ihre Umgebung kennt."
+      ]
+    },
     {
       "typ": "problemLoesung",
       "eyebrow": "Reaktiv oder proaktiv",
@@ -96,20 +123,20 @@
       "reihen": [
         [
           {
-            "icon": "<path d=\"M14.5 3.5 L20.5 9.5 L18.3 11.7 L12.3 5.7 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M15.5 8.5 L4.5 19.5 L2.5 21.5 L4.5 19.5 L3 17 L5.5 14.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
-            "label": "Handwerk & Bau"
+            "icon": "<path d=\"M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.5-3.5a5.8 5.8 0 0 1-7.7 7.7l-6.7 6.7a2 2 0 0 1-2.9-2.9l6.7-6.7a5.8 5.8 0 0 1 7.7-7.7l-3.5 3.5Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"></path>",
+            "label": "Handwerk & Baugewerbe"
           },
           {
             "icon": "<path d=\"M12 4 V20 M8 20 H16\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><path d=\"M3 8.5 H8.5 L5.75 14.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.5\" stroke-linejoin=\"round\"></path><path d=\"M15.5 8.5 H21 L18.25 14.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.5\" stroke-linejoin=\"round\"></path>",
-            "label": "Recht & Beratung"
+            "label": "Kanzleien & Beratung"
           },
           {
-            "icon": "<path d=\"M4 16 V12 L6 7 H18 L20 12 V16\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M4 16 H20 V18.5 H17 V16 M7 18.5 V16\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><circle cx=\"7.5\" cy=\"13\" r=\"1.3\" fill=\"#1B6E7A\"></circle><circle cx=\"16.5\" cy=\"13\" r=\"1.3\" fill=\"#1B6E7A\"></circle>",
-            "label": "Automobil"
+            "icon": "<path d=\"M3.5 16.2v-3.3a1.6 1.6 0 0 1 1.1-1.5l1.3-.4 1.7-3.3A2 2 0 0 1 9.4 6.6h5.2a2 2 0 0 1 1.8 1.1l1.7 3.3 1.3.4a1.6 1.6 0 0 1 1.1 1.5v3.3a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M6 11.2h12\" stroke=\"#1B6E7A\" stroke-width=\"1.5\" stroke-linecap=\"round\"></path><circle cx=\"7.6\" cy=\"14\" r=\"1.1\" fill=\"#1B6E7A\"></circle><circle cx=\"16.4\" cy=\"14\" r=\"1.1\" fill=\"#1B6E7A\"></circle><path d=\"M6 17.2v1.6M18 17.2v1.6\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path>",
+            "label": "Autohäuser & Werkstätten"
           },
           {
             "icon": "<path d=\"M12 20.5 C12 20.5 4 15.5 4 9.7 C4 6.8 6.2 4.5 9 4.5 C10.5 4.5 11.6 5.2 12 6.3 C12.4 5.2 13.5 4.5 15 4.5 C17.8 4.5 20 6.8 20 9.7 C20 15.5 12 20.5 12 20.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path>",
-            "label": "Gesundheit"
+            "label": "Praxen & Gesundheitswesen"
           },
           {
             "icon": "<path d=\"M4 20 V9.5 L12 4 L20 9.5 V20\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M9.5 20 V14 H14.5 V20\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path>",
@@ -117,7 +144,7 @@
           },
           {
             "icon": "<path d=\"M6.5 9.5 V14.5 M17.5 9.5 V14.5\" stroke=\"#1B6E7A\" stroke-width=\"1.8\" stroke-linecap=\"round\"></path><path d=\"M4 11 V13 M20 11 V13\" stroke=\"#1B6E7A\" stroke-width=\"1.8\" stroke-linecap=\"round\"></path><path d=\"M6.5 12 H17.5\" stroke=\"#1B6E7A\" stroke-width=\"1.8\" stroke-linecap=\"round\"></path>",
-            "label": "Fitness & Sport"
+            "label": "Fitness- & Sportstudios"
           },
           {
             "icon": "<path d=\"M12 3.5 L19.5 6.5 V11.5 C19.5 16.5 16.3 19.8 12 21 C7.7 19.8 4.5 16.5 4.5 11.5 V6.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M9 11.5 L11 13.5 L15.5 9\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
@@ -126,12 +153,16 @@
         ],
         [
           {
-            "icon": "<path d=\"M6 3.5 V10.5 M4.5 3.5 V7.5 M7.5 3.5 V7.5 M6 10.5 V20.5\" stroke=\"#1B6E7A\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M17 3.5 C14.5 3.5 14.5 6.5 14.5 8.5 C14.5 10 15.5 11 17 11 V20.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
-            "label": "Gastronomie & Hotellerie"
+            "icon": "<path d=\"M5.5 3v4.6a2.1 2.1 0 0 0 4.2 0V3\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M7.6 3v3.6M7.6 9.7V21\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><path d=\"M16.6 3.3c-1.8 0-3.2 1.8-3.2 4s1.4 3.9 3.2 3.9 3.2-1.7 3.2-3.9-1.4-4-3.2-4Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M16.6 11.2V21\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path>",
+            "label": "Gastronomie & Cafés"
+          },
+          {
+            "icon": "<path d=\"M3.2 5.5v14\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><path d=\"M3.2 10.8h13.4a4.2 4.2 0 0 1 4.2 4.2v4.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M3.2 16.4h17.6\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><circle cx=\"7.4\" cy=\"13.6\" r=\"1.6\" stroke=\"#1B6E7A\" stroke-width=\"1.5\"></circle>",
+            "label": "Hotels & Pensionen"
           },
           {
             "icon": "<path d=\"M6 8 H18 L19 20.5 H5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M9 8 V6.5 C9 4.6 10.3 3.5 12 3.5 C13.7 3.5 15 4.6 15 6.5 V8\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path>",
-            "label": "Handel"
+            "label": "Einzel- & Großhandel"
           },
           {
             "icon": "<rect x=\"2.5\" y=\"9\" width=\"12\" height=\"8\" rx=\"1.3\" stroke=\"#1B6E7A\" stroke-width=\"1.6\"></rect><path d=\"M14.5 11.5 H18 L21 14.5 V17 H14.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><circle cx=\"7\" cy=\"18.5\" r=\"1.6\" stroke=\"#1B6E7A\" stroke-width=\"1.5\"></circle><circle cx=\"18\" cy=\"18.5\" r=\"1.6\" stroke=\"#1B6E7A\" stroke-width=\"1.5\"></circle>",
@@ -139,11 +170,11 @@
           },
           {
             "icon": "<path d=\"M12 5 L22 9.5 L12 14 L2 9.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M6 11.5 V16 C6 17.5 8.7 19 12 19 C15.3 19 18 17.5 18 16 V11.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path>",
-            "label": "Bildung"
+            "label": "Schulen & Bildungsträger"
           },
           {
-            "icon": "<circle cx=\"12\" cy=\"12\" r=\"8.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\"></circle><path d=\"M3.5 12 H20.5 M12 3.5 C14.5 6.5 14.5 17.5 12 20.5 C9.5 17.5 9.5 6.5 12 3.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.5\"></path>",
-            "label": "Tourismus"
+            "icon": "<path d=\"M10.3 3.4a1.7 1.7 0 0 1 3.4 0v5l7 4v2.2l-7-2v3.8l2.2 1.6v1.7L12 18.6l-3.9 1.1v-1.7l2.2-1.6v-3.8l-7 2v-2.2l7-4v-5Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path>",
+            "label": "Tourismus & Reise"
           },
           {
             "icon": "<rect x=\"7\" y=\"7\" width=\"10\" height=\"10\" rx=\"1.6\" stroke=\"#1B6E7A\" stroke-width=\"1.6\"></rect><path d=\"M12 3.5 V7 M12 17 V20.5 M3.5 12 H7 M17 12 H20.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path>",
@@ -165,22 +196,22 @@
         {
           "nummer": "01",
           "titel": "Erstgespräch",
-          "text": "Wir klären Umfang, Systeme und Ansprechpartner in einem kurzen Gespräch."
+          "text": "In einem kurzen Gespräch klären wir, wie viele Standorte, Geräte und Server dazugehören, welche Software geschäftskritisch ist und wer bei Ihnen Ansprechpartner ist. Danach wissen Sie genau, was die Bestandsaufnahme kostet und wie lange sie dauert."
         },
         {
           "nummer": "02",
           "titel": "Infrastrukturanalyse",
-          "text": "Wir prüfen Ihre IT und erstellen einen Ampel-Bericht (rot/gelb/grün). Der Bericht gehört Ihnen, ganz ohne Vertragsbindung."
+          "text": "Wir sehen uns Geräte, Server, Netzwerk, Datensicherung, Lizenzen und Zugriffsrechte an und bewerten jeden Punkt nach Ampelfarben: rot heißt akutes Risiko, gelb heißt Handlungsbedarf, grün heißt in Ordnung. Sie erhalten den Bericht schriftlich, ganz ohne Vertragsbindung."
         },
         {
           "nummer": "03",
           "titel": "Umsetzung",
-          "text": "Wir beseitigen die roten und gelben Punkte aus dem Bericht."
+          "text": "Wir arbeiten die roten und gelben Punkte in abgestimmter Reihenfolge ab: erst die Sicherheitslücken, dann die Stabilität, zuletzt die Bequemlichkeit. Jeder Schritt wird angekündigt, damit Ihr Betrieb weiterläuft."
         },
         {
           "nummer": "04",
-          "titel": "Übergabe",
-          "text": "Übergabe an die laufende Betreuung mit Monitoring und festen Reaktionszeiten."
+          "titel": "Übergabe an Betreuung",
+          "text": "Wir nehmen Ihre Geräte ins Monitoring auf, hinterlegen feste Reaktionszeiten und Wartungsfenster und übergeben Ihnen die vollständige Dokumentation. Ab hier läuft die Betreuung im Hintergrund, Sie erhalten monatlich einen Report."
         }
       ],
       "bild": "/zeitstrahl/it-betreuung.svg"
@@ -198,7 +229,7 @@
           "Monitoring 24/7",
           "Störungsbeseitigung Remote",
           "Wartungsarbeiten",
-          "Ticketsystem",
+          "Ticket-Support",
           "Patch-Management",
           "Virenschutz",
           "Laufende Dokumentation",
@@ -206,14 +237,13 @@
         ]
       },
       "jahresRabatt": 0.1,
-      "rabattHinweis": "10 % sparen bei jährlichem Vertrag",
       "einheit": "/ Monat",
       "geraetEinheit": "€/Gerät/Monat",
       "pakete": [
         {
           "name": "Starter",
           "variante": "neutral",
-          "claim": "Für den Einstieg: solide Grundabsicherung für Ihre IT.",
+          "claim": "Solide Grundabsicherung für den Einstieg.",
           "preis": 50,
           "geraetPreis": 30,
           "reaktion": {
@@ -231,7 +261,7 @@
           "name": "Business",
           "variante": "beliebt",
           "badge": "Beliebt",
-          "claim": "Für wachsende Teams: schnelle Reaktion, wenn es darauf ankommt.",
+          "claim": "Schnelle Reaktion für wachsende Teams.",
           "preis": 80,
           "geraetPreis": 40,
           "reaktion": {
@@ -251,18 +281,16 @@
           "name": "Premium",
           "variante": "premium",
           "badge": "Alles inklusive",
-          "claim": "Für maximale Ruhe: Ein fester Ansprechpartner übernimmt alles.",
+          "claim": "Rundum betreut, mit festem Ansprechpartner.",
           "preis": 120,
           "geraetPreis": 60,
           "reaktion": {
             "wert": "4 Std. Standard / 1 Std. Notfall",
             "sub": "Wenn Stillstand Geld kostet."
           },
-          "diffTitel": "Zusätzlich in diesem Paket",
-          "geerbt": false,
+          "diffTitel": "Alles aus Business, außerdem:",
+          "geerbt": true,
           "diffs": [
-            "Backup-Prüfung inklusive",
-            "Hotline-Support",
             "Störungsbeseitigung vor Ort",
             "Fester Ansprechpartner",
             "Endpoint Security",
@@ -307,7 +335,7 @@
           ]
         },
         {
-          "label": "Ticketsystem",
+          "label": "Ticket-Support",
           "werte": [
             "✓",
             "✓",
@@ -416,21 +444,23 @@
         "sub": "Passend zu jedem IT-Betreuung-Paket buchbar, unabhängig davon, für welches Sie sich entscheiden.",
         "karten": [
           {
-            "icon": "<rect x=\"3\" y=\"4\" width=\"18\" height=\"7\" rx=\"1.6\"></rect><rect x=\"3\" y=\"13\" width=\"18\" height=\"7\" rx=\"1.6\"></rect><line x1=\"6.5\" y1=\"7.5\" x2=\"6.5\" y2=\"7.5\"></line><line x1=\"6.5\" y1=\"16.5\" x2=\"6.5\" y2=\"16.5\"></line>",
+            "icon": "<rect x=\"3\" y=\"4\" width=\"18\" height=\"7\" rx=\"1.6\"></rect><rect x=\"3\" y=\"13\" width=\"18\" height=\"7\" rx=\"1.6\"></rect><path d=\"M6.5 7.5h4M6.5 16.5h4\"></path><circle cx=\"15.5\" cy=\"7.5\" r=\".6\" fill=\"currentColor\"></circle><circle cx=\"17.8\" cy=\"7.5\" r=\".6\" fill=\"currentColor\"></circle><circle cx=\"15.5\" cy=\"16.5\" r=\".6\" fill=\"currentColor\"></circle><circle cx=\"17.8\" cy=\"16.5\" r=\".6\" fill=\"currentColor\"></circle>",
             "name": "Server-Betreuung",
             "claim": "Überwachung und Wartung Ihrer Server, kompakt mitgebucht.",
-            "preisLabel": "Ab 49 €",
-            "preisEinheit": "/ Server / Monat",
             "features": [
               "24/7-Monitoring",
               "Patch- und Update-Management",
               "Backup-Prüfung",
               "Remote-Störungsbeseitigung"
             ],
-            "cta": "Jetzt anfragen"
+            "cta": "Jetzt anfragen",
+            "link": {
+              "text": "Mehr zur Server-Betreuung",
+              "href": "/leistungen/server-betreuung"
+            }
           },
           {
-            "icon": "<path d=\"M12 3l8 3.5V12c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6.5L12 3z\"></path><path d=\"M9 12l2 2 4-4\"></path>",
+            "icon": "<defs><clipPath id=\"zusatz-de-schild\"><path d=\"M12 2.5l8.5 3.6V12c0 5.3-3.6 8.9-8.5 10.5C7.1 20.9 3.5 17.3 3.5 12V6.1L12 2.5z\"></path></clipPath></defs><g clip-path=\"url(#zusatz-de-schild)\" stroke=\"none\"><rect x=\"0\" y=\"0\" width=\"24\" height=\"9.2\" fill=\"#1A1A1A\"></rect><rect x=\"0\" y=\"9.2\" width=\"24\" height=\"6.6\" fill=\"#D00000\"></rect><rect x=\"0\" y=\"15.8\" width=\"24\" height=\"8.2\" fill=\"#FFCE00\"></rect></g>",
             "name": "Datensicherung",
             "claim": "In Deutschland eingerichtet, geprüft und im Ernstfall wiederhergestellt.",
             "features": [
@@ -438,20 +468,28 @@
               "Regelmäßige Prüfung",
               "Wiederherstellungstest im Ernstfall"
             ],
-            "cta": "Jetzt anfragen"
+            "cta": "Jetzt anfragen",
+            "badge": "Beliebt",
+            "link": {
+              "text": "Mehr zur Datensicherung",
+              "href": "/leistungen/datensicherung"
+            }
           },
           {
             "icon": "<rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\"></rect><path d=\"M3 7l9 6 9-6\"></path>",
-            "badge": "Hornetsecurity",
             "name": "E-Mail-Sicherheit",
             "claim": "Mehrstufiger Schutz vor Phishing und Schadsoftware, bevor sie im Postfach ankommt.",
             "features": [
               "Spam- und Phishing-Schutz (99,9 %)",
-              "Advanced Threat Protection",
+              "E-Mail-Verschlüsselung",
               "GoBD-konforme E-Mail-Archivierung",
               "E-Mail-Continuity bei Serverausfall"
             ],
-            "cta": "Jetzt anfragen"
+            "cta": "Jetzt anfragen",
+            "link": {
+              "text": "Mehr zur E-Mail-Sicherheit",
+              "href": "/leistungen/email-sicherheit"
+            }
           }
         ]
       },
@@ -461,14 +499,13 @@
         "mehrzahl": "Geräte",
         "min": 1,
         "max": 100,
-        "start": 1,
-        "hinweis": "Der große Preis gilt für die gewählte Gerätezahl, darunter steht der monatliche Grundpreis des Pakets."
+        "start": 1
       }
     },
     {
       "typ": "faq",
       "titel": "Häufige Fragen",
-      "intro": "Was Sie vor der Zusammenarbeit mit uns wissen sollten: kurz und ohne Kleingedrucktes.",
+      "intro": "Was Sie vor der Zusammenarbeit mit uns wissen sollten.",
       "fragen": [
         {
           "frage": "Was kostet IT-Betreuung für ein kleines Unternehmen?",
@@ -476,7 +513,7 @@
         },
         {
           "frage": "Für welche Unternehmensgröße eignet sich Selim-IT?",
-          "antwort": "Wir betreuen Betriebe mit 2 bis 100 Mitarbeitenden (von Kanzleien und Praxen über Handwerksbetriebe bis zu Einzelhandel und Autohäusern), die keine eigene IT-Abteilung aufbauen wollen oder können, aber trotzdem verlässlich betreut sein möchten: persönlich und flexibel statt anonymer Callcenter-Support."
+          "antwort": "Wir betreuen Betriebe mit 2 bis 100 Mitarbeitenden, die keine eigene IT-Abteilung aufbauen wollen oder können, aber trotzdem verlässlich betreut sein möchten: persönlich und flexibel statt anonymer Callcenter-Support."
         },
         {
           "frage": "Wie funktioniert die Abrechnung?",

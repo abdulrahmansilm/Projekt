@@ -249,6 +249,23 @@ const fragen = alleFragen.slice(0, 6);
     color: rgba(11, 46, 60, 0.68);
   }
 
+  /* Leistungen in der Antwort sind anklickbar (Anforderung 22.09.2026) */
+  .faq-item__antwort-inner :global(.svc-group li a) {
+    color: var(--petrol);
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .faq-item__antwort-inner :global(.svc-group li:has(a):hover) {
+      background: rgba(79, 184, 166, 0.24);
+    }
+  }
+
+  .faq-item__antwort-inner :global(.faq-cta) {
+    margin-top: 16px;
+  }
+
   @media (max-width: 600px) {
     .faq__inner {
       padding: 64px 20px 72px;

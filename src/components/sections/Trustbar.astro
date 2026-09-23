@@ -1,19 +1,24 @@
 ---
 /**
  * Trustbar: Partner-Logo-Marquee (docs/DESIGNSYSTEM.md → Komponente 20).
- * Konstante Bewegung → linear (emil-design-eng), läuft dauerhaft ohne Steuerung (Nutzer-Entscheidung, 17.09.2026).
- * Pausiert weiterhin bei Maus-Hover, damit Logos bei Bedarf lesbar bleiben; kein Button mehr, daher ohne
- * tastaturerreichbare Pause-Möglichkeit (bewusste Abweichung von WCAG 2.2.2, siehe Zusammenfassung).
- * prefers-reduced-motion: keine Bewegung. Immer auf Off-White, zusammen mit Problem & Lösung.
- * Platzhalter-Logos, bis reale, abgestimmte Partner vorliegen (docs/BRANCHE.md).
+ * Konstante, lineare Bewegung, die nie anhält (Anforderung 22.09.2026 – auch kein Pausieren bei Hover).
+ * Nahtloser Loop: zwei identische Gruppen, jede mit eigenem Abstand am Ende, Verschiebung um exakt -50 %.
+ * Runde 4: Jede Gruppe enthält die Logos mehrfach hintereinander, damit eine Gruppe breiter ist als jeder
+ * Bildschirm (auch 2560 px). Sonst wurde auf breiten Monitoren rechts eine leere Stelle sichtbar.
+ * prefers-reduced-motion: keine Bewegung, statische Reihe.
+ * Logos: src/lib/partner.ts (Dateien unter public/partner/).
  */
+import { PARTNER } from "../../lib/partner";
+
 interface Props {
   label: string;
-  logos: string[];
   /** steht vor einer dunklen Sektion (Abstände oben/unten tauschen) */
   vorDunkel?: boolean;
 }
-const { label, logos, vorDunkel = false } = Astro.props;
+const { label, vorDunkel = false } = Astro.props;
+/** so oft stehen die Logos pro Gruppe hintereinander (5 Logos ≈ 1.100 px → 3× ≈ 3.300 px) */
+const WIEDERHOLUNGEN = 3;
+const reihe = Array.from({ length: WIEDERHOLUNGEN }, (_, r) => PARTNER.map((p) => ({ ...p, kopie: r > 0 }))).flat();
 ---
 
 <section class:list={["tb", "section-light", { "tb--vor-dunkel": vorDunkel }]} aria-label={label}>
@@ -21,24 +26,23 @@ const { label, logos, vorDunkel = false } = Astro.props;
     <p class="tb__label">{label}</p>
   </div>
   <div class="tb__marquee">
-    <ul class="tb__spur" role="list">
+    <div class="tb__spur" style={`--tb-dauer:${34 * WIEDERHOLUNGEN}s`}>
       {
-        logos.map((l) => (
-          <li class="tb__logo">
-            <span class="tb__dot" aria-hidden="true" />
-            {l}
-          </li>
+        [0, 1].map((kopie) => (
+          <ul class:list={["tb__gruppe", { "tb__gruppe--kopie": kopie === 1 }]} role="list" aria-hidden={kopie === 1 ? "true" : undefined}>
+            {reihe.map((p) => (
+              <li class="tb__logo" aria-hidden={p.kopie ? "true" : undefined}>
+                {p.nurText ? (
+                  <span class="tb__name">{p.name}</span>
+                ) : (
+                  <img src={p.bild} alt={kopie === 0 && !p.kopie ? p.name : ""} style={`--h:${p.hoehe ?? 30}px`} loading="eager" decoding="async" />
+                )}
+              </li>
+            ))}
+          </ul>
         ))
       }
-      {
-        logos.map((l) => (
-          <li class="tb__logo" aria-hidden="true">
-            <span class="tb__dot" />
-            {l}
-          </li>
-        ))
-      }
-    </ul>
+    </div>
   </div>
 </section>
 
@@ -77,18 +81,23 @@ const { label, logos, vorDunkel = false } = Astro.props;
   }
 
   .tb__spur {
+    --tb-gap: 72px;
     display: flex;
     align-items: center;
-    gap: 64px;
+    gap: 0;
     width: max-content;
-    margin: 0;
-    padding: 0 32px 0 0;
-    list-style: none;
-    animation: tb-lauf 32s linear infinite;
+    animation: tb-lauf var(--tb-dauer, 102s) linear infinite;
+    will-change: transform;
   }
 
-  .tb__marquee:hover .tb__spur {
-    animation-play-state: paused;
+  /* Gruppe trägt ihren Abstand selbst → beide Hälften exakt gleich breit, kein Sprung im Loop */
+  .tb__gruppe {
+    display: flex;
+    align-items: center;
+    gap: var(--tb-gap);
+    margin: 0;
+    padding: 0 var(--tb-gap) 0 0;
+    list-style: none;
   }
 
   @keyframes tb-lauf {
@@ -103,21 +112,23 @@ const { label, logos, vorDunkel = false } = Astro.props;
   .tb__logo {
     display: flex;
     align-items: center;
-    gap: 10px;
     flex: none;
-    font-family: var(--font-headline);
-    font-size: 20px;
-    font-weight: 600;
-    white-space: nowrap;
-    color: var(--ink-72);
+    height: 56px;
   }
 
-  .tb__dot {
-    width: 8px;
-    height: 8px;
-    flex: none;
-    border-radius: 50%;
-    background: var(--verlauf);
+  .tb__logo img {
+    height: var(--h);
+    width: auto;
+    opacity: 0.88;
+  }
+
+  .tb__name {
+    font-family: var(--font-headline);
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    color: var(--ink-72);
   }
 
   @media (max-width: 560px) {
@@ -126,21 +137,32 @@ const { label, logos, vorDunkel = false } = Astro.props;
     }
 
     .tb__spur {
-      gap: 44px;
+      --tb-gap: 48px;
     }
 
     .tb__logo {
-      font-size: 17px;
+      height: 44px;
+    }
+
+    .tb__logo img {
+      height: calc(var(--h) * 0.82);
+    }
+
+    .tb__name {
+      font-size: 19px;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .tb__spur {
+      width: auto;
       animation: none;
+    }
+
+    .tb__gruppe {
       flex-wrap: wrap;
       justify-content: center;
-      width: auto;
-      gap: 20px 40px;
+      gap: 20px 44px;
       padding: 0 20px;
     }
 
@@ -149,6 +171,7 @@ const { label, logos, vorDunkel = false } = Astro.props;
       mask-image: none;
     }
 
+    .tb__gruppe--kopie,
     .tb__logo[aria-hidden="true"] {
       display: none;
     }

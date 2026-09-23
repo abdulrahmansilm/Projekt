@@ -1,0 +1,337 @@
+---
+/**
+ * Unser Leitbild (neu in Runde 4, 22.09.2026).
+ * Eigenes, bewusst ruhiges Design: ein großes Leitsatz-Zitat, danach drei Kapitel entlang einer feinen
+ * Linie (Kapitelnummer als Kontur-Ziffer, Titel, drei Grundsätze mit fettem Einstieg, Illustration im Wechsel
+ * links/rechts). Am Ende: CTA → Wissen-Teaser → Footer.
+ * Illustrationen: referenz/Leitbild → public/leitbild/.
+ */
+import { getEntry } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/sections/Hero.astro";
+import HeroBildVisual from "../components/hero-visuals/HeroBildVisual.astro";
+import KontaktWizard from "../components/kontakt/KontaktWizard.astro";
+import WissenTeaser from "../components/sections/WissenTeaser.astro";
+import { breadcrumbJsonLd } from "../lib/seo";
+
+const eintrag = await getEntry("seiten", "startseite");
+if (!eintrag) throw new Error("src/content/seiten/startseite.json fehlt");
+const s = eintrag.data as Record<string, any>;
+
+const kapitel = [
+  {
+    titel: "Die digitale Evolution des Mittelstands",
+    bild: "/leitbild/01.svg",
+    bildLabel: "Wachstum durch digitale Unterstützung",
+    punkte: [
+      { stark: "Fundament sichern, Zukunft gestalten:", text: "Wir kombinieren verlässliche IT-Infrastruktur mit zukunftsweisenden KI-Technologien." },
+      { stark: "Der Motor für Ihr Wachstum:", text: "Wir machen komplexe Technologien wie Prozessautomatisierung und intelligente Chatbots einfach nutzbar." },
+      { stark: "Wettbewerbsvorteil sichern:", text: "Durch innovative Lösungen bringen wir Ihr Unternehmen digital an die Spitze." },
+    ],
+  },
+  {
+    titel: "Alles aus einer Hand für Ihren digitalen Erfolg",
+    bild: "/leitbild/02.svg",
+    bildLabel: "Passende Bausteine zu einer Gesamtlösung zusammengefügt",
+    punkte: [
+      { stark: "Rundum-Sorglos-Partner:", text: "Von der Server-Betreuung bis zur Webentwicklung decken wir Ihren gesamten Technologie-Bedarf ab." },
+      { stark: "Nahtlose Integration:", text: "Wir verbinden klassische IT (M365, VPN) direkt mit moderner Kundenkommunikation (WhatsApp, KI-Telefonie)." },
+      { stark: "Ein Ansprechpartner:", text: "Keine Schnittstellenprobleme mehr – Sie erhalten eine perfekt abgestimmte Gesamtlösung." },
+    ],
+  },
+  {
+    titel: "Technologie von morgen, heute einsatzbereit",
+    bild: "/leitbild/03.svg",
+    bildLabel: "Neue Ideen und Technologien für den Arbeitsalltag",
+    punkte: [
+      { stark: "Am Puls der Zeit:", text: "Wir bringen die neuesten KI-E-Mail- und Telefonassistenten direkt in Ihren Arbeitsalltag." },
+      { stark: "Zukunftssichere Arbeitswelten:", text: "Wir schaffen moderne, flexible und standortunabhängige Infrastrukturen für Ihr Team." },
+      { stark: "Agil und fortschrittlich:", text: "Starre Systeme waren gestern – wir setzen auf skalierbare Webentwicklung und automatisierte Prozesse." },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Unser Leitbild: wofür Selim-IT steht"
+  description="Das Leitbild von Selim-IT: verlässliche IT und zukunftsweisende KI für den Mittelstand, alles aus einer Hand und sofort einsatzbereit."
+  pfad="/leitbild"
+  mitKontaktformular
+  jsonLd={[
+    breadcrumbJsonLd([
+      { name: "Startseite", pfad: "/" },
+      { name: "Unser Leitbild", pfad: "/leitbild" },
+    ]),
+  ]}
+>
+  <Hero
+    headline="Unser Leitbild"
+    subline="Wofür wir stehen und wohin wir mit unseren Kunden wollen: verlässliche IT, moderne KI und ein Partner für alles. Aus Frankfurt für das Rhein-Main-Gebiet."
+    cta={{ text: "Beratung vereinbaren" }}
+    klein
+  >
+    <HeroBildVisual slug="leitbild" slot="visual" />
+  </Hero>
+
+  <section class="lb section-light" aria-labelledby="lb-titel">
+    <div class="lb__inner">
+      <p class="lb__leitsatz" id="lb-titel" data-reveal>
+        Wir machen den Mittelstand <span class="text-verlauf">digital stark</span>: mit Technik, die verlässlich läuft,
+        und Ideen, die heute schon funktionieren.
+      </p>
+
+      <div class="lb__kapitel-wrap" data-lb-kapitel>
+        <div class="lb__linie" aria-hidden="true">
+          <div class="lb__linie-fuellung" data-lb-fuellung></div>
+        </div>
+        <ol class="lb__kapitel" role="list">
+          {
+            kapitel.map((k, i) => (
+              <li class:list={["kap", { "kap--rechts": i % 2 === 1 }]}>
+                <div class="kap__text" data-reveal>
+                  <span class="kap__nr" aria-hidden="true">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h2 class="kap__titel">{k.titel}</h2>
+                  <ul class="kap__punkte" role="list">
+                    {k.punkte.map((p) => (
+                      <li>
+                        <span class="kap__marke" aria-hidden="true" />
+                        <p>
+                          <strong>{p.stark}</strong> {p.text}
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div class="kap__bild" data-reveal>
+                  <img src={k.bild} alt={k.bildLabel} width="500" height="500" loading="lazy" decoding="async" />
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <KontaktWizard />
+  <WissenTeaser titel={s.wissen.titel} intro={s.wissen.intro} artikel={s.wissen.artikel} />
+</BaseLayout>
+
+<script>
+  /**
+   * Runde 5: Die Mittellinie zwischen den Kapiteln füllt sich passend zum Scroll-Fortschritt.
+   * Fortschritt = wie weit die Bildschirmmitte den Kapitel-Block bereits durchlaufen hat (0–1).
+   */
+  const wrap = document.querySelector<HTMLElement>("[data-lb-kapitel]");
+  const fuellung = document.querySelector<HTMLElement>("[data-lb-fuellung]");
+  if (wrap && fuellung) {
+    const aktualisieren = () => {
+      const rect = wrap.getBoundingClientRect();
+      const start = window.innerHeight * 0.55;
+      const fortschritt = Math.min(1, Math.max(0, (start - rect.top) / rect.height));
+      fuellung.style.height = `${fortschritt * 100}%`;
+    };
+    aktualisieren();
+    window.addEventListener("scroll", aktualisieren, { passive: true });
+    window.addEventListener("resize", aktualisieren);
+  }
+</script>
+
+<style>
+  .lb {
+    padding: 104px 32px 120px;
+  }
+
+  .lb__inner {
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+
+  /* Leitsatz: groß, ruhig, zentriert */
+  .lb__leitsatz {
+    max-width: 860px;
+    margin: 0 auto 112px;
+    font-family: var(--font-headline);
+    font-size: clamp(26px, 3.4vw, 40px);
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+    text-align: center;
+    color: var(--ink);
+  }
+
+  /* Kapitel entlang einer feinen senkrechten Linie */
+  .lb__kapitel-wrap {
+    position: relative;
+  }
+
+  .lb__kapitel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 112px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Runde 5: Linie füllt sich passend zum Scroll-Fortschritt (JS setzt die Höhe von .lb__linie-fuellung) */
+  .lb__linie {
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    left: 50%;
+    width: 1px;
+    background: linear-gradient(180deg, transparent, var(--line-strong) 8%, var(--line-strong) 92%, transparent);
+  }
+
+  .lb__linie-fuellung {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: linear-gradient(180deg, var(--tuerkis), var(--petrol));
+    transition: height 200ms linear;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lb__linie-fuellung {
+      transition: none;
+    }
+  }
+
+  .kap {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 96px;
+  }
+
+  /* Punkt auf der Linie je Kapitel */
+  .kap::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 13px;
+    height: 13px;
+    border: 3px solid var(--nebel);
+    border-radius: 50%;
+    background: var(--verlauf);
+    box-shadow: 0 0 0 1px rgba(27, 110, 122, 0.35);
+    transform: translate(-50%, -50%);
+  }
+
+  .kap--rechts .kap__text {
+    order: 2;
+  }
+
+  .kap__nr {
+    display: block;
+    margin-bottom: 10px;
+    font-family: var(--font-headline);
+    font-size: 76px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(27, 110, 122, 0.45);
+  }
+
+  .kap__titel {
+    margin-bottom: 26px;
+    font-size: clamp(24px, 2.6vw, 32px);
+    font-weight: 600;
+    line-height: 1.22;
+    letter-spacing: -0.01em;
+  }
+
+  .kap__punkte {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .kap__punkte li {
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    gap: 14px;
+  }
+
+  .kap__marke {
+    width: 18px;
+    height: 2px;
+    margin-top: 12px;
+    border-radius: 2px;
+    background: var(--verlauf);
+  }
+
+  .kap__punkte p {
+    font-size: 16.5px;
+    line-height: 1.65;
+    color: var(--ink-72);
+  }
+
+  .kap__punkte strong {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .kap__bild {
+    display: flex;
+    justify-content: center;
+  }
+
+  .kap__bild img {
+    width: 100%;
+    max-width: 380px;
+    height: auto;
+  }
+
+  @media (max-width: 900px) {
+    .lb {
+      padding: 72px 20px 88px;
+    }
+
+    .lb__leitsatz {
+      margin-bottom: 72px;
+    }
+
+    .lb__kapitel {
+      gap: 72px;
+    }
+
+    .lb__linie,
+    .kap::before {
+      display: none;
+    }
+
+    .kap {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .kap--rechts .kap__text {
+      order: 0;
+    }
+
+    .kap__bild {
+      order: -1;
+    }
+
+    .kap__bild img {
+      max-width: 260px;
+    }
+
+    .kap__nr {
+      font-size: 56px;
+    }
+  }
+</style>

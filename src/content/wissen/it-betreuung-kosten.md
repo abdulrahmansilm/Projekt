@@ -29,8 +29,7 @@ cta:
 
 <p>Damit ist die Frage aber erst halb beantwortet, denn „pro Gerät“ ist nur eines von mehreren Abrechnungsmodellen.</p>
 
-<h2>Die drei üblichen Abrechnungsmodelle</h2>
-
+## Die drei üblichen Abrechnungsmodelle
 <h3>Pro Gerät</h3>
 
 <p>Der Preis richtet sich nach der Anzahl betreuter Geräte: Arbeitsplatzrechner, Notebooks, Server. Das Modell ist einfach nachzurechnen und passt gut zu Betrieben, in denen jeder Mitarbeiter ein Gerät hat. Nachteil: Wer viele wenig genutzte Geräte hat, etwa Terminals im Lager, zahlt für Kapazität, die kaum Aufwand verursacht.</p>
@@ -47,8 +46,7 @@ cta:
 <p><strong>Praxishinweis:</strong> Viele Anbieter kombinieren. Eine monatliche Grundpauschale deckt Betreuung und Überwachung ab, größere Projekte werden separat nach Aufwand abgerechnet. Wichtig ist nur, dass die Grenze zwischen beidem schriftlich klar gezogen ist.</p>
 </div>
 
-<h2>Was in einem soliden Grundpaket enthalten sein sollte</h2>
-
+## Was in einem soliden Grundpaket enthalten sein sollte
 <p>Diese Punkte gehören zum Standard. Fehlt einer davon im Angebot, lohnt die Nachfrage:</p>
 
 <ul>
@@ -62,8 +60,7 @@ cta:
 <li><strong>Monatlicher Report</strong>, was wurde getan, was steht an, wo gibt es Handlungsbedarf</li>
 </ul>
 
-<h2>Was üblicherweise separat abgerechnet wird</h2>
-
+## Was üblicherweise separat abgerechnet wird
 <p>Diese Posten gehören in aller Regel nicht ins Grundpaket, sondern werden gesondert ausgewiesen. Sinnvoll ist, sie im Angebot von Anfang an aufgelistet zu sehen, damit die Gesamtkosten planbar bleiben:</p>
 
 <div class="tabelle-scroll" tabindex="0" role="region" aria-label="Tabelle"><table>
@@ -76,22 +73,19 @@ cta:
 <tr><td>Support außerhalb der Servicezeiten</td><td>Zuschlag oder eigenes Notfallpaket</td></tr>
 </table></div>
 
-<h2>Der Faktor, der den Preis am stärksten bestimmt</h2>
-
+## Der Faktor, der den Preis am stärksten bestimmt
 <p>Nicht die Anzahl der Geräte, sondern die zugesagte Reaktionszeit. Ein Anbieter, der binnen einer Stunde reagieren muss, hält Kapazität vor und lässt sich das bezahlen. Wer 24 Stunden Zeit hat, kann Arbeit bündeln und günstiger anbieten.</p>
 
 <p>Bei Selim-IT liegt die reguläre Reaktionszeit zwischen 4 und 24 Stunden, bei Notfällen zwischen 1 und 8 Stunden, je nach Paket. Die regulären Support-Zeiten sind von 8 bis 18 Uhr.</p>
 
 <p>Für die eigene Kalkulation hilft eine schlichte Frage: Was kostet uns ein Tag Stillstand? Liegt die Antwort deutlich über dem Monatspreis der Betreuung, ist die schnellere Reaktionszeit die günstigere Wahl.</p>
 
-<h2>Rechenbeispiel für einen Betrieb mit zehn Arbeitsplätzen</h2>
-
+## Rechenbeispiel für einen Betrieb mit zehn Arbeitsplätzen
 <p>Zehn Arbeitsplätze, ein Server, Microsoft 365, keine besonderen Compliance-Anforderungen. Bei 30 Euro pro Gerät und Monat liegt die Grundbetreuung der Arbeitsplätze bei 300 Euro monatlich. Der Server wird üblicherweise separat und höher bepreist, da er mehr Aufwand verursacht. Dazu kommen Lizenzen und gegebenenfalls Backup-Speicher.</p>
 
 <p>Zum Vergleich: Eine Teilzeitkraft mit halbwegs belastbaren IT-Kenntnissen kostet ein Vielfaches, ohne Vertretung im Urlaub, ohne Spezialwissen für Themen außerhalb ihres Schwerpunkts und ohne Überwachung außerhalb der Arbeitszeit.</p>
 
-<h2>Wo sich sparen lässt, ohne dass es weh tut</h2>
-
+## Wo sich sparen lässt, ohne dass es weh tut
 <ul>
 <li><strong>Jahresvertrag statt monatlich:</strong> Bei Selim-IT gibt es dafür 10 bis 20 Prozent Rabatt. Bei anderen Anbietern ist die Größenordnung ähnlich.</li>
 <li><strong>Lizenzen aufräumen:</strong> Ausgeschiedene Mitarbeiter, doppelt vergebene Lizenzen, zu hoch gewählte Pläne, hier liegt in fast jedem Betrieb Geld.</li>
@@ -99,6 +93,5 @@ cta:
 <li><strong>Reaktionszeit realistisch wählen:</strong> Nicht jeder Betrieb braucht eine Stunde Notfallreaktion. Ehrlich einschätzen spart spürbar.</li>
 </ul>
 
-<h2>Woran Sie ein gutes Angebot erkennen</h2>
-
+## Woran Sie ein gutes Angebot erkennen
 <p>Drei Punkte, die ein Angebot vergleichbar und belastbar machen: Erstens eine Leistungsbeschreibung, die konkret benennt, was enthalten ist und was gesondert abgerechnet wird. Zweitens verbindliche Reaktionszeiten in Stunden statt allgemeiner Zusagen. Drittens eine Laufzeit, die zu Ihrem Bedarf passt, bei Selim-IT sind die Verträge monatlich kündbar, ein Jahresvertrag ist eine freiwillige Option mit Rabatt.</p>

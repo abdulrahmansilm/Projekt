@@ -29,8 +29,7 @@ cta:
 
 <p>Das klingt nach einer Feinheit in der Abrechnung, ist aber ein grundsätzlich anderes Geschäftsmodell. Und es verändert, woran der Dienstleister verdient.</p>
 
-<h2>Der Unterschied zum klassischen IT-Systemhaus</h2>
-
+## Der Unterschied zum klassischen IT-Systemhaus
 <p>Das klassische Systemhaus arbeitet auf Zuruf. Etwas geht kaputt, Sie rufen an, jemand kommt vorbei, am Ende steht eine Rechnung nach Aufwand. Je mehr kaputtgeht, desto besser läuft das Geschäft. Niemand baut deshalb absichtlich Probleme ein aber ein wirtschaftlicher Anreiz, Störungen von vornherein zu verhindern, existiert in diesem Modell schlicht nicht.</p>
 
 <p>Beim MSP ist es umgekehrt. Die Pauschale steht fest, egal wie oft etwas passiert. Jede vermiedene Störung ist damit direkt Gewinn für den Dienstleister und weniger Ausfall für Sie. Aus dieser einen Änderung folgt fast alles andere: Monitoring statt Warten, Updates nach Plan statt nach Zwischenfall, Dokumentation statt Wissen in einzelnen Köpfen.</p>
@@ -39,8 +38,7 @@ cta:
 <p><strong>Die Kurzfassung:</strong> Ein Systemhaus verdient daran, Probleme zu lösen. Ein MSP verdient daran, dass sie gar nicht erst entstehen.</p>
 </div>
 
-<h2>Was ein MSP konkret übernimmt</h2>
-
+## Was ein MSP konkret übernimmt
 <p>Der Leistungsumfang unterscheidet sich von Anbieter zu Anbieter, aber ein Kern findet sich fast überall:</p>
 
 <ul>
@@ -54,14 +52,12 @@ cta:
 
 <p>Darüber hinaus bieten viele MSP Zusatzleistungen an: Beschaffung und Einrichtung von Hardware, Microsoft-365-Verwaltung, E-Mail-Sicherheit, VPN-Zugänge fürs Homeoffice, Server-Betreuung.</p>
 
-<h2>Was ein MSP kostet</h2>
-
+## Was ein MSP kostet
 <p>Üblich ist die Abrechnung pro Gerät und Monat, seltener pro Nutzer. Der Preis hängt daran, was im Paket enthalten ist und wie schnell reagiert wird. Bei Selim-IT startet die Betreuung bei 30 € pro Gerät und Monat; darin enthalten ist die Grundsicherung mit Monitoring, Störungsbeseitigung, Wartung, Ticket-Support, Patch-Management, Virenschutz, laufender Dokumentation und monatlichem Report.</p>
 
 <p>Für einen Betrieb mit zehn Arbeitsplätzen liegt man damit bei überschaubaren dreistelligen Beträgen im Monat, planbar, ohne Überraschungen, und deutlich unter den Kosten einer eigenen Teilzeitstelle für IT.</p>
 
-<h2>Ab wann sich das Modell rechnet</h2>
-
+## Ab wann sich das Modell rechnet
 <p>Die Faustregel ist weniger die Mitarbeiterzahl als die Abhängigkeit. Ein Betrieb mit vier Personen, bei dem ein Serverausfall den kompletten Umsatz stoppt, hat mehr Bedarf als ein Betrieb mit zwanzig Personen, die überwiegend ohne IT arbeiten.</p>
 
 <p>Konkrete Anzeichen, dass sich externe Betreuung lohnt:</p>
@@ -76,14 +72,12 @@ cta:
 
 <p>Trifft davon zwei oder mehr zu, ist die Frage weniger, ob externe Betreuung sinnvoll ist, sondern nur noch in welchem Umfang.</p>
 
-<h2>Wann ein MSP nicht die richtige Wahl ist</h2>
-
+## Wann ein MSP nicht die richtige Wahl ist
 <p>Ehrlicherweise passt das Modell nicht überall. Wer eine eigene IT-Abteilung hat und nur punktuell Spezialwissen zukauft, fährt mit Projektabrechnung besser. Wer ausschließlich mit zwei Laptops und Cloud-Diensten arbeitet, ohne Server, ohne besondere Anforderungen, braucht keine dauerhafte Betreuung, hier reicht ein Ansprechpartner für den Einzelfall.</p>
 
 <p>Und wer vor allem ein einmaliges Projekt umsetzen will, etwa eine neue Webseite oder die Automatisierung eines Ablaufs, sollte genau das beauftragen können, bei Selim-IT sind solche Projekte einmalig nach Aufwand abrechenbar, die laufende Betreuung ist dabei optional.</p>
 
-<h2>Woran Sie einen guten Anbieter erkennen</h2>
-
+## Woran Sie einen guten Anbieter erkennen
 <p>Vier Punkte, die im Erstgespräch schnell Klarheit schaffen:</p>
 
 <ol>
@@ -93,8 +87,7 @@ cta:
 <li><strong>Laufzeiten, die zu Ihnen passen.</strong> Kurze Kündigungsfristen geben Ihnen Spielraum, längere Laufzeiten bringen oft Rabatt. Wichtig ist, dass Sie die Wahl haben. Bei Selim-IT sind die Verträge monatlich kündbar, ein Jahresvertrag ist eine freiwillige Option.</li>
 </ol>
 
-<h2>Der Wechsel zu einem MSP</h2>
-
+## Der Wechsel zu einem MSP
 <p>Die häufigste Sorge ist der Aufwand des Umstiegs. In der Praxis läuft ein Wechsel in drei Phasen ab: Bestandsaufnahme der vorhandenen Geräte, Zugänge und Verträge; schrittweise Übernahme der Systeme in die Betreuung; anschließend Feinjustierung. Bei üblichen Betriebsgrößen dauert das zwei bis drei Wochen, wobei der laufende Betrieb durchgehend weiterläuft.</p>
 
 <p>Der kritische Punkt ist selten die Technik, sondern die Übergabe: Wer hat welche Passwörter, wo liegen Lizenzen, welche Verträge laufen wo. Ein sauberer MSP wird genau hier zu Beginn den meisten Aufwand betreiben und das ist gut investierte Zeit.</p>

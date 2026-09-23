@@ -29,8 +29,7 @@ cta:
 
 <p>Kein einzelnes Merkmal ist für sich ein Beweis. Zwei davon gleichzeitig rechtfertigen einen Anruf, bevor irgendetwas angeklickt wird.</p>
 
-<h2>Die acht Warnzeichen im Detail</h2>
-
+## Die acht Warnzeichen im Detail
 <h3>1. Die Absenderadresse stimmt fast</h3>
 
 <p>Angezeigt wird der Name eines bekannten Kontakts, dahinter steht aber eine andere Adresse. Beliebt sind vertauschte Buchstaben, zusätzliche Bindestriche oder abweichende Endungen, etwa <em>lieferant-gmbh.de</em> statt <em>lieferant.de</em>, oder ein großes I anstelle eines kleinen l. Prüfen Sie im Zweifel die vollständige Adresse, nicht nur den Anzeigenamen.</p>
@@ -67,14 +66,12 @@ cta:
 <p><strong>Die wirksamste Einzelmaßnahme:</strong> eine schriftliche Regel, dass Zahlungsanweisungen und Änderungen von Bankdaten grundsätzlich telefonisch bestätigt werden, ausnahmslos, auch wenn die Anweisung vom Chef kommt. Das nimmt den Mitarbeitenden die Angst, nachzufragen. Genau diese Angst ist das, worauf die Angreifer setzen.</p>
 </div>
 
-<h2>Was Technik übernehmen kann und was nicht</h2>
-
+## Was Technik übernehmen kann und was nicht
 <p>Ein professioneller E-Mail-Schutz filtert einen großen Teil der Angriffe heraus, bevor sie im Postfach ankommen: bekannte Absenderadressen aus Angriffskampagnen, verdächtige Anhänge, Links auf gemeldete Seiten. Ergänzend prüfen moderne Systeme Links erst im Moment des Klicks, weil viele Angriffsseiten erst nach der Zustellung scharfgeschaltet werden.</p>
 
 <p>Was Technik nicht auffängt: die gut geschriebene Mail von einem echten, aber gekaperten Postfach eines echten Lieferanten, mit einer plausiblen Rechnung und einer neuen IBAN. Hier hilft nur der Prozess.</p>
 
-<h2>Wenn doch geklickt wurde</h2>
-
+## Wenn doch geklickt wurde
 <p>Wichtig ist die Reihenfolge und dass niemand aus Scham schweigt:</p>
 
 <ol>
@@ -87,8 +84,7 @@ cta:
 
 <p>Ein Betriebsklima, in dem ein Fehlklick sofort gemeldet statt verschwiegen wird, ist sicherheitstechnisch mehr wert als jedes zusätzliche Filterprodukt.</p>
 
-<h2>Was sich mit vertretbarem Aufwand umsetzen lässt</h2>
-
+## Was sich mit vertretbarem Aufwand umsetzen lässt
 <ul>
 <li><strong>Multi-Faktor-Authentifizierung</strong> für alle Postfächer. Verhindert die Übernahme eines Kontos selbst dann, wenn das Passwort abgegriffen wurde.</li>
 <li><strong>Externe Absender kennzeichnen.</strong> Ein automatischer Hinweis über jeder Mail von außerhalb entlarvt vorgetäuschte interne Absender sofort.</li>

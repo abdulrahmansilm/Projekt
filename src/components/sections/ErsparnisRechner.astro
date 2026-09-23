@@ -6,6 +6,8 @@
  * Loslassen (change) über eine Live-Region angesagt, nicht bei jeder Bewegung.
  * Keine Zahlen-Animation: Werte ändern sich bei jeder Slider-Bewegung (emil-design-eng: häufig → nicht animieren).
  */
+import { KONTAKT_ANKER } from "../../lib/config";
+
 interface Props {
   eyebrow?: string;
   titel: string;
@@ -81,12 +83,19 @@ const felder = [
           </div>
           <div>
             <p class="stat__k">Kosten mit Assistent</p>
-            <p class="paar__v" data-r="mit">359 €</p>
+            <p class="paar__v" data-r="mit">389 €</p>
           </div>
         </div>
         <div class="ersparnis">
           <p class="stat__k">Ersparnis pro Monat</p>
           <p class="ersparnis__v" data-r="ersparnis">+478 €</p>
+          <!-- Runde 5: Beratung in derselben Spalte wie „Ersparnis pro Monat“, direkt darunter -->
+          <a class="btn btn--sm ergebnis__cta" href={KONTAKT_ANKER}>
+            <span>Beratung vereinbaren</span>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </a>
         </div>
         <p class="ergebnis__hinweis">{hinweis}</p>
       </div>
@@ -100,7 +109,7 @@ const felder = [
   const ARBEITSTAGE_PRO_MONAT = 21;
   const ARBEITGEBER_FAKTOR = 1.3;
   // Preisstaffel nach Anrufen/Tag, identisch zum Pricing der Seite
-  const kiKosten = (anrufeProTag: number) => (anrufeProTag <= 20 ? 119 : anrufeProTag <= 80 ? 359 : 599);
+  const kiKosten = (anrufeProTag: number) => (anrufeProTag <= 20 ? 129 : anrufeProTag <= 80 ? 389 : 599);
   const euro = (n: number) => `${Math.round(n).toLocaleString("de-DE")} €`;
 
   document.querySelectorAll<HTMLElement>("[data-rechner]").forEach((root) => {
@@ -353,6 +362,8 @@ const felder = [
   }
 
   .ergebnis {
+    display: flex;
+    flex-direction: column;
     padding: 40px 40px 36px;
     background: var(--tiefsee);
     color: var(--on-dark);
@@ -432,6 +443,11 @@ const felder = [
     font-size: 12.5px;
     line-height: 1.55;
     color: rgba(240, 244, 243, 0.68);
+  }
+
+  /* Runde 5: Beratungsbutton sitzt jetzt in der Ergebnis-Spalte, siehe .ergebnis__cta */
+  .ergebnis__cta {
+    margin-top: 16px;
   }
 
   @media (max-width: 780px) {

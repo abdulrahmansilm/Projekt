@@ -27,7 +27,6 @@ const { titel, intro, items } = Astro.props;
             </span>
             <h3>{item.titel}</h3>
             <p>{item.text}</p>
-            <span class="vorteile__linie" aria-hidden="true"></span>
           </li>
         ))
       }
@@ -139,18 +138,6 @@ const { titel, intro, items } = Astro.props;
     color: var(--ink-72);
   }
 
-  .vorteile__linie {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 4px;
-    background: var(--verlauf);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 420ms var(--ease-out);
-  }
-
   @media (hover: hover) and (pointer: fine) {
     .vorteile__band .vorteile__item:hover {
       transform: translateY(-8px);
@@ -169,10 +156,6 @@ const { titel, intro, items } = Astro.props;
 
     .vorteile__item:hover .vorteile__ico {
       transform: scale(1.08) rotate(6deg);
-    }
-
-    .vorteile__item:hover .vorteile__linie {
-      transform: scaleX(1);
     }
   }
 

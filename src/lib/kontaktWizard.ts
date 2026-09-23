@@ -27,6 +27,8 @@ export function initKontaktWizard(root: HTMLElement) {
   let schritt = 1;
   let gewaehlterSlot: string | null = null;
   let altchaGeladen = false;
+  /** Id der bereits gesendeten Anfrage: daran wird ein später gewählter Termin gehängt */
+  let anfrageId: string | null = null;
   const reduziert = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const ansagen = (text: string) => {
@@ -52,10 +54,39 @@ export function initKontaktWizard(root: HTMLElement) {
     /* ungültige Vorauswahl ignorieren */
   }
 
+  // ---------------------------------------------------------------- Interessen an Schritt 1 koppeln
+  /**
+   * Im Schritt „Details“ stehen nur die Leistungen der Bereiche zur Wahl, die unter „Anliegen“ gewählt wurden.
+   * Runde 4: Bei „Webentwicklung“ erscheinen stattdessen die Zusatzoptionen Branding und Hosting;
+   * ist nur „Allgemeine Beratung“ gewählt, entfällt die Frage nach Leistungen ganz.
+   */
+  const interessenGruppen = qa("[data-kw-interesse]");
+  const interessenBlock = q("[data-kw-interessen-block]");
+  const webBlock = q("[data-kw-web-block]");
+  const abwaehlen = (bereich: Element) => bereich.querySelectorAll<HTMLInputElement>('input[name="leistung"]').forEach((i) => (i.checked = false));
+  function aktualisiereInteressen() {
+    const gewaehlt = themen();
+    let sichtbar = 0;
+    for (const gruppe of interessenGruppen) {
+      const an = gewaehlt.includes(gruppe.dataset.kwInteresse ?? "");
+      gruppe.hidden = !an;
+      if (an) sichtbar++;
+      else abwaehlen(gruppe);
+    }
+    if (interessenBlock) interessenBlock.hidden = sichtbar === 0;
+    if (webBlock) {
+      webBlock.hidden = !gewaehlt.includes("webseiten");
+      if (webBlock.hidden) abwaehlen(webBlock);
+    }
+  }
+  aktualisiereInteressen();
+
   // ---------------------------------------------------------------- Prüfungen je Schritt
   function schritt2Fehler(): string | null {
     if (!radio("dringlichkeit")) return "Bitte geben Sie an, wie dringend Ihr Anliegen ist.";
     if (!radio("groesse")) return "Bitte geben Sie an, wie viele Mitarbeitende Sie haben.";
+    // Runde 4: Freitext ist Pflicht
+    if (!feld("nachricht")) return "Bitte beschreiben Sie Ihr Anliegen kurz in ein paar Sätzen.";
     return null;
   }
 
@@ -162,10 +193,8 @@ export function initKontaktWizard(root: HTMLElement) {
   }
 
   // ---------------------------------------------------------------- Ereignisse
-  form.addEventListener("change", () => {
-    if (schritt === 2) {
-      q("[data-kw-dringend]")!.hidden = radio("dringlichkeit")?.value !== "dringend";
-    }
+  form.addEventListener("change", (e) => {
+    if ((e.target as HTMLInputElement)?.name === "thema") aktualisiereInteressen();
     if (schritt === 1) q('[data-kw-fehler="1"]')!.hidden = true;
     if (schritt === 2 && !q('[data-kw-fehler="2"]')!.hidden) {
       const f = schritt2Fehler();
@@ -249,15 +278,18 @@ export function initKontaktWizard(root: HTMLElement) {
     }
   }
 
-  // ---------------------------------------------------------------- Terminbuchung
+  // ---------------------------------------------------------------- Terminbuchung (optional, nach dem Absenden)
+  const terminAngebot = q("[data-kw-termin-angebot]")!;
   const terminBtn = q<HTMLButtonElement>("[data-kw-termin]")!;
   const kalender = q("[data-kw-kalender]")!;
   const slotStatus = q("[data-kw-slot-status]")!;
   const slotListe = q("[data-kw-slots]")!;
   const buchenBtn = q<HTMLButtonElement>("[data-kw-buchen]")!;
+  const terminFehler = q("[data-kw-terminfehler]")!;
   let slotsGeladen = false;
 
   terminBtn.addEventListener("click", async () => {
+    // Runde 5: von Anfang an nutzbar, auch vor dem Absenden der Anfrage (Runde-4-Sperre zurückgenommen)
     const offen = kalender.hidden;
     kalender.hidden = !offen;
     terminBtn.setAttribute("aria-expanded", String(offen));
@@ -323,12 +355,11 @@ export function initKontaktWizard(root: HTMLElement) {
   const sendeBtn = q<HTMLButtonElement>("[data-kw-senden]")!;
   const sendeFehler = q("[data-kw-sendefehler]")!;
 
-  async function sende(weg: Anfrage["weg"]) {
-    const knopf = weg === "termin" ? buchenBtn : sendeBtn;
-    if (knopf.getAttribute("aria-disabled") === "true") return;
+  async function sende() {
+    if (sendeBtn.getAttribute("aria-disabled") === "true") return;
     sendeFehler.hidden = true;
-    knopf.setAttribute("aria-disabled", "true");
-    const beschriftung = knopf.querySelector("span");
+    sendeBtn.setAttribute("aria-disabled", "true");
+    const beschriftung = sendeBtn.querySelector("span");
     const vorher = beschriftung?.textContent ?? "";
     if (beschriftung) beschriftung.textContent = "Wird gesendet …";
 
@@ -338,14 +369,13 @@ export function initKontaktWizard(root: HTMLElement) {
       dringlichkeit: (radio("dringlichkeit")?.value ?? "allgemein") as Anfrage["dringlichkeit"],
       leistungen: leistungen(),
       groesse: radio("groesse")?.value ?? "",
-      nachricht: feld("nachricht") || undefined,
+      nachricht: feld("nachricht"),
       vorname: k.vorname,
       nachname: k.nachname,
       unternehmen: k.unternehmen || undefined,
       email: k.email,
       telefon: k.telefon || undefined,
-      weg,
-      terminSlot: weg === "termin" ? (gewaehlterSlot ?? undefined) : undefined,
+      weg: "anfrage",
       herkunft: location.pathname,
       website: feld("website"),
       formularGeladenUm: geladenUm,
@@ -353,17 +383,18 @@ export function initKontaktWizard(root: HTMLElement) {
     };
 
     try {
-      const antwort = await fetch(`${API}/${weg === "termin" ? "contact/booking" : "contact"}`, {
+      const antwort = await fetch(`${API}/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify(daten),
       });
-      const json = (await antwort.json().catch(() => ({}))) as { detail?: unknown; nextcloud_talk_url?: string };
+      const json = (await antwort.json().catch(() => ({}))) as { detail?: unknown; id?: string };
       if (!antwort.ok) {
         const detail = typeof json.detail === "string" ? json.detail : null;
         throw new Error(detail ?? "Die Anfrage konnte nicht gesendet werden.");
       }
-      zeigeDanke(weg === "termin" ? gewaehlterSlot : null);
+      anfrageId = json.id ?? null;
+      zeigeDanke();
     } catch (fehler) {
       const text =
         fehler instanceof Error && fehler.message && !fehler.message.includes("fetch")
@@ -373,21 +404,61 @@ export function initKontaktWizard(root: HTMLElement) {
       sendeFehler.hidden = false;
       ansagen(sendeFehler.textContent);
     } finally {
-      knopf.removeAttribute("aria-disabled");
+      sendeBtn.removeAttribute("aria-disabled");
       if (beschriftung) beschriftung.textContent = vorher;
     }
   }
 
-  function zeigeDanke(slot: string | null) {
+  /**
+   * Hängt einen gewählten Termin an die Anfrage (keine zweite Anfrage). Runde 5: Der Terminkasten ist auch
+   * vor dem Absenden nutzbar; wurde die Anfrage noch nicht gesendet, wird sie hier zuerst automatisch gesendet.
+   */
+  async function buche() {
+    if (!gewaehlterSlot) return;
+    if (buchenBtn.getAttribute("aria-disabled") === "true") return;
+    terminFehler.hidden = true;
+    buchenBtn.setAttribute("aria-disabled", "true");
+    const beschriftung = buchenBtn.querySelector("span");
+    const vorher = beschriftung?.textContent ?? "";
+    if (beschriftung) beschriftung.textContent = "Wird gebucht …";
+    try {
+      if (!anfrageId) await sende();
+      if (!anfrageId) throw new Error("Die Anfrage konnte nicht gesendet werden.");
+      const antwort = await fetch(`${API}/contact/${encodeURIComponent(anfrageId)}/termin`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({ terminSlot: gewaehlterSlot }),
+      });
+      const json = (await antwort.json().catch(() => ({}))) as { detail?: unknown };
+      if (!antwort.ok) {
+        const detail = typeof json.detail === "string" ? json.detail : null;
+        throw new Error(detail ?? "Der Termin konnte nicht gebucht werden.");
+      }
+      zeigeTermin(gewaehlterSlot);
+    } catch (fehler) {
+      const text = fehler instanceof Error && fehler.message && !fehler.message.includes("fetch") ? fehler.message : "Der Termin konnte gerade nicht gebucht werden.";
+      terminFehler.textContent = `${text} Bitte versuchen Sie es erneut oder rufen Sie uns direkt an.`;
+      terminFehler.hidden = false;
+      ansagen(terminFehler.textContent);
+    } finally {
+      buchenBtn.removeAttribute("aria-disabled");
+      if (beschriftung) beschriftung.textContent = vorher;
+    }
+  }
+
+  function zeigeTermin(slot: string) {
+    terminAngebot.hidden = true;
+    const t = q("[data-kw-danke-termin]")!;
+    t.textContent = `Ihr Wunschtermin: ${new Date(slot).toLocaleString("de-DE", { dateStyle: "full", timeStyle: "short" })} Uhr. Die Bestätigung mit allen Zugangsdaten erhalten Sie per E-Mail.`;
+    t.hidden = false;
+    ansagen(t.textContent);
+  }
+
+  function zeigeDanke() {
     q("[data-kw-final]")!.hidden = true;
     nav.hidden = true;
     const danke = q("[data-kw-danke]")!;
     danke.hidden = false;
-    if (slot) {
-      const t = q("[data-kw-danke-termin]")!;
-      t.textContent = `Ihr Wunschtermin: ${new Date(slot).toLocaleString("de-DE", { dateStyle: "full", timeStyle: "short" })} Uhr. Die Bestätigung mit dem Video-Link erhalten Sie per E-Mail.`;
-      t.hidden = false;
-    }
     fortschritt.forEach((li) => {
       li.classList.remove("is-aktiv");
       li.classList.add("is-erledigt");
@@ -397,8 +468,8 @@ export function initKontaktWizard(root: HTMLElement) {
     ansagen("Vielen Dank, Ihre Anfrage wurde gesendet.");
   }
 
-  sendeBtn.addEventListener("click", () => sende("anfrage"));
-  buchenBtn.addEventListener("click", () => sende("termin"));
+  sendeBtn.addEventListener("click", () => sende());
+  buchenBtn.addEventListener("click", () => buche());
 
   aktualisiereNav();
 }

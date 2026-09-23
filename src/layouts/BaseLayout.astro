@@ -34,7 +34,8 @@ interface Props {
 }
 
 const { title, description, ogTyp = "website", noindex = false, jsonLd = [], mitKontaktformular = false } = Astro.props;
-const kontaktHref = mitKontaktformular ? KONTAKT_ANKER : "/kontakt";
+/** Seiten ohne Wizard (Impressum, Datenschutz, Wissen, 404) springen zur CTA-Sektion der Startseite */
+const kontaktHref = mitKontaktformular ? KONTAKT_ANKER : `/${KONTAKT_ANKER}`;
 const pfad = Astro.props.pfad ?? Astro.url.pathname;
 const canonical = new URL(pfad, SITE_URL).toString();
 const vollerTitel = title.includes(firma.name) ? title : `${title} | ${firma.name}`;
@@ -101,16 +102,16 @@ const graph = {
       <slot />
     </main>
 
-    <Footer />
+    <Footer kontaktHref={kontaktHref} />
     <MobileFloatingCTA />
 
     <script>
       import { initNavigation, initLogoWechsel } from "../lib/navigation";
-      import { initReveal, initTypewriter } from "../lib/animations";
+      import { initReveal, initWortwechsel } from "../lib/animations";
       initNavigation();
       initLogoWechsel();
       initReveal();
-      initTypewriter();
+      initWortwechsel();
     </script>
   </body>
 </html>

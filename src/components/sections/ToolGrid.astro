@@ -92,23 +92,21 @@ const id = `tg-${Math.random().toString(36).slice(2, 7)}`;
       border-color 200ms ease;
   }
 
+  /* Piktogramm ohne Rahmen, dafür größer (Anforderung 22.09.2026) */
   .tk__ico {
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    margin-bottom: 20px;
-    border-radius: 12px;
-    background: rgba(79, 184, 166, 0.18);
-    transition:
-      background-color 200ms ease,
-      transform 200ms var(--ease-out);
+    justify-content: flex-start;
+    width: 36px;
+    height: 36px;
+    margin-bottom: 18px;
+    transition: transform 240ms var(--ease-out);
   }
 
   .tk__ico svg {
-    width: 22px;
-    height: 22px;
+    width: 34px;
+    height: 34px;
+    overflow: visible;
   }
 
   /* Piktogramme sind dauerhaft sichtbar (helle Linie), nicht erst beim Hover */
@@ -132,8 +130,7 @@ const id = `tg-${Math.random().toString(36).slice(2, 7)}`;
     }
 
     .tk:hover .tk__ico {
-      background: var(--verlauf);
-      transform: scale(1.06);
+      transform: scale(1.08);
     }
 
     .tk:hover .tk__ico :global(path),

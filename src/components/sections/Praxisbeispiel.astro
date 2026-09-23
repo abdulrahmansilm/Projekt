@@ -3,7 +3,7 @@
  * „Ein Projekt aus der Praxis“ (Redesign 17.09.2026, Vorlage
  * referenz/startseite/claude_components_praxisbeispiel-redesign-startseite.html).
  * Zeitstrahl (Ausgangssituation → Ziele → Lösung) links, Bewertungs-Karte rechts.
- * Kundenzitat wörtlich übernommen, Logo-Platzhalter bis das echte Vereinslogo eingebunden ist.
+ * Kundenzitat sinngemäß (gekürzt 22.09.2026), Vereinslogo unter public/praxis/.
  */
 const punkte = [
   {
@@ -33,7 +33,8 @@ const punkte = [
   },
 ];
 
-const highlights = ["Feste Ansprechpartner", "IT-Strategieplanung", "Keine Ausfälle mehr"];
+// Runde 4: „Feste Ansprechpartner“ entfernt, damit das Vereinslogo mehr Platz bekommt
+const highlights = ["IT-Strategieplanung", "Keine Ausfälle mehr"];
 ---
 
 <section class="praxis section-light" aria-labelledby="praxis-titel">
@@ -75,7 +76,9 @@ const highlights = ["Feste Ansprechpartner", "IT-Strategieplanung", "Keine Ausf�
       </ol>
 
       <figure class="bewertung" data-reveal style="--reveal-index:1">
-        <div class="bewertung__logo" aria-hidden="true">Logo<br />Jugend braucht Arbeit e.V.</div>
+        <div class="bewertung__logo">
+          <img src="/praxis/jugend-braucht-arbeit.png" alt="Jugend braucht Arbeit e.V." width="351" height="360" loading="lazy" decoding="async" />
+        </div>
         <figcaption>
           <h3>Jugend braucht Arbeit e.V.</h3>
           <div class="bewertung__sterne" role="img" aria-label="5 von 5 Sternen">
@@ -88,7 +91,7 @@ const highlights = ["Feste Ansprechpartner", "IT-Strategieplanung", "Keine Ausf�
             }
           </div>
           <blockquote>
-            <p>„Seit Selim-IT unsere IT übernommen hat, funktioniert sie einfach: Wir müssen nicht mehr darüber nachdenken. Ausfälle gehören der Vergangenheit an, unsere Daten sind zuverlässig gesichert, und bei Fragen haben wir jederzeit einen festen Ansprechpartner, der unsere Umgebung kennt.“</p>
+            <p>„Seit Selim-IT unsere IT übernommen hat, funktioniert sie einfach. Ausfälle gehören der Vergangenheit an, unsere Daten sind zuverlässig gesichert, und bei Fragen haben wir jederzeit einen festen Ansprechpartner, der unsere Umgebung kennt.“</p>
           </blockquote>
           <ul class="bewertung__highlights" role="list">
             {
@@ -249,19 +252,24 @@ const highlights = ["Feste Ansprechpartner", "IT-Strategieplanung", "Keine Ausf�
     color: var(--on-dark);
   }
 
+  /* Runde 4: größer und ohne Beschnitt – das Bild behält sein Seitenverhältnis innerhalb der Fläche */
   .bewertung__logo {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 88px;
-    margin-bottom: 20px;
-    border: 1.5px dashed rgba(240, 244, 243, 0.28);
-    border-radius: 11px;
-    background: rgba(240, 244, 243, 0.06);
-    text-align: center;
-    font-size: 11px;
-    line-height: 1.4;
-    color: var(--on-dark-55);
+    height: 168px;
+    margin-bottom: 22px;
+    padding: 14px;
+    border-radius: 14px;
+    background: #ffffff;
+  }
+
+  .bewertung__logo img {
+    display: block;
+    width: auto;
+    height: 100%;
+    max-width: 100%;
+    object-fit: contain;
   }
 
   .bewertung h3 {

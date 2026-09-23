@@ -6,7 +6,7 @@
  * Verhalten (Dropdowns, Sticky, Mobile-Menü) in src/lib/navigation.ts.
  */
 import Logo from "../ui/Logo.astro";
-import { firma, navigation, leistungHref, NAV_ICONS } from "../../lib/config";
+import { firma, navigation, leistungHref, NAV_ICONS, type NavKategorie } from "../../lib/config";
 
 interface Props {
   variant: "hero" | "sticky";
@@ -18,6 +18,15 @@ interface Props {
 const { variant, aktuellerPfad = "", kontaktHref } = Astro.props;
 const suffix = variant;
 const istAktiv = (href: string) => aktuellerPfad.replace(/\/$/, "") === href.replace(/\/$/, "");
+
+/** Piktogramm mit Ids, die pro Kopfzeile eindeutig sind (Hero- und Sticky-Kopf rendern dasselbe Menü) */
+const piktogramm = (slug: string) => (NAV_ICONS[slug] ?? "").replaceAll("{ID}", `nav-${slug}-${suffix}`);
+
+/** Einträge einer Kategorie nach Dropdown-Spalten gruppieren (ohne Spalten → eine Spalte ohne Überschrift) */
+function spaltenVon(kat: NavKategorie) {
+  const titel = kat.spalten ?? [""];
+  return titel.map((t, i) => ({ titel: t, eintraege: kat.eintraege.filter((e) => (e.spalte ?? 0) === i) }));
+}
 ---
 
 <div class:list={["kopf", `kopf--${variant}`, { "on-dark": variant === "hero" }]}>
@@ -53,37 +62,44 @@ const istAktiv = (href: string) => aktuellerPfad.replace(/\/$/, "") === href.rep
                   <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
               </button>
-              <div class:list={["nav-panel", { "nav-panel--breit": kat.eintraege.length > 4 }]} id={`dd-${kat.id}-${suffix}`} data-dropdown-panel>
-                <ul class="nav-panel__liste" role="list">
-                  {kat.eintraege
-                    .filter((e) => !e.bald)
-                    .map((e) => (
-                      <li>
-                        <a
-                          class="nav-panel__link"
-                          href={leistungHref(e.slug)}
-                          aria-current={istAktiv(leistungHref(e.slug)) ? "page" : undefined}
-                        >
-                          <span class="nav-panel__ico" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={NAV_ICONS[e.slug]} />
-                          </span>
-                          <span class="nav-panel__titel">{e.label}</span>
-                        </a>
-                      </li>
-                    ))}
-                </ul>
-                {kat.eintraege.some((e) => e.bald) && (
-                  <div class="nav-panel__bald">
-                    <span class="nav-panel__bald-tag">Bald verfügbar</span>
-                    <ul role="list">
-                      {kat.eintraege
-                        .filter((e) => e.bald)
-                        .map((e) => (
-                          <li>{e.label}</li>
-                        ))}
+              <div
+                class:list={["nav-panel", { "nav-panel--spalten": (kat.spalten?.length ?? 0) > 1 }]}
+                id={`dd-${kat.id}-${suffix}`}
+                data-dropdown-panel
+              >
+                {spaltenVon(kat).map((spalte) => (
+                  <div class="nav-panel__spalte">
+                    {spalte.titel && <p class="nav-panel__kopf">{spalte.titel}</p>}
+                    <ul class="nav-panel__liste" role="list">
+                      {spalte.eintraege.map((e) =>
+                        e.bald ? (
+                          <li>
+                            <span class="nav-panel__link nav-panel__link--bald" aria-disabled="true">
+                              <span class="nav-panel__ico" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={piktogramm(e.slug)} />
+                              </span>
+                              <span class="nav-panel__titel">{e.label}</span>
+                              <span class="nav-panel__bald-tag">bald verfügbar</span>
+                            </span>
+                          </li>
+                        ) : (
+                          <li>
+                            <a
+                              class="nav-panel__link"
+                              href={leistungHref(e.slug)}
+                              aria-current={istAktiv(leistungHref(e.slug)) ? "page" : undefined}
+                            >
+                              <span class:list={["nav-panel__ico", { "nav-panel__ico--gross": e.slug === "datensicherung" }]} aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={piktogramm(e.slug)} />
+                              </span>
+                              <span class="nav-panel__titel">{e.label}</span>
+                            </a>
+                          </li>
+                        )
+                      )}
                     </ul>
                   </div>
-                )}
+                ))}
               </div>
             </li>
           )
@@ -243,8 +259,13 @@ const istAktiv = (href: string) => aktuellerPfad.replace(/\/$/, "") === href.rep
       visibility 0s linear 140ms;
   }
 
-  .nav-panel--breit {
-    min-width: 540px;
+  /* Zwei Spalten mit Überschrift (Anforderung Runde 4) */
+  .nav-panel--spalten {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(230px, auto));
+    gap: 4px 10px;
+    min-width: 520px;
+    padding: 14px 12px 12px;
   }
 
   [data-dropdown].is-open > .nav-panel {
@@ -267,6 +288,16 @@ const istAktiv = (href: string) => aktuellerPfad.replace(/\/$/, "") === href.rep
     height: 12px;
   }
 
+  .nav-panel__kopf {
+    margin: 2px 14px 8px;
+    font-family: var(--font-headline);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink-55);
+  }
+
   .nav-panel__liste {
     display: grid;
     gap: 2px;
@@ -275,28 +306,26 @@ const istAktiv = (href: string) => aktuellerPfad.replace(/\/$/, "") === href.rep
     list-style: none;
   }
 
-  .nav-panel--breit .nav-panel__liste {
-    grid-template-columns: 1fr 1fr;
-  }
-
+  /* Runde 7: keine Hervorhebungsfläche mehr. Beim Hover wechseln nur noch Text- und Piktogrammfarbe. */
   .nav-panel__link {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 12px;
-    padding: 10px 14px;
-    border-radius: 10px;
+    gap: 11px;
+    padding: 9px 14px;
     text-decoration: none;
-    transition: background-color 150ms ease;
+    white-space: nowrap;
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .nav-panel__link:hover {
-      background: rgba(79, 184, 166, 0.1);
+    .nav-panel__link:not(.nav-panel__link--bald):hover .nav-panel__titel,
+    .nav-panel__link:not(.nav-panel__link--bald):hover .nav-panel__ico {
+      color: var(--tuerkis);
     }
   }
 
-  .nav-panel__link[aria-current="page"] {
-    background: rgba(79, 184, 166, 0.12);
+  .nav-panel__link[aria-current="page"] .nav-panel__titel,
+  .nav-panel__link[aria-current="page"] .nav-panel__ico {
+    color: var(--petrol);
   }
 
   .nav-panel__titel {
@@ -304,68 +333,56 @@ const istAktiv = (href: string) => aktuellerPfad.replace(/\/$/, "") === href.rep
     font-size: 14.5px;
     font-weight: 600;
     color: var(--ink);
+    transition: color 150ms ease;
   }
 
+  /* Piktogramm ohne Rahmen (Anforderung Runde 4), ohne Skalierung beim Hover (Runde 6, Ruckel-Bug) */
   .nav-panel__ico {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 34px;
-    height: 34px;
+    width: 24px;
+    height: 24px;
     flex: none;
-    border-radius: 10px;
-    background: rgba(79, 184, 166, 0.13);
     color: var(--petrol);
-    transition:
-      background-color 180ms ease,
-      color 180ms ease;
+    transition: color 150ms ease;
   }
 
   .nav-panel__ico svg {
-    width: 18px;
-    height: 18px;
+    width: 22px;
+    height: 22px;
   }
 
-  @media (hover: hover) and (pointer: fine) {
-    .nav-panel__link:hover .nav-panel__ico {
-      background: var(--verlauf);
-      color: #ffffff;
-    }
+  /* Datensicherung-Piktogramm etwas größer (Anforderung Runde 5) */
+  .nav-panel__ico--gross {
+    width: 28px;
+    height: 28px;
   }
 
-  .nav-panel__link[aria-current="page"] .nav-panel__ico {
-    background: var(--verlauf);
-    color: #ffffff;
+  .nav-panel__ico--gross svg {
+    width: 26px;
+    height: 26px;
   }
 
-  .nav-panel__bald {
-    margin: 6px 4px 2px;
-    padding: 12px 10px 4px;
-    border-top: 1px solid var(--line);
+  /* Noch nicht verfügbare Leistungen: blass, nicht klickbar */
+  .nav-panel__link--bald {
+    cursor: default;
+  }
+
+  .nav-panel__link--bald .nav-panel__ico,
+  .nav-panel__link--bald .nav-panel__titel {
+    opacity: 0.45;
   }
 
   .nav-panel__bald-tag {
-    display: inline-block;
-    margin-bottom: 8px;
-    padding: 3px 10px;
+    margin-left: 2px;
+    padding: 2px 8px;
     border-radius: 999px;
     background: rgba(11, 46, 60, 0.06);
     color: var(--ink-68);
-    font-size: 11px;
+    font-size: 10.5px;
     font-weight: 500;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-  }
-
-  .nav-panel__bald ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px 14px;
-    margin: 0 0 6px;
-    padding: 0;
-    list-style: none;
-    font-size: 13.5px;
-    color: var(--ink-68);
+    letter-spacing: 0.02em;
   }
 
   .kopf__aktionen {

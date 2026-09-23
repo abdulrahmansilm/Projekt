@@ -36,7 +36,8 @@ const problemLoesung = z.object({
 const trustbar = z.object({
   typ: z.literal("trustbar"),
   label: z.string(),
-  logos: z.array(z.string()),
+  /** nicht mehr genutzt: die Logos stehen seit 22.09.2026 zentral in src/lib/partner.ts */
+  logos: z.array(z.string()).optional(),
 });
 
 const zeitstrahl = z.object({
@@ -65,6 +66,7 @@ const pricingPakete = z.object({
       badge: z.string().optional(),
       claim: z.string(),
       preis: z.number(),
+      prefix: z.string().optional(),
       geraetPreis: z.number().optional(),
       reaktion: z.object({ wert: z.string(), sub: z.string() }).optional(),
       diffTitel: z.string(),
@@ -98,6 +100,7 @@ const pricingPakete = z.object({
           notiz: z.string().optional(),
           features: z.array(z.string()),
           cta: z.string(),
+          link: z.object({ text: z.string(), href: z.string() }).optional(),
         })
       ),
     })
@@ -121,7 +124,7 @@ const pricingSetup = z.object({
   pakete: z.array(
     z.object({
       name: z.string(),
-      variante: z.enum(["neutral", "beliebt"]),
+      variante: z.enum(["neutral", "beliebt", "premium"]),
       badge: z.string().optional(),
       tagline: z.string(),
       monatlich: z.number(),
@@ -130,7 +133,10 @@ const pricingSetup = z.object({
       prefix: z.string().optional(),
       cta: z.string(),
       inkludiert: z.array(setupEintrag),
-      features: z.array(setupEintrag),
+      /** Runde 7: optional, der WhatsApp-Chatbot zeigt keinen Features-Block mehr */
+      features: z.array(setupEintrag).optional(),
+      /** Runde 4: eigener Kasten „Laufende Betreuung“ */
+      betreuung: z.array(z.string()).optional(),
     })
   ),
   disclaimer: z.string(),
@@ -138,7 +144,8 @@ const pricingSetup = z.object({
     .array(
       z.object({
         titel: z.string(),
-        icon: z.string(),
+        /** Piktogramme in den Gruppenköpfen entfallen seit 22.09.2026 */
+        icon: z.string().optional(),
         zeilen: z.array(
           z.object({ label: z.string(), tipp: z.string().optional(), info: z.boolean().optional(), werte: z.array(z.string()) })
         ),

@@ -31,8 +31,7 @@ cta:
 
 <p>Alles darüber hinaus (Feinjustierung von Überschriften, Schlüsselwortdichte, tägliche Ranking-Kontrolle) bringt bei kleinen Betrieben selten den Aufwand ein, den es kostet.</p>
 
-<h2>1. Die technischen Grundlagen</h2>
-
+## 1. Die technischen Grundlagen
 <p>Ohne saubere Technik nützt der beste Text wenig. Diese Punkte sind heute Mindeststandard, keine Optimierung:</p>
 
 <ul>
@@ -46,8 +45,7 @@ cta:
 
 <p>Diese Liste ist an einem Tag abgearbeitet und wirkt dauerhaft. Sie ist deshalb der erste Schritt, nicht der letzte.</p>
 
-<h2>2. Das Google-Unternehmensprofil</h2>
-
+## 2. Das Google-Unternehmensprofil
 <p>Für lokal tätige Betriebe ist das Unternehmensprofil oft wichtiger als die eigene Webseite. Es entscheidet über die Sichtbarkeit im Kartenbereich, dem Block, der bei Suchanfragen mit lokalem Bezug ganz oben erscheint.</p>
 
 <p>Was zählt:</p>
@@ -66,16 +64,14 @@ cta:
 <p><strong>Wo kleine Betriebe tatsächlich gewinnen können:</strong> nicht bei allgemeinen Begriffen wie „IT-Dienstleister“, sondern bei konkreten Suchanfragen wie „IT-Betreuung Kanzlei Frankfurt Kosten“. Weniger Suchvolumen, aber deutlich weniger Wettbewerb und Menschen, die genau das suchen, was Sie anbieten.</p>
 </div>
 
-<h2>3. Inhalte zu konkreten Fragen</h2>
-
+## 3. Inhalte zu konkreten Fragen
 <p>Der wirksamste Ansatz für kleine Betriebe ist unspektakulär: Schreiben Sie auf, was Kunden Sie tatsächlich fragen. Nicht, was Sie gern über sich sagen würden.</p>
 
 <p>Praktisches Vorgehen: Zwei Wochen lang notieren, welche Fragen im Erstgespräch aufkommen. Jede dieser Fragen ist ein Suchbegriff. Für die häufigsten schreiben Sie je eine Seite, die die Frage vollständig beantwortet, mit konkreten Zahlen, wo es geht.</p>
 
 <p>Statt vieler isolierter Beiträge lohnt sich eine Bündelung: eine ausführliche Hauptseite zum Kernthema, dazu mehrere Detailseiten zu Teilaspekten, alle untereinander verlinkt. Das signalisiert Google, dass Sie das Themenfeld abdecken und nicht nur ein Stichwort bedienen.</p>
 
-<h2>4. Erwähnungen außerhalb der eigenen Seite</h2>
-
+## 4. Erwähnungen außerhalb der eigenen Seite
 <p>Was andere über Sie schreiben, zählt mehr als das, was Sie über sich schreiben. Für kleine Betriebe realistisch erreichbar:</p>
 
 <ul>
@@ -87,8 +83,7 @@ cta:
 
 <p>Wichtig ist Qualität vor Menge. Eine Erwähnung auf einer thematisch passenden, seriösen Seite ist mehr wert als fünfzig Einträge in Linksammlungen, die niemand liest.</p>
 
-<h2>Was sich 2026 verändert hat</h2>
-
+## Was sich 2026 verändert hat
 <p>Drei Verschiebungen, die man kennen sollte:</p>
 
 <p><strong>Ein wachsender Teil der Suchen endet ohne Klick.</strong> Google beantwortet informationsorientierte Fragen zunehmend direkt in den AI Overviews. Wer dort als Quelle genannt wird, gewinnt trotzdem, die Marke wird sichtbar, auch ohne Besuch.</p>
@@ -97,8 +92,7 @@ cta:
 
 <p><strong>Die FAQ-Auszeichnung bringt keine Sonderdarstellung mehr.</strong> Die aufklappbaren FAQ-Ergebnisse wurden eingestellt. Die Inhalte bleiben sinnvoll, die Erwartung an ein hübscheres Suchergebnis nicht.</p>
 
-<h2>Was Sie getrost ignorieren können</h2>
-
+## Was Sie getrost ignorieren können
 <ul>
 <li><strong>Tägliche Ranking-Kontrolle.</strong> Positionen schwanken, das sagt nichts. Monatliche Betrachtung reicht.</li>
 <li><strong>Schlüsselwortdichte.</strong> Ein Konzept aus den frühen Zweitausendern.</li>
@@ -106,8 +100,7 @@ cta:
 <li><strong>Werkzeuge, bevor die Grundlagen stehen.</strong> Ein teures Analysewerkzeug zeigt Ihnen nur ausführlicher, dass die Ladezeit zu hoch ist.</li>
 </ul>
 
-<h2>Eine realistische Reihenfolge für die ersten Monate</h2>
-
+## Eine realistische Reihenfolge für die ersten Monate
 <ol>
 <li><strong>Monat 1:</strong> Technische Grundlagen prüfen und beheben. Google Search Console einrichten. Unternehmensprofil vollständig ausfüllen.</li>
 <li><strong>Monat 2:</strong> Kundenfragen sammeln, die drei häufigsten als eigene Seiten beantworten.</li>

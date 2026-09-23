@@ -80,7 +80,7 @@ if (faqSektion && faqSektion.typ === "faq") {
         case "problemLoesung":
           return <ProblemLoesung {...s} />;
         case "trustbar":
-          return <Trustbar label={s.label} logos={s.logos} vorDunkel={naechste?.typ === "problemLoesung"} />;
+          return <Trustbar label={s.label} vorDunkel={naechste?.typ === "problemLoesung"} />;
         case "zeitstrahl":
           return <Zeitstrahl {...s} />;
         case "pricingPakete":

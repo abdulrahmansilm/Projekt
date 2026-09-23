@@ -4,7 +4,7 @@
  * referenz/<seite>/problem-loesung-trustbar.html). Logo als SVG-Sprite (einmal definiert, per <use> referenziert).
  * Hover: Karte hebt sich 3px (200ms ease-out), nur mit echter Maus.
  */
-import { WORTMARKE_KOMBINIERT } from "../../lib/brand";
+import { WORTMARKE_NUR_SELIM, WORTMARKE_NUR_SELIM_VIEWBOX } from "../../lib/brand";
 
 interface Props {
   eyebrow?: string;
@@ -26,7 +26,7 @@ const { eyebrow, titel, akzent, intro, labelOhne, labelMit, karten, kicker } = A
         <stop offset="0" stop-color="#1b6e7a"></stop>
         <stop offset="1" stop-color="#4fb8a6"></stop>
       </linearGradient>
-      <path id="silm-logo" fill="url(#silm-grad)" d={WORTMARKE_KOMBINIERT}></path>
+      <path id="silm-logo" fill="url(#silm-grad)" d={WORTMARKE_NUR_SELIM}></path>
     </defs>
   </svg>
 
@@ -76,8 +76,8 @@ const { eyebrow, titel, akzent, intro, labelOhne, labelMit, karten, kicker } = A
                     </svg>
                   </span>
                   {labelMit}
-                  <span class="marke" role="img" aria-label="Selim-IT">
-                    <svg viewBox="0 0 652.94 218.71" aria-hidden="true" focusable="false">
+                  <span class="marke" role="img" aria-label="Selim">
+                    <svg viewBox={WORTMARKE_NUR_SELIM_VIEWBOX} aria-hidden="true" focusable="false">
                       <use href="#silm-logo" />
                     </svg>
                   </span>
@@ -169,24 +169,22 @@ const { eyebrow, titel, akzent, intro, labelOhne, labelMit, karten, kicker } = A
     color: #ffffff;
   }
 
+  /* Piktogramm ohne Kasten, dafür deutlich größer (Anforderung 22.09.2026) */
   .pl-karte__ico {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
     flex: none;
-    border: 1px solid rgba(79, 184, 166, 0.25);
-    border-radius: 9px;
-    background: rgba(79, 184, 166, 0.12);
-    transition:
-      background-color 200ms ease,
-      border-color 200ms ease;
+    color: var(--helltuerkis);
+    transition: transform 240ms var(--ease-out);
   }
 
   .pl-karte__ico svg {
-    width: 16px;
-    height: 16px;
+    width: 32px;
+    height: 32px;
+    overflow: visible;
   }
 
   .pl-karte__split {
@@ -288,7 +286,7 @@ const { eyebrow, titel, akzent, intro, labelOhne, labelMit, karten, kicker } = A
   }
 
   .marke svg {
-    width: 56.7px;
+    width: 46px;
     height: 19px;
   }
 
@@ -299,8 +297,7 @@ const { eyebrow, titel, akzent, intro, labelOhne, labelMit, karten, kicker } = A
     }
 
     .pl-karte:hover .pl-karte__ico {
-      border-color: rgba(79, 184, 166, 0.45);
-      background: rgba(79, 184, 166, 0.2);
+      transform: scale(1.08);
     }
 
     .pl-karte:hover .seite--ohne {
@@ -375,7 +372,8 @@ const { eyebrow, titel, akzent, intro, labelOhne, labelMit, karten, kicker } = A
 
   @media (prefers-reduced-motion: reduce) {
     .pl-karte,
-    .pl-karte:hover {
+    .pl-karte:hover,
+    .pl-karte:hover .pl-karte__ico {
       transform: none;
     }
   }

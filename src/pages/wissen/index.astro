@@ -7,6 +7,7 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Hero from "../../components/sections/Hero.astro";
+import HeroBildVisual from "../../components/hero-visuals/HeroBildVisual.astro";
 import WissenKarte from "../../components/ui/WissenKarte.astro";
 import { breadcrumbJsonLd } from "../../lib/seo";
 import { SITE_URL } from "../../lib/config";
@@ -31,15 +32,18 @@ const jsonLd = [
 
 <BaseLayout
   title="Wissen: IT, Sicherheit, KI und Webseiten verständlich erklärt"
-  description="Fachartikel von Selim-IT zu IT-Betreuung, Datensicherung, NIS-2, Phishing, Microsoft 365, KI-Assistenten und Webseiten. Verständlich erklärt, ohne Fachjargon."
+  description="Fachartikel von Selim-IT zu IT-Betreuung, Datensicherung, NIS-2, Phishing, Microsoft 365, KI-Assistenten und Webseiten. Verständlich erklärt, ohne unnötige Fachbegriffe."
   pfad="/wissen"
   jsonLd={jsonLd}
 >
   <Hero
-    kompakt
     headline="Wissen"
-    subline="Antworten auf die Fragen, die uns im Alltag am häufigsten gestellt werden: verständlich erklärt, ohne Fachjargon."
-  />
+    subline="Antworten auf die Fragen, die uns im Alltag am häufigsten gestellt werden: verständlich erklärt und ohne unnötige Fachbegriffe."
+    ohneAktionen
+    klein
+  >
+    <HeroBildVisual slug="wissen" slot="visual" />
+  </Hero>
 
   <section class="wu" aria-labelledby="wu-titel">
     <div class="wu__inner">
@@ -121,10 +125,13 @@ const jsonLd = [
     background: linear-gradient(150deg, #1b6e7a 0%, #0b2e3c 100%);
   }
 
+  /* Bild vollständig zeigen statt beschneiden */
   .featured__media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    width: auto;
+    height: auto;
+    max-width: 60%;
+    max-height: 240px;
+    object-fit: contain;
   }
 
   .featured__body {

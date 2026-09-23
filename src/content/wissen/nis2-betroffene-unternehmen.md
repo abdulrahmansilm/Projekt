@@ -31,8 +31,7 @@ cta:
 
 <p>Zuvor unterlagen etwa 4.500 Unternehmen der BSI-Aufsicht. Die Zahl hat sich damit mehr als versechsfacht, und der Großteil der neu Betroffenen sind mittelständische Betriebe, die sich bislang nie mit IT-Regulierung befassen mussten.</p>
 
-<h2>Sind wir betroffen? Die Prüfung in zwei Schritten</h2>
-
+## Sind wir betroffen? Die Prüfung in zwei Schritten
 <h3>Schritt 1: Gehört Ihr Betrieb zu einem der 18 Sektoren?</h3>
 
 <p>Das Gesetz unterscheidet zwischen Sektoren „hoher Kritikalität“ und „sonstigen kritischen Sektoren“. Dazu zählen unter anderem Energie, Verkehr, Bankwesen, Gesundheit, Trinkwasser, Abwasser, digitale Infrastruktur, IT-Dienstleistungen, öffentliche Verwaltung und Weltraum sowie Post- und Kurierdienste, Abfallwirtschaft, Chemie, Lebensmittelproduktion, verarbeitendes Gewerbe (darunter Maschinenbau und Medizinprodukte), digitale Dienste und Forschung.</p>
@@ -47,8 +46,7 @@ cta:
 <p><strong>Wichtig für kleinere Betriebe:</strong> Unter 50 Beschäftigten sind Sie in der Regel nicht direkt betroffen. Indirekt kann NIS-2 Sie trotzdem erreichen, über die Lieferkette. Betroffene Unternehmen müssen die Sicherheit ihrer Lieferanten prüfen und geben Anforderungen weiter. Wer als Dienstleister oder Zulieferer arbeitet, bekommt zunehmend Fragebögen und Vertragsklauseln zum Thema.</p>
 </div>
 
-<h2>Die zehn Pflichtmaßnahmen nach § 30</h2>
-
+## Die zehn Pflichtmaßnahmen nach § 30
 <p>Das Gesetz schreibt keine bestimmte Zertifizierung vor, sondern verlangt „geeignete, wirksame und verhältnismäßige“ Maßnahmen nach dem Stand der Technik. Konkret benennt § 30 zehn Bereiche:</p>
 
 <ol>
@@ -66,8 +64,7 @@ cta:
 
 <p>In der Praxis bedeutet das für die meisten Betriebe: ein Informationssicherheits-Managementsystem (ISMS) aufbauen, auch wenn das Gesetz den Begriff nicht verlangt. Ohne strukturierte Dokumentation lässt sich keine der zehn Anforderungen im Prüfungsfall nachweisen.</p>
 
-<h2>Meldepflichten: die 24-Stunden-Regel</h2>
-
+## Meldepflichten: die 24-Stunden-Regel
 <p>Erhebliche Sicherheitsvorfälle müssen dem BSI in drei Stufen gemeldet werden:</p>
 
 <ul>
@@ -78,14 +75,12 @@ cta:
 
 <p>Die 24 Stunden laufen ab Kenntnis des Vorfalls. Wer erst dann klärt, wer melden darf und über welchen Kanal, verliert wertvolle Zeit. Ein festgelegter Meldeprozess mit benannten Verantwortlichen gehört deshalb zu den ersten Schritten.</p>
 
-<h2>Bußgelder und persönliche Haftung</h2>
-
+## Bußgelder und persönliche Haftung
 <p>Besonders wichtige Einrichtungen riskieren bis zu 10 Millionen Euro oder 2 Prozent des weltweiten Jahresumsatzes, wichtige Einrichtungen bis zu 7 Millionen Euro oder 1,4 Prozent. Entscheidend ist jeweils der höhere Betrag.</p>
 
 <p>Der Punkt, der in Geschäftsführungen für Aufmerksamkeit sorgt: § 38 nimmt die Leitungsebene ausdrücklich in die Pflicht. Sie muss die Maßnahmen billigen, ihre Umsetzung überwachen und sich regelmäßig schulen lassen. Bei grober Pflichtverletzung kommt persönliche Haftung in Betracht, das lässt sich nicht an die IT delegieren.</p>
 
-<h2>Was jetzt konkret zu tun ist</h2>
-
+## Was jetzt konkret zu tun ist
 <p>Wenn Sie noch nicht angefangen haben, in dieser Reihenfolge:</p>
 
 <ol>
@@ -99,8 +94,7 @@ cta:
 
 <p>Realistischer Zeitrahmen für Betriebe ohne bestehendes Sicherheitsmanagement: zwölf bis 24 Monate für ein vollständiges Programm. Das ist kein Grund zu warten, im Gegenteil, nachweisbarer Fortschritt zählt.</p>
 
-<h2>Die häufigsten Fehleinschätzungen</h2>
-
+## Die häufigsten Fehleinschätzungen
 <p><strong>„Wir sind zu klein.“</strong> Die Schwelle liegt bei 50 Beschäftigten, nicht bei 500. Viele mittelständische Betriebe liegen darüber, ohne es auf dem Schirm zu haben.</p>
 
 <p><strong>„Wir haben doch eine Firewall.“</strong> NIS-2 verlangt Organisation, nicht nur Technik: Prozesse, Zuständigkeiten, Nachweise, Schulungen.</p>

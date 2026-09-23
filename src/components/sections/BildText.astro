@@ -17,8 +17,10 @@ interface Props {
   bild?: string;
   bildRechts?: boolean;
   ctaText?: string;
+  /** Ziel des Buttons; Standard ist die Kontakt-Sektion der Seite (Runde 5: Über uns verlinkt stattdessen auf /leitbild) */
+  ctaHref?: string;
 }
-const { titel, absaetze, bildLabel = "", bild, bildRechts = false, ctaText = "Beratung anfragen" } = Astro.props;
+const { titel, absaetze, bildLabel = "", bild, bildRechts = false, ctaText = "Beratung anfragen", ctaHref = KONTAKT_ANKER } = Astro.props;
 const id = `bt-${Math.random().toString(36).slice(2, 7)}`;
 ---
 
@@ -27,7 +29,7 @@ const id = `bt-${Math.random().toString(36).slice(2, 7)}`;
     <div class="bt__text" data-reveal>
       <h2 id={`${id}-titel`}>{titel}</h2>
       {absaetze.map((a) => <p class="bt__absatz">{a}</p>)}
-      <a class="btn bt__cta" href={KONTAKT_ANKER}>
+      <a class="btn bt__cta" href={ctaHref}>
         <span>{ctaText}</span>
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />

@@ -20,10 +20,29 @@ Ohne echte SMTP-/CalDAV-/Nextcloud-Talk-Zugangsdaten laufen `/api/contact` und `
 | Route | Zweck |
 |---|---|
 | `POST /api/contact` | Anfrage aus dem 4-Schritte-Wizard ohne Termin (JSON, siehe unten) |
-| `POST /api/contact/booking` | Formular-Anfrage mit Terminbuchung (CalDAV + Nextcloud Talk) |
+| `POST /api/contact/booking` | Formular-Anfrage mit Terminbuchung in einem Schritt (CalDAV + Nextcloud Talk) |
+| `POST /api/contact/{id}/termin` | Hängt einen Termin an eine bereits gesendete Anfrage (der Wizard fragt den Termin seit 22.09.2026 erst nach dem Absenden ab) |
 | `GET /api/availability` | Verfügbare 30-Minuten-Slots, live gegen den Kalender geprüft |
 | `GET /api/altcha-challenge` | Self-hosted Spam-Schutz-Challenge fürs Kontaktformular |
 | `GET /api/health` | Healthcheck |
+
+## Änderungen Runde 4
+
+- `nachricht` ist jetzt Pflicht (Frontend und `schemas.py`).
+- Neue Leistungs-Werte `branding` und `hosting`: Zusatzoptionen, wenn „Webentwicklung“ als Anliegen gewählt ist.
+
+## Sicherheit
+
+Stand 22.09.2026 (siehe `app/main.py`):
+
+- API-Dokumentation nur mit `DEBUG=true` erreichbar (`/api/docs`), in Produktion abgeschaltet.
+- `ALLOWED_HOSTS` begrenzt die bedienten Host-Header, `CORS_ORIGINS` die erlaubten Ursprünge.
+- POST-Anfragen über 64 kB werden abgewiesen, pro IP sind 10 POSTs je 10 Minuten erlaubt (danach 429).
+- Jede Antwort trägt `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options` und `Cache-Control: no-store`.
+- Bleibt `ALTCHA_SECRET` auf dem Standardwert, wird beim Start gewarnt.
+
+Der Kalenderzugriff steckt vollständig in `app/caldav_client.py`. Soll später ein anderer Kalender angebunden werden,
+genügt es, dieses Modul auszutauschen; die Routen bleiben unverändert.
 
 ## Tests vor Deployment
 

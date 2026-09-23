@@ -474,3 +474,64 @@ SITE_URL=https://selim-it.de
 ---
 
 <sub>Selim-IT Website-Kit · Stand: 2026-08-29</sub>
+
+---
+
+## Änderungen Runde 3 (22.09.2026)
+
+Kurzfassung der Punkte, die den Stand gegenüber den Runden 1 und 2 verändern. Maßgeblich ist immer der Code.
+
+### Global
+
+- **Wechselwort im Hero** läuft als Drehrad (Opacity + Rotation, `initWortrad` in `src/lib/animations.ts`), nicht mehr als Schreibmaschine. 7,5 s Standzeit, die Rahmenbreite läuft weich mit, damit die Zeile nicht springt.
+- **Navigationspunkt „Webseiten“ heißt „Webentwicklung“** (`src/lib/config.ts`); die URL bleibt `/leistungen/webseiten`.
+- **Problem & Lösung**: Logo im Lösungskasten ohne „IT“ (`WORTMARKE_NUR_SELIM` in `src/lib/brand.ts`), Piktogramme größer und ohne Rahmen.
+- **Laufbänder** (Branchen und Trustbar) laufen ununterbrochen und lückenlos: zwei identische Gruppen, jede mit eigenem Abstand am Ende, Verschiebung um exakt −50 %.
+- **Partner-Logos** liegen zentral in `src/lib/partner.ts` (Dateien unter `public/partner/`) und werden in Trustbar und „Starke Partner“ verwendet. Lenovo und Dell folgen später.
+- **Kontaktformular**: kein Dringlichkeits-Hinweis mehr, kurzer Vertraulichkeitssatz statt Datenschutz-Link, im Schritt „Details“ nur die Leistungen der gewählten Bereiche, Termin erst **nach** dem Absenden (optional) über `POST /api/contact/{id}/termin`.
+- **Footer**: weißer Seitenrand und runde Ecken wie beim Hero, Verlauf dunkel (links) → hell (rechts unten), LinkedIn ohne Kreis, Button „Beratungstermin vereinbaren“, Impressum/Datenschutz als Buttons, kein Eintrag „Barrierefreiheit“ mehr.
+- **Adresse und Telefon**: 60324 Frankfurt am Main, Westendstraße 100 · 069 247541950.
+- **Hero-Sublines** nennen Frankfurt und das Rhein-Main-Gebiet. Ausnahme: KI-Telefonassistent und WhatsApp-Chatbot („für ganz Deutschland“, weil ortsunabhängig).
+- **Preis-Sektionen**: Ersparnis steckt im Jahres-Umschalter, Netto-Hinweis unter den Paketen, „Alles inklusive“ in der besonderen Farbe, weißer Premium-Button mit Glanz in der Markenfarbe, Reaktionszeit-Kasten ohne türkise Linie.
+- **Zeitstrahl** ohne „Schritt 01 von 03“.
+
+### Seiten
+
+- **Startseite**: zweite Bild-&-Text-Sektion („Erst verstehen, dann umsetzen“), Vorteile ohne Hover-Linie, FAQ mit Button und verlinkten Leistungen.
+- **IT-Betreuung**: neue Bild-&-Text-Sektion zu Updates und Wartung, Geräte-Regler so breit wie die Pakete, Premium erbt aus Business.
+- **Server-Betreuung**: Preise 79/109/149 €, Standard- und Notfall-Reaktionszeit in allen Paketen.
+- **Hardware**: zusätzliche Bild-&-Text-Sektion zur Server-Beschaffung.
+- **Datensicherung**: zusätzliche Bild-&-Text-Sektion „Das alles lässt sich sichern“.
+- **KI-Telefonassistent / WhatsApp-Chatbot**: neue Preise, Scale-Paket in der besonderen Farbe, überarbeitete Betreuungs-Punkte, Transkript eingeklappt.
+- **Automatisierung**: „Typische Anwendungsfälle“ vor „Beispiele aus der Praxis“, Karten wechseln per Überblendung statt 3D-Drehung (war ruckelig).
+- **Webentwicklung**: Reihenfolge der Bild-&-Text-Sektionen getauscht, sechster Ablaufschritt „Betreuung und Hosting“, Preise 1.299/1.990/ab 2.490 €.
+- **Wissen**: Inhaltsverzeichnis links neben jedem Beitrag (die Überschriften stehen dafür als Markdown statt als rohes `<h2>`), Abschluss-Button führt zur CTA-Sektion der Startseite. Die Seite `/kontakt` und `/barrierefreiheit` entfallen.
+
+### Sicherheit
+
+- **Content-Security-Policy** über `security.csp` in `astro.config.mjs`; Astro hasht seine Skripte und Styles selbst. Die drei `is:inline`-Skripte und der Laufzeit-Style des Altcha-Widgets sind als feste Hashes hinterlegt. `npm run build` ruft `scripts/csp-pruefen.mjs` auf und bricht ab, sobald ein Inline-Skript nicht mehr erlaubt ist.
+- **Caddy** setzt HSTS, `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`, COOP/CORP sowie Cache-Regeln (`/_astro/*` unveränderlich, HTML `no-cache`, `/api/*` `no-store`).
+- **Backend**: API-Doku in Produktion aus, Host-Prüfung, 64-kB-Limit für POST-Bodies, Mengenbegrenzung 10 POSTs je IP und 10 Minuten, Sicherheits-Header auf jeder Antwort.
+
+---
+
+## Änderungen Runde 4 (22.09.2026)
+
+### Global
+
+- **Trustbar und Branchen-Laufband**: Logos bzw. Chips stehen pro Gruppe mehrfach hintereinander, damit eine Gruppe auch auf 2560-px-Bildschirmen breiter ist als das Fenster – keine leere Stelle mehr. Microsoft erscheint nur noch als Schriftzug.
+- **Wechselwort im Hero**: Überblendung mit leichtem Hochgleiten (`initWortwechsel`). Alle Wörter liegen übereinander, das breiteste bestimmt die Breite → keine Verschiebung. Steht das Wort am Satzanfang, bekommt es eine eigene Zeile.
+- **Navbar-Logo**: das K ist eine gefüllte Glyphe in derselben Strichstärke wie I und T.
+- **Navbar-Dropdowns** zweispaltig mit Überschriften, Piktogramme ohne Rahmen, Datensicherung als Wolke mit Deutschlandflagge; „KI-Chatbot“ und „E-Mail-Assistent“ blass mit „bald verfügbar“, Telefonanlage entfällt.
+- **Hero-Sublines**: Standort immer als eigener Satz („Aus Frankfurt für das Rhein-Main-Gebiet.“), KI-Telefon und WhatsApp „Für Unternehmen in ganz Deutschland.“, Wissen ohne Standortsatz.
+- **Zeitstrahl**: Die große Zahl steht auf Höhe des Markers; die Beschreibung wächst nach unten.
+- **Sprung zur CTA** landet an der Oberkante der Sektion.
+- **Formular**: Freitext ist Pflicht; bei „Webentwicklung“ die Zusatzoptionen Branding/Hosting statt der Leistungsfrage; bei nur „Allgemeine Beratung“ keine Leistungsfrage; Terminkasten in Schritt 4 sichtbar, aber bis zum Absenden gesperrt.
+- **Preise**: Jahrespreise auf volle Euro aufgerundet, Grundpreis (IT-Betreuung) sinkt nicht, Häkchen der Grundsicherung ohne Kreis, Zusatzleistungen mit Link zur Leistungsseite.
+- **Footer**: „Beratung vereinbaren“ unter Logo und Slogan, Impressum/Datenschutz als schlichte Links.
+
+### Seiten
+
+- **KI-Telefon / WhatsApp**: Kasten „Laufende Betreuung“ je Paket, Vererbung wie bei IT-Betreuung, Tooltip als Portal unter `<body>` (vorher falsch positioniert, weil Karten ein transform tragen).
+- **Neue Seite `/leitbild`** (Navbar → Unternehmen), **Über uns** neu aufgebaut, **Wissen** mit Hero-Bild.
+- Weitere Punkte: siehe Code und Zusammenfassung Runde 4.

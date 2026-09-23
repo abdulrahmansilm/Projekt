@@ -14,7 +14,7 @@ from pydantic import BaseModel, EmailStr, Field, field_validator, model_validato
 THEMEN: dict[str, str] = {
     "it-infrastruktur": "IT & Infrastruktur",
     "ki-kommunikation": "KI & Kommunikation",
-    "webseiten": "Webseiten",
+    "webseiten": "Webentwicklung",
     "allgemein": "Allgemeine Beratung",
 }
 
@@ -30,7 +30,10 @@ LEISTUNGEN: dict[str, str] = {
     "ki-telefonassistent": "KI-Telefonassistent",
     "whatsapp-chatbot": "WhatsApp-Chatbot",
     "prozessautomatisierung": "Automatisierung",
-    "webseiten": "Webseiten",
+    "webseiten": "Webentwicklung",
+    # Runde 4: Zusatzoptionen, wenn „Webentwicklung“ als Anliegen gewählt ist
+    "branding": "Branding",
+    "hosting": "Hosting",
 }
 
 GROESSEN: tuple[str, ...] = ("1–10", "11–25", "26–50", "51–100", "Über 100")
@@ -61,7 +64,8 @@ class KontaktAnfrageEingabe(BaseModel):
     leistungen: list[str] = Field(default_factory=list, max_length=len(LEISTUNGEN))
     dringlichkeit: Dringlichkeit
     groesse: str
-    nachricht: str | None = Field(default=None, max_length=4000)
+    # Runde 4: Pflichtfeld im Wizard
+    nachricht: str = Field(min_length=1, max_length=4000)
 
     vorname: str = Field(min_length=1, max_length=100)
     nachname: str = Field(min_length=1, max_length=100)
@@ -103,7 +107,7 @@ class KontaktAnfrageEingabe(BaseModel):
             raise ValueError("Unbekannte Unternehmensgröße.")
         return v
 
-    @field_validator("nachricht", "unternehmen", "telefon")
+    @field_validator("unternehmen", "telefon")
     @classmethod
     def leer_zu_none(cls, v: str | None) -> str | None:
         return v or None
@@ -155,6 +159,29 @@ class KontaktAnfrageEingabe(BaseModel):
         if self.nachricht:
             zeilen += ["", "Nachricht:", self.nachricht]
         return "\n".join(zeilen)
+
+
+class TerminNachtragEingabe(BaseModel):
+    """Termin, der nachträglich an eine bereits gesendete Anfrage gehängt wird.
+
+    Der Wizard fragt den Termin seit 22.09.2026 erst nach dem Absenden ab (optional), damit die Anfrage
+    nicht doppelt gespeichert wird. Die Anfrage-Id (UUID) dient als Nachweis.
+    """
+
+    termin_slot: str = Field(alias="terminSlot")
+
+    model_config = {"populate_by_name": True, "str_strip_whitespace": True}
+
+    @field_validator("termin_slot")
+    @classmethod
+    def slot_gueltig(cls, v: str) -> str:
+        try:
+            start = datetime.fromisoformat(v)
+        except ValueError as exc:
+            raise ValueError("Ungültiger Termin.") from exc
+        if start.tzinfo is None or start <= datetime.now(timezone.utc):
+            raise ValueError("Ungültiger Termin.")
+        return v
 
 
 class Zeitslot(BaseModel):

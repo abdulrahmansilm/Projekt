@@ -10,7 +10,7 @@
   },
   "hero": {
     "headline": "Sicherer Fernzugriff auf Ihr Firmennetzwerk",
-    "subline": "Verschlüsselte VPN-Verbindung zwischen allen Standorten: ein gemeinsames Netzwerk statt getrennter Inseln.",
+    "subline": "Verschlüsselte VPN-Verbindungen zwischen allen Standorten: ein gemeinsames Netzwerk statt getrennter Inseln. Aus Frankfurt für das Rhein-Main-Gebiet.",
     "zitat": "Ein Standort, der nicht sicher angebunden ist, ist ein Netzwerk mit einem offenen Fenster.",
     "cta": "Anfragen",
     "visualLabel": "Verschlüsselter VPN-Tunnel zwischen „Überall“ und dem Firmennetzwerk mit Datenpunkten in beide Richtungen"
@@ -59,14 +59,14 @@
         },
         {
           "titel": "Verbindung & Verfügbarkeit",
-          "icon": "<defs><linearGradient id=\"pl-fernzugriff-vpn-2-i3-11\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <path d=\"M12 20.5 C17 20.5 20.5 17 20.5 12 C20.5 7 17 3.5 12 3.5 C7 3.5 3.5 7 3.5 12\" stroke=\"url(#pl-fernzugriff-vpn-2-i3-11)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path> <path d=\"M3.5 12 L6.5 9.5 M3.5 12 L6 15\" stroke=\"url(#pl-fernzugriff-vpn-2-i3-11)\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path> <path d=\"M12 8 V12.5 L15 14.5\" stroke=\"url(#pl-fernzugriff-vpn-2-i3-11)\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
+          "icon": "<defs><linearGradient id=\"pl-vpn-verbindung\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <path d=\"M4 15a11.3 11.3 0 0 1 16 0\" stroke=\"url(#pl-vpn-verbindung)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><path d=\"M7.3 18.2a6.8 6.8 0 0 1 9.4 0\" stroke=\"url(#pl-vpn-verbindung)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><circle cx=\"12\" cy=\"20.2\" r=\"1.3\" fill=\"url(#pl-vpn-verbindung)\" stroke=\"none\"></circle>",
           "ohne": "Das VPN bricht ab oder ist spürbar langsam. Bemerkt wird das meist erst über eine Support-Anfrage der Mitarbeiter.",
           "mitStark": "Verbindung wird überwacht.",
           "mitText": "Auffälligkeiten bei Stabilität oder Geschwindigkeit melden sich bei uns, bevor Ihr Team sie meldet."
         },
         {
           "titel": "Geräte & Einheitlichkeit",
-          "icon": "<defs><linearGradient id=\"pl-fernzugriff-vpn-3-i4-12\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <rect x=\"3\" y=\"4\" width=\"18\" height=\"12\" rx=\"2\" stroke=\"url(#pl-fernzugriff-vpn-3-i4-12)\" stroke-width=\"1.6\"></rect> <path d=\"M9 20 H15\" stroke=\"url(#pl-fernzugriff-vpn-3-i4-12)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path> <path d=\"M12 16 V20\" stroke=\"url(#pl-fernzugriff-vpn-3-i4-12)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path> <rect x=\"7\" y=\"7.5\" width=\"6\" height=\"4.5\" rx=\"1\" stroke=\"url(#pl-fernzugriff-vpn-3-i4-12)\" stroke-width=\"1.4\"></rect>",
+          "icon": "<defs><linearGradient id=\"pl-vpn-geraete\" x1=\"0\" y1=\"0\" x2=\"24\" y2=\"24\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0\" stop-color=\"#7FD9C4\"></stop><stop offset=\"1\" stop-color=\"#4FB8A6\"></stop></linearGradient></defs> <rect x=\"2.5\" y=\"5\" width=\"13\" height=\"9\" rx=\"1.6\" stroke=\"url(#pl-vpn-geraete)\" stroke-width=\"1.6\"></rect><path d=\"M6.5 17.2h5\" stroke=\"url(#pl-vpn-geraete)\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><rect x=\"17\" y=\"8.5\" width=\"5\" height=\"10.5\" rx=\"1.4\" stroke=\"url(#pl-vpn-geraete)\" stroke-width=\"1.6\"></rect><path d=\"M5.5 9.2l1.8 1.8 3-3.2\" stroke=\"url(#pl-vpn-geraete)\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
           "ohne": "Jeder nutzt eine eigene Lösung auf privaten Geräten. Eine Übersicht, wer wie zugreift, gibt es meist nicht.",
           "mitStark": "Eine verwaltete Lösung für alle.",
           "mitText": "Einheitlich eingerichtet auf jedem Gerät, zentral einsehbar, statt Wildwuchs einzelner Insellösungen."
@@ -97,22 +97,22 @@
         {
           "nummer": "01",
           "titel": "Standortanalyse",
-          "text": "Wir erfassen alle Standorte, bestehende Netzwerke und Anforderungen."
+          "text": "Wir erfassen alle Standorte, Internetanschlüsse und vorhandenen Router oder Firewalls und klären, wer von wo aus auf welche Systeme zugreifen muss. Daraus entsteht ein Plan, der auch Homeoffice-Arbeitsplätze und mobile Geräte berücksichtigt."
         },
         {
           "nummer": "02",
           "titel": "Sichere Kopplung",
-          "text": "Einrichtung von VPN-Tunnel, Routern und Firewalls zwischen Ihren Standorten."
+          "text": "Wir richten die verschlüsselten Tunnel zwischen Ihren Standorten ein, konfigurieren Router und Firewalls passend dazu und legen fest, welche Benutzergruppe auf welche Freigaben und Anwendungen zugreifen darf."
         },
         {
           "nummer": "03",
           "titel": "Testphase",
-          "text": "Wir prüfen Verbindung, Performance und Zugriffsrechte im laufenden Betrieb."
+          "text": "Vor dem Umschalten prüfen wir Verbindung, Geschwindigkeit und Zugriffsrechte an echten Arbeitsplätzen und korrigieren nach, bevor Ihr Team damit arbeitet. So merken Ihre Mitarbeitenden von der Umstellung nichts außer dem Ergebnis."
         },
         {
           "nummer": "04",
           "titel": "Laufender Betrieb",
-          "text": "Überwachung der Verbindung, Wartung und Ansprechpartner bei Änderungen."
+          "text": "Die Verbindungen bleiben unter Überwachung, Firmware und Zertifikate werden regelmäßig erneuert. Kommen neue Mitarbeitende oder Standorte dazu, richten wir die Zugänge ein und entziehen sie beim Austritt wieder."
         }
       ],
       "bild": "/zeitstrahl/fernzugriff-vpn.svg"
@@ -124,20 +124,20 @@
       "reihen": [
         [
           {
-            "icon": "<path d=\"M14.5 3.5 L20.5 9.5 L18.3 11.7 L12.3 5.7 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M15.5 8.5 L4.5 19.5 L2.5 21.5 L4.5 19.5 L3 17 L5.5 14.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
-            "label": "Handwerk & Bau"
+            "icon": "<path d=\"M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.5-3.5a5.8 5.8 0 0 1-7.7 7.7l-6.7 6.7a2 2 0 0 1-2.9-2.9l6.7-6.7a5.8 5.8 0 0 1 7.7-7.7l-3.5 3.5Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"></path>",
+            "label": "Handwerk & Baugewerbe"
           },
           {
             "icon": "<path d=\"M12 4 V20 M8 20 H16\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><path d=\"M3 8.5 H8.5 L5.75 14.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.5\" stroke-linejoin=\"round\"></path><path d=\"M15.5 8.5 H21 L18.25 14.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.5\" stroke-linejoin=\"round\"></path>",
-            "label": "Recht & Beratung"
+            "label": "Kanzleien & Beratung"
           },
           {
-            "icon": "<path d=\"M4 16 V12 L6 7 H18 L20 12 V16\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M4 16 H20 V18.5 H17 V16 M7 18.5 V16\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><circle cx=\"7.5\" cy=\"13\" r=\"1.3\" fill=\"#1B6E7A\"></circle><circle cx=\"16.5\" cy=\"13\" r=\"1.3\" fill=\"#1B6E7A\"></circle>",
-            "label": "Automobil"
+            "icon": "<path d=\"M3.5 16.2v-3.3a1.6 1.6 0 0 1 1.1-1.5l1.3-.4 1.7-3.3A2 2 0 0 1 9.4 6.6h5.2a2 2 0 0 1 1.8 1.1l1.7 3.3 1.3.4a1.6 1.6 0 0 1 1.1 1.5v3.3a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M6 11.2h12\" stroke=\"#1B6E7A\" stroke-width=\"1.5\" stroke-linecap=\"round\"></path><circle cx=\"7.6\" cy=\"14\" r=\"1.1\" fill=\"#1B6E7A\"></circle><circle cx=\"16.4\" cy=\"14\" r=\"1.1\" fill=\"#1B6E7A\"></circle><path d=\"M6 17.2v1.6M18 17.2v1.6\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path>",
+            "label": "Autohäuser & Werkstätten"
           },
           {
             "icon": "<path d=\"M12 20.5 C12 20.5 4 15.5 4 9.7 C4 6.8 6.2 4.5 9 4.5 C10.5 4.5 11.6 5.2 12 6.3 C12.4 5.2 13.5 4.5 15 4.5 C17.8 4.5 20 6.8 20 9.7 C20 15.5 12 20.5 12 20.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path>",
-            "label": "Gesundheit"
+            "label": "Praxen & Gesundheitswesen"
           },
           {
             "icon": "<path d=\"M4 20 V9.5 L12 4 L20 9.5 V20\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M9.5 20 V14 H14.5 V20\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path>",
@@ -145,7 +145,7 @@
           },
           {
             "icon": "<path d=\"M6.5 9.5 V14.5 M17.5 9.5 V14.5\" stroke=\"#1B6E7A\" stroke-width=\"1.8\" stroke-linecap=\"round\"></path><path d=\"M4 11 V13 M20 11 V13\" stroke=\"#1B6E7A\" stroke-width=\"1.8\" stroke-linecap=\"round\"></path><path d=\"M6.5 12 H17.5\" stroke=\"#1B6E7A\" stroke-width=\"1.8\" stroke-linecap=\"round\"></path>",
-            "label": "Fitness & Sport"
+            "label": "Fitness- & Sportstudios"
           },
           {
             "icon": "<path d=\"M12 3.5 L19.5 6.5 V11.5 C19.5 16.5 16.3 19.8 12 21 C7.7 19.8 4.5 16.5 4.5 11.5 V6.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M9 11.5 L11 13.5 L15.5 9\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
@@ -154,12 +154,16 @@
         ],
         [
           {
-            "icon": "<path d=\"M6 3.5 V10.5 M4.5 3.5 V7.5 M7.5 3.5 V7.5 M6 10.5 V20.5\" stroke=\"#1B6E7A\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M17 3.5 C14.5 3.5 14.5 6.5 14.5 8.5 C14.5 10 15.5 11 17 11 V20.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>",
-            "label": "Gastronomie & Hotellerie"
+            "icon": "<path d=\"M5.5 3v4.6a2.1 2.1 0 0 0 4.2 0V3\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M7.6 3v3.6M7.6 9.7V21\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><path d=\"M16.6 3.3c-1.8 0-3.2 1.8-3.2 4s1.4 3.9 3.2 3.9 3.2-1.7 3.2-3.9-1.4-4-3.2-4Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M16.6 11.2V21\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path>",
+            "label": "Gastronomie & Cafés"
+          },
+          {
+            "icon": "<path d=\"M3.2 5.5v14\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><path d=\"M3.2 10.8h13.4a4.2 4.2 0 0 1 4.2 4.2v4.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path><path d=\"M3.2 16.4h17.6\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path><circle cx=\"7.4\" cy=\"13.6\" r=\"1.6\" stroke=\"#1B6E7A\" stroke-width=\"1.5\"></circle>",
+            "label": "Hotels & Pensionen"
           },
           {
             "icon": "<path d=\"M6 8 H18 L19 20.5 H5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M9 8 V6.5 C9 4.6 10.3 3.5 12 3.5 C13.7 3.5 15 4.6 15 6.5 V8\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path>",
-            "label": "Handel"
+            "label": "Einzel- & Großhandel"
           },
           {
             "icon": "<rect x=\"2.5\" y=\"9\" width=\"12\" height=\"8\" rx=\"1.3\" stroke=\"#1B6E7A\" stroke-width=\"1.6\"></rect><path d=\"M14.5 11.5 H18 L21 14.5 V17 H14.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><circle cx=\"7\" cy=\"18.5\" r=\"1.6\" stroke=\"#1B6E7A\" stroke-width=\"1.5\"></circle><circle cx=\"18\" cy=\"18.5\" r=\"1.6\" stroke=\"#1B6E7A\" stroke-width=\"1.5\"></circle>",
@@ -167,11 +171,11 @@
           },
           {
             "icon": "<path d=\"M12 5 L22 9.5 L12 14 L2 9.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path><path d=\"M6 11.5 V16 C6 17.5 8.7 19 12 19 C15.3 19 18 17.5 18 16 V11.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path>",
-            "label": "Bildung"
+            "label": "Schulen & Bildungsträger"
           },
           {
-            "icon": "<circle cx=\"12\" cy=\"12\" r=\"8.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\"></circle><path d=\"M3.5 12 H20.5 M12 3.5 C14.5 6.5 14.5 17.5 12 20.5 C9.5 17.5 9.5 6.5 12 3.5 Z\" stroke=\"#1B6E7A\" stroke-width=\"1.5\"></path>",
-            "label": "Tourismus"
+            "icon": "<path d=\"M10.3 3.4a1.7 1.7 0 0 1 3.4 0v5l7 4v2.2l-7-2v3.8l2.2 1.6v1.7L12 18.6l-3.9 1.1v-1.7l2.2-1.6v-3.8l-7 2v-2.2l7-4v-5Z\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linejoin=\"round\"></path>",
+            "label": "Tourismus & Reise"
           },
           {
             "icon": "<rect x=\"7\" y=\"7\" width=\"10\" height=\"10\" rx=\"1.6\" stroke=\"#1B6E7A\" stroke-width=\"1.6\"></rect><path d=\"M12 3.5 V7 M12 17 V20.5 M3.5 12 H7 M17 12 H20.5\" stroke=\"#1B6E7A\" stroke-width=\"1.6\" stroke-linecap=\"round\"></path>",
@@ -187,7 +191,7 @@
     {
       "typ": "faq",
       "titel": "Häufige Fragen zu Fernzugriff & VPN",
-      "intro": "Was Sie vor der Zusammenarbeit wissen sollten: kurz und ohne Kleingedrucktes.",
+      "intro": "Was Sie vor der Zusammenarbeit wissen sollten.",
       "fragen": [
         {
           "frage": "Was kostet ein VPN-Zugang?",
@@ -198,8 +202,8 @@
           "antwort": "Windows, macOS, Linux, iOS und Android: Ihr Team greift vom Firmenlaptop genauso zu wie vom privaten Handy unterwegs, jeweils mit derselben verschlüsselten Verbindung."
         },
         {
-          "frage": "Wie schnell ist der Zugang eingerichtet?",
-          "antwort": "Ein Einzelzugang für einen Mitarbeiter steht in der Regel innerhalb weniger Tage. Bei einer Standortvernetzung mit mehreren Filialen hängt der Zeitrahmen von der bestehenden Netzwerktechnik vor Ort ab. Das klären wir vorab mit Ihnen."
+          "frage": "Wie schnell ist der sichere Fernzugriff eingerichtet?",
+          "antwort": "Das hängt von der Größe Ihrer Umgebung ab: von der Anzahl der Standorte, der Geräte und der vorhandenen Hardware. In der Regel liegt der Zeitraum zwischen einer und drei Wochen, von der Analyse bis zum laufenden Betrieb. Nach dem Erstgespräch nennen wir Ihnen einen verbindlichen Termin."
         },
         {
           "frage": "Was passiert, wenn ein Mitarbeiter das Unternehmen verlässt?",

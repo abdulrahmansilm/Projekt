@@ -20,7 +20,8 @@ export const anfrageSchema = z.object({
   leistungen: z.array(z.string()),
   dringlichkeit: z.enum(DRINGLICHKEIT),
   groesse: z.string().check(z.minLength(1)),
-  nachricht: z.optional(z.string().check(z.maxLength(4000))),
+  // Runde 4: Pflichtfeld
+  nachricht: z.string().check(z.trim(), z.minLength(1, "Bitte beschreiben Sie Ihr Anliegen kurz."), z.maxLength(4000)),
   ...kontaktSchema.shape,
   weg: z.enum(["anfrage", "termin"]),
   terminSlot: z.optional(z.string()),

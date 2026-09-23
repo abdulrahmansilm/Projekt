@@ -14,7 +14,7 @@ interface Props {
   setup: { name: string; tagline: string; preis: string; features: string[] };
   pakete: {
     name: string;
-    variante: "neutral" | "beliebt";
+    variante: "neutral" | "beliebt" | "premium";
     badge?: string;
     tagline: string;
     monatlich: number;
@@ -23,14 +23,23 @@ interface Props {
     prefix?: string;
     cta: string;
     inkludiert: Eintrag[];
-    features: Eintrag[];
+    /** Runde 7: optional, der WhatsApp-Chatbot zeigt keinen Features-Block mehr */
+    features?: Eintrag[];
+    /** Runde 4: Leistungen im Kasten „Laufende Betreuung“ */
+    betreuung?: string[];
   }[];
   disclaimer: string;
-  vergleich?: { titel: string; icon: string; zeilen: { label: string; tipp?: string; werte: string[] }[] }[];
+  /** Piktogramme in den Gruppenköpfen entfallen seit 22.09.2026 */
+  vergleich?: { titel: string; icon?: string; zeilen: { label: string; tipp?: string; werte: string[] }[] }[];
 }
 
 const { titel, intro, setup, pakete, disclaimer, vergleich } = Astro.props;
 const id = `ps-${Math.random().toString(36).slice(2, 7)}`;
+// Zeilen je Karte für das Subgrid (Runde 5): Name, Tagline, Preis, Periode, CTA, [Betreuung], Trenner,
+// Inkludiert-Label + Liste, [Features-Label + Liste]. Fehlt ein Block in der Sektion, schrumpft der Zähler mit.
+const zeigeBetreuung = pakete.some((p) => p.betreuung?.length);
+const zeigeFeatures = pakete.some((p) => p.features?.length);
+const kartenZeilen = 8 + (zeigeBetreuung ? 1 : 0) + (zeigeFeatures ? 2 : 0);
 const euro = (n: number) => `${n.toLocaleString("de-DE")} €`;
 // Ersparnis bei jährlichem Vertrag: höchster prozentualer Vorteil über alle Pakete (nur ehrliche Werte zeigen)
 const maxSparen = Math.round(Math.max(...pakete.map((p) => ((p.monatlich - p.jaehrlich) / p.monatlich) * 100)));
@@ -84,16 +93,28 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
       <fieldset class="umschalter">
         <legend class="sr-only">Vertragslaufzeit</legend>
         <span class="umschalter__daumen" aria-hidden="true"></span>
-        <label><input type="radio" name={`${id}-zahlweise`} value="monatlich" checked /><span>Monatlich</span></label>
-        <label><input type="radio" name={`${id}-zahlweise`} value="jaehrlich" /><span>Jährlich</span></label>
+        <label>
+          <input type="radio" name={`${id}-zahlweise`} value="monatlich" checked />
+          <span>
+            Monatlich
+            {/* unsichtbarer Platzhalter: hält beide Hälften exakt gleich breit */}
+            {maxSparen > 0 && <span class="umschalter__rabatt umschalter__rabatt--platz" aria-hidden="true">−{maxSparen} %</span>}
+          </span>
+        </label>
+        <label>
+          <input type="radio" name={`${id}-zahlweise`} value="jaehrlich" />
+          <span>
+            Jährlich
+            {maxSparen > 0 && <span class="umschalter__rabatt">−{maxSparen} %</span>}
+          </span>
+        </label>
       </fieldset>
-      {maxSparen > 0 && <span class="zahlweise__hinweis">{maxSparen === 10 ? "10 %" : `bis zu ${maxSparen} %`} sparen bei jährlichem Vertrag</span>}
     </div>
 
-    <ul class="karten" role="list" data-reveal-group>
+    <ul class="karten" role="list" data-reveal-group style={`--karte-zeilen:${kartenZeilen}`}>
       {
         pakete.map((p) => (
-          <li class:list={["karte", `karte--${p.variante}`]} data-reveal>
+          <li class:list={["karte", `karte--${p.variante}`, { "on-dark": p.variante === "premium" }]} data-reveal>
             {p.badge && <span class="karte__badge">{p.badge}</span>}
             <h3 class="karte__name">{p.name}</h3>
             <p class="karte__tagline">{p.tagline}</p>
@@ -108,29 +129,43 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
               <span class="preis--jahr">pro Monat, jährlich abgerechnet</span>
             </p>
             <a
-              class:list={["btn btn--sm btn--block karte__cta", { "btn--dunkel": p.variante !== "beliebt" }]}
+              class:list={["btn btn--sm btn--block karte__cta", { "btn--hell": p.variante === "premium" }]}
               href={KONTAKT_ANKER}
               aria-label={`${p.cta}: Paket ${p.name}`}
             >
               <span>{p.cta}</span>
             </a>
+            {p.betreuung && p.betreuung.length > 0 && (
+              <div class="betreuung">
+                <p class="betreuung__label">Laufende Betreuung</p>
+                <ul class="betreuung__liste" role="list">
+                  {p.betreuung.map((b) => (
+                    <li>
+                      {/* Runde 7: Häkchen statt Headset-Piktogramm */}
+                      <svg viewBox="0 0 24 24" fill="none" stroke={`url(#${id}-grad)`} stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
             <div class="karte__trenner" />
             {[
               { label: "Inkludiert", liste: p.inkludiert },
-              { label: "Features", liste: p.features },
+              ...(p.features?.length ? [{ label: "Features", liste: p.features }] : []),
             ].map((gruppe) => (
               <>
                 <p class="gruppe-label">{gruppe.label}</p>
                 <ul class:list={["eintraege", { "eintraege--features": gruppe.label === "Features" }]} role="list">
-                  {gruppe.liste.map((e) =>
+                  {gruppe.liste.map((e, nr) =>
                     e.erbt ? (
                       <li class="erbt">
-                        <svg viewBox="0 0 24 24" fill="none" stroke={`url(#${id}-grad)`} stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                          <line x1="19" y1="12" x2="5" y2="12" />
-                          <polyline points="11 18 5 12 11 6" />
-                        </svg>
-                        <span>Alles in</span>
-                        <span class="erbt__pill">{e.erbt}</span>
+                        <span class="plus" aria-hidden="true">
+                          +
+                        </span>
+                        <span>{nr === gruppe.liste.length - 1 ? `Alles aus ${e.erbt}` : `Alles aus ${e.erbt}, außerdem:`}</span>
                       </li>
                     ) : (
                       <li class:list={{ "ist-aus": !e.enthalten, hervor: e.hervor }}>
@@ -185,6 +220,7 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
       }
     </ul>
 
+    <!-- Der Disclaimer enthält den Netto-Hinweis (Anforderung 22.09.2026) -->
     <p class="disclaimer">{disclaimer}</p>
 
     {
@@ -199,10 +235,7 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
           <div class="vergleich__gruppen">
             {vergleich.map((g) => (
               <div class="vgruppe">
-                <div class="vgruppe__kopf">
-                  <svg viewBox="0 0 24 24" fill="none" stroke={`url(#${id}-grad)`} stroke-width="2" aria-hidden="true" set:html={g.icon} />
-                  {g.titel}
-                </div>
+                <div class="vgruppe__kopf">{g.titel}</div>
                 <div class="vgruppe__scroll">
                   <table>
                     <caption class="sr-only">{g.titel}</caption>
@@ -272,67 +305,82 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
 </section>
 
 <script>
-  // Tooltips: erste Anzeige nach 300ms, solange einer offen ist (bzw. kurz danach) sofort und ohne Animation
-  document.querySelectorAll<HTMLElement>("[data-tooltips]").forEach((bereich) => {
-    let offen: HTMLElement | null = null;
-    let zeigeTimer: number | undefined;
-    let versteckTimer: number | undefined;
-    let warmBis = 0;
+  /**
+   * Tooltips: erste Anzeige nach 250 ms, solange einer offen ist (bzw. kurz danach) sofort.
+   * Runde 4: Die sichtbare Blase ist EIN Element direkt unter <body> („Portal“). Vorher hing sie in der Karte;
+   * weil Karten und Reveal-Elemente ein transform tragen, rechnete position: fixed relativ zur Karte –
+   * die Blase erschien weit entfernt vom Icon oder gar nicht. Die ursprünglichen Texte bleiben für
+   * Screenreader per aria-describedby im Dokument (visuell versteckt).
+   */
+  const portal = document.createElement("div");
+  portal.className = "tipp-portal";
+  portal.setAttribute("aria-hidden", "true");
+  document.body.append(portal);
 
-    // Blase horizontal im Viewport halten (12px Rand), Pfeil bleibt über dem Auslöser
-    const ausrichten = (tipp: HTMLElement) => {
-      const blase = tipp.querySelector<HTMLElement>(".tipp__blase");
-      if (!blase) return;
-      const k = tipp.getBoundingClientRect();
-      const mitte = k.left + k.width / 2;
-      const halb = blase.offsetWidth / 2;
-      const rand = 12;
-      let dx = 0;
-      if (mitte - halb < rand) dx = rand - (mitte - halb);
-      else if (mitte + halb > window.innerWidth - rand) dx = window.innerWidth - rand - (mitte + halb);
-      tipp.style.setProperty("--tipp-x", `${Math.round(dx)}px`);
-    };
+  let offen: HTMLElement | null = null;
+  let zeigeTimer: number | undefined;
+  let versteckTimer: number | undefined;
+  let warmBis = 0;
 
-    const zeige = (tipp: HTMLElement, sofort: boolean) => {
-      window.clearTimeout(versteckTimer);
-      if (offen && offen !== tipp) offen.classList.remove("is-offen", "is-sofort");
-      ausrichten(tipp);
-      tipp.classList.toggle("is-sofort", sofort);
-      tipp.classList.add("is-offen");
-      offen = tipp;
-    };
-    const verstecke = (tipp: HTMLElement) => {
+  const ausrichten = (tipp: HTMLElement) => {
+    const knopf = tipp.querySelector<HTMLElement>(".tipp__knopf") ?? tipp;
+    const k = knopf.getBoundingClientRect();
+    const rand = 12;
+    const breite = portal.offsetWidth;
+    const hoehe = portal.offsetHeight;
+    const mitte = k.left + k.width / 2;
+    const links = Math.max(rand, Math.min(mitte - breite / 2, window.innerWidth - rand - breite));
+    const obenPlatz = k.top - hoehe - 10 >= rand;
+    portal.style.left = `${Math.round(links)}px`;
+    portal.style.top = `${Math.round(obenPlatz ? k.top - hoehe - 10 : k.bottom + 10)}px`;
+    portal.classList.toggle("tipp-portal--unten", !obenPlatz);
+    portal.style.setProperty("--pfeil-x", `${Math.round(mitte - links)}px`);
+  };
+
+  const zeige = (tipp: HTMLElement, sofort: boolean) => {
+    window.clearTimeout(versteckTimer);
+    portal.textContent = tipp.querySelector(".tipp__blase")?.textContent?.trim() ?? "";
+    portal.classList.toggle("is-sofort", sofort);
+    ausrichten(tipp);
+    portal.classList.add("is-offen");
+    offen = tipp;
+  };
+  const verstecke = () => {
+    window.clearTimeout(zeigeTimer);
+    portal.classList.remove("is-offen");
+    offen = null;
+    warmBis = Date.now() + 400;
+  };
+
+  document.querySelectorAll<HTMLElement>("[data-tooltips] [data-tipp]").forEach((tipp) => {
+    const knopf = tipp.querySelector<HTMLButtonElement>("button")!;
+    tipp.addEventListener("pointerenter", (e) => {
+      if (e.pointerType !== "mouse") return;
       window.clearTimeout(zeigeTimer);
-      tipp.classList.remove("is-offen");
-      if (offen === tipp) offen = null;
-      warmBis = Date.now() + 400;
-    };
-
-    bereich.querySelectorAll<HTMLElement>("[data-tipp]").forEach((tipp) => {
-      const knopf = tipp.querySelector<HTMLButtonElement>("button")!;
-      tipp.addEventListener("pointerenter", (e) => {
-        if (e.pointerType !== "mouse") return;
-        window.clearTimeout(zeigeTimer);
-        const warm = offen !== null || Date.now() < warmBis;
-        if (warm) zeige(tipp, true);
-        else zeigeTimer = window.setTimeout(() => zeige(tipp, false), 300);
-      });
-      tipp.addEventListener("pointerleave", (e) => {
-        if (e.pointerType !== "mouse") return;
-        window.clearTimeout(zeigeTimer);
-        versteckTimer = window.setTimeout(() => verstecke(tipp), 80);
-      });
-      knopf.addEventListener("focus", () => zeige(tipp, offen !== null));
-      knopf.addEventListener("blur", () => verstecke(tipp));
-      knopf.addEventListener("click", () => (tipp.classList.contains("is-offen") ? verstecke(tipp) : zeige(tipp, false)));
-      knopf.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") verstecke(tipp);
-      });
+      window.clearTimeout(versteckTimer);
+      const warm = offen !== null || Date.now() < warmBis;
+      if (warm) zeige(tipp, true);
+      else zeigeTimer = window.setTimeout(() => zeige(tipp, false), 250);
     });
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && offen) verstecke(offen);
+    tipp.addEventListener("pointerleave", (e) => {
+      if (e.pointerType !== "mouse") return;
+      window.clearTimeout(zeigeTimer);
+      versteckTimer = window.setTimeout(verstecke, 80);
     });
+    knopf.addEventListener("focus", () => zeige(tipp, offen !== null));
+    knopf.addEventListener("blur", verstecke);
+    knopf.addEventListener("click", () => (offen === tipp ? verstecke() : zeige(tipp, false)));
   });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && offen) verstecke();
+  });
+  // Auf Touch-Geräten schließt ein Tipp außerhalb die Blase
+  document.addEventListener("pointerdown", (e) => {
+    if (offen && !(e.target as Element).closest?.("[data-tipp]")) verstecke();
+  });
+  const nachfuehren = () => offen && ausrichten(offen);
+  window.addEventListener("scroll", nachfuehren, { passive: true, capture: true });
+  window.addEventListener("resize", nachfuehren);
 </script>
 
 <style>
@@ -463,15 +511,6 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
     margin-bottom: 36px;
   }
 
-  .zahlweise__hinweis {
-    padding: 6px 12px;
-    border-radius: 999px;
-    background: rgba(79, 184, 166, 0.14);
-    color: var(--petrol);
-    font-size: 13px;
-    font-weight: 500;
-  }
-
   .umschalter {
     position: relative;
     display: inline-flex;
@@ -482,10 +521,39 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
     background: #ffffff;
   }
 
+  /* beide Hälften gleich breit, damit der Daumen exakt sitzt */
   .umschalter label {
     position: relative;
     z-index: 2;
+    display: flex;
+    flex: 1 1 0;
+    min-width: 0;
     cursor: pointer;
+  }
+
+  /* Ersparnis sitzt im Umschalt-Button (Anforderung 22.09.2026) */
+  .umschalter__rabatt {
+    flex: none;
+    white-space: nowrap;
+    padding: 2px 7px;
+    border-radius: 999px;
+    background: rgba(79, 184, 166, 0.18);
+    color: var(--petrol);
+    font-size: 11.5px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    transition:
+      background-color 200ms ease,
+      color 200ms ease;
+  }
+
+  .umschalter__rabatt--platz {
+    visibility: hidden;
+  }
+
+  .umschalter input:checked + span .umschalter__rabatt {
+    background: rgba(255, 255, 255, 0.24);
+    color: #ffffff;
   }
 
   .umschalter input {
@@ -495,14 +563,18 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
     height: 1px;
   }
 
-  .umschalter span:not(.umschalter__daumen) {
+  .umschalter label > span {
     display: inline-flex;
+    flex: 1;
     align-items: center;
-    min-height: 40px;
-    padding: 0 22px;
+    justify-content: center;
+    gap: 7px;
+    white-space: nowrap;
+    min-height: 34px;
+    padding: 0 18px;
     border-radius: 999px;
     color: var(--ink-72);
-    font-size: 14px;
+    font-size: 13.5px;
     font-weight: 500;
     transition: color 200ms ease;
   }
@@ -555,17 +627,30 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
     list-style: none;
   }
 
+  /* etwas kompakter, damit alle Punkte hineinpassen (Anforderung 22.09.2026) */
   .karte {
     position: relative;
     display: flex;
     flex-direction: column;
-    padding: 26px 24px 24px;
+    padding: 22px 20px 20px;
     border: 1px solid rgba(11, 46, 60, 0.14);
     border-radius: 18px;
     background: #ffffff;
     transition:
       box-shadow 200ms ease,
       transform 200ms var(--ease-out);
+  }
+
+  /* Runde 5: „Inkludiert“ und „Features“ stehen in allen Paketen auf gleicher Höhe, auch wenn die
+     Betreuung-Box unterschiedlich viele Zeilen hat (gleiche Zeilenstruktur in jeder Karte vorausgesetzt).
+     Runde 7: Zeilenzahl kommt aus der Sektion, weil der Features-Block entfallen kann. */
+  @supports (grid-template-rows: subgrid) {
+    .karte {
+      display: grid;
+      grid-template-rows: subgrid;
+      grid-row: span var(--karte-zeilen, 11);
+      align-content: start;
+    }
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -577,6 +662,55 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
 
   .karte--beliebt {
     border: 2px solid var(--tuerkis);
+  }
+
+  /* Scale-Paket in der besonderen Farbe, analog zum Premium-Paket der IT-Betreuung */
+  .karte--premium {
+    border-color: transparent;
+    background: var(--tiefsee);
+    color: #ffffff;
+    box-shadow:
+      0 0 0 1px rgba(79, 184, 166, 0.2),
+      0 14px 40px -12px rgba(79, 184, 166, 0.2);
+  }
+
+  .karte--premium .karte__tagline,
+  .karte--premium .karte__periode,
+  .karte--premium .karte__prefix,
+  .karte--premium .eintraege li.ist-aus,
+  .karte--premium .notiz {
+    color: rgba(240, 244, 243, 0.78);
+  }
+
+  .karte--premium .karte__trenner {
+    background: rgba(240, 244, 243, 0.16);
+  }
+
+  .karte--premium .erbt__pill {
+    border-color: rgba(240, 244, 243, 0.2);
+    background: rgba(240, 244, 243, 0.1);
+    color: #ffffff;
+  }
+
+  .karte--premium .spar {
+    border-color: var(--helltuerkis);
+    color: var(--helltuerkis);
+  }
+
+  .karte--premium .eintraege li.hervor {
+    background: rgba(240, 244, 243, 0.1);
+    box-shadow: inset 3px 0 0 var(--helltuerkis);
+  }
+
+  .karte--premium .tipp__knopf {
+    color: rgba(240, 244, 243, 0.7);
+  }
+
+  /* „Alles inklusive“ in der besonderen Farbe (Anforderung 22.09.2026) */
+  .karte--premium .karte__badge {
+    background: var(--tiefsee);
+    color: #ffffff;
+    box-shadow: 0 0 0 1px rgba(79, 184, 166, 0.55);
   }
 
   .karte__badge {
@@ -595,15 +729,15 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
   }
 
   .karte__name {
-    margin-bottom: 6px;
-    font-size: 21px;
+    margin-bottom: 5px;
+    font-size: 19px;
     font-weight: 600;
   }
 
   .karte__tagline {
-    min-height: 20px;
-    margin-bottom: 20px;
-    font-size: 13.5px;
+    min-height: 18px;
+    margin-bottom: 16px;
+    font-size: 13px;
     color: var(--ink-72);
   }
 
@@ -622,7 +756,7 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
 
   .preis {
     font-family: var(--font-headline);
-    font-size: 32px;
+    font-size: 29px;
     font-weight: 700;
     font-variant-numeric: tabular-nums;
   }
@@ -637,38 +771,39 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
   }
 
   .karte__periode {
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     font-size: 12.5px;
     color: var(--ink-72);
   }
 
   .karte__cta {
-    margin-bottom: 22px;
+    margin-bottom: 18px;
   }
 
   .karte__trenner {
     height: 1px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     background: rgba(11, 46, 60, 0.1);
   }
 
   .gruppe-label {
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     font-family: var(--font-headline);
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 700;
   }
 
   .eintraege {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin: 0 0 22px;
+    gap: 8px;
+    margin: 0 0 18px;
     padding: 0;
     list-style: none;
   }
 
-  .eintraege--features {
+  .eintraege--features,
+  .eintraege:last-child {
     margin-bottom: 0;
   }
 
@@ -676,7 +811,7 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
     display: flex;
     align-items: flex-start;
     gap: 8px;
-    font-size: 13.5px;
+    font-size: 13px;
     line-height: 1.4;
   }
 
@@ -702,6 +837,87 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
 
   .erbt {
     align-items: center !important;
+    font-size: 12.5px !important;
+    font-weight: 700;
+    color: var(--petrol);
+  }
+
+  .karte--premium .erbt {
+    color: var(--helltuerkis);
+  }
+
+  .plus {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 15px;
+    flex: none;
+    border-radius: 50%;
+    background: var(--petrol);
+    color: #ffffff;
+    font-size: 11px;
+    line-height: 1;
+  }
+
+  .karte--premium .plus {
+    background: var(--helltuerkis);
+    color: var(--tiefsee);
+  }
+
+  /* Kasten „Laufende Betreuung“ im Design des Reaktionszeit-Kastens (Runde 4) */
+  .betreuung {
+    margin-bottom: 18px;
+    padding: 13px 15px 14px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(79, 184, 166, 0.12), var(--nebel));
+  }
+
+  .karte--premium .betreuung {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .betreuung__label {
+    margin-bottom: 10px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--petrol);
+  }
+
+  .karte--premium .betreuung__label {
+    color: var(--helltuerkis);
+  }
+
+  .betreuung__liste {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .betreuung__liste li {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .betreuung__liste svg {
+    width: 16px;
+    height: 16px;
+    flex: none;
+    margin-top: 1px;
+    color: var(--petrol);
+  }
+
+  .karte--premium .betreuung__liste svg {
+    color: var(--helltuerkis);
   }
 
   .erbt__pill {
@@ -749,25 +965,38 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
     margin: 0 !important;
   }
 
+  /* Text für Screenreader (aria-describedby); sichtbar ist die Portal-Blase unten */
   .tipp__blase {
     position: absolute;
-    bottom: calc(100% + 8px);
-    left: 50%;
-    z-index: 30;
-    width: min(230px, calc(100vw - 24px));
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  :global(.tipp-portal) {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1200;
+    width: max-content;
+    max-width: min(260px, calc(100vw - 24px));
     padding: 10px 13px;
     border-radius: 10px;
     background: var(--tiefsee);
     color: #ffffff;
     font-family: var(--font-body);
-    font-size: 12px;
+    font-size: 12.5px;
     font-weight: 400;
     line-height: 1.45;
     text-align: left;
     pointer-events: none;
+    box-shadow: 0 12px 28px -10px rgba(11, 46, 60, 0.55);
     opacity: 0;
     visibility: hidden;
-    transform: translateX(calc(-50% + var(--tipp-x, 0px))) scale(0.97);
+    transform: scale(0.97);
     transform-origin: bottom center;
     transition:
       opacity 125ms ease,
@@ -775,27 +1004,38 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
       visibility 0s linear 125ms;
   }
 
-  .tipp__blase::after {
+  :global(.tipp-portal)::after {
     content: "";
     position: absolute;
     top: 100%;
-    left: calc(50% - var(--tipp-x, 0px));
+    left: var(--pfeil-x, 50%);
     border: 6px solid transparent;
     border-top-color: var(--tiefsee);
     transform: translateX(-50%);
   }
 
-  .tipp.is-offen .tipp__blase {
+  :global(.tipp-portal--unten) {
+    transform-origin: top center;
+  }
+
+  :global(.tipp-portal--unten)::after {
+    top: auto;
+    bottom: 100%;
+    border-top-color: transparent;
+    border-bottom-color: var(--tiefsee);
+  }
+
+  :global(.tipp-portal.is-offen) {
     opacity: 1;
     visibility: visible;
-    transform: translateX(calc(-50% + var(--tipp-x, 0px))) scale(1);
+    transform: scale(1);
     transition:
       opacity 150ms var(--ease-out),
       transform 150ms var(--ease-out),
       visibility 0s;
   }
 
-  .tipp.is-sofort .tipp__blase {
+  :global(.tipp-portal.is-sofort) {
     transition-duration: 0ms;
   }
 
@@ -882,19 +1122,23 @@ const tippId = () => `${id}-tipp-${++tippZaehler}`;
     font-weight: 700;
   }
 
-  .vgruppe__kopf svg {
-    width: 16px;
-    height: 16px;
-  }
-
   .vgruppe__scroll {
     overflow-x: auto;
   }
 
+  /* Runde 6: feste Spaltenbreiten, damit „Solo“/„Team“/„Scale“ in jedem Tabellen-Abschnitt exakt
+     untereinanderstehen (vorher hat jede Tabelle ihre Spalten unabhängig vom Inhalt der jeweiligen Zeilen
+     berechnet, wodurch die Pakete zwischen den Abschnitten leicht versetzt standen) */
   .vgruppe table {
     width: 100%;
     min-width: 540px;
     border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  .vgruppe thead td:first-child,
+  .vgruppe tbody th {
+    width: 34%;
   }
 
   .vgruppe th,

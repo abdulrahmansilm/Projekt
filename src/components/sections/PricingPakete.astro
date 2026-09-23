@@ -13,6 +13,8 @@ type Paket = {
   badge?: string;
   claim: string;
   preis: number;
+  /** z. B. „ab“ vor dem Preis (Webentwicklung Premium) */
+  prefix?: string;
   geraetPreis?: number;
   reaktion?: { wert: string; sub: string };
   diffTitel: string;
@@ -47,15 +49,20 @@ interface Props {
       notiz?: string;
       features: string[];
       cta: string;
+      /** Runde 4: Verweis auf die passende Leistungsseite */
+      link?: { text: string; href: string };
     }[];
   };
 }
 
-const { titel, intro, chips, jahresRabatt, rabattHinweis, einheit, geraetEinheit, pakete, vergleich, zusatz, slider } = Astro.props;
+const { titel, intro, chips, jahresRabatt, einheit, geraetEinheit, pakete, vergleich, zusatz, slider } = Astro.props;
 const id = `preise-${Math.random().toString(36).slice(2, 7)}`;
 const euro = (n: number) => `${n.toLocaleString("de-DE", { maximumFractionDigits: 2 })} €`;
-const jahr = (n: number) => Math.round(n * (1 - (jahresRabatt ?? 0)) * 100) / 100;
+/** Runde 4: reduzierter Jahrespreis wird auf den nächsten vollen Euro aufgerundet */
+const jahr = (n: number) => Math.ceil(Math.round(n * (1 - (jahresRabatt ?? 0)) * 100) / 100);
 const mitToggle = typeof jahresRabatt === "number";
+/** Ersparnis steht seit 22.09.2026 direkt im Umschalt-Button statt als Satz daneben */
+const rabattProzent = Math.round((jahresRabatt ?? 0) * 100);
 const einmalig = einheit === "einmalig";
 const sliderModus = slider ? (pakete.some((p) => p.geraetPreis !== undefined) ? "geraet" : "menge") : null;
 const start = slider?.start ?? 1;
@@ -115,26 +122,6 @@ const periodeStart = () => {
     </div>
 
     {
-      mitToggle && (
-        <div class="zahlweise">
-          <fieldset class="umschalter">
-            <legend class="sr-only">Vertragslaufzeit</legend>
-            <span class="umschalter__daumen" aria-hidden="true" />
-            <label>
-              <input type="radio" name={`${id}-zahlweise`} value="monatlich" checked />
-              <span>Monatlich</span>
-            </label>
-            <label>
-              <input type="radio" name={`${id}-zahlweise`} value="jaehrlich" />
-              <span>Jährlich</span>
-            </label>
-          </fieldset>
-          {rabattHinweis && <span class="zahlweise__hinweis">{rabattHinweis}</span>}
-        </div>
-      )
-    }
-
-    {
       slider && (
         <div class="rechner" data-reveal>
           <label class="rechner__label" for={`${id}-slider`}>
@@ -163,6 +150,32 @@ const periodeStart = () => {
       )
     }
 
+    {
+      mitToggle && (
+        <div class="zahlweise">
+          <fieldset class="umschalter">
+            <legend class="sr-only">Vertragslaufzeit</legend>
+            <span class="umschalter__daumen" aria-hidden="true" />
+            <label>
+              <input type="radio" name={`${id}-zahlweise`} value="monatlich" checked />
+              <span>
+                Monatlich
+                {/* unsichtbarer Platzhalter: hält beide Hälften exakt gleich breit */}
+                <span class="umschalter__rabatt umschalter__rabatt--platz" aria-hidden="true">−{rabattProzent} %</span>
+              </span>
+            </label>
+            <label>
+              <input type="radio" name={`${id}-zahlweise`} value="jaehrlich" />
+              <span>
+                Jährlich
+                <span class="umschalter__rabatt">−{rabattProzent} %</span>
+              </span>
+            </label>
+          </fieldset>
+        </div>
+      )
+    }
+
     <ul class="karten" role="list" data-reveal-group>
       {
         pakete.map((p) => (
@@ -172,20 +185,15 @@ const periodeStart = () => {
             <p class="karte__claim">{p.claim}</p>
             <div class="preisblock" data-karte data-preis={p.preis} data-geraet={p.geraetPreis ?? ""}>
               <p class="karte__preis">
+                {p.prefix && <span class="karte__prefix">{p.prefix}</span>}
                 <span class="preis preis--monat" data-out="gross-monat">{euro(bruttoStart(p))}</span>
                 {mitToggle && <span class="preis preis--jahr" data-out="gross-jahr">{euro(jahr(bruttoStart(p)))}</span>}
                 <span class="karte__periode" data-out="periode">{periodeStart()}</span>
               </p>
               {sliderModus === "geraet" && p.geraetPreis !== undefined && (
                 <p class="karte__klein">
-                  <span class="preis--monat" data-out="klein-monat">+ {euro(p.preis)} Grundpreis</span>
-                  {mitToggle && <span class="preis--jahr" data-out="klein-jahr">+ {euro(jahr(p.preis))} Grundpreis</span>}
-                </p>
-              )}
-              {sliderModus === "menge" && (
-                <p class="karte__klein">
-                  <span class="preis--monat" data-out="klein-monat">{euro(p.preis)} pro {slider?.einzahl}</span>
-                  {mitToggle && <span class="preis--jahr" data-out="klein-jahr">{euro(jahr(p.preis))} pro {slider?.einzahl}</span>}
+                  {/* Runde 4: Der Grundpreis ist ein Monatspreis und sinkt bei jährlicher Zahlung nicht */}
+                  <span data-out="klein-monat">+ {euro(p.preis)} Grundpreis / Monat</span>
                 </p>
               )}
               {!slider && p.geraetPreis !== undefined && (
@@ -234,6 +242,8 @@ const periodeStart = () => {
       }
     </ul>
 
+    <p class="netto">Alle Preise verstehen sich netto zuzüglich der gesetzlichen Umsatzsteuer.</p>
+
     {
       vergleich && (
         <details class="vergleich">
@@ -261,8 +271,8 @@ const periodeStart = () => {
                     {z.preisFeld
                       ? pakete.map((p) => (
                           <td>
-                            <span class="preis--monat">{euro(p[z.preisFeld!] ?? 0)}</span>
-                            {mitToggle && <span class="preis--jahr">{euro(jahr(p[z.preisFeld!] ?? 0))}</span>}
+                            <span class={z.preisFeld === "preis" && sliderModus === "geraet" ? undefined : "preis--monat"}>{euro(p[z.preisFeld!] ?? 0)}</span>
+                            {mitToggle && !(z.preisFeld === "preis" && sliderModus === "geraet") && <span class="preis--jahr">{euro(jahr(p[z.preisFeld!] ?? 0))}</span>}
                           </td>
                         ))
                       : (z.werte ?? []).map((w) => (
@@ -296,7 +306,7 @@ const periodeStart = () => {
         <div class="zusatz">
           <h3 class="zusatz__titel">{zusatz.titel}</h3>
           <p class="zusatz__sub">{zusatz.sub}</p>
-          <ul class:list={["zusatz__grid", { "zusatz__grid--einzeln": zusatz.karten.length === 1 }]} role="list">
+          <ul class:list={["zusatz__grid", { "zusatz__grid--einzeln": zusatz.karten.length === 1, "zusatz__grid--zwei": zusatz.karten.length === 2 }]} role="list">
             {zusatz.karten.map((z) => (
               <li class:list={["karte", z.badge ? "karte--beliebt" : "karte--neutral"]}>
                 {z.badge && <span class="karte__badge">{z.badge}</span>}
@@ -310,13 +320,15 @@ const periodeStart = () => {
                 <a class="btn btn--sm btn--block karte__cta karte__cta--oben" href={KONTAKT_ANKER} aria-label={`${z.cta}: ${z.name}`}>
                   <span>{z.cta}</span>
                 </a>
-                {z.preisLabel && (
-                  <p class="karte__preis">
-                    <span class="preis">{z.preisLabel}</span>
-                    {z.preisEinheit && <span class="karte__periode">{z.preisEinheit}</span>}
-                  </p>
-                )}
-                {z.notiz && <p class="karte__jahresnotiz karte__jahresnotiz--fest">{z.notiz}</p>}
+                <div class="zusatz__preis">
+                  {z.preisLabel && (
+                    <p class="karte__preis">
+                      <span class="preis">{z.preisLabel}</span>
+                      {z.preisEinheit && <span class="karte__periode">{z.preisEinheit}</span>}
+                    </p>
+                  )}
+                  {z.notiz && <p class="karte__jahresnotiz karte__jahresnotiz--fest">{z.notiz}</p>}
+                </div>
                 <div class="karte__trenner" />
                 <p class="diff-titel">Enthaltene Leistungen</p>
                 <ul class="diffs" role="list">
@@ -329,6 +341,16 @@ const periodeStart = () => {
                     </li>
                   ))}
                 </ul>
+                {z.link ? (
+                  <a class="zusatz__link" href={z.link.href}>
+                    <span>{z.link.text}</span>
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </a>
+                ) : (
+                  <span class="zusatz__link-platz" aria-hidden="true" />
+                )}
               </li>
             ))}
           </ul>
@@ -351,7 +373,7 @@ const periodeStart = () => {
     if (!regler || !ausgabe) return;
     const modus = root.dataset.modus;
     const rabatt = Number(root.dataset.rabatt ?? 0);
-    const jahr = (n: number) => Math.round(n * (1 - rabatt) * 100) / 100;
+    const jahr = (n: number) => Math.ceil(Math.round(n * (1 - rabatt) * 100) / 100);
     const einzahl = regler.dataset.einzahl ?? "";
     const mehrzahl = regler.dataset.mehrzahl ?? "";
     const setze = (el: Element, teil: string, text: string) => {
@@ -372,8 +394,7 @@ const periodeStart = () => {
         setze(k, "gross-monat", euro(gross));
         setze(k, "gross-jahr", euro(jahr(gross)));
         if (modus === "geraet") {
-          setze(k, "klein-monat", `+ ${euro(preis)} Grundpreis`);
-          setze(k, "klein-jahr", `+ ${euro(jahr(preis))} Grundpreis`);
+          setze(k, "klein-monat", `+ ${euro(preis)} Grundpreis / Monat`);
           setze(k, "periode", n === 1 ? "pro Gerät / Monat" : `für ${n} ${mehrzahl} / Monat`);
         } else {
           setze(k, "periode", n === 1 ? `/ ${einzahl} / Monat` : `für ${n} ${mehrzahl} / Monat`);
@@ -470,38 +491,35 @@ const periodeStart = () => {
     font-weight: 500;
   }
 
+  /* Runde 4: Häkchen ohne Kreis */
   .chip__ico {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 26px;
-    height: 26px;
+    width: 18px;
+    height: 18px;
     flex: none;
-    border: 1px solid rgba(11, 46, 60, 0.14);
-    border-radius: 50%;
-    background: var(--nebel);
     color: var(--petrol);
   }
 
   .chip__ico svg {
-    width: 14px;
-    height: 14px;
+    width: 17px;
+    height: 17px;
   }
 
-  /* ---------- Zahlweise ---------- */
+  /* ---------- Zahlweise (kompakt, direkt über den Paketen) ---------- */
   .zahlweise {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: 10px 16px;
-    margin-bottom: 36px;
+    margin-bottom: 26px;
   }
 
-  /* ---------- Regler (Geräte-/Serveranzahl) ---------- */
+  /* ---------- Regler (Geräte-/Serveranzahl): so breit wie die drei Pakete ---------- */
   .rechner {
-    max-width: 640px;
-    margin: 0 auto 32px;
+    margin: 0 0 20px;
     padding: 22px 26px 20px;
     border-radius: 18px;
     background: #ffffff;
@@ -627,10 +645,19 @@ const periodeStart = () => {
     background: #ffffff;
   }
 
+  /* beide Hälften gleich breit, damit der Daumen exakt sitzt */
   .umschalter label {
     position: relative;
     z-index: 2;
+    display: flex;
+    flex: 1;
     cursor: pointer;
+  }
+
+  .umschalter label > span {
+    flex: 1;
+    justify-content: center;
+    white-space: nowrap;
   }
 
   .umschalter input {
@@ -640,19 +667,45 @@ const periodeStart = () => {
     height: 1px;
   }
 
-  .umschalter span:not(.umschalter__daumen) {
+  .umschalter label > span {
     display: inline-flex;
     align-items: center;
-    min-height: 40px;
-    padding: 0 22px;
+    gap: 7px;
+    min-height: 34px;
+    padding: 0 18px;
     border-radius: 999px;
     color: var(--ink-72);
-    font-size: 14px;
+    font-size: 13.5px;
     font-weight: 500;
     transition: color 200ms ease;
   }
 
+  /* Ersparnis sitzt im Umschalt-Button (Anforderung 22.09.2026) */
+  .umschalter__rabatt {
+    flex: none;
+    white-space: nowrap;
+    padding: 2px 7px;
+    border-radius: 999px;
+    background: rgba(79, 184, 166, 0.18);
+    color: var(--petrol);
+    font-size: 11.5px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    transition:
+      background-color 200ms ease,
+      color 200ms ease;
+  }
+
   .umschalter input:checked + span {
+    color: #ffffff;
+  }
+
+  .umschalter__rabatt--platz {
+    visibility: hidden;
+  }
+
+  .umschalter input:checked + span .umschalter__rabatt {
+    background: rgba(255, 255, 255, 0.24);
     color: #ffffff;
   }
 
@@ -678,13 +731,12 @@ const periodeStart = () => {
     transform: translateX(100%);
   }
 
-  .zahlweise__hinweis {
-    padding: 6px 12px;
-    border-radius: 999px;
-    background: rgba(79, 184, 166, 0.14);
-    color: var(--petrol);
-    font-size: 13px;
-    font-weight: 500;
+  /* Netto-Hinweis unter den Paketen (Anforderung 22.09.2026) */
+  .netto {
+    margin-top: 14px;
+    font-size: 12.5px;
+    text-align: center;
+    color: var(--ink-55);
   }
 
   /* Preisumschaltung per CSS */
@@ -760,8 +812,11 @@ const periodeStart = () => {
     text-transform: uppercase;
   }
 
+  /* „Alles inklusive“ in der besonderen Farbe (Anforderung 22.09.2026) */
   .karte--premium .karte__badge {
-    background: #ffffff;
+    background: var(--tiefsee);
+    color: #ffffff;
+    box-shadow: 0 0 0 1px rgba(79, 184, 166, 0.55);
   }
 
   .karte__name {
@@ -829,16 +884,54 @@ const periodeStart = () => {
     background: rgba(11, 46, 60, 0.1);
   }
 
+  .karte__prefix {
+    font-size: 14px;
+    color: var(--ink-72);
+  }
+
+  .karte--premium .karte__prefix {
+    color: rgba(240, 244, 243, 0.78);
+  }
+
+  /* Verweis auf die Leistungsseite in Zusatzleistungen (Runde 4) */
+  .zusatz__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    align-self: start;
+    min-height: 40px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--petrol);
+    text-decoration: none;
+  }
+
+  .zusatz__link svg {
+    width: 15px;
+    height: 15px;
+    transition: transform 200ms var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .zusatz__link:hover {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .zusatz__link:hover svg {
+      transform: translateX(3px);
+    }
+  }
+
+  /* ohne türkise Linie links (Anforderung 22.09.2026) */
   .reaktion {
     margin-bottom: 16px;
     padding: 13px 15px;
-    border-left: 4px solid var(--tuerkis);
     border-radius: 12px;
     background: linear-gradient(135deg, rgba(79, 184, 166, 0.12), var(--nebel));
   }
 
   .karte--premium .reaktion {
-    border-left-color: var(--helltuerkis);
     background: rgba(255, 255, 255, 0.08);
   }
 
@@ -1089,9 +1182,35 @@ const periodeStart = () => {
     grid-template-columns: repeat(3, 1fr);
   }
 
+  /* Enthaltene Leistungen stehen in allen Karten auf gleicher Höhe (Anforderung 22.09.2026) */
+  @supports (grid-template-rows: subgrid) {
+    .zusatz .karte {
+      display: grid;
+      grid-template-rows: subgrid;
+      grid-row: span 8;
+      align-content: start;
+    }
+  }
+
+  /* bleibt auch leer im Raster stehen, damit die Zeilen aller Karten deckungsgleich bleiben */
+  .zusatz__preis:empty {
+    min-height: 1px;
+  }
+
   @media (max-width: 1000px) and (min-width: 821px) {
-    .zusatz__grid:not(.zusatz__grid--einzeln) {
+    .zusatz__grid:not(.zusatz__grid--einzeln):not(.zusatz__grid--zwei) {
       grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* zwei Karten nehmen zusammen die volle Breite ein (Webentwicklung) */
+  .zusatz__grid--zwei {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @supports (grid-template-rows: subgrid) {
+    .zusatz__grid--zwei .karte {
+      grid-row: span 8;
     }
   }
 

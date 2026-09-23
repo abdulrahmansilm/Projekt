@@ -2,9 +2,11 @@
 /**
  * „Starke Partner für starke Lösungen“ (docs/DESIGNSYSTEM.md → Komponente 14).
  * Bühne 1000×500px, per scale() verkleinert und über left:50% + margin-left:-500px zentriert (dokumentierter Fix).
- * Chips sind Platzhalter, bis echte Partner-Logos vorliegen. Float-Loop nur ohne reduzierte Bewegung.
+ * Die Karten tragen seit 22.09.2026 die echten Partner-Logos (src/lib/partner.ts).
+ * Float-Loop nur ohne reduzierte Bewegung.
  */
 import { MARKE_BOGEN, MARKE_PUNKT } from "../../lib/brand";
+import { PARTNER } from "../../lib/partner";
 
 interface Props {
   titel: string;
@@ -12,19 +14,15 @@ interface Props {
 }
 const { titel, text } = Astro.props;
 
-// Positionen/Timing 1:1 aus referenz/startseite/starke-partner.html
-const chips = [
-  { x: -199, y: -125, s: 58, d: 7.2, dl: -1.1 },
-  { x: 80, y: -221, s: 58, d: 8.1, dl: -3.4 },
-  { x: 211, y: -103, s: 58, d: 6.9, dl: -4.7 },
-  { x: -338, y: -91, s: 60, d: 7.8, dl: -2.2 },
-  { x: -185, y: -297, s: 60, d: 8.6, dl: -0.6 },
-  { x: 164, y: -309, s: 60, d: 7.4, dl: -3.9 },
-  { x: 329, y: -120, s: 60, d: 9.1, dl: -1.7 },
-  { x: -356, y: -299, s: 54, d: 8.8, dl: -5.2 },
-  { x: 49, y: -462, s: 54, d: 7.6, dl: -2.8 },
-  { x: 381, y: -267, s: 54, d: 8.3, dl: -0.3 },
+// Bogen aus fünf Karten um die Marke herum (Timing aus referenz/startseite/starke-partner.html)
+const plaetze = [
+  { x: -342, y: -108, d: 7.8, dl: -2.2 },
+  { x: -180, y: -288, d: 8.6, dl: -0.6 },
+  { x: 0, y: -372, d: 7.2, dl: -3.4 },
+  { x: 180, y: -288, d: 7.4, dl: -3.9 },
+  { x: 342, y: -108, d: 9.1, dl: -1.7 },
 ];
+const karten = PARTNER.map((p, i) => ({ ...p, ...plaetze[i % plaetze.length] }));
 ---
 
 <section class="partner" aria-labelledby="partner-titel">
@@ -32,6 +30,10 @@ const chips = [
     <h2 id="partner-titel">{titel}</h2>
     <p>{text}</p>
   </div>
+
+  <ul class="sr-only" role="list">
+    {PARTNER.map((p) => <li>{p.name}</li>)}
+  </ul>
 
   <div class="partner__buehne-wrap">
     <div class="partner__buehne" aria-hidden="true">
@@ -42,9 +44,15 @@ const chips = [
       <div class="grundlinie"></div>
       <div class="orbit">
         {
-          chips.map((c) => (
-            <div class="knoten" style={`--x:${c.x}px;--y:${c.y}px;--s:${c.s}px;--d:${c.d}s;--dl:${c.dl}s`}>
-              <div class="chip" />
+          karten.map((c) => (
+            <div class="knoten" style={`--x:${c.x}px;--y:${c.y}px;--d:${c.d}s;--dl:${c.dl}s`}>
+              <div class="chip">
+                {c.nurText ? (
+                  <span class="chip__name">{c.name}</span>
+                ) : (
+                  <img src={c.bild} alt="" loading="lazy" decoding="async" />
+                )}
+              </div>
             </div>
           ))
         }
@@ -73,9 +81,14 @@ const chips = [
   }
 
   .partner__intro {
-    max-width: 640px;
+    max-width: 900px;
     margin: 0 auto;
     text-align: center;
+  }
+
+  .partner__intro h2 {
+    max-width: 640px;
+    margin: 0 auto;
   }
 
   .partner__intro h2 {
@@ -85,8 +98,10 @@ const chips = [
     letter-spacing: -0.01em;
   }
 
+  /* Satz soll auf zwei Zeilen stehen (Anforderung 22.09.2026) → breiterer Textkasten als die Überschrift */
   .partner__intro p {
-    margin-top: 16px;
+    max-width: 900px;
+    margin: 16px auto 0;
     font-size: 17px;
     line-height: 1.6;
     color: var(--ink-72);
@@ -166,10 +181,10 @@ const chips = [
     position: absolute;
     left: var(--x);
     top: var(--y);
-    width: var(--s);
-    height: var(--s);
-    margin-left: calc(var(--s) / -2);
-    margin-top: calc(var(--s) / -2);
+    width: 168px;
+    height: 96px;
+    margin-left: -84px;
+    margin-top: -48px;
   }
 
   .chip {
@@ -178,19 +193,28 @@ const chips = [
     justify-content: center;
     width: 100%;
     height: 100%;
-    border-radius: 14px;
+    padding: 16px 20px;
+    border-radius: 18px;
     background: #ffffff;
     box-shadow: 0 6px 20px rgba(11, 46, 60, 0.1);
     animation: partner-float var(--d) ease-in-out infinite alternate;
     animation-delay: var(--dl);
   }
 
-  .chip::before {
-    content: "";
-    width: 44%;
-    height: 44%;
-    border-radius: 6px;
-    background: linear-gradient(135deg, rgba(79, 184, 166, 0.55), rgba(27, 110, 122, 0.55));
+  .chip img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .chip__name {
+    font-family: var(--font-headline);
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--ink-72);
   }
 
   @keyframes partner-float {
